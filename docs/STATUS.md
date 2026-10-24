@@ -36,10 +36,9 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
    Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
 2. **Alle:** LLM-Zugang steht (`certreq/llm.py`, OpenAI). Einmal `scripts/setup` (installiert `openai`), Key in `.env.local` im eigenen Checkout (von Jonathan; nie ins Repo, nie in den Chat), Check: `.venv/bin/python -m certreq.llm`.
-3. **Jonathan (A, AP1-Rest):** E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Der Wert eicht den
-   lokalen Richter: liegt er nahe E008-a (strict, F2 0.060) oder E009-a (lenient, F2 0.095)? Datei neu erzeugen:
-   `CERTIVITY_TEAM_ID=<id> .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp`
-   (gleicher Commit wie E001, nur `team_id` anders). E002 nicht hochladen: nutzt Gold-Wissen, verfälscht das Dev-Leaderboard.
+3. **Jonathan (A): Plattform-Eichung** (wichtigster offener Punkt). Dateien: `.venv/bin/python -m certreq.upload --team-id <id> E020-a E008-a E003-am`
+   → `out/upload/`. Hochladen: E020-a + E008-a (Hauptziel, dev-rear-lamp), E003-am (Sub-Goal, subgoal-dev). Angezeigte
+   Plattformwerte an A geben → Eichung lokaler Richter (strict 0.629 / 0.060, lenient B0 0.095) und Sub-Goal-Näherung (0.826).
 4. **B (Omar/Homsianer):** Standard auf `--filters all --extract modal,split` umstellen: auf der Anforderungsebene besser
    (E011-a 0.098 vs E010-a 0.084 vs B0 0.060), obwohl Seiten-F2 leicht sinkt (0.339 vs 0.348). Jede AP4-Änderung ab jetzt
    mit `eval --judge strict` messen (~1–2 min, ~150–330k Tokens; Wiederholungen gecacht).

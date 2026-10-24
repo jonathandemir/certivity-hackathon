@@ -285,3 +285,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 15:52:23 +0200 | [decision] --select llm2 ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@fd0820a +lokale Änderungen
 - besser auf dev (alle Ebenen, gleicher Recall) und am synthetischen Stoßfänger plausibler (6 spekulative Regelungen raus, darunter R155 mit 23 und R128 mit 32 Anforderungen)
 - llm bleibt per --select llm verfügbar
+
+### 2026-10-24 15:57:26 +0200 | [change] certreq/upload.py: Upload-Dateien aus gemessenen Läufen | Jonathan @ MacBook-Pro-von-Jonathan | main@574b70d +lokale Änderungen
+- nimmt experiments/runs/<ID>/submission.json.gz unverändert, setzt nur die echte team_id, schreibt out/upload/<ID>-<case>.json, validiert mit dem offiziellen validate.py (Sub-Goal mit requirements_old.json); zeigt die lokalen Werte zum Vergleich
+- Probelauf mit team-TEST: E020-a, E008-a, E003-am alle gültig; Tests 2 neu, gesamt 57 grün
+- Zweck: Plattformwert ↔ lokaler Richter 1:1 vergleichbar; Sonntag: beste Held-out-Datei zuletzt exakt erneut hochladen
