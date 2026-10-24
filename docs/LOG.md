@@ -437,3 +437,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:16:20 +0200 | [finding] Sub-Goal: 4 fehlende Flags auf subgoal-dev, alle bei added | Jonathan @ MacBook-Pro-von-Jonathan | main@2df91fb
 - Stand main@2df91fb (seit Parser-Fix 14:27): lokal R 20/24, P 1.00 (E003-am-Upload: 20/25, Plattform 19/24). Recall-Lücken: (1) neue Ausnahme ohne shall ('is not required when', 5.1.4.1), (2) neue Grenze ohne shall ('is not more than', 6.5.3) – added nimmt nur shall-Sätze; (3) Schritt (b) in 6.6.2.2 ist wortgleich mit altem 6.5 und neuem 6.6.1.2, der globale Satzabgleich ordnet ihn als unverändert zu (kein 1:1-Abgleich alt→neu); (4) 6.6.1.1: zwei Pflichten in einem Satz ('deactivated … and may be combined'), erwartet sind zwei.
 - Abgleich out/subgoal-dev-now.json gegen expected.json je Absatz (Anzahl added je Label), Sätze aus sentences_of(old/new.pdf). Allgemeine Abhilfe statt Dev-Regeln: added auch für normative Sätze ohne shall, 1:1-Abgleich alter Sätze, Zerlegung in Einzelpflichten (z. B. LLM wie llmextract). Gehört zu C (certreq/subgoal.py).
+
+### 2026-10-24 18:22:25 +0200 | [decision] Sub-Goal-Verbesserung bleibt bei C (Amiad) | Jonathan @ MacBook-Pro-von-Jonathan | main@40894da +lokale Änderungen
+- Übergabe in docs/STATUS.md „Nächste Schritte“ (Zeile C Sub-Goal): Ausgangswerte, die 4 Lücken mit Ursache und Codestelle, Vorgehen je Schalter, Messbefehle, Gegenprobe gegen Überanpassung, Upload über A.
+- Analyse: [finding] „Sub-Goal: 4 fehlende Flags“ (main@2df91fb). Entscheidung Jonathan.
