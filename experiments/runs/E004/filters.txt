@@ -1,0 +1,16 @@
+# Einzelmessung je Filter, Stand main@d962217 (Code sauber), PYTHONPATH=. .venv/bin/python experiments/runs/E004/measure_filters.py
+# Seiten = score_local.score() des Pakets; Absätze = Anteil Gold-(Regelung, Absatz) gegen expected.json (eigene Messung, nicht Plattform)
+== gold-regs
+  B0                 n= 1214  Seiten P 0.206 R 1.000 F2 0.565  | Absätze P 0.079 R 0.798 F2 0.282
+  admin              n= 1065  Seiten P 0.236 R 1.000 F2 0.606  | Absätze P 0.090 R 0.798 F2 0.309
+  cop                n= 1147  Seiten P 0.208 R 1.000 F2 0.567  | Absätze P 0.083 R 0.798 F2 0.294
+  parts              n=  981  Seiten P 0.255 R 1.000 F2 0.631  | Absätze P 0.097 R 0.798 F2 0.327
+  esa                n= 1073  Seiten P 0.239 R 1.000 F2 0.611  | Absätze P 0.089 R 0.798 F2 0.308
+  admin+cop+parts+esa n=  632  Seiten P 0.379 R 1.000 F2 0.753  | Absätze P 0.151 R 0.798 F2 0.430
+== auswahl-B0
+  B0                 n= 3624  Seiten P 0.073 R 0.849 F2 0.272  | Absätze P 0.023 R 0.681 F2 0.100
+  admin              n= 3030  Seiten P 0.084 R 0.849 F2 0.302  | Absätze P 0.027 R 0.681 F2 0.117
+  cop                n= 3316  Seiten P 0.075 R 0.849 F2 0.277  | Absätze P 0.025 R 0.681 F2 0.108
+  parts              n= 3305  Seiten P 0.082 R 0.849 F2 0.295  | Absätze P 0.025 R 0.681 F2 0.109
+  esa                n= 3624  Seiten P 0.073 R 0.849 F2 0.272  | Absätze P 0.023 R 0.681 F2 0.100
+  admin+cop+parts+esa n= 2403  Seiten P 0.101 R 0.849 F2 0.342  | Absätze P 0.034 R 0.681 F2 0.142

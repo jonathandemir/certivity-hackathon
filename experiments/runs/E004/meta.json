@@ -1,0 +1,49 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --filters all --out out/E004.json",
+ "git": {
+  "commit": "main@d962217",
+  "full_hash": "d9622173f49195730df8e68b4702ca815e56245a",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R128",
+  "UN R48",
+  "UN R53",
+  "UN R7",
+  "UN R13H",
+  "UN R148",
+  "UN R152",
+  "UN R23",
+  "UN R37",
+  "UN R38",
+  "UN R104",
+  "UN R123",
+  "UN R131",
+  "UN R149",
+  "UN R150",
+  "UN R161",
+  "UN R19",
+  "UN R26",
+  "UN R3",
+  "UN R32",
+  "UN R42"
+ ],
+ "forced": false,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa"
+ ],
+ "n_requirements": 2403,
+ "seconds": 1.6,
+ "created_at": "2026-10-24T14:24:54+02:00",
+ "run_id": "E004",
+ "note": "B0-Auswahl + --filters all (admin,cop,parts,esa) vs E001",
+ "submission_sha256": "df2e94e0462786f5b02551733ada0073b2bbe042ee91acdd481506bf2d0429ca",
+ "recorded_at": "2026-10-24T14:24:55+02:00"
+}

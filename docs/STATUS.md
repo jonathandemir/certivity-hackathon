@@ -6,7 +6,7 @@ Historie steht in docs/LOG.md.
 ## Stand
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
-Bestmarke (zulässig): E001, Seiten-F2 0.272 lokal. Anforderungsebene noch ungemessen (braucht Plattform-Upload).
+Bestmarke (zulässig): E004 (`--filters all`, Relevanzfilter AP4), Seiten-F2 0.342 lokal; Standard ohne Schalter ist weiter B0 (E001, 0.272), bis der E001-Upload geeicht ist. Anforderungsebene noch ungemessen (braucht Plattform-Upload).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
 Team-ID der Certivity-Plattform: noch nicht registriert.
@@ -59,5 +59,5 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 | Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
 |---|---|---|---|---|---|---|---|---|---|
 | dev-rear-lamp | Regelungen | 0.143 | 0.750 | 0.405 | jonathan@29c0d0b | best-jonathan-pagef2-0.272 | score_local | E001 | 2026-10-24 13:27 |
-| dev-rear-lamp | Seiten | 0.073 | 0.849 | 0.272 | jonathan@29c0d0b | best-jonathan-pagef2-0.272 | score_local | E001 | 2026-10-24 13:27 |
+| dev-rear-lamp | Seiten | 0.101 | 0.849 | 0.342 | main@d962217 (`--filters all`) | best-main-pagef2-0.342 | score_local | E004 | 2026-10-24 14:25 |
 | dev-rear-lamp | Anforderungen | – | – | – | jonathan@29c0d0b | – | Plattform (offen) | – | – |
