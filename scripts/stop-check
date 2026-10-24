@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Warnt bei ungepushten Commits oder uncommitteten Änderungen (dieser Checkout und .worktrees/main).
+#
+#   scripts/stop-check           Bericht für Menschen. Exit 0 = alles gepusht, 1 = etwas ist offen.
+#   scripts/stop-check --hook    Für den Claude-Code-Stop-Hook (liest das Hook-JSON von stdin):
+#                                - offen, aber jünger als STOP_CHECK_MINUTES (30): sichtbare Warnung, kein Block
+#                                - älter als 30 min oder offener Konflikt: blockiert das Aufhören EINMAL
+#                                  (stop_hook_active verhindert Schleifen), der Agent muss pushen oder begründen
+. "$(dirname "$0")/lib.sh"
+LIMIT=${STOP_CHECK_MINUTES:-30}
+
+issues=""; urgent=0
+add() { issues="${issues}${issues:+; }$1"; }
+
+check_checkout() { # pfad label
+  local dir=$1 label=$2 op dirty untracked n age old
+  ( cd "$dir" || exit 0
+    op=$(operation_in_progress) && { echo "U|$label: offene Git-Operation ($op), Konflikt lösen oder abbrechen"; }
+    dirty=$(git status --porcelain --untracked-files=no | sed 's/^...//')
+    untracked=$(git status --porcelain --untracked-files=all | sed -n 's/^?? //p')
+    if [ -n "$dirty" ]; then
+      old=$(printf '%s\n' "$dirty" | while read -r f; do [ -e "$f" ] && find "$f" -prune -mmin +"$LIMIT" 2>/dev/null; done | head -n 1)
+      echo "$([ -n "$old" ] && echo U || echo W)|$label: $(printf '%s\n' "$dirty" | wc -l | tr -d ' ') uncommittete Datei(en): $(printf '%s' "$dirty" | tr '\n' ' ' | cut -c1-200)"
+    fi
+    if [ -n "$untracked" ]; then
+      echo "W|$label: $(printf '%s\n' "$untracked" | wc -l | tr -d ' ') ungetrackte Datei(en): $(printf '%s' "$untracked" | tr '\n' ' ' | cut -c1-200)"
+    fi
+    n=$(git log --oneline HEAD --not --remotes=origin 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$n" -gt 0 ]; then
+      age=$(unpushed_age_min)
+      echo "$([ "${age:-0}" -ge "$LIMIT" ] && echo U || echo W)|$label: $n ungepushte(r) Commit(s), ältester seit ${age:-?} min"
+    fi
+  )
+}
+
+report=$(
+  check_checkout "$REPO_ROOT" "$(current_branch || echo detached)"
+  if [ "$(current_branch)" != main ] && [ -d "$REPO_ROOT/.worktrees/main" ]; then
+    check_checkout "$REPO_ROOT/.worktrees/main" ".worktrees/main"
+  fi
+)
+while IFS= read -r line; do
+  [ -z "$line" ] && continue
+  [ "${line%%|*}" = U ] && urgent=1
+  add "${line#*|}"
+done <<EOF
+$report
+EOF
+
+json_str() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' | tr -d '\000-\037'; }
+
+if [ "${1:-}" = "--hook" ]; then
+  input=$(cat 2>/dev/null || true)
+  [ -z "$issues" ] && exit 0
+  if [ "$urgent" -eq 1 ] && ! printf '%s' "$input" | grep -q '"stop_hook_active"[[:space:]]*:[[:space:]]*true'; then
+    reason="stop-check: Für das Team unsichtbare Arbeit (älter als $LIMIT min oder Konflikt): $issues. Jetzt committen (Code + scripts/log-Eintrag in einem Commit) und scripts/sync. Wenn der Stand bewusst offen bleibt, sag dem Menschen in einem Satz warum. Vor dem Aufhören: [handoff]-Eintrag."
+    printf '{"decision":"block","reason":"%s"}\n' "$(json_str "$reason")"
+  else
+    printf '{"systemMessage":"%s"}\n' "$(json_str "stop-check: noch nicht gepusht: $issues. Vor dem Aufhören committen, loggen, scripts/sync.")"
+  fi
+  exit 0
+fi
+
+if [ -z "$issues" ]; then
+  ok "Alles committet und gepusht."
+  exit 0
+fi
+warn "Für das Team noch unsichtbar:"
+printf '%s\n' "$report" | sed -n 's/^[UW]|/    - /p' >&2
+note "    Committen (Code + Logeintrag), dann scripts/sync. Am Session-Ende: [handoff]-Eintrag."
+exit 1

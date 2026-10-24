@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Gibt den Pfad eines aktuellen main-Checkouts aus und legt ihn bei Bedarf als .worktrees/main an.
+# Geteilte Dateien (AGENTS.md, docs/, experiments/, scripts/) nur dort ändern, nie per Branch-Wechsel
+# im gemeinsamen Checkout.
+#
+#   MAIN=$(scripts/main-wt)
+#   # Dateien unter "$MAIN/..." bearbeiten, dann:
+#   git -C "$MAIN" status && git -C "$MAIN" add <dateien> && git -C "$MAIN" commit -m "..." && "$MAIN/scripts/sync"
+. "$(dirname "$0")/lib.sh"
+
+fetch_origin 30 2>/dev/null || warn "fetch fehlgeschlagen, main-Checkout evtl. nicht aktuell."
+path=$(find_main_checkout)
+
+if [ -z "$path" ]; then
+  path="$REPO_ROOT/.worktrees/main"
+  git worktree prune
+  if has_ref refs/heads/main; then
+    git worktree add --quiet "$path" main >&2 || die "Konnte $path nicht anlegen."
+  elif has_ref refs/remotes/origin/main; then
+    git worktree add --quiet --track -b main "$path" origin/main >&2 || die "Konnte $path nicht anlegen."
+  else
+    die "Weder lokales main noch origin/main vorhanden."
+  fi
+  note "main-Worktree angelegt: $path"
+fi
+
+# Nachziehen, wenn sauber; sonst nur melden (nie fremde Änderungen anfassen).
+if [ "$path" != "$REPO_ROOT" ] && has_ref refs/remotes/origin/main; then
+  if [ -n "$(git -C "$path" status --porcelain --untracked-files=no)" ]; then
+    warn "main-Checkout $path hat uncommittete Änderungen: nicht nachgezogen."
+  elif [ -n "$(git -C "$path" log --oneline HEAD --not --remotes=origin)" ]; then
+    warn "main-Checkout $path hat ungepushte Commits: \"$path/scripts/sync\" ausführen."
+  else
+    git -C "$path" merge --quiet --ff-only origin/main >/dev/null 2>&1 || warn "main-Checkout $path konnte nicht vorgespult werden."
+  fi
+fi
+echo "$path"

@@ -1,0 +1,23 @@
+# Geheimnisse – nie in git (siehe AGENTS.md §6)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+
+# Rohdaten und Paketdaten – Lizenz: nur für den Hackathon, keine Weitergabe (docs/CONTEXT.md §7)
+vendor/
+*.pdf
+
+# Lokale Arbeitskopien und Ausgaben
+.worktrees/
+out/
+.venv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+.claude/settings.local.json

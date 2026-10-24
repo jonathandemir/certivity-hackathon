@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Hängt einen Eintrag an docs/LOG.md an (nur anhängen, nie editieren).
+#
+#   scripts/log "[typ] titel" ["detail" ...]
+#
+# Typen: [change] [run] [finding] [decision] [blocker] [handoff]
+# Kopfzeile: Datum, [typ] titel, Autor @ Rechner, Stand als <branch>@<kurzhash> (aus git gelesen).
+# Der Eintrag gehört in denselben Commit wie der Code, den er beschreibt:
+#   scripts/log "[change] ..." "..." && git status && git add <dateien> docs/LOG.md && git commit
+. "$(dirname "$0")/lib.sh"
+
+TYPES="change run finding decision blocker handoff"
+LOG_FILE="$REPO_ROOT/docs/LOG.md"
+
+[ $# -ge 1 ] || die "Nutzung: scripts/log \"[typ] titel\" [\"detail\" ...]   Typen: $TYPES"
+head_arg=$1; shift
+
+typ=$(printf '%s' "$head_arg" | sed -n 's/^\[\([a-z]*\)\].*/\1/p')
+title=$(printf '%s' "$head_arg" | sed 's/^\[[a-z]*\][[:space:]]*//')
+case " $TYPES " in
+  *" $typ "*) ;;
+  *) die "Unbekannter oder fehlender Typ in \"$head_arg\". Erlaubt: [change] [run] [finding] [decision] [blocker] [handoff]" ;;
+esac
+[ -n "$title" ] || die "Titel fehlt: \"[${typ}] titel\""
+[ -f "$LOG_FILE" ] || die "$LOG_FILE fehlt."
+
+branch=$(current_branch || echo detached)
+stand="$branch@$(short_head || echo 'ohne-commit')"
+lokal=$(dirty_tracked docs/LOG.md)
+neu=$(untracked_files)
+[ -n "$lokal$neu" ] && stand="$stand +lokale Änderungen"
+
+if [ "$typ" = run ]; then
+  if [ -n "$lokal" ]; then
+    warn "[run] auf einem Stand mit uncommitteten Änderungen: das Ergebnis ist nicht reproduzierbar. Erst committen, scripts/pull-first, dann messen."
+  fi
+  if [ -n "$(unpushed_commits)" ]; then
+    warn "[run] auf einem ungepushten Commit: erst scripts/sync, sonst kann niemand den Stand nachvollziehen."
+    stand="$stand (ungepusht)"
+  fi
+fi
+
+# Datei endet sicher mit Zeilenumbruch, dann Eintrag anhängen.
+[ -n "$(tail -c 1 "$LOG_FILE")" ] && printf '\n' >> "$LOG_FILE"
+{
+  printf '\n### %s | [%s] %s | %s @ %s | %s\n' "$(now)" "$typ" "$title" "$(me)" "$(host)" "$stand"
+  for d in "$@"; do
+    printf '%s\n' "$d" | sed '1s/^/- /; 2,$s/^/  /'
+  done
+} >> "$LOG_FILE"
+
+ok "Logeintrag [$typ] angehängt ($stand). Jetzt mit dem zugehörigen Code committen."

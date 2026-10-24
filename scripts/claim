@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Claims in docs/STATUS.md pflegen. Arbeitet im main-Checkout (scripts/main-wt), committet und pusht sofort,
+# damit alle anderen den Claim sehen. Kein Branch-Wechsel nötig.
+#
+#   scripts/claim add "Was" "Dateien/Ordner"
+#   scripts/claim done "Teil von Was"        entfernt nur eigene Claims (Spalte Wer = git user.name)
+#   scripts/claim list
+. "$(dirname "$0")/lib.sh"
+
+cmd=${1:-list}
+who=$(me); my_branch=$(current_branch || echo detached)
+clean_cell() { printf '%s' "$1" | tr '|\n' '/ '; }
+
+claims_section() { awk '/^## /{p=($0 ~ /^## Claims/)} p'; }
+
+if [ "$cmd" = list ]; then
+  fetch_origin 20 2>/dev/null || warn "fetch fehlgeschlagen, zeige letzten bekannten Stand."
+  if has_ref refs/remotes/origin/main; then git show origin/main:docs/STATUS.md; else cat docs/STATUS.md; fi | claims_section
+  exit 0
+fi
+
+case "$cmd" in
+  add)  [ $# -ge 3 ] || die "Nutzung: scripts/claim add \"Was\" \"Dateien/Ordner\""
+        what=$(clean_cell "$2"); files=$(clean_cell "$3") ;;
+  done) [ $# -ge 2 ] || die "Nutzung: scripts/claim done \"Teil von Was\""
+        pat=$2 ;;
+  *)    die "Unbekannt: $cmd (add | done | list)" ;;
+esac
+
+MAIN=$("$REPO_ROOT/scripts/main-wt") || exit 1
+cd "$MAIN" || exit 1
+STATUS=docs/STATUS.md
+[ -z "$(git status --porcelain -- "$STATUS")" ] || die "$MAIN/$STATUS hat uncommittete Änderungen. Erst committen oder klären."
+[ -z "$(git log --oneline HEAD --not --remotes=origin)" ] || die "main-Checkout hat ungepushte Commits. Erst \"$MAIN/scripts/sync\"."
+if has_ref refs/remotes/origin/main && [ "$(git rev-list --count HEAD..origin/main)" -gt 0 ]; then
+  die "main-Checkout $MAIN ist nicht aktuell (uncommittete Änderungen: $(git status --porcelain --untracked-files=no | sed 's/^...//' | tr '\n' ' ')). Dort erst committen + \"$MAIN/scripts/sync\" oder die Änderungen klären."
+fi
+
+apply_edit() {
+  local tmp rc
+  tmp=$(mktemp "${TMPDIR:-/tmp}/claim.XXXXXX")
+  if [ "$cmd" = add ]; then
+    row="| $who | $my_branch | $what | $files | $(now_short) |"
+    awk -v row="$row" '
+      { line[NR] = $0 }
+      /^## / { insec = ($0 ~ /^## Claims/) }
+      insec && /^\|/ { last = NR }
+      END { if (!last) exit 3; for (i = 1; i <= NR; i++) { print line[i]; if (i == last) print row } }
+    ' "$STATUS" > "$tmp"; rc=$?
+    [ $rc -eq 3 ] && { rm -f "$tmp"; die "Keine Claims-Tabelle in $STATUS gefunden."; }
+    msg="claim: + $what ($who)"
+  else
+    awk -v me="$who" -v pat="$pat" '
+      function trim(s) { gsub(/^[ \t]+|[ \t]+$/, "", s); return s }
+      /^## / { insec = ($0 ~ /^## Claims/) }
+      insec && /^\|/ {
+        n = split($0, f, "|")
+        if (n >= 5 && trim(f[2]) == me && index(tolower(f[4]), tolower(pat)) > 0) { removed++; print "entfernt: " $0 > "/dev/stderr"; next }
+      }
+      { print }
+      END { if (!removed) exit 4 }
+    ' "$STATUS" > "$tmp"; rc=$?
+    [ $rc -eq 4 ] && { rm -f "$tmp"; die "Kein eigener Claim ($who) passt zu \"$pat\". Aktuelle Claims: scripts/claim list"; }
+    msg="claim: - $pat ($who)"
+  fi
+  cat "$tmp" > "$STATUS"; rm -f "$tmp"
+}
+
+for attempt in 1 2 3; do
+  apply_edit
+  git add -- "$STATUS"
+  git commit --quiet -m "$msg" -- "$STATUS"
+  if git push --quiet origin main 2>/dev/null; then
+    ok "$msg  → main@$(short_head) gepusht"
+    exit 0
+  fi
+  # Jemand war schneller: nur den eigenen, gerade erstellten Commit zurücknehmen und neu anwenden.
+  note "main hat sich gerade geändert, wende Claim neu an ($attempt/3)."
+  git reset --quiet --soft HEAD~1
+  git restore --staged --worktree -- "$STATUS" 2>/dev/null || git checkout HEAD -- "$STATUS"
+  fetch_origin 30 || die "fetch fehlgeschlagen."
+  git merge --quiet --ff-only origin/main || die "main-Checkout lässt sich nicht vorspulen."
+done
+die "Claim nach 3 Versuchen nicht gepusht. Später erneut versuchen."

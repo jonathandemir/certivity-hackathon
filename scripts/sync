@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Holt den aktuellen Branch von origin und pusht ihn. Nie force.
+#
+#   scripts/sync
+#
+# 1. Stoppt, wenn getrackte Dateien uncommittet sind oder ein Rebase/Merge offen ist.
+# 2. Holt origin/<branch>: ohne lokale Merge-Commits per git pull --rebase, sonst per git pull --no-rebase
+#    (ein Rebase über Merge-Commits spielt fremde Commits neu ab und erzeugt Konflikte).
+# 3. Persönlicher Branch: merged origin/main mit, wenn das konfliktfrei geht (sonst Warnung, nichts verändert).
+# 4. Prüft ausgehende Commits auf Schlüssel (scripts/secret-scan), dann push. Bei Konflikt: Stopp mit Anleitung.
+. "$(dirname "$0")/lib.sh"
+
+branch=$(current_branch) || die "Detached HEAD. Erst auf einen Branch wechseln."
+op=$(operation_in_progress) && die "Offene Git-Operation ($op). Erst abschließen oder abbrechen (git rebase --abort / git merge --abort)."
+
+dirty=$(dirty_tracked)
+if [ -n "$dirty" ]; then
+  note "$dirty"
+  die "Uncommittete Änderungen an getrackten Dateien (oben). Erst committen (Code + Logeintrag in einem Commit), dann scripts/sync."
+fi
+
+fetch_origin 60 || die "git fetch fehlgeschlagen (offline? kein origin?). Nichts geändert."
+
+integrate_upstream || exit 1
+merge_main_if_clean
+warn_shared_on_branch
+
+"$REPO_ROOT/scripts/secret-scan" || die "Push abgebrochen: möglicher Schlüssel in ausgehenden Commits."
+
+errf=$(mktemp "${TMPDIR:-/tmp}/sync-push.XXXXXX")
+trap 'rm -f "$errf"' EXIT
+tries=0
+until git push --quiet -u origin "$branch" 2>"$errf"; do
+  tries=$((tries + 1))
+  err=$(cat "$errf")
+  fetch_origin 60 || die "Push fehlgeschlagen und fetch auch: $err"
+  if [ "$tries" -ge 3 ] || [ "$(git rev-list --count "HEAD..origin/$branch" 2>/dev/null || echo 0)" -eq 0 ]; then
+    die "Push fehlgeschlagen: $err"
+  fi
+  note "Jemand hat gerade gepusht. Hole nach und versuche erneut ($tries/3)."
+  integrate_upstream || exit 1
+done
+
+ok "gepusht: $branch@$(short_head)  (origin/$branch ist aktuell)"
+if [ "$branch" != main ] && has_ref refs/remotes/origin/main; then
+  ahead_main=$(git rev-list --count origin/main..HEAD)
+  note "    $ahead_main Commit(s) auf $branch, die noch nicht auf main sind."
+fi

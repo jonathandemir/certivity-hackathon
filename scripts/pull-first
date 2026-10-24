@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Vor jedem teuren oder zählenden Lauf: Teamstand holen und melden, auf welchem Commit gemessen wird.
+#
+#   scripts/pull-first && <lauf>
+#
+# - holt origin/<branch> nach (rebase bzw. merge wie scripts/sync), wenn origin neuer ist
+# - meldet, wenn origin/main neuen Code enthält, der in diesem Branch fehlt (dann misst man veralteten Code)
+# - meldet den verwendeten Commit als <branch>@<kurzhash>, ungepushte Commits und uncommittete/ungetrackte Dateien
+# Exit 0 = Lauf zählt (sauber, gepusht, aktuell). Exit 1 = Lauf zählt nicht; Gründe stehen in der Ausgabe.
+. "$(dirname "$0")/lib.sh"
+
+reasons=()
+branch=$(current_branch) || die "Detached HEAD. Ergebnisse brauchen einen Branch."
+op=$(operation_in_progress) && die "Offene Git-Operation ($op). Erst abschließen."
+
+if fetch_origin 60; then
+  if has_ref "refs/remotes/origin/$branch"; then
+    behind=$(git rev-list --count "HEAD..origin/$branch")
+    if [ "$behind" -gt 0 ]; then
+      if [ -n "$(dirty_tracked)" ]; then
+        reasons+=("origin/$branch ist $behind Commit(s) neuer, aber uncommittete Änderungen verhindern das Nachziehen")
+      else
+        integrate_upstream || exit 1
+        ok "origin/$branch war $behind Commit(s) neuer: nachgezogen."
+      fi
+    fi
+  fi
+  if [ "$branch" != main ] && has_ref refs/remotes/origin/main; then
+    # shellcheck disable=SC2086
+    main_code=$(git diff --name-only HEAD...origin/main -- . $(printf ":(exclude)%s " $SHARED_PATHS) 2>/dev/null)
+    if [ -n "$main_code" ]; then
+      reasons+=("origin/main enthält neuen Code, der hier fehlt ($(printf '%s' "$main_code" | tr '\n' ' ')). Erst scripts/sync (merged main mit)")
+    elif [ "$(git rev-list --count HEAD..origin/main)" -gt 0 ]; then
+      note "Hinweis: origin/main hat neue Doku-/Ergebnis-Commits (kein Code). scripts/sync merged sie mit."
+    fi
+  fi
+else
+  reasons+=("git fetch fehlgeschlagen: kann nicht prüfen, ob das Team neueren Stand hat")
+fi
+
+ref="$branch@$(short_head)"
+dirty=$(dirty_tracked)
+untracked=$(untracked_files)
+unpushed=$(unpushed_commits)
+[ -n "$dirty" ] && reasons+=("uncommittete Änderungen an getrackten Dateien")
+[ -n "$untracked" ] && reasons+=("ungetrackte Dateien (gehören sie zum Code? committen oder in .gitignore)")
+[ -n "$unpushed" ] && reasons+=("ungepushte Commits (scripts/sync)")
+
+{
+  printf '\n%sStand für diesen Lauf:%s %s\n' "$C_BLD" "$C_OFF" "$ref"
+  if [ -n "$unpushed" ]; then printf 'Ungepushte Commits:\n'; printf '%s\n' "$unpushed" | sed 's/^/    /'; fi
+  if [ -n "$dirty" ]; then printf 'Uncommittete Dateien:\n'; printf '%s\n' "$dirty" | sed 's/^/    /'; fi
+  if [ -n "$untracked" ]; then printf 'Ungetrackte Dateien:\n'; printf '%s\n' "$untracked" | sed 's/^/    /'; fi
+} >&2
+
+if [ ${#reasons[@]} -eq 0 ]; then
+  ok "ZÄHLT: sauber, gepusht, aktuell. Ergebnis als $ref zitieren."
+  echo "$ref"
+  exit 0
+fi
+printf '%sZÄHLT NICHT%s (Ergebnis darf nicht als Messung von %s gelten):\n' "$C_RED" "$C_OFF" "$ref" >&2
+for r in "${reasons[@]}"; do printf '    - %s\n' "$r" >&2; done
+exit 1

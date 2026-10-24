@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Zeigt den Teamstand zum Sessionstart: docs/STATUS.md (von origin/main), die neuesten Einträge aus
+# docs/LOG.md über ALLE Branches (zusammengeführt, nach Zeit sortiert) und den Git-Zustand dieses Checkouts.
+# Wird vom SessionStart-Hook aufgerufen; die Ausgabe landet im Kontext des Agenten.
+#
+#   scripts/session-start [anzahl_logeintraege]     (Standard: 12)
+. "$(dirname "$0")/lib.sh"
+N=${1:-12}
+
+fetched=ja
+fetch_origin 20 2>/dev/null || fetched="NEIN (offline?) – lokaler Stand, kann veraltet sein"
+
+# Alle LOG-Einträge aus HEAD, allen origin-Branches und der Arbeitskopie; ein Eintrag pro Zeile (\036 = Zeilenumbruch).
+log_records() {
+  {
+    git show HEAD:docs/LOG.md 2>/dev/null
+    git for-each-ref --format='%(refname)' refs/remotes/origin | grep -v '/HEAD$' | while read -r r; do
+      git show "$r:docs/LOG.md" 2>/dev/null
+    done
+    cat docs/LOG.md 2>/dev/null
+  } | awk '
+    /^### [0-9][0-9][0-9][0-9]-/ { if (rec != "") print rec; rec = $0; next }
+    /^#/ { if (rec != "") print rec; rec = ""; next }
+    rec != "" && NF > 0 { rec = rec "\036" $0 }
+    END { if (rec != "") print rec }'
+}
+
+branch=$(current_branch || echo detached)
+echo "# Teamstand $(now) · $(me) @ $(host)"
+echo
+echo "Checkout: $REPO_ROOT · Branch $branch@$(short_head) · fetch: $fetched"
+if has_ref "refs/remotes/origin/$branch"; then
+  echo "origin/$branch: $(git rev-list --count "origin/$branch..HEAD") eigene ungepushte, $(git rev-list --count "HEAD..origin/$branch") neue Commits auf origin"
+else
+  echo "origin/$branch existiert nicht (Branch nie gepusht?)"
+fi
+if [ "$branch" != main ] && has_ref refs/remotes/origin/main; then
+  echo "origin/main: $(git rev-list --count HEAD..origin/main) Commit(s) noch nicht in $branch gemergt"
+fi
+d=$(dirty_tracked | wc -l | tr -d ' '); u=$(untracked_files | wc -l | tr -d ' ')
+[ "$d$u" != "00" ] && echo "Arbeitskopie: $d uncommittete, $u ungetrackte Datei(en)"
+if [ -d "$REPO_ROOT/.worktrees/main" ] && [ "$branch" != main ]; then
+  wd=$(git -C "$REPO_ROOT/.worktrees/main" status --porcelain | wc -l | tr -d ' ')
+  wu=$(git -C "$REPO_ROOT/.worktrees/main" log --oneline HEAD --not --remotes=origin 2>/dev/null | wc -l | tr -d ' ')
+  [ "$wd$wu" != "00" ] && echo "main-Worktree .worktrees/main: $wd uncommittete Datei(en), $wu ungepushte Commit(s) → dort committen und .worktrees/main/scripts/sync"
+fi
+
+echo
+if has_ref refs/remotes/origin/main; then
+  echo "## docs/STATUS.md (Stand origin/main)"
+  echo
+  git show origin/main:docs/STATUS.md
+else
+  echo "## docs/STATUS.md (lokal, origin/main fehlt)"
+  echo
+  cat docs/STATUS.md 2>/dev/null || echo "(fehlt)"
+fi
+
+echo
+echo "## Neueste $N Einträge aus docs/LOG.md (alle Branches)"
+log_records | LC_ALL=C sort -u | tail -n "$N" | tr '\036' '\n' | awk '/^### /{print ""} {print}'
+
+echo
+echo "## Pflicht jetzt (AGENTS.md)"
+echo "1. scripts/sync  2. Aufgabe gegen die Claims oben prüfen; bei Überschneidung erst den Menschen fragen"
+echo "3. scripts/claim add \"was\" \"dateien\"  4. kleine Schritte: Tests grün → scripts/log → Code + Log in einem Commit → scripts/sync (spätestens alle 30 min)"

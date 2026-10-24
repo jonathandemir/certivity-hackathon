@@ -1,0 +1,6 @@
+# Nur-anhängen-Dateien: parallele Einträge von verschiedenen Rechnern ohne Konflikt zusammenführen.
+docs/LOG.md merge=union
+experiments/LEDGER.md merge=union
+
+scripts/* text eol=lf
+*.sh text eol=lf

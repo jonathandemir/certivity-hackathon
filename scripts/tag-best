@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Markiert den aktuellen, gemessenen Stand als guten Stand: Tag best-<branch>-<wert>, gepusht.
+# So geht nichts verloren und man kann jederzeit zurück (git checkout best-...).
+#
+#   scripts/tag-best <wert> ["notiz"]          z. B. scripts/tag-best f2req-0.412 "E007, dev-rear-lamp"
+#
+# Voraussetzung: sauberes Arbeitsverzeichnis, HEAD ist gepusht (sonst gehört der Wert zu keinem prüfbaren Stand).
+. "$(dirname "$0")/lib.sh"
+
+[ $# -ge 1 ] || die "Nutzung: scripts/tag-best <wert> [\"notiz\"]"
+value=$1; notice=${2:-}
+printf '%s' "$value" | grep -qE '^[A-Za-z0-9._-]+$' || die "Wert nur aus Buchstaben, Ziffern, . _ - (z. B. f2req-0.412)."
+
+branch=$(current_branch) || die "Detached HEAD."
+[ -z "$(dirty_tracked)" ] || die "Uncommittete Änderungen. Gemessen werden darf nur ein sauberer, gepushter Commit."
+fetch_origin 30 || die "fetch fehlgeschlagen."
+git merge-base --is-ancestor HEAD "origin/$branch" 2>/dev/null || die "HEAD ist nicht auf origin/$branch. Erst scripts/sync."
+
+tag="best-$(printf '%s' "$branch" | tr '/' '-')-$value"
+has_ref "refs/tags/$tag" && die "Tag $tag existiert schon ($(git rev-parse --short "$tag^{commit}"))."
+ref="$branch@$(short_head)"
+git tag -a "$tag" -m "$ref ${notice:+– $notice} (getaggt von $(me) @ $(host), $(now))" HEAD
+git push --quiet origin "refs/tags/$tag" || die "Tag-Push fehlgeschlagen. Lokaler Tag existiert: git push origin $tag"
+ok "$tag → $ref gepusht. Jetzt Scoreboard (docs/STATUS.md) und experiments/LEDGER.md auf main aktualisieren."
+echo "$tag"
