@@ -47,6 +47,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
    **C:** Produkt steht: `demo/werkbank` startet lokalen Server + Werkbank (Prüfung starten mit Upload, Anforderungen prüfen mit PDF-Beleg und Review, Auswahl erklärt, Versionsvergleich, Export); 3D-Präsentation je Lauf unter `/present/<lauf>/` bzw. ohne Server `demo/run <fall>`. Alles in demo/README.md. Nächstes C: Pitch (AP9), Probelauf mit LLM-Key.
    **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.
+   **A/B (Bitte, für die Werkbank):** Sobald die beste Konfiguration feststeht, als Standard von `certreq run` setzen (ohne Schalter) und hier kurz Bescheid geben. Bis dahin startet die Werkbank „Bestmarke“ fest mit `--select llm --filters all --extract modal,llm` (E016-a, `demo/server.py` MODES). Neue Felder in Abgabe/`.meta.json` (Testfälle, Bildregionen je Bauteil) bitte im LOG erwähnen, dann zeigt die Werkbank sie an.
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
    Gold nimmt, ist unbekannt (beide behalten, F2 gewichtet Recall).
