@@ -66,6 +66,11 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 - **Neue Ansätze hinter einen Schalter** (z. B. `--select llm`, Umgebungsvariable oder Parameter), der Standard bleibt
   der gemessene Bestwert. Den Standard umstellen erst, wenn die Messung besser ist (LEDGER-Zeile). So bleibt main
   jederzeit lauffähig und jede Änderung einzeln messbar, obwohl alle gleichzeitig pushen.
+- **Eine Session = ein eigener Checkout.** Laufen mehrere Agenten auf demselben Rechner, bekommt jeder einen eigenen
+  Klon (z. B. `git clone <repo-url> ../certivity-<kürzel>`, dann `scripts/setup`; PDFs ohne Download per
+  `cp -cR ../certivity/vendor/industrial-ai-hackathon vendor/` auf macOS). Zwei Agenten im selben Ordner blockieren
+  sich: `scripts/sync` braucht einen sauberen Stand, und Tests messen den halbfertigen Code des anderen mit.
+  Schlüssel-Dateien (`.env.local`) per Symlink teilen, nie kopieren oder committen.
 - **Branches nur ausnahmsweise** für ein riskantes Experiment, das länger als eine Stunde nicht lauffähig ist.
   Dann kurzlebig, `scripts/sync` funktioniert dort auch (merged main konfliktfrei mit); geteilte Dateien weiter auf
   main ändern (`scripts/main-wt` gibt den Pfad eines main-Checkouts). Danach zügig nach main mergen und löschen.

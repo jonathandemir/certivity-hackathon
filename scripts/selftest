@@ -11,7 +11,8 @@ SRC=${1:-$HERE}; PKG=${2:-$HERE/vendor/industrial-ai-hackathon}
 command -v jq >/dev/null 2>&1 || { echo "selftest braucht jq (brew install jq / apt install jq)" >&2; exit 2; }
 [ -d "$PKG/regulations" ] || { echo "Teilnehmerpaket fehlt unter $PKG (scripts/setup)" >&2; exit 2; }
 T=$(mktemp -d "${TMPDIR:-/tmp}/cert-test.XXXXXX")
-export CERTIVITY_PKG_URL="$PKG"
+git clone -q --bare "$PKG" "$T/pkg.git"   # simuliertes offizielles Certivity-Repo, in das wir "Held-out" pushen können
+export CERTIVITY_PKG_URL="$T/pkg.git"
 export HOME="$T/home"; mkdir -p "$HOME"
 export GIT_CONFIG_NOSYSTEM=1
 git config --global init.defaultBranch main
@@ -195,6 +196,16 @@ has "| Ben | [^|]* | Regelungsauswahl" "Claims sichtbar"; has "ben findet etwas 
 DESC="kein Eintrag doppelt";              yes_ [ "$(printf '%s' "$OUT" | grep -c 'm1 legt x an')" -eq 1 ]
 DESC="chronologisch sortiert";            yes_ sh -c "printf '%s\n' \"\$1\" | grep '^### ' | cut -c5-29 | sort -c" _ "$OUT"
 run "$M3" scripts/session-start 3; DESC="Anzahl begrenzt"; yes_ [ "$(printf '%s' "$OUT" | grep -c '^### ')" -eq 3 ]
+
+title "Paket-Check: neue Commits bei Certivity (z. B. Held-out am Sonntag)"
+run "$M1" scripts/session-start 3; has "Teilnehmerpaket: @" "Paket als aktuell gemeldet"
+git clone -q "$T/pkg.git" "$T/pkg-work" && mkdir -p "$T/pkg-work/cases/heldout-front-bumper" \
+  && echo "spec" > "$T/pkg-work/cases/heldout-front-bumper/spec.md" && git -C "$T/pkg-work" add -A \
+  && git -C "$T/pkg-work" -c user.name=Certivity -c user.email=c@example.com commit -qm "held-out" && git -C "$T/pkg-work" push -q origin HEAD
+run "$M1" scripts/session-start 3; has "ACHTUNG: 1 neue" "neuer Paket-Commit gemeldet"; has "cases/heldout-front-bumper" "neuer Fall genannt"
+run "$M1" scripts/setup --no-pdfs --no-venv; rc 0 "setup holt das Paket nach"
+DESC="Held-out-Ordner angekommen";         yes_ [ -f "$M1/vendor/industrial-ai-hackathon/cases/heldout-front-bumper/spec.md" ]
+run "$M1" scripts/session-start 3; has "Teilnehmerpaket: @" "danach wieder aktuell"
 
 title "stop-check"
 run "$M1" scripts/sync; run "$M1" scripts/stop-check; rc 0 "sauber"

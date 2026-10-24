@@ -32,7 +32,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
    Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
-2. **Jonathan (A):** LLM-Modell und API-Key festlegen (Key in `.env`, gitignored), `certreq/llm.py` für alle bereitstellen.
+2. **Alle:** LLM-Zugang steht (`certreq/llm.py`, OpenAI). Einmal `scripts/setup` (installiert `openai`), Key in `.env.local` im eigenen Checkout (von Jonathan; nie ins Repo, nie in den Chat), Check: `.venv/bin/python -m certreq.llm`.
 3. **Jonathan (A, AP1-Rest):** E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Datei neu erzeugen:
    `CERTIVITY_TEAM_ID=<id> .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp`
    (gleicher Commit wie E001, nur `team_id` anders). E002 nicht hochladen: nutzt Gold-Wissen, verfälscht das Dev-Leaderboard.
@@ -48,7 +48,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | 2026-10-24 | Teilnehmerpaket und PDFs nur unter `vendor/` (gitignored), nie im Repo | LICENSE-DATA.md: keine Weitergabe; das Repo wird zur Abgabe geteilt | Jonathan |
 | 2026-10-24 | GitHub-Repo privat bis zur Abgabe; vor R4 Sichtbarkeit klären | Kein Zugriff Dritter während des Events | Jonathan |
 | 2026-10-24 | Aufteilung: A = Jonathan (AP2, AP10, AP5, LLM-Zugang, Uploads), B = Homsianer (AP3-Rest, AP4), C = Amiad (AP6, AP7, Pitch-Lead); So alle AP8 | Drei Stränge mit festen Dateigrenzen; B misst mit `--regs`, C arbeitet auf der JSON-Ausgabe, niemand wartet | Jonathan |
-| offen | LLM-Modell und API-Key | Nötig für AP2, AP4, AP7, AP10 | A |
+| 2026-10-24 | LLM: OpenAI über `certreq/llm.py`; Standard `gpt-5.4-mini-2026-03-17` (Massenaufrufe), `gpt-5.5-2026-04-23` für Auswahl/Richter; Key in `.env.local` (gitignored) | Key von Jonathan vorhanden; feste Snapshots halten Messungen reproduzierbar; Cache macht Wiederholungen kostenlos | Jonathan |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 
 ## Scoreboard

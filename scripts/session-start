@@ -45,6 +45,23 @@ if [ -d "$REPO_ROOT/.worktrees/main" ] && [ "$branch" != main ]; then
   [ "$wd$wu" != "00" ] && echo "main-Worktree .worktrees/main: $wd uncommittete Datei(en), $wu ungepushte Commit(s) → dort committen und .worktrees/main/scripts/sync"
 fi
 
+# Offizielles Teilnehmerpaket: neue Commits bei Certivity (Regeländerungen, Held-out am Sonntag) sofort sichtbar machen.
+PKG="$REPO_ROOT/vendor/industrial-ai-hackathon"
+if [ -d "$PKG/.git" ]; then
+  with_timeout 15 git -C "$PKG" fetch --quiet origin >/dev/null 2>&1 || pkg_offline=1
+  pkg_new=$(git -C "$PKG" rev-list --count 'HEAD..@{u}' 2>/dev/null || echo 0)
+  if [ "${pkg_new:-0}" -gt 0 ]; then
+    echo "**ACHTUNG: $pkg_new neue(r) Commit(s) im offiziellen Teilnehmerpaket (Certivity)** → \`scripts/setup\` holt sie und lädt neue PDFs:"
+    git -C "$PKG" log --format='  - %h %ad %s' --date=format:'%a %H:%M' 'HEAD..@{u}' | head -n 5
+    newfiles=$(git -C "$PKG" diff --name-only --diff-filter=A 'HEAD..@{u}' -- cases subgoal | cut -d/ -f1-2 | sort -u | tr '\n' ' ')
+    [ -n "$newfiles" ] && echo "  neue Fälle: $newfiles"
+  else
+    echo "Teilnehmerpaket: @$(git -C "$PKG" rev-parse --short HEAD), aktuell${pkg_offline:+ (fetch fehlgeschlagen, letzter bekannter Stand)}"
+  fi
+else
+  echo "Teilnehmerpaket fehlt unter vendor/ → scripts/setup"
+fi
+
 echo
 if has_ref refs/remotes/origin/main; then
   echo "## docs/STATUS.md (Stand origin/main)"

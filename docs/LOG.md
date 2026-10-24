@@ -124,3 +124,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Behebt [finding] 'pdf.py übersieht Absätze ohne Punkt nach der Nummer' (Amiad, 12:19): '5.1.4.1 An ACPE intervention …' (subgoal/dev/new.pdf S. 5) wird jetzt eigener Absatz. Regel: Nummer mehrstufig, danach großgeschriebenes Wort (keine Einheit wie Hz), und direkter Nachfolger des laufenden Absatzes (Kind, Geschwister oder nächste höhere Ebene), sonst bleibt es Fließtext (Messwerte wie '13.5 V')
 - Wirkung: 228 neue Absätze über alle 56 Regelungen (126 in base), Stichprobe 25/25 echte Absätze; dev: R48 bekommt u. a. 5.7 (Unterabsätze tragen 4 Gold-Anforderungen), Scores auf 3 Stellen unverändert (E004-Konfiguration Seiten-F2 0.342, gold-Regelungen 0.753). B0-Standard auf dev: 3642 statt 3624 Anforderungen
 - Achtung E001-Upload: die abgelegte Datei experiments/runs/E001/submission.json.gz nehmen (team_id ersetzen) oder vom Tag best-jonathan-pagef2-0.272 erzeugen; ein Lauf auf dem aktuellen main ist nicht mehr bytegleich zu E001. Geprüft: pytest 24/24
+### 2026-10-24 14:28:15 +0200 | [change] Paket-Check im Sessionstart, Sonntagsbefehl, Regel 'eine Session = ein Checkout' | Jonathan @ MacBook-Pro-von-Jonathan | main@7660278 +lokale Änderungen
+- scripts/session-start fetcht das offizielle Paket (15-s-Limit) und meldet neue Commits bei Certivity mit ACHTUNG + neuen Fällen unter cases/ bzw. subgoal/; sonst 'Teilnehmerpaket: @hash, aktuell'
+- PLAN: Sonntag 08:00 = scripts/setup (holt Held-out + PDFs) + Zip-Ankündigung prüfen
+- AGENTS §4: mehrere Agenten auf einem Rechner → je ein eigener Klon; Anlass: zweite Session uncommittet in ~/projects/certivity, sync dort blockiert; diese Session arbeitet jetzt in ~/projects/certivity-a
+- STATUS: LLM-Entscheidung (OpenAI, Modelle, .env.local) eingetragen; LEARNINGS: 2 Einträge mit Beleg
+- Geprüft: scripts/selftest 138/138 auf macOS (bash 3.2) und Debian (bash 5.2, mawk), inkl. simuliertem Held-out-Push bei Certivity
