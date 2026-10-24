@@ -25,7 +25,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 | Wer | Rechner | Was | Dateien | Seit |
 |---|---|---|---|---|
-| Jonathan | jonathan | Umstellung: alle arbeiten auf main | AGENTS.md, README.md, docs/, scripts/, tests der Skripte | 2026-10-24 13:57 |
 
 ## Nächste Schritte
 
