@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# Sonntag 08:00: Held-out automatisch holen und rechnen (docs/PLAN.md „Sonntagsablauf“). Hochladen bleibt beim Menschen.
+#
+#   scripts/heldout-auto            echter Lauf; läuft nur am 2026-10-25 (sonst --force)
+#   scripts/heldout-auto --test     Probe am Dev-Fall: IDs TEST-*, Cache an (kostet fast nichts), kein Commit, räumt auf
+#
+# Ablauf: bis 10:00 jede Minute das offizielle Paket nachziehen, bis unter cases/ ein neuer Fall liegt (auch wenn ihn
+# jemand von Hand aus dem Zip nach vendor/industrial-ai-hackathon/ kopiert); fehlende PDFs laden; scripts/pull-first;
+# drei Opus-Läufe parallel (H001 Standard + Bildregionen, H002 Standard ohne Cache = zweiter Wurf, H003 ohne modes);
+# Fallback Fable 5.1, falls H001 scheitert; Ablage per eval --record (nur Validierung); Varianten aus H001
+# (ohne R94; R127 bzw. GTR 9 allein); Sub-Goal-Held-out (HSG1); Upload-Dateien per certreq.upload; Commit + Log + sync;
+# Zusammenfassung out/heldout-auto/SUMMARY.md und eine macOS-Mitteilung.
+. "$(dirname "$0")/lib.sh"
+
+mode=real
+case "${1:-}" in
+  --test) mode=test ;;
+  --force) mode=force ;;
+  "") ;;
+  *) die "Nutzung: scripts/heldout-auto [--test|--force]" ;;
+esac
+if [ "$mode" = real ] && [ "$(TZ=Europe/Berlin date +%F)" != "2026-10-25" ]; then
+  note "heldout-auto: heute ist nicht der 25.10. – nichts zu tun (mit --force erzwingen)."; exit 0
+fi
+
+PKG="$REPO_ROOT/vendor/industrial-ai-hackathon"
+PY="$REPO_ROOT/.venv/bin/python"
+LOGDIR="$REPO_ROOT/out/heldout-auto"; mkdir -p "$LOGDIR"
+LOG="$LOGDIR/run-$(date +%Y%m%d-%H%M%S)$([ "$mode" = test ] && echo -test).log"
+SUMMARY="$LOGDIR/SUMMARY$([ "$mode" = test ] && echo -test).md"
+P=""; [ "$mode" = test ] && P="TEST-"
+exec > >(tee -a "$LOG") 2>&1
+say()    { printf '%s  %s\n' "$(TZ=Europe/Berlin date +%H:%M:%S)" "$*"; }
+notify() { /usr/bin/osascript -e "display notification \"$1\" with title \"Certivity Held-out\" sound name \"Glass\"" >/dev/null 2>&1 || true; }
+fail()   { say "FEHLER: $*"; notify "FEHLER: $*"; printf '\n**FEHLER:** %s (Log: %s)\n' "$*" "$LOG" >> "$SUMMARY"; exit 1; }
+printf '# Held-out-Automatik %s\n\nLog: %s\n' "$(TZ=Europe/Berlin date '+%Y-%m-%d %H:%M')" "$LOG" > "$SUMMARY"
+say "Start ($mode), Repo $REPO_ROOT"
+
+# 1. Fall finden: Paket nachziehen, bis ein neuer Fall unter cases/ liegt
+find_case() { ls -1 "$PKG/cases" 2>/dev/null | grep -v '^dev-rear-lamp$' | head -n 1; }
+find_sub()  { ls -1 "$PKG/subgoal" 2>/dev/null | grep -v '^dev$' | head -n 1; }
+if [ "$mode" = test ]; then
+  CASE=dev-rear-lamp; SUB=dev
+else
+  deadline=$(( $(date +%s) + 2 * 3600 ))
+  CASE=""
+  while :; do
+    git -C "$PKG" pull --ff-only -q 2>/dev/null || say "git pull im Paket fehlgeschlagen (Netz?), versuche weiter"
+    CASE=$(find_case)
+    [ -n "$CASE" ] && break
+    [ "$(date +%s)" -gt "$deadline" ] && fail "Kein Held-out-Fall bis $(TZ=Europe/Berlin date +%H:%M). Zip vor Ort? Nach $PKG entpacken und scripts/heldout-auto --force starten."
+    sleep 60
+  done
+  sleep 20; git -C "$PKG" pull --ff-only -q 2>/dev/null || true   # falls der Commit noch nachkommt
+  SUB=$(find_sub)
+fi
+say "Fall: $CASE · Sub-Goal: ${SUB:-keins}"
+notify "Held-out gefunden: $CASE – rechne jetzt (≈3 min)"
+printf -- '- Fall: `%s`, Sub-Goal: `%s`\n' "$CASE" "${SUB:-–}" >> "$SUMMARY"
+
+# 2. PDFs (neue Regelungen oder Fassungen), wie scripts/setup
+if [ "$mode" != test ]; then
+  if ! (cd "$PKG" && python3 tools/fetch_regulations.py >/dev/null 2>&1); then
+    ca=$("$PY" -m certifi 2>/dev/null || python3 -m certifi 2>/dev/null || true)
+    (cd "$PKG" && SSL_CERT_FILE="$ca" python3 tools/fetch_regulations.py >/dev/null 2>&1) || say "WARNUNG: PDF-Download unvollständig"
+  fi
+fi
+
+# 3. Teamstand holen, Lauf muss zählen
+scripts/pull-first || fail "pull-first: Arbeitsverzeichnis nicht sauber oder nicht aktuell"
+COMMIT=$(git rev-parse --short HEAD)
+say "Stand main@$COMMIT"
+
+# 4. Drei Opus-Läufe parallel
+CDIR="$PKG/cases/$CASE"
+RULES_NO_MODES="modal,llm,lists,tables,exempt,tests"
+run() { # id extra-env... -- args...
+  local id=$1; shift
+  local envs=(); while [ "$1" != "--" ]; do envs+=("$1"); shift; done; shift
+  env CERTREQ_PROVIDER=anthropic ${envs[@]+"${envs[@]}"} "$PY" -m certreq run "$CDIR" "$@" --out "out/$id.json" \
+    > "$LOGDIR/$id.log" 2>&1
+}
+CACHE_OFF="CERTREQ_LLM_CACHE=0"; [ "$mode" = test ] && CACHE_OFF="CERTREQ_LLM_CACHE=1"
+run "${P}H001" -- --regions & p1=$!
+run "${P}H002" "$CACHE_OFF" -- & p2=$!
+run "${P}H003" -- --extract "$RULES_NO_MODES" & p3=$!
+wait $p1; r1=$?; wait $p2; r2=$?; wait $p3; r3=$?
+if [ $r1 -ne 0 ]; then
+  say "H001 fehlgeschlagen ($(tail -n 1 "$LOGDIR/${P}H001.log")), Fallback Fable 5.1"
+  run "${P}H001" CERTREQ_ANTHROPIC_MODEL=claude-fable-5-1 -- || fail "H001 auch mit Fable fehlgeschlagen (Log $LOGDIR/${P}H001.log)"
+fi
+for id in H001 H002 H003; do say "$id: $(tail -n 1 "$LOGDIR/${P}$id.log" | cut -c1-160)"; done
+
+# 5. Ablegen (nur Validierung, kein Gold)
+recorded=()
+for id in H001 H002 H003; do
+  [ -f "out/${P}$id.json" ] || continue
+  rm -rf "experiments/runs/${P}$id" 2>/dev/null
+  if "$PY" -m certreq eval "out/${P}$id.json" --record "${P}$id" --note "Held-out $CASE, automatisch (scripts/heldout-auto)" \
+       > "$LOGDIR/${P}$id.eval.log" 2>&1; then recorded+=("${P}$id"); else say "WARNUNG: $id nicht abgelegt ($(tail -n 1 "$LOGDIR/${P}$id.eval.log"))"; fi
+done
+[ ${#recorded[@]} -gt 0 ] || fail "Kein Lauf abgelegt"
+
+# 6. Varianten aus H001 (gleiche Anforderungen, nur Regelungen weg)
+regs=$("$PY" -m certreq.variants "${P}H001" --list 2>/dev/null)
+printf '\n## Regelungen in H001 (Anforderungen je Regelung)\n\n```\n%s\n```\n' "$regs" >> "$SUMMARY"
+variant() { "$PY" -m certreq.variants "${P}H001" --drop "$1" --as "${P}H001-$2" >/dev/null 2>&1 && recorded+=("${P}H001-$2"); }
+has() { printf '%s\n' "$regs" | grep -q "  $1\$"; }
+has "UN R94" && variant "UN R94" noR94
+if has "UN R127" && has "UN GTR 9"; then variant "UN GTR 9" noGTR9; variant "UN R127" noR127; fi
+
+# 7. Sub-Goal-Held-out
+if [ -n "${SUB:-}" ] && [ -d "$PKG/subgoal/$SUB" ]; then
+  if CERTREQ_PROVIDER=anthropic "$PY" -m certreq.subgoal run "$PKG/subgoal/$SUB" --out "out/${P}HSG1.json" > "$LOGDIR/${P}HSG1.log" 2>&1; then
+    rm -rf "experiments/runs/${P}HSG1"
+    "$PY" - "out/${P}HSG1.json" "experiments/runs/${P}HSG1" "$COMMIT" <<'PYEOF' && recorded+=("${P}HSG1")
+import gzip, json, sys, datetime, subprocess
+from pathlib import Path
+src, dest, commit = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3]
+dest.mkdir(parents=True)
+raw = src.read_bytes()
+with gzip.GzipFile(dest / "submission.json.gz", "wb", mtime=0) as fh:
+    fh.write(raw)
+d = json.loads(raw)
+(dest / "meta.json").write_text(json.dumps({"run_id": dest.name, "case_id": d.get("case_id"), "changes": len(d.get("changes", [])),
+    "git": {"commit": f"main@{commit}"}, "command": "python -m certreq.subgoal run (Standard --refine llm), scripts/heldout-auto",
+    "recorded_at": datetime.datetime.now().astimezone().isoformat(timespec="seconds")}, ensure_ascii=False, indent=1) + "\n")
+PYEOF
+    say "HSG1: $(tail -n 1 "$LOGDIR/${P}HSG1.log" | cut -c1-160)"
+  else
+    say "WARNUNG: Sub-Goal fehlgeschlagen ($(tail -n 1 "$LOGDIR/${P}HSG1.log"))"
+  fi
+fi
+
+# 8. Upload-Dateien bauen und validieren
+"$PY" -m certreq.upload "${recorded[@]}" > "$LOGDIR/${P}upload.log" 2>&1 || say "WARNUNG: mindestens eine Upload-Datei ungültig (siehe ${P}upload.log)"
+{
+  printf '\n## Upload-Dateien (validiert, team-12) in %s/out/upload/\n\n' "$REPO_ROOT"
+  grep -E '^(OK|FEHLER)' "$LOGDIR/${P}upload.log" | sed 's/^/- /'
+  printf '\n## Reihenfolge (PLAN „Sonntagsablauf“)\n\n'
+  printf '1. **Sofort H001 hochladen** (Sicherung).\n2. Zeigt die Plattform einen Score: H002 (zweiter Wurf), dann je eine Variante (ohne R94, R127/GTR 9, H003 = ohne modes). Bessere Datei bleibt Basis.\n'
+  printf '3. Sub-Goal: HSG1 (eigenes Kontingent).\n4. 12:30: beste Datei zuletzt erneut hochladen.\n'
+  printf '\nLäufe: H001 = Standard Opus (+ Bildregionen), H002 = Standard Opus ohne Cache, H003 = ohne modes. Stand main@%s.\n' "$COMMIT"
+} >> "$SUMMARY"
+
+# 9. Belege committen (nur echter Lauf)
+if [ "$mode" = test ]; then
+  for id in "${recorded[@]}"; do rm -rf "experiments/runs/$id"; done
+  say "Test: Belege wieder entfernt, nichts committet"
+else
+  scripts/log "[run] Held-out $CASE automatisch gerechnet (scripts/heldout-auto)" \
+    "Abgelegt: ${recorded[*]}. Upload-Dateien in out/upload/, Zusammenfassung out/heldout-auto/SUMMARY.md. Noch nicht hochgeladen." \
+    "Stand main@$COMMIT; Läufe mit CERTREQ_PROVIDER=anthropic" >/dev/null 2>&1 || true
+  git add experiments/runs/H* docs/LOG.md 2>/dev/null
+  git commit -q -m "Held-out $CASE: automatische Läufe ${recorded[*]} (scripts/heldout-auto)" || say "WARNUNG: Commit fehlgeschlagen"
+  scripts/sync >/dev/null 2>&1 || say "WARNUNG: scripts/sync fehlgeschlagen, Belege lokal committet"
+fi
+
+say "Fertig: ${recorded[*]}"
+notify "Fertig: ${#recorded[@]} Dateien bereit – H001 jetzt hochladen (SUMMARY.md)"
+printf '\nFertig %s.\n' "$(TZ=Europe/Berlin date +%H:%M)" >> "$SUMMARY"

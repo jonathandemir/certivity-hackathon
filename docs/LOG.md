@@ -631,3 +631,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 21:32:03 +0200 | [run] Plattform: X-GRAND-1-Varianten E045-a 0.705, E046-a 0.751, E047-a 0.743 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@359aa91
 - ohne modes 0.705 (163/190), modes+procedure2+testcond 0.751 (168), ohne modes+procedure2+testcond 0.743 (169). Opus-Standard auf der Plattform 0.762/0.721/0.743 (Mittel 0.742).
 - Keine Variante über der Streuung (~0.765) → Standard bleibt; ohne modes bleibt Upload-Paar-Kandidat für den Held-out (R175 sprach dafür, dev dagegen). Ledger E045-a-P..E047-a-P.
+
+### 2026-10-24 21:37:54 +0200 | [change] scripts/heldout-auto: Held-out So 08:00 automatisch rechnen | Jonathan @ MacBook-Pro-von-Jonathan | main@f5ac02d +lokale Änderungen
+- Zieht ab 08:00 bis 10:00 minütlich das Paket nach, bis ein neuer Fall unter cases/ liegt (auch Zip von Hand nach vendor/), lädt PDFs, pull-first, drei Opus-Läufe parallel (H001 Standard + --regions, H002 ohne Cache, H003 ohne modes), Fable-Fallback, eval --record, Varianten aus H001 (ohne R94, R127/GTR 9 allein), Sub-Goal HSG1, Upload-Dateien, Commit + Log + sync, SUMMARY.md + macOS-Mitteilung. Lädt nichts hoch. Nur am 25.10. (sonst --force); --test probt am Dev-Fall ohne Commit.
+- bash -n ok; Probe --test folgt; Start per LaunchAgent (nicht im Repo).
