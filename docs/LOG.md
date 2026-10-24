@@ -80,3 +80,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - setup: stellt auf main, legt .venv an (requirements.txt), kein Namensargument mehr; sync: Test-Check vor Push, nur wenn ausgehende Commits Code berühren (rote fremde Tests blockieren keine Doku-Pushes); claim: Spalte Rechner statt Branch, spult main selbst vor
 - AGENTS.md §1-§5, §9, README, PLAN, STATUS, LEARNINGS (Verworfen: persönliche Branches), CONTEXT angepasst
 - Neu: scripts/selftest (Sandbox mit 3 simulierten Rechnern, alle auf main): 132/132 auf macOS (bash 3.2) und Debian (bash 5.2, mawk); pytest 8/8
+
+### 2026-10-24 12:10:19 +0000 | [change] AP6: Demo-Gerüst (demo/build.py + template.html) | Amiad @ claude | main@fbec7d5 +lokale Änderungen
+- Pipeline-Ausgabe out/<fall>.json (+ .meta.json) → eine selbstständige HTML-Seite: Regelungsfilter mit Zähler, Suche mit Markierung, Sortierung, je Anforderung Regelung/Version/Seite/Absatz, Viewer-Pane mit PDF an der zitierten Seite (#page=N, relative Links), Eingabe (Spezifikation + Zeichnung) aufklappbar, Hell/Dunkel. demo/dist/ ist gitignored (enthält Paketdaten). Liest nur das JSON-Format aus CONTEXT §8; optionales meta.reasons {regulation: Begründung} wird je Regelung angezeigt, sobald AP2 es liefert.
+- Geprüft: pytest 9 grün (neu tests/test_demo.py: Daten-Einbettung, </script>-Escape, PDF-Link relativ + existiert); Headless-Chromium auf E001-Ausgabe (3624 Anforderungen): keine JS-Fehler, Filter/Suche/Viewer funktionieren; PDF-Anzeige im Frame nicht getestet (Headless ohne PDF-Viewer).

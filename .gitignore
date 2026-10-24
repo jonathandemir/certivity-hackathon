@@ -21,3 +21,6 @@ __pycache__/
 node_modules/
 .DS_Store
 .claude/settings.local.json
+
+# Demo-Ausgabe enthält Paketdaten (Spezifikation, Zeichnung): nie committen
+demo/dist/

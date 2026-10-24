@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#fff; --surface2:#eef0f4; --text:#161a22; --muted:#5b6475; --line:#dde1e8;
+  --accent:#1f5eff; --accent-ink:#fff; --mark:#ffe58a; --shadow:0 1px 2px rgba(20,28,45,.06),0 4px 14px rgba(20,28,45,.06);
+  --reg-s:52%; --reg-l:42%;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1218; --surface:#171b23; --surface2:#1f2530; --text:#e8ebf2; --muted:#9aa4b8; --line:#2a3140;
+    --accent:#6b93ff; --accent-ink:#0b1020; --mark:#6b5a12; --shadow:none; --reg-s:60%; --reg-l:64%;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1218; --surface:#171b23; --surface2:#1f2530; --text:#e8ebf2; --muted:#9aa4b8; --line:#2a3140;
+  --accent:#6b93ff; --accent-ink:#0b1020; --mark:#6b5a12; --shadow:none; --reg-s:60%; --reg-l:64%;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:12px 16px}
+header.top h1{font-size:17px;margin:0;font-weight:650}
+header.top .sub{color:var(--muted);font-size:13px}
+.spacer{flex:1}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--surface2)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;padding:16px;max-width:1500px;margin:0 auto}
+.layout.with-viewer{grid-template-columns:300px minmax(0,1fr) minmax(380px,44%)}
+aside.regs{position:sticky;top:68px;align-self:start;max-height:calc(100vh - 84px);overflow:auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+aside.regs h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.reg{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;padding:7px 4px;border-radius:8px;cursor:pointer}
+.reg:hover{background:var(--surface2)}
+.reg .dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:hsl(var(--h) var(--reg-s) var(--reg-l))}
+.reg .nm{font-weight:600;font-size:14px}
+.reg .ti{color:var(--muted);font-size:12px;line-height:1.35}
+.reg .ct{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
+.reg .why{grid-column:2/4;color:var(--muted);font-size:12px;margin-top:2px}
+.reg input{margin:5px 0 0}
+.reg.off{opacity:.45}
+.tools{display:flex;gap:8px;margin-top:10px}
+main{min-width:0}
+.case{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:12px}
+.case summary{cursor:pointer;padding:12px 14px;font-weight:600}
+.case .body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:0 14px 14px}
+.case pre{white-space:pre-wrap;margin:0;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface2);
+  border-radius:8px;padding:10px;max-height:340px;overflow:auto}
+.case img{max-width:100%;border-radius:8px;border:1px solid var(--line);background:#fff;max-height:340px;object-fit:contain;width:100%}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.bar input[type=search]{flex:1;min-width:220px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px}
+.bar select{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px}
+.count{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px 10px 18px;
+  margin-bottom:10px;box-shadow:var(--shadow)}
+.card::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;
+  background:hsl(var(--h) var(--reg-s) var(--reg-l))}
+.card.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.card .meta{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-weight:650;font-size:12px;color:hsl(var(--h) var(--reg-s) var(--reg-l));
+  border:1px solid hsl(var(--h) var(--reg-s) var(--reg-l))}
+.card .txt{margin:0 0 8px;overflow-wrap:anywhere}
+.card .foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px}
+.src{color:var(--muted)}
+.src b{color:var(--text);font-weight:600}
+a.ext{color:var(--accent);text-decoration:none}
+a.ext:hover{text-decoration:underline}
+.tc{margin-top:8px;font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+.more{display:block;margin:16px auto}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.viewer{position:sticky;top:68px;align-self:start;height:calc(100vh - 84px);display:none;flex-direction:column;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.with-viewer .viewer{display:flex}
+.viewer .vh{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px}
+.viewer .vh .t{font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.viewer iframe{flex:1;border:0;width:100%;background:#fff}
+.viewer .note{padding:20px;color:var(--muted)}
+.viewer .quote{padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;background:var(--surface2);max-height:110px;overflow:auto}
+@media (max-width:1100px){
+  .layout,.layout.with-viewer{grid-template-columns:1fr}
+  aside.regs{position:static;max-height:none}
+  .viewer{position:fixed;inset:60px 8px 8px 8px;height:auto;z-index:10;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  .case .body{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Von der Spezifikation zu den Anforderungen</h1>
+    <div class="sub" id="runinfo"></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="theme" type="button" aria-label="Farbschema wechseln">Hell/Dunkel</button>
+</header>
+
+<div class="layout" id="layout">
+  <aside class="regs" aria-label="Regelungen">
+    <h2>Regelungen</h2>
+    <div id="reglist"></div>
+    <div class="tools">
+      <button class="btn" id="all" type="button">Alle</button>
+      <button class="btn" id="none" type="button">Keine</button>
+    </div>
+  </aside>
+
+  <main>
+    <details class="case" id="casebox">
+      <summary id="casesum">Eingabe</summary>
+      <div class="body">
+        <pre id="spec"></pre>
+        <img id="img" alt="Explosionszeichnung des Bauteils" hidden>
+      </div>
+    </details>
+
+    <div class="bar">
+      <input type="search" id="q" placeholder="Anforderungen durchsuchen (Text, Absatz, Seite)" aria-label="Suche">
+      <select id="sort" aria-label="Sortierung">
+        <option value="orig">Reihenfolge der Pipeline</option>
+        <option value="reg">Nach Regelung und Seite</option>
+        <option value="page">Nach Seite</option>
+      </select>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div id="list"></div>
+    <button class="btn more" id="more" type="button" hidden>Mehr anzeigen</button>
+  </main>
+
+  <section class="viewer" id="viewer" aria-label="Quellseite">
+    <div class="vh">
+      <div class="t" id="vtitle"></div>
+      <a class="btn ext" id="vopen" target="_blank" rel="noopener">Im Tab öffnen</a>
+      <button class="btn" id="vclose" type="button" aria-label="Schließen">Schließen</button>
+    </div>
+    <div class="quote" id="vquote"></div>
+    <iframe id="vframe" title="Regelungs-PDF an der zitierten Seite"></iframe>
+    <div class="note" id="vnote" hidden></div>
+  </section>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const PAGE = 60;
+
+// Theme (optional convenience; page works without storage)
+const root = document.documentElement;
+try { const t = localStorage.getItem('certreq-theme'); if (t) root.dataset.theme = t; } catch(e) {}
+$('theme').onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('certreq-theme', root.dataset.theme); } catch(e) {}
+};
+
+const reqs = D.requirements.map((r, i) => ({...r, _i: i, _reg: r.source.regulation}));
+const hue = name => { let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+const regs = [...new Set(reqs.map(r => r._reg))].sort((a, b) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
+const counts = Object.fromEntries(regs.map(n => [n, reqs.filter(r => r._reg === n).length]));
+const enabled = new Set(regs);
+let shown = PAGE, selected = null, view = [];
+
+// Kopf
+const m = D.meta || {};
+const bits = [`Fall ${D.case_id}`, `${reqs.length} Anforderungen`, `${regs.length} Regelungen`];
+if (m.seconds != null) bits.push(`Lauf ${m.seconds} s`);
+if (m.git && m.git.commit) bits.push(`Stand ${m.git.commit}`);
+$('runinfo').textContent = bits.join(' · ');
+
+// Eingabe
+const c = D.case || {};
+if (c.spec || c.image) {
+  $('casesum').textContent = 'Eingabe: Spezifikation' + (c.image ? ' und Explosionszeichnung' : '');
+  $('spec').textContent = c.spec || '';
+  if (!c.spec) $('spec').hidden = true;
+  if (c.image) { $('img').src = c.image; $('img').hidden = false; }
+} else { $('casebox').hidden = true; }
+
+// Regelungen
+function renderRegs() {
+  const reasons = m.reasons || {};
+  $('reglist').innerHTML = regs.map(n => {
+    const why = reasons[n];
+    return `<label class="reg ${enabled.has(n) ? '' : 'off'}" style="--h:${hue(n)}" data-n="${esc(n)}">
+      <span class="dot"></span>
+      <span><span class="nm">${esc(n)}</span><br><span class="ti">${esc((D.titles || {})[n] || '')}</span></span>
+      <span class="ct">${counts[n]}</span>
+      ${why ? `<span class="why">${esc(why)}</span>` : ''}
+      <input type="checkbox" ${enabled.has(n) ? 'checked' : ''} hidden>
+    </label>`;
+  }).join('');
+}
+$('reglist').addEventListener('click', e => {
+  const l = e.target.closest('.reg'); if (!l) return;
+  e.preventDefault();
+  const n = l.dataset.n; enabled.has(n) ? enabled.delete(n) : enabled.add(n);
+  renderRegs(); refresh();
+});
+$('all').onclick = () => { regs.forEach(n => enabled.add(n)); renderRegs(); refresh(); };
+$('none').onclick = () => { enabled.clear(); renderRegs(); refresh(); };
+
+// Filter + Sortierung
+function refresh() {
+  const q = $('q').value.trim().toLowerCase();
+  const terms = q ? q.split(/\s+/) : [];
+  view = reqs.filter(r => {
+    if (!enabled.has(r._reg)) return false;
+    if (!terms.length) return true;
+    const hay = (r.text + ' ' + r._reg + ' ' + (r.source.paragraph || '') + ' s' + r.source.page + ' seite ' + r.source.page).toLowerCase();
+    return terms.every(t => hay.includes(t));
+  });
+  const s = $('sort').value;
+  if (s === 'reg') view.sort((a, b) => regs.indexOf(a._reg) - regs.indexOf(b._reg) || a.source.page - b.source.page || a._i - b._i);
+  else if (s === 'page') view.sort((a, b) => a.source.page - b.source.page || a._i - b._i);
+  else view.sort((a, b) => a._i - b._i);
+  shown = PAGE; render(terms);
+}
+
+function hl(text, terms) {
+  if (!terms.length) return esc(text);
+  const re = new RegExp('(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+  return text.split(re).map((p, i) => i % 2 ? '<mark>' + esc(p) + '</mark>' : esc(p)).join('');
+}
+
+function pdfHref(r) {
+  const byVer = (D.pdf || {})[r._reg] || {};
+  const f = byVer[r.source.version];
+  return f ? `${f}#page=${r.source.page}` : null;
+}
+
+function render(terms) {
+  const list = $('list');
+  const slice = view.slice(0, shown);
+  $('count').textContent = `${view.length} von ${reqs.length}`;
+  if (!view.length) { list.innerHTML = '<div class="empty">Keine Anforderungen für diese Auswahl.</div>'; $('more').hidden = true; return; }
+  list.innerHTML = slice.map(r => {
+    const s = r.source, href = pdfHref(r);
+    return `<article class="card ${selected === r.id ? 'sel' : ''}" style="--h:${hue(r._reg)}" data-i="${r._i}">
+      <div class="meta"><span class="badge">${esc(r._reg)}</span><span>Version ${esc(s.version)}</span><span>${esc(r.id)}</span></div>
+      <p class="txt">${hl(r.text, terms)}</p>
+      <div class="foot">
+        <span class="src">Quelle: <b>Seite ${s.page}</b>${s.paragraph ? ` · Absatz <b>${esc(s.paragraph)}</b>` : ''}</span>
+        ${href ? `<button class="btn primary" type="button" data-open="${r._i}">Quelle ansehen</button>
+                  <a class="ext" href="${esc(href)}" target="_blank" rel="noopener">PDF öffnen ↗</a>`
+               : '<span class="src">(PDF lokal nicht gefunden)</span>'}
+      </div>
+      ${r.test_case ? `<div class="tc"><b>Testfall:</b> ${esc(r.test_case)}</div>` : ''}
+    </article>`;
+  }).join('');
+  $('more').hidden = shown >= view.length;
+  $('more').textContent = `Mehr anzeigen (${Math.min(PAGE, view.length - shown)} von ${view.length - shown} übrig)`;
+}
+
+$('more').onclick = () => { shown += PAGE; render(currentTerms()); };
+const currentTerms = () => { const q = $('q').value.trim().toLowerCase(); return q ? q.split(/\s+/) : []; };
+let timer; $('q').oninput = () => { clearTimeout(timer); timer = setTimeout(refresh, 120); };
+$('sort').onchange = refresh;
+
+// Infinite scroll
+new IntersectionObserver(es => { if (es[0].isIntersecting && !$('more').hidden) $('more').click(); }, {rootMargin: '600px'}).observe($('more'));
+
+// Viewer
+$('list').addEventListener('click', e => {
+  const b = e.target.closest('[data-open]'); if (!b) return;
+  openViewer(reqs[+b.dataset.open]);
+});
+function openViewer(r) {
+  selected = r.id;
+  const href = pdfHref(r), s = r.source;
+  $('layout').classList.add('with-viewer');
+  $('vtitle').textContent = `${r._reg} v${s.version} · Seite ${s.page}${s.paragraph ? ' · Absatz ' + s.paragraph : ''}`;
+  $('vquote').textContent = r.text;
+  $('vopen').href = href;
+  $('vframe').hidden = false; $('vnote').hidden = true;
+  $('vframe').src = href;
+  render(currentTerms());
+}
+function closeViewer() {
+  selected = null; $('layout').classList.remove('with-viewer'); $('vframe').src = 'about:blank'; render(currentTerms());
+}
+$('vclose').onclick = closeViewer;
+addEventListener('keydown', e => { if (e.key === 'Escape' && selected) closeViewer(); });
+
+renderRegs(); refresh();
+</script>
+</body>
+</html>
