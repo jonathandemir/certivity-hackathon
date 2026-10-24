@@ -1,0 +1,6 @@
+Typ       erwartet geliefert Treffer  Recall Precision
+modified         6         8       6   1.000     0.750
+removed          1         2       1   1.000     0.500
+added           17        15      13   0.765     0.867
+all             24        25      20   0.833     0.800
+F2 gesamt: 0.826  (lokale Näherung: id bzw. Absatzlabel, nicht semantisch)
