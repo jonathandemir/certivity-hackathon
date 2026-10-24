@@ -68,59 +68,9 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 4. **B (Homsianer):** erledigt: Standard `run` = E022-hs (5 Prompt-Regeln); GTR-Teil I raus; R10-Appendices; Anthropic-Zugang hinter `CERTREQ_PROVIDER=anthropic` (Claude-Reihe E023–E031-hs-c, Claude-Richter geeicht: strict ≈ Plattform, AP10-K3-c). Verworfen: `vehicle` (E030-hs-c), `optional` (E035-hs-c), `complete` (E036-hs-c). Neutral hinter Schalter: `procedure`/`procedure2` (E031/E032/E034-hs-c). Streuung der Claude-Reihe ~0.007 (E033-hs-c). Prompt-Arbeit damit ausgereizt (LEARNINGS). Offen (klein, unter 0.01): Dubletten in Gold-Absätzen (Prio 2), R48 6.14.5 ohne Pflichtwort (Prio 4). **A (R4):** Die Git-Historie enthält einen Anthropic-Key (`.env`, Commits d3d3b7b/a87a74f, Datei gelöscht in 33ee39b): vor dem Öffnen des Repos muss er widerrufen sein, sonst Historie bereinigen (Force-Push nur nach Team-Entscheidung).
    **C (Demo):** `demo/server.py` MODES angepasst (abgesprochen über Homsianer): „best" = Standard von `run` (jetzt `--select llm2`), „fast" = `--select b0 --filters none --extract none` (sonst bräuchte fast nach der Umstellung einen Key). Bitte demo/README.md Zeile „Prüfungen" nachziehen.
    **C (Sub-Goal):** hochgeladen (A, 19:30/19:31): E037-am Flag-Recall 1.000, Precision 0.923, Change accuracy 0.957; **E038-am**
-   (`--refine llm`) 1.000 / 0.889 / **1.000** (Ledger E037-am-P, E038-am-P). Amiads lokaler Richter lag in der Richtung richtig.
-   Empfehlung Held-out: E038-Variante (Jury wertet Recall + Richtigkeit der Änderung; Unterschied ~1 Änderung), Lauf auf einem
-   Rechner mit Anthropic-Key; Ablauf PLAN „Sonntagsablauf“ (08:05, Upload über A). Entscheidung trifft C.
-   **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
-   **C:** Produkt steht: `demo/werkbank` startet lokalen Server + Werkbank (Prüfung starten mit Upload, Anforderungen prüfen mit PDF-Beleg und Review, Auswahl erklärt, Versionsvergleich, Export); 3D-Präsentation je Lauf unter `/present/<lauf>/` bzw. ohne Server `demo/run <fall>`. Alles in demo/README.md. Nächstes C: Pitch (AP9), Probelauf mit LLM-Key.
-   **A → C (Bildregionen, erledigt Sa abends):** `certreq run … --regions` legt in `.meta.json` `drawing_regions` ab:
-   `{image, width, height, spec_parts, parts: [{label, note, bbox: [x0, y0, x1, y1] in Pixeln (Ursprung oben links), spec_parts}]}`.
-   `label` = Beschriftung in der Zeichnung, `spec_parts` = zugeordnete Namen aus „Main Parts“ der Spec (gleiche Regel wie
-   `prepare.parse_spec`). Ändert die Abgabe nicht; ein Aufruf mehr (~20 s). Ohne Lauf: `python -m certreq.vision regions <fall>
-   --out r.json --draw kontrolle.png`. Dev-Zeichnung geprüft: alle 7 Teile richtig umrandet (gpt trennt die 3 Schrauben, Opus
-   fasst sie zusammen). `note` (Beschriftungstext) bleibt lokal: `eval --record` entfernt ihn (Lizenz).
-   **A → alle (nur Zeichnung, Sa abends):** Certivity hat die Dev-Zeichnung ersetzt (Paket 3bb9bbd, `scripts/setup` holt sie):
-   Teile mit Anforderungshinweisen beschriftet. Nur Zeichnung jetzt F2 0.691 (E043-a, 4/4 Regelungen) dank `--infer-category`
-   (Standard, wirkt nur ohne Spec); vorher R48 als Annahme verworfen (E042-a 0.608). Mit Spec bringt die Zeichnung nichts (E041-a).
-   Für die Demo (C): der Pfad „nur Zeichnung“ läuft mit dem Standard von `run` ohne Zusatzschalter.
-   **C (wichtig):** gpt-Guthaben fast leer → Werkbank/Demo mit `CERTREQ_PROVIDER=anthropic` starten, sonst scheitern „best“ und
-   die Zeichnungsanalyse am OpenAI-Key. Nur Zeichnung mit Opus: E044-a 0.655 (Claude-Richter), Regelungen 4/4.
-   **A/B → C (Werkbank):** erledigt: `certreq run` ohne Schalter = E022-hs (`--extract modal,llm,lists,tables,exempt,tests,modes`). `demo/server.py` „best" = `[]` folgt dem Standard automatisch (seit Homsianers MODES-Änderung, also jetzt auch `--select llm2` statt `llm`); „fast" bleibt B0 ohne Key. Neue Felder: `.meta.json` llm.rules (aktive Regeln), llm.usage.fallbacks (nur Anthropic).
-   **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
-   AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
-   Gold nimmt, ist unbekannt (beide behalten, F2 gewichtet Recall).
-   **B:** erledigt: GTR-Teil I (Begründung) fällt mit Filter `rationale` weg (in `--filters all`, also Standard); GTR 9: 214 → 176
-   Kandidaten, keiner mehr vor S. 71. Dev unverändert (nur GTR 9 betroffen).
-
-## Entscheidungen
-
-| Datum | Entscheidung | Warum | Wer |
-|---|---|---|---|
-| 2026-10-24 | Arbeitssystem nach AGENTS.md: alle auf main, Claims, LOG, LEDGER, Tests vor jedem Code-Push | Drei Leute + Agenten parallel; das Repo ist das einzige gemeinsame Gedächtnis | Jonathan |
-| 2026-10-24 | Alle arbeiten direkt auf main statt auf persönlichen Branches (ersetzt den ursprünglichen Plan) | Getrennte Dateien je Person, gegenseitige Abhängigkeiten (llm.py, Ausgaben für die Demo), weniger Git-Aufwand; Schutz durch Tests in sync und Schalter für neue Ansätze | Jonathan |
-| 2026-10-24 | Teilnehmerpaket und PDFs nur unter `vendor/` (gitignored), nie im Repo | LICENSE-DATA.md: keine Weitergabe; das Repo wird zur Abgabe geteilt | Jonathan |
-| 2026-10-24 | GitHub-Repo privat bis zur Abgabe; vor R4 Sichtbarkeit klären | Kein Zugriff Dritter während des Events | Jonathan |
-| 2026-10-24 | Aufteilung: A = Jonathan (AP2, AP10, AP5, LLM-Zugang, Uploads), B = Homsianer (AP3-Rest, AP4), C = Amiad (AP6, AP7, Pitch-Lead); So alle AP8 | Drei Stränge mit festen Dateigrenzen; B misst mit `--regs`, C arbeitet auf der JSON-Ausgabe, niemand wartet | Jonathan |
-| 2026-10-24 | LLM: OpenAI über `certreq/llm.py`, Modell `gpt-6.1-sol` für alles; Key in `.env.local` (gitignored) | Vorgabe Jonathan; Live-Test ok (Structured Output, ~3 s/Aufruf). Kein datierter Snapshot verfügbar, Cache hält Antworten reproduzierbar | Jonathan |
-| 2026-10-24 | Lokaler Richter (AP10) bewertet standardmäßig strikt | Gegenprobe: strict 0 echte Fehlurteile (5 Treffer = Duplikate in der Referenz), lenient 10 → 5,3 % falscher Recall. Eichung gegen Plattform mit E001-Upload | Jonathan |
-| 2026-10-24 | `certreq run` ohne Schalter = Bestmarke E020-a (`--filters all --extract modal,llm` als Standard) | E020-a/E016-a auf allen Ebenen besser als B0 und modal,split; Demo-Fallback ohne Key bleibt über explizites B0 (`--select b0 --filters none --extract none`, bytegleich zu E008-a) | Homsianer |
-| 2026-10-24 | `certreq run` ohne Schalter = E022-hs (alle 5 Prompt-Regeln) | in beiden Modellreihen besser als ohne Regeln (gpt E021-hs→E022-hs lenient +0.039, Claude E023-hs-c→E024-hs-c strict +0.024), Einzelmessung E025–E029-hs-c ohne schädliche Regel; neutrale Regeln (tests, exempt) bleiben, weil genau diese Kombination gemessen ist | Homsianer |
-| 2026-10-24 | **Held-out mit Opus 5.5** rechnen (`CERTREQ_PROVIDER=anthropic`, sonst Standard von `run`); lokaler Richter bleibt gpt; Ablauf: PLAN „Sonntagsablauf“ | Außerhalb von dev R175 +0.07, stabil (X-R175-C/C-rep vs B/B-rep); Auswahl-Test 9 statt 11 Fehlauswahlen (X-SEL-llm2-c). Auf dev im Mittel gleich (Opus 0.740 aus 4 Läufen, Spanne ±0.02; gpt 0.740 aus 2; E039-a/E040-a); das Plattform-Paar 0.762 vs 0.725 war teils Glück | Jonathan |
-| 2026-10-24 | **Kein gpt mehr (Guthaben fast leer):** lokaler Richter ab jetzt Claude strict (`CERTREQ_PROVIDER=anthropic … eval --judge strict`); Vergleiche nur unter demselben Richter (gpt-lenient-Werte nicht mit Claude-strict-Werten mischen); Fallback am Sonntag Fable 5.1 statt gpt | Claude strict lag bei E020-a bei 152 vs Plattform 154, unterschätzt Opus-Ausgaben (E024-hs-c 161 vs 170) → für Rangfolgen geeignet, nicht als Plattform-Prognose | Jonathan |
-| offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
-
-## Scoreboard
-
-Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R). Beleg = Datei unter experiments/runs/.
-
-| Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
-|---|---|---|---|---|---|---|---|---|---|
-| dev-rear-lamp | Regelungen | 0.667 | 1.000 | 0.909 | main@fd0820a (`--select llm2 --filters all --extract modal,llm`) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
-| dev-rear-lamp | Seiten | 0.746 | 1.000 | 0.936 | main@fd0820a (dto.) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
-| dev-rear-lamp | Anforderungen | 0.392 | 0.742 | 0.629 | main@fd0820a (dto.) | best-main-reqf2-0.629 | lokaler Richter strict (gpt-6.1-sol) | E020-a | 2026-10-24 16:05 |
-| dev-rear-lamp | Anforderungen | **0.428** | **0.811** | **0.687** | main@fd0820a (E020-a, team-12) | best-main-reqf2-0.629 | **Plattform** (Upload 16:15) | E020-a-P | 2026-10-24 16:15 |
-| dev-rear-lamp | Anforderungen | **0.478** | **0.895** | **0.762** | main@8c201e1 (E024-hs-c, `CERTREQ_PROVIDER=anthropic`, team-12) | best-main-platf2-0.762 | **Plattform** (Upload 18:08) | E024-hs-c-P | 2026-10-24 18:09 |
-| dev-rear-lamp | Anforderungen | 0.466 | 0.842 | 0.725 | main@72dbeab (E022-hs, gpt, team-12) | best-main-reqf2lenient-0.743 | Plattform (Upload 18:07) | E022-hs-P | 2026-10-24 18:07 |
-| subgoal-dev | Flags | 0.889 | **1.000** | – | main@b1a76b2 (E038-am, `--refine llm`) | – | **Plattform** (Change accuracy **1.000**) | E038-am-P | 2026-10-24 19:32 |
-| subgoal-dev | Flags | 0.923 | **1.000** | – | main@7a27996 (E037-am) | – | Plattform (Change accuracy 0.957) | E037-am-P | 2026-10-24 19:30 |
-| subgoal-dev | Flags | 0.760 | 0.792 | – | main@bc77252 (E003-am) | – | **Plattform** (Change accuracy 0.889) | E003-am-P | 2026-10-24 16:18 |
+   **C → A/B (bitte mit euren Credits prüfen, Amiads Kontingent ist leer), Beleg experiments/runs/X-GRAND-1/report.md:**
+   (1) Extraktion „ohne modes“: dev 0.698→0.715, R175 0.615→0.650 (je 1 Lauf, Claude strict). Widerspricht E031-a (gpt, dev −0.035 ohne modes) → 2 Wiederholungen ohne Cache auf dev + R175, dann ggf. Upload-Paar.
+   (2) Extraktion „+procedure2 +testcond“: dev 0.698→0.737, R175 0.615→0.610 (je 1 Lauf). Einzeln waren beide neutral (E032/E034, E041/E042) → Kombination wiederholen.
+   (3) Kombination ohne modes +procedure2 +testcond: ungetestet. Befehl: `CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --extract modal,llm,lists,tables,exempt,tests,procedure2,testcond`, dann Upload gegen Opus-Mittel 0.742.
+   (4) Auswahl-Zusatzregeln „Lichtquelle ≠ Leuchte“ + „Ersatzteil nur nach Ersatzteil-Regelung“ (Text in certreq/grand.py RULE_LIGHTSOURCE/RULE_REPLACEMENT): Suiten 0.960/0.926/0.909 → 1.000/0.962/1.000, Stoßfänger und dev unverändert → kann A in select.SYSTEM2 aufnehmen (kein Score-Effekt auf dev erwartet). NICHT übernehmen: Regel „Fahrzeug-Regelungen raus“ (verliert R127 am Stoßfänger).
+   Wiederholen: `.venv/bin/python -m certreq.grand [--only select|extract|subgoal]` (alles ≈ 10 M Tokens, extract allein ≈ 7 M).

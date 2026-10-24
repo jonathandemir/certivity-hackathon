@@ -1,0 +1,1819 @@
+{
+ "note": "certreq.grand in Amiads Cloud-Sitzung, Code = main@769a655 + subgoal --refine llm, Claude opus-5-5, je Variante 1 Lauf (Extraktion mit Cache, Richter Claude strict); Wiederholungen abgebrochen (Token-Limit)",
+ "model": "claude-opus-5-5",
+ "subgoal": [
+  {
+   "variant": "Standard (refine llm)",
+   "refine": "llm",
+   "modified_min": 0.55,
+   "recall": 1.0,
+   "precision": 0.8888888888888888,
+   "accuracy": 0.917
+  },
+  {
+   "variant": "Gegenteil: regelbasiert (none)",
+   "refine": "none",
+   "modified_min": 0.55,
+   "recall": 1.0,
+   "precision": 0.9230769230769231,
+   "accuracy": 0.833
+  },
+  {
+   "variant": "llm-all (auch modified per LLM)",
+   "refine": "llm-all",
+   "modified_min": 0.55,
+   "recall": 1.0,
+   "precision": 0.8888888888888888,
+   "accuracy": 0.875
+  },
+  {
+   "variant": "Ähnlichkeit 0.45",
+   "refine": "llm",
+   "modified_min": 0.45,
+   "recall": 1.0,
+   "precision": 0.8888888888888888,
+   "accuracy": 0.917
+  },
+  {
+   "variant": "Ähnlichkeit 0.65",
+   "refine": "llm",
+   "modified_min": 0.65,
+   "recall": 0.9583333333333334,
+   "precision": 0.7666666666666667,
+   "accuracy": 0.875
+  }
+ ],
+ "select": [
+  {
+   "variant": "Standard llm2",
+   "mode": "llm2",
+   "guidance": "",
+   "seconds": 9,
+   "real-tune": {
+    "precision": 0.8276,
+    "recall": 1.0,
+    "f2": 0.96,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 5,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 15
+   },
+   "synth": {
+    "precision": 0.7143,
+    "recall": 1.0,
+    "f2": 0.9259,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 8,
+    "traps_taken": 3,
+    "components": 10,
+    "components_exact": 5
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R137",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148",
+       "UN R48"
+      ]
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R127",
+       "UN R26"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/windscreen": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     },
+     "synth/airbag-module": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/akrapovic-exhaust-yamaha-yzf-r125": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {},
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "Gegenteil: llm (ohne Annahme-/Fahrzeugfilter)",
+   "mode": "llm",
+   "guidance": "",
+   "seconds": 104,
+   "real-tune": {
+    "precision": 0.7059,
+    "recall": 1.0,
+    "f2": 0.9231,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 10,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 11
+   },
+   "synth": {
+    "precision": 0.625,
+    "recall": 1.0,
+    "f2": 0.8929,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 12,
+    "traps_taken": 2,
+    "components": 10,
+    "components_exact": 3
+   },
+   "holdout": {
+    "precision": 0.6667,
+    "recall": 0.9091,
+    "f2": 0.8475,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 5,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 7
+   },
+   "bumper": {
+    "precision": 0.625,
+    "recall": 1.0,
+    "f2": 0.8929,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 3,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R128",
+    "UN R149",
+    "UN R152",
+    "UN R171",
+    "UN R175",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/osram-ledriving-curved-lightbar-vx1000": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     },
+     "real/osram-ledriving-px5-drl": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     },
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148",
+       "UN R48"
+      ]
+     },
+     "real/teltonika-fmb150-tracker": {
+      "missing": [],
+      "wrong": [
+       "UN R155"
+      ]
+     },
+     "real/valtek-type30-lpg-injector-rail": {
+      "missing": [],
+      "wrong": [
+       "UN R49",
+       "UN R83"
+      ]
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R127",
+       "UN R26",
+       "UN R42"
+      ]
+     },
+     "synth/rear-bumper": {
+      "missing": [],
+      "wrong": [
+       "UN R175"
+      ]
+     },
+     "synth/aebs-radar": {
+      "missing": [],
+      "wrong": [
+       "UN R127"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/seatbelt-reminder": {
+      "missing": [],
+      "wrong": [
+       "UN R155",
+       "UN R156"
+      ]
+     },
+     "synth/airbag-module": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/akrapovic-exhaust-yamaha-yzf-r125": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/hella-83mm-led-rear-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R53"
+      ]
+     },
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": [
+       "UN R155",
+       "UN R156",
+       "UN R48"
+      ]
+     }
+    },
+    "bumper": {
+     "guard/front-bumper": {
+      "missing": [],
+      "wrong": [
+       "UN R128",
+       "UN R171",
+       "UN R175"
+      ]
+     }
+    },
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "Arena Lauf 1 (alle Regeln)",
+   "mode": "llm2",
+   "guidance": "1. Select only regulations under which the component itself, or its installation on the vehicle, is approved. Do not select whole-vehicle regulations whose test object is the complete vehicle. These include frontal impact (R94, R137), side impact (R95, R135), external projections (R26), pedestrian safety (R127) and rear impact or fuel-system integrity. Their only link to the component is that it contributes to the vehicle's crash or projection performance. Select them only when the specification states the item is a separate technical unit or system approved under that regulation, or explicitly requests vehicle-type approval.\n2. Do not select regulations that govern a neighbouring object the component feeds, is fitted into, or merely activates. Three cases apply:\n(a) A light source (filament, gas-discharge or LED replacement lamp) is approved only under its light-source regulation (R37, R99, R128). Do not select the regulations for the lamps it is used in (e.g. R148, R149), the lighting-installation regulation (R48), or EMC (R10).\n(b) A system that only uses existing vehicle lamps or signals, such as flashing the direction indicators, does not bring in R48 or lamp regulations.\n(c) A replacement or aftermarket part with its own replacement-part regulation is approved under that regulation only. Examples are replacement silencing systems (R59, R92), replacement catalytic converters (R103) and replacement brake parts (R90). Do not add the vehicle-level emission or noise regulations (e.g. R40, R41, R47, R51, R83) whose limits the part must preserve, unless the specification explicitly requests vehicle approval.",
+   "seconds": 0,
+   "real-tune": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 18
+   },
+   "synth": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 10
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 10
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f2": 0.8333,
+    "hits": 4,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "dev": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "bumper_selected": [
+    "UN R10",
+    "UN R149",
+    "UN R42",
+    "UN R48"
+   ],
+   "bumper_missing": [
+    "UN R127"
+   ],
+   "errors": {
+    "real-tune": {},
+    "synth": {},
+    "holdout": {},
+    "bumper": {
+     "guard/front-bumper": {
+      "missing": [
+       "UN R127"
+      ],
+      "wrong": []
+     }
+    },
+    "dev": {}
+   }
+  },
+  {
+   "variant": "Arena Lauf 2 (Runde 3)",
+   "mode": "llm2",
+   "guidance": "1. Separate vehicle-level regulations from component-level ones. Some regulations approve only a complete vehicle type. Examples: frontal and offset impact (R94, R137), side impact (R95), pedestrian protection (R127), external projections (R26), and vehicle exhaust emissions or noise of the whole vehicle type (e.g. R40 for motorcycle emissions). Do not select such a regulation just because the component influences or is checked during that vehicle test. Select it only in two cases. (a) It explicitly provides approval for the component itself as a component or separate technical unit, and the specified part falls within that scope. (b) The spec explicitly lists, as a function of the component, the specific protection that the regulation assesses, and the component is the dedicated vehicle structure that delivers it for the stated vehicle category. Example of (b): a front-end module whose stated function includes pedestrian lower-leg protection or low-speed impact protection; select the corresponding protection regulations. Being merely mounted on, near or inside such a structure, or being tested along with it, does not qualify. Aftermarket or replacement parts are approved under their dedicated component or replacement-part regulation, not under the vehicle-type regulation of the vehicle they fit.",
+   "seconds": 0,
+   "real-tune": {
+    "precision": 0.9231,
+    "recall": 1.0,
+    "f2": 0.9836,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 2,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 17
+   },
+   "synth": {
+    "precision": 0.8696,
+    "recall": 1.0,
+    "f2": 0.9709,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 3,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 0.9091,
+    "f2": 0.9259,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148"
+      ]
+     }
+    },
+    "synth": {
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {},
+    "dev": {}
+   }
+  },
+  {
+   "variant": "nur Regel Fahrzeugebene raus",
+   "mode": "llm2",
+   "guidance": "Select only regulations under which the component itself, or its installation on the vehicle, is approved. Do not select whole-vehicle regulations whose test object is the complete vehicle (frontal or side impact, external projections, pedestrian safety, rear impact) merely because the component contributes to that test; select them only when the specification states the component is approved under that regulation or explicitly requests vehicle-type approval.",
+   "seconds": 111,
+   "real-tune": {
+    "precision": 0.8276,
+    "recall": 1.0,
+    "f2": 0.96,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 5,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 15
+   },
+   "synth": {
+    "precision": 0.9524,
+    "recall": 1.0,
+    "f2": 0.9901,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "holdout": {
+    "precision": 0.9167,
+    "recall": 1.0,
+    "f2": 0.9821,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f2": 0.8333,
+    "hits": 4,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "dev": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "bumper_selected": [
+    "UN R10",
+    "UN R149",
+    "UN R42",
+    "UN R48"
+   ],
+   "bumper_missing": [
+    "UN R127"
+   ],
+   "errors": {
+    "real-tune": {
+     "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148",
+       "UN R48"
+      ]
+     }
+    },
+    "synth": {
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     }
+    },
+    "holdout": {
+     "real/akrapovic-exhaust-yamaha-yzf-r125": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     }
+    },
+    "bumper": {
+     "guard/front-bumper": {
+      "missing": [
+       "UN R127"
+      ],
+      "wrong": []
+     }
+    },
+    "dev": {}
+   }
+  },
+  {
+   "variant": "nur Regel Lichtquelle ≠ Leuchte",
+   "mode": "llm2",
+   "guidance": "A light source (filament, gas-discharge or LED replacement lamp) is approved only under its light-source regulation (R37, R99, R128). Do not select the regulations for the lamps it is used in, the lighting-installation regulation (R48) or EMC (R10).",
+   "seconds": 124,
+   "real-tune": {
+    "precision": 0.9231,
+    "recall": 1.0,
+    "f2": 0.9836,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 2,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 16
+   },
+   "synth": {
+    "precision": 0.7692,
+    "recall": 1.0,
+    "f2": 0.9434,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 6,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 7
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R137",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R127",
+       "UN R26",
+       "UN R42"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/akrapovic-exhaust-yamaha-yzf-r125": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {},
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "nur Regel Ersatzteil",
+   "mode": "llm2",
+   "guidance": "A replacement or aftermarket part with its own replacement-part regulation (e.g. replacement silencing systems R92, replacement pollution control devices R103) is approved under that regulation only. Do not add the vehicle-level emission or noise regulations whose limits the part must preserve.",
+   "seconds": 122,
+   "real-tune": {
+    "precision": 0.8889,
+    "recall": 1.0,
+    "f2": 0.9756,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 3,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 17
+   },
+   "synth": {
+    "precision": 0.8333,
+    "recall": 1.0,
+    "f2": 0.9615,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 4,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 7
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 0.9091,
+    "f2": 0.9259,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148",
+       "UN R48"
+      ]
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {},
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "Lichtquelle + Ersatzteil",
+   "mode": "llm2",
+   "guidance": "A light source (filament, gas-discharge or LED replacement lamp) is approved only under its light-source regulation (R37, R99, R128). Do not select the regulations for the lamps it is used in, the lighting-installation regulation (R48) or EMC (R10).\nA replacement or aftermarket part with its own replacement-part regulation (e.g. replacement silencing systems R92, replacement pollution control devices R103) is approved under that regulation only. Do not add the vehicle-level emission or noise regulations whose limits the part must preserve.",
+   "seconds": 120,
+   "real-tune": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 18
+   },
+   "synth": {
+    "precision": 0.8333,
+    "recall": 1.0,
+    "f2": 0.9615,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 4,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 7
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 10
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {},
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {},
+    "bumper": {},
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "Gegenteil: im Zweifel aufnehmen",
+   "mode": "llm2",
+   "guidance": "When in doubt, include. A regulation whose vehicle tests or installation rules are influenced by the component (crash and pedestrian tests of the structure it forms, external projections, lighting installation, EMC of electronics on or near it) applies to the component. Missing a regulation costs far more than an extra one.",
+   "seconds": 132,
+   "real-tune": {
+    "precision": 0.75,
+    "recall": 1.0,
+    "f2": 0.9375,
+    "hits": 24,
+    "missing": 0,
+    "wrong": 8,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 14
+   },
+   "synth": {
+    "precision": 0.5714,
+    "recall": 1.0,
+    "f2": 0.8696,
+    "hits": 20,
+    "missing": 0,
+    "wrong": 15,
+    "traps_taken": 3,
+    "components": 10,
+    "components_exact": 4
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 5,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 1
+   },
+   "dev": {
+    "precision": 0.8,
+    "recall": 1.0,
+    "f2": 0.9524,
+    "hits": 4,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R137",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48",
+    "UN R94"
+   ],
+   "bumper_missing": [],
+   "errors": {
+    "real-tune": {
+     "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/osram-ledriving-curved-lightbar-vx1000": {
+      "missing": [],
+      "wrong": [
+       "UN GTR 9",
+       "UN R127",
+       "UN R26"
+      ]
+     },
+     "real/osram-night-breaker-led-c5w-ece": {
+      "missing": [],
+      "wrong": [
+       "UN R10",
+       "UN R148",
+       "UN R48"
+      ]
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN GTR 9",
+       "UN R127",
+       "UN R26",
+       "UN R42"
+      ]
+     },
+     "synth/aebs-radar": {
+      "missing": [],
+      "wrong": [
+       "UN R127",
+       "UN R26",
+       "UN R42"
+      ]
+     },
+     "synth/alarm-system": {
+      "missing": [],
+      "wrong": [
+       "UN R48"
+      ]
+     },
+     "synth/windscreen": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R26",
+       "UN R94"
+      ]
+     },
+     "synth/airbag-module": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     },
+     "synth/eps-steering": {
+      "missing": [],
+      "wrong": [
+       "UN R137",
+       "UN R94"
+      ]
+     }
+    },
+    "holdout": {
+     "real/akrapovic-exhaust-yamaha-yzf-r125": {
+      "missing": [],
+      "wrong": [
+       "UN R40"
+      ]
+     },
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {},
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [],
+      "wrong": [
+       "UN R26"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "variant": "Gegenteil: kleinste Menge",
+   "mode": "llm2",
+   "guidance": "Select the smallest set: only the regulation that approves the component itself. Never add installation, EMC or vehicle-level regulations unless the specification names them.",
+   "seconds": 67,
+   "real-tune": {
+    "precision": 1.0,
+    "recall": 0.75,
+    "f2": 0.7895,
+    "hits": 18,
+    "missing": 6,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 18,
+    "components_exact": 12
+   },
+   "synth": {
+    "precision": 1.0,
+    "recall": 0.55,
+    "f2": 0.6044,
+    "hits": 11,
+    "missing": 9,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 3
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 0.6364,
+    "f2": 0.6863,
+    "hits": 7,
+    "missing": 4,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 6
+   },
+   "bumper": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f2": 0.8333,
+    "hits": 4,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "dev": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f2": 0.5556,
+    "hits": 2,
+    "missing": 2,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 1,
+    "components_exact": 0
+   },
+   "bumper_selected": [
+    "UN R127",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48"
+   ],
+   "bumper_missing": [
+    "UN R10"
+   ],
+   "errors": {
+    "real-tune": {
+     "real/hella-eco18-led-reversing-lamp": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/hella-euroled-rear-direction-indicator": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/hella-led-fog-lamp-r80": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/hella-led-headlamp-1ef328550": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/hella-led-number-plate-lamp": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/hella-led-rear-combination-lamp-number-plate": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     }
+    },
+    "synth": {
+     "synth/front-fog-lamp": {
+      "missing": [
+       "UN R10",
+       "UN R48"
+      ],
+      "wrong": []
+     },
+     "synth/rear-bumper": {
+      "missing": [
+       "UN R10",
+       "UN R48"
+      ],
+      "wrong": []
+     },
+     "synth/aebs-radar": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "synth/alarm-system": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "synth/seatbelt-reminder": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "synth/eps-steering": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "synth/contour-marking": {
+      "missing": [
+       "UN R48"
+      ],
+      "wrong": []
+     }
+    },
+    "holdout": {
+     "real/3m-diamond-grade-983-conspicuity-marking": {
+      "missing": [
+       "UN R48"
+      ],
+      "wrong": []
+     },
+     "real/hella-83mm-led-rear-fog-lamp": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/osram-lightbar-vx180-sp": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     },
+     "real/tesla-model3-alarm-immobiliser": {
+      "missing": [
+       "UN R116"
+      ],
+      "wrong": []
+     }
+    },
+    "bumper": {
+     "guard/front-bumper": {
+      "missing": [
+       "UN R10"
+      ],
+      "wrong": []
+     }
+    },
+    "dev": {
+     "certivity/dev-rear-lamp": {
+      "missing": [
+       "UN R10",
+       "UN R48"
+      ],
+      "wrong": []
+     }
+    }
+   }
+  }
+ ],
+ "extract": [
+  {
+   "variant": "Standard",
+   "bench": "dev",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4313,
+   "recall": 0.8263,
+   "f1": 0.5668,
+   "f2": 0.6984,
+   "n_submitted": 364,
+   "n_expected": 190,
+   "n_matched": 157,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "56/63",
+    "UN R150": "32/39",
+    "UN R48": "39/56"
+   }
+  },
+  {
+   "variant": "Standard",
+   "bench": "r175",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4685,
+   "recall": 0.6667,
+   "f1": 0.5503,
+   "f2": 0.6147,
+   "n_submitted": 111,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  },
+  {
+   "variant": "Gegenteil: keine Prompt-Regeln (modal,llm)",
+   "bench": "dev",
+   "filters": "all",
+   "extract": "modal,llm",
+   "precision": 0.474,
+   "recall": 0.7684,
+   "f1": 0.5863,
+   "f2": 0.6835,
+   "n_submitted": 308,
+   "n_expected": 190,
+   "n_matched": 146,
+   "recall_by_regulation": {
+    "UN R10": "17/32",
+    "UN R148": "55/63",
+    "UN R150": "32/39",
+    "UN R48": "42/56"
+   }
+  },
+  {
+   "variant": "Gegenteil: keine Prompt-Regeln (modal,llm)",
+   "bench": "r175",
+   "filters": "all",
+   "extract": "modal,llm",
+   "precision": 0.5361,
+   "recall": 0.6667,
+   "f1": 0.5943,
+   "f2": 0.6357,
+   "n_submitted": 97,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  },
+  {
+   "variant": "ohne modes",
+   "bench": "dev",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests",
+   "precision": 0.4188,
+   "recall": 0.8684,
+   "f1": 0.5651,
+   "f2": 0.7149,
+   "n_submitted": 394,
+   "n_expected": 190,
+   "n_matched": 165,
+   "recall_by_regulation": {
+    "UN R10": "31/32",
+    "UN R148": "58/63",
+    "UN R150": "35/39",
+    "UN R48": "41/56"
+   }
+  },
+  {
+   "variant": "ohne modes",
+   "bench": "r175",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests",
+   "precision": 0.4328,
+   "recall": 0.7436,
+   "f1": 0.5472,
+   "f2": 0.6502,
+   "n_submitted": 134,
+   "n_expected": 78,
+   "n_matched": 58,
+   "recall_by_regulation": {
+    "UN R175": "58/78"
+   }
+  },
+  {
+   "variant": "+procedure2 +testcond",
+   "bench": "dev",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes,procedure2,testcond",
+   "precision": 0.4779,
+   "recall": 0.8526,
+   "f1": 0.6125,
+   "f2": 0.737,
+   "n_submitted": 339,
+   "n_expected": 190,
+   "n_matched": 162,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "58/63",
+    "UN R150": "34/39",
+    "UN R48": "40/56"
+   }
+  },
+  {
+   "variant": "+procedure2 +testcond",
+   "bench": "r175",
+   "filters": "all",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes,procedure2,testcond",
+   "precision": 0.4561,
+   "recall": 0.6667,
+   "f1": 0.5417,
+   "f2": 0.6103,
+   "n_submitted": 114,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  },
+  {
+   "variant": "Gegenteil: keine Filter",
+   "bench": "dev",
+   "filters": "none",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.3446,
+   "recall": 0.8579,
+   "f1": 0.4917,
+   "f2": 0.661,
+   "n_submitted": 473,
+   "n_expected": 190,
+   "n_matched": 163,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "58/63",
+    "UN R150": "33/39",
+    "UN R48": "42/56"
+   }
+  },
+  {
+   "variant": "Gegenteil: keine Filter",
+   "bench": "r175",
+   "filters": "none",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4576,
+   "recall": 0.6923,
+   "f1": 0.551,
+   "f2": 0.6279,
+   "n_submitted": 118,
+   "n_expected": 78,
+   "n_matched": 54,
+   "recall_by_regulation": {
+    "UN R175": "54/78"
+   }
+  },
+  {
+   "variant": "ohne Filter admin",
+   "bench": "dev",
+   "filters": "cop,parts,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4239,
+   "recall": 0.8211,
+   "f1": 0.5591,
+   "f2": 0.6915,
+   "n_submitted": 368,
+   "n_expected": 190,
+   "n_matched": 156,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "55/63",
+    "UN R150": "29/39",
+    "UN R48": "42/56"
+   }
+  },
+  {
+   "variant": "ohne Filter admin",
+   "bench": "r175",
+   "filters": "cop,parts,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4,
+   "recall": 0.7179,
+   "f1": 0.5138,
+   "f2": 0.6195,
+   "n_submitted": 140,
+   "n_expected": 78,
+   "n_matched": 56,
+   "recall_by_regulation": {
+    "UN R175": "56/78"
+   }
+  },
+  {
+   "variant": "ohne Filter cop",
+   "bench": "dev",
+   "filters": "admin,parts,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.3852,
+   "recall": 0.8211,
+   "f1": 0.5244,
+   "f2": 0.6695,
+   "n_submitted": 405,
+   "n_expected": 190,
+   "n_matched": 156,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "54/63",
+    "UN R150": "33/39",
+    "UN R48": "39/56"
+   }
+  },
+  {
+   "variant": "ohne Filter cop",
+   "bench": "r175",
+   "filters": "admin,parts,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4775,
+   "recall": 0.6795,
+   "f1": 0.5608,
+   "f2": 0.6265,
+   "n_submitted": 111,
+   "n_expected": 78,
+   "n_matched": 53,
+   "recall_by_regulation": {
+    "UN R175": "53/78"
+   }
+  },
+  {
+   "variant": "ohne Filter parts",
+   "bench": "dev",
+   "filters": "admin,cop,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4092,
+   "recall": 0.8421,
+   "f1": 0.5508,
+   "f2": 0.695,
+   "n_submitted": 391,
+   "n_expected": 190,
+   "n_matched": 160,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "55/63",
+    "UN R150": "35/39",
+    "UN R48": "40/56"
+   }
+  },
+  {
+   "variant": "ohne Filter parts",
+   "bench": "r175",
+   "filters": "admin,cop,esa,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4685,
+   "recall": 0.6667,
+   "f1": 0.5503,
+   "f2": 0.6147,
+   "n_submitted": 111,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  },
+  {
+   "variant": "ohne Filter esa",
+   "bench": "dev",
+   "filters": "admin,cop,parts,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4232,
+   "recall": 0.8263,
+   "f1": 0.5597,
+   "f2": 0.6941,
+   "n_submitted": 371,
+   "n_expected": 190,
+   "n_matched": 157,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "56/63",
+    "UN R150": "32/39",
+    "UN R48": "39/56"
+   }
+  },
+  {
+   "variant": "ohne Filter esa",
+   "bench": "r175",
+   "filters": "admin,cop,parts,rationale",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4685,
+   "recall": 0.6667,
+   "f1": 0.5503,
+   "f2": 0.6147,
+   "n_submitted": 111,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  },
+  {
+   "variant": "ohne Filter rationale",
+   "bench": "dev",
+   "filters": "admin,cop,parts,esa",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4313,
+   "recall": 0.8263,
+   "f1": 0.5668,
+   "f2": 0.6984,
+   "n_submitted": 364,
+   "n_expected": 190,
+   "n_matched": 157,
+   "recall_by_regulation": {
+    "UN R10": "30/32",
+    "UN R148": "56/63",
+    "UN R150": "32/39",
+    "UN R48": "39/56"
+   }
+  },
+  {
+   "variant": "ohne Filter rationale",
+   "bench": "r175",
+   "filters": "admin,cop,parts,esa",
+   "extract": "modal,llm,lists,tables,exempt,tests,modes",
+   "precision": 0.4685,
+   "recall": 0.6667,
+   "f1": 0.5503,
+   "f2": 0.6147,
+   "n_submitted": 111,
+   "n_expected": 78,
+   "n_matched": 52,
+   "recall_by_regulation": {
+    "UN R175": "52/78"
+   }
+  }
+ ]
+}
