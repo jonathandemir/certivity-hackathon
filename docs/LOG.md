@@ -647,3 +647,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 22:02:24 +0200 | [change] Pitch Folie 6: Kosten/Zeit-Karte ersetzt durch 20/20 | Jonathan @ MacBook-Pro-von-Jonathan | main@37cead8 +lokale Änderungen
 - Auf Wunsch von Jonathan ohne Geld/Zeit (bei uns schwach). Erste Karte jetzt 20/20 rules found on 10 new parts (Auswahl-Test X-SEL-llm2/X-SEL-llm2-c: alle 20 sicheren Regelungen, Lösungen vorab festgelegt); Quellenzeile angepasst.
 - PDF 6 Seiten, Seite 6 ersetzt, Textebene geprüft; Folie optisch geprüft.
+
+### 2026-10-25 00:45:01 +0200 | [change] Werkbank produktzentriert + 3D-Heckleuchte | Amiad @ claude | main@95d359f
+- main@331f5e5: 41 Produkte je genau einmal, nur bestes Ergebnis (Plattform-F2 > lokaler F2 > Auswahl-F2 > jüngster Lauf); Läufe-Liste weg, Upload als Dialog; Überblick der Heckleuchte als 3D-Modell nach Explosionszeichnung (Skizze/Render).
