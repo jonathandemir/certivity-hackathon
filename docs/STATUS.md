@@ -15,9 +15,11 @@ Team-ID der Certivity-Plattform: noch nicht registriert.
 
 | Name | Branch | Rechner | Fokus |
 |---|---|---|---|
-| Jonathan Demir | jonathan | MacBook-Pro-von-Jonathan | offen |
+| Jonathan Demir (A) | jonathan | MacBook-Pro-von-Jonathan | AP2 Auswahl, AP10 Richter, AP5 Vision, LLM-Zugang, Uploads |
+| Homsianer (B) | homsianer | – | AP3-Rest Gliederung/Tabellen, AP4 Relevanzfilter + Zerlegung |
+| Amiad (C) | amiad | – | AP6 Demo, AP7 Sub-Goal, AP9 Pitch-Lead |
 
-Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von `scripts/setup <vorname>`.
+Branch entsteht mit `scripts/setup <branch>`; „Rechner" trägt jeder danach selbst ein. Details: docs/PLAN.md „Aufteilung".
 
 ## Claims
 
@@ -26,12 +28,14 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 
 ## Nächste Schritte
 
-1. Jonathan: Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo).
-2. Jonathan (AP1-Rest): E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Datei neu erzeugen:
+1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
+   Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
+2. **Jonathan (A):** LLM-Modell und API-Key festlegen (Key in `.env`, gitignored), `certreq/llm.py` für alle bereitstellen.
+3. **Jonathan (A, AP1-Rest):** E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Datei neu erzeugen:
    `CERTIVITY_TEAM_ID=<id> .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp`
    (gleicher Commit wie E001, nur `team_id` anders). E002 nicht hochladen: nutzt Gold-Wissen, verfälscht das Dev-Leaderboard.
-3. Teammitglieder: Repo-Zugang, `scripts/setup <vorname>`, venv (README), Zeile unter „Team".
-4. AP2 (Regelungsauswahl) zuerst: B0 verfehlt UN R10 und nimmt 18 falsche Regelungen (E001). Danach AP4 (Precision).
+4. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup homsianer` bzw. `scripts/setup amiad`, venv (README),
+   „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 
 ## Entscheidungen
 
@@ -42,6 +46,8 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 | 2026-10-24 | Teilnehmerpaket und PDFs nur unter `vendor/` (gitignored), nie im Repo | LICENSE-DATA.md: keine Weitergabe; das Repo wird zur Abgabe geteilt | Jonathan |
 | 2026-10-24 | GitHub-Repo privat bis zur Abgabe; vor R4 Sichtbarkeit klären | Kein Zugriff Dritter während des Events | Jonathan |
 | 2026-10-24 | AP1-Gerüst schon jetzt nach main gemergt (nicht erst vor der Deadline) | Alle Branches brauchen dieselbe Basis für AP2–AP7; `scripts/sync` merged main automatisch mit. Die finale beste Version kommt trotzdem vor der Deadline nach main | Jonathan |
+| 2026-10-24 | Aufteilung: A = Jonathan (AP2, AP10, AP5, LLM-Zugang, Uploads), B = Homsianer (AP3-Rest, AP4), C = Amiad (AP6, AP7, Pitch-Lead); So alle AP8 | Drei unabhängige Stränge mit festen Dateigrenzen; B misst mit `--regs`, C arbeitet auf der JSON-Ausgabe, niemand wartet | Jonathan |
+| offen | LLM-Modell und API-Key | Nötig für AP2, AP4, AP7, AP10 | A |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 
 ## Scoreboard
