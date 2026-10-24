@@ -1,0 +1,64 @@
+{
+ "case_id": "acpe",
+ "command": "python -m certreq run experiments/synthetic/acpe --regs UN R175 --vision off --out out/x-r175/B.json",
+ "git": {
+  "commit": "main@c1d0d1d",
+  "full_hash": "c1d0d1d15d9664161aa9f0af9cf22948463d8e41",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R175"
+ ],
+ "forced": true,
+ "select_mode": "llm2",
+ "selection": [],
+ "vision_mode": "off",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 7,
+  "paragraphs": 80,
+  "kept": 43,
+  "dropped": 37,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 7,
+   "cached": 0,
+   "prompt_tokens": 18570,
+   "completion_tokens": 7525
+  }
+ },
+ "n_requirements": 77,
+ "seconds": 35.2,
+ "created_at": "2026-10-24T18:32:45+02:00",
+ "run_id": "X-R175-B",
+ "note": "Überanpassungs-Test: R175 vorgegeben, Referenz requirements_old (94), Extraktion Standard mit 5 Regeln (E022-hs)",
+ "submission_sha256": "98bec4591204bab1968c7ddde1ebb1e3923f6aca5599c853b3eec953a61e620b",
+ "recorded_at": "2026-10-24T18:34:02+02:00"
+}

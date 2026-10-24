@@ -5,6 +5,17 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Zweiter Maßstab gegen Überanpassung: R175 mit Certivitys `requirements_old.json`.** Beleg: X-R175-A/B
+  (main@c1d0d1d). `subgoal/dev/old.pdf` ist byte-gleich mit `UN_R175_base.pdf`; `requirements_old.json` sind 94
+  Anforderungen von Certivity im Gold-Stil auf einer Regelung, die wir fürs Hauptziel nie benutzt haben. Mit vorgegebener
+  Regelung (`--regs "UN R175"`, synthetische Spec `experiments/synthetic/acpe/`) und gpt-Richter: Abschnitte 5–6 lenient
+  0.60 ohne, 0.58 mit den 5 Prompt-Regeln (dev: +0.04 mit). Konsequenz: (1) Der Regel-Gewinn überträgt sich nicht
+  nachweisbar; Held-out-Score eher deutlich unter dev 0.76 erwarten. (2) Jede Änderung an Extraktion/Filtern zusätzlich auf
+  R175 messen (Befehle: LOG [run] X-R175); nur übernehmen, wenn sie dort nicht verliert. (3) Vorsicht beim Vergleich der
+  absoluten Werte: die Liste deckt die ganze Regelung ab (auch Varianten wie kraftbasierte Auslösung und
+  Verwaltungsabschnitte 3/4/7/8), das Hauptziel-Gold ist bauteilbezogen. **Für den Stoßfänger plausibel?** Ja, als
+  Gegenprobe: R127/GTR 9 sind wie R175 prüflastig und haben Hersteller-Pflichten (erklären, nachweisen); auf R175 fehlen
+  uns genau die (15 der 33 Fehlenden), auf dev fanden wir alle 18 dieser Art.
 - **2026-10-24 · Die Claude-Reihe streut wenig (~0.01 F2 je Lauf), Prüfablauf-Regeln bringen netto nichts.** Beleg: E024-hs-c 0.721 vs Wiederholung E033-hs-c 0.714 (ohne Cache, gleiche Regelungen, neuer Richter); procedure2 E032/E034-hs-c 0.721/0.721. procedure (E031-hs-c) bzw. procedure2 senken die Abgabe um 20–60 Anforderungen bei gleichem F2: das Gold enthält etwa so viele Prüfablauf-Pflichten, wie die Regel wegnimmt. Konsequenz: Precision-Gewinne über weitere Prompt-Verbote sind ausgereizt; Unterschiede unter 0.01 in der Claude-Reihe sind Rauschen.
 - **2026-10-24 · Prompt-Regeln modes und tables tragen den Gewinn der Zusatzregeln, in beiden Modellen.** Beleg: Bündel (lists, tables, exempt, tests, modes) gpt E021-hs→E022-hs lenient 0.704→0.743, Claude E023-hs-c→E024-hs-c strict 0.697→0.721; je eine weggelassen (E025–E029-hs-c, main@8c201e1): ohne modes 0.695, ohne tables 0.690 (R10 29→22), ohne lists 0.709, ohne tests 0.719, ohne exempt 0.722. Konsequenz: Standard von `run` seit 2026-10-24 mit allen fünf. **Für den Stoßfänger plausibel?** Ja: tables betrifft R10-Prüfpegel (Sensoren/Elektronik im Stoßfänger), modes verwirft Betriebsarten, die die Spec nicht hat; beide ohne Leuchten-Bezug formuliert.
 - **2026-10-24 · Rechner im Team laufen in verschiedenen Zeitzonen.** Beleg: LOG-Einträge von Homsianer (VM) und Amiad
