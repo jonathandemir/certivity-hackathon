@@ -535,3 +535,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:49:50 +0200 | [change] experiments/real-parts: 28 echte Teile, aufgeteilt in tune (18) und holdout (10) | Amiad @ claude | main@cce7757 +lokale Änderungen
 - Neu u. a. Osram DRL/Lightbars/C5W-LED (R37), 3M 983 Konturmarkierung (R104→R150 + R48 laut 3M), 2 weitere Akrapovič-Genehmigungen (92R), Hella Seitenmarkierung/Kennzeichen/Nebelschluss/Kombi/Caravan, Walker-Ersatzkat (E24 103R), Teltonika FMB150/ECAN02 (10R), Tomasetto/Valtek LPG (67R), Ringfeder-Kupplung (R55, nicht im Index → nichts wählen = Präzisionstest). holdout nur messen, nie danach abstimmen (README). Quellen + wörtliche Zitate in expected.json.
 - Specs auf Regelungsnummern geprüft (nur Produktnamen wie R80/R125)
+
+### 2026-10-24 19:49:54 +0200 | [run] X-REAL-T/H-llm2-c: Auswahl auf 28 echten Teilen (tune/holdout) | Amiad @ claude | gemessen auf main@3fe4833
+- tune 18: P 0.828 R 1.000 F2 0.960, 15/18 exakt; holdout 10: P 0.909 R 0.909 F2 0.909, 8/10 exakt. Muster: (1) Motorrad-Ersatzauspuff → immer zusätzlich R40 (3/3, Genehmigung nur R92); (2) LED-Ersatzlampe C5W → R10/R148/R48 statt nur R37 (Lichtquelle ≠ Leuchte); (3) Tesla-Alarm → R161–163 statt belegter R116. Precision-Test Ringfeder (R55, nicht im Index): nichts gewählt = richtig. Code main@6b4b3b7 (Cloud-Sitzung).
+- Belege experiments/runs/X-REAL-T-llm2-c, X-REAL-H-llm2-c

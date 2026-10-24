@@ -1,0 +1,268 @@
+{
+ "suite": "experiments/real-parts/tune",
+ "mode": "llm2",
+ "model": "claude-opus-5-5",
+ "summary": {
+  "precision": 0.8276,
+  "recall": 1.0,
+  "f2": 0.96,
+  "hits": 24,
+  "missing": 0,
+  "wrong": 5,
+  "traps_taken": 0,
+  "components": 18,
+  "components_exact": 15
+ },
+ "components": {
+  "akrapovic-exhaust-ktm-1290-superduke-r": {
+   "selected": [
+    "UN R40",
+    "UN R92"
+   ],
+   "hits": [
+    "UN R92"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R40"
+   ],
+   "traps_taken": []
+  },
+  "akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+   "selected": [
+    "UN R40",
+    "UN R92"
+   ],
+   "hits": [
+    "UN R92"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R40"
+   ],
+   "traps_taken": []
+  },
+  "hella-eco18-led-reversing-lamp": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R148"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-euroled-rear-direction-indicator": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-caravan-clearance-lamp": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R148"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-fog-lamp-r80": {
+   "selected": [
+    "UN R10",
+    "UN R149",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R149"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-headlamp-1ef328550": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R149",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R148",
+    "UN R149"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-number-plate-lamp": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-rear-combination-lamp-number-plate": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-rear-position-lamp-reflector": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R150",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R148",
+    "UN R150"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "hella-led-side-marker-lamp-amber": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R150",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R148",
+    "UN R150"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "osram-ledriving-curved-lightbar-vx1000": {
+   "selected": [
+    "UN R10",
+    "UN R149",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R149"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "osram-ledriving-px5-drl": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R148"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "osram-night-breaker-led-c5w-ece": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R37",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R37"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R10",
+    "UN R148",
+    "UN R48"
+   ],
+   "traps_taken": []
+  },
+  "stako-lpg-toroidal-tank": {
+   "selected": [
+    "UN R67"
+   ],
+   "hits": [
+    "UN R67"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "teltonika-fmb150-tracker": {
+   "selected": [
+    "UN R10"
+   ],
+   "hits": [
+    "UN R10"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "tomasetto-lpg-multivalve-mv4000": {
+   "selected": [
+    "UN R67"
+   ],
+   "hits": [
+    "UN R67"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  },
+  "valtek-type30-lpg-injector-rail": {
+   "selected": [
+    "UN R67"
+   ],
+   "hits": [
+    "UN R67"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": []
+  }
+ },
+ "llm_usage": {
+  "calls": 1,
+  "cached": 17,
+  "prompt_tokens": 18703,
+  "completion_tokens": 1461,
+  "fallbacks": 0
+ },
+ "note": "Lauf in Amiads Cloud-Sitzung, Code = main@6b4b3b7 (certreq.suite unverändert), Bauteile = experiments/real-parts/tune, CERTREQ_PROVIDER=anthropic"
+}
