@@ -114,6 +114,8 @@ mit dem Held-out-Ergebnis. Held-out-Eingaben nie ins Repo (Lizenz), nur eigene A
 4. `modes` (R175-Prüfstein: kostet dort ~5 Treffer): Neulauf H002 mit `--extract modal,llm,lists,tables,exempt,tests`
    (neuer LLM-Lauf, Streuung ~0.01).
 Übernehmen nur bei mehr als ~0.01 F2 Gewinn; Gewinne kombinieren (mehrere `--drop`) und die Kombination ebenfalls hochladen.
+5. Opus streut auf dev ±0.02 je Lauf (E039-a/E040-a): gleich nach H001 einen zweiten Lauf H002 (gleiche Einstellungen,
+   `CERTREQ_LLM_CACHE=0`) rechnen und hochladen; der bessere Wurf ist die Basis für die Varianten 1–3.
 
 **Weg B: kein Score → nicht spielen.** H001 bleibt; einzige Ausnahme: R94 gewählt → H001-noR94 hochladen (Fahrzeugebene,
 Opus' Fehlmuster im Auswahl-Test X-SEL-llm2-c). Keine weiteren Uploads.

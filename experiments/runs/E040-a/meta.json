@@ -1,0 +1,125 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --out out/E040-a.json",
+ "git": {
+  "commit": "main@a06f550",
+  "full_hash": "a06f5500da8f329ea384e1034a9e71fba0187a1c",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "R148 is the consolidated approval regulation for position, stop and reversing lamps, all of which this rear lamp integrates."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated PMMA prism retro-reflector must be approved as a retro-reflector, typically Class IA, under the consolidated retro-reflective devices regulation."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "R48 governs the mounting position, geometric visibility, colour, number and electrical connection of rear position, stop and reversing lamps and rear retro-reflectors on the M1 vehicle."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED modules on a PCB, with their associated driver electronics, are an electrical/electronic sub-assembly and must meet emission and immunity requirements."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The rear lamp forms part of the M1 vehicle's external surface, so its lens and housing projections and edges must meet the external projection requirements."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the lamp uses replaceable standardised LED light sources rather than the stated non-replaceable LED modules, those light sources must be R128 approved."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Rejected because R148 consolidates and replaces the position and stop lamp provisions of R7."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Rejected because R148 consolidates and replaces the reversing lamp provisions of R23."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Rejected because R150 consolidates and replaces the retro-reflector provisions of R3."
+  },
+  {
+   "regulation": "UN R38",
+   "role": "rejected",
+   "reason": "Rejected because the specification does not include a rear fog lamp function."
+  },
+  {
+   "regulation": "UN R6",
+   "role": "rejected",
+   "reason": "Rejected because the specification does not include a direction indicator function."
+  }
+ ],
+ "vision_mode": "auto",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 62,
+  "paragraphs": 721,
+  "kept": 232,
+  "dropped": 489,
+  "missing": 11,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 63,
+   "cached": 0,
+   "prompt_tokens": 283991,
+   "completion_tokens": 68953,
+   "fallbacks": 0
+  }
+ },
+ "n_requirements": 364,
+ "seconds": 95.3,
+ "created_at": "2026-10-24T19:20:40+02:00",
+ "run_id": "E040-a",
+ "note": "Streuung Opus auf dev: wie E039-a ohne Cache, Richter gpt lenient",
+ "submission_sha256": "274673820b30920635418b4b8948e767725fb744bfe9caae239955c444537b43",
+ "recorded_at": "2026-10-24T19:21:50+02:00"
+}

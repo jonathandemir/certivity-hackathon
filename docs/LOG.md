@@ -495,3 +495,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:18:22 +0200 | [decision] Held-out mit Opus 5.5 (CERTREQ_PROVIDER=anthropic) | Jonathan @ MacBook-Pro-von-Jonathan | main@2fef202 +lokale Änderungen
 - Lokaler Richter bleibt gpt; Provider nur für den Lauf setzen, nie in .env.local.
 - Belege: Plattform E024-hs-c-P 0.762 vs E022-hs-P 0.725; R175 X-R175-C/C-rep +0.07; X-SEL-llm2-c. Bestätigt von Jonathan.
+
+### 2026-10-24 19:22:30 +0200 | [finding] Opus auf dev im Mittel gleich gpt; Vorsprung nur außerhalb von dev belegt | Jonathan @ MacBook-Pro-von-Jonathan | main@a06f550 +lokale Änderungen
+- Gleicher gpt-Richter lenient: Opus E024-hs-c 0.762, E033-hs-c 0.732, E039-a 0.726, E040-a 0.743 (Mittel 0.740); gpt E022-hs 0.743, E030-a 0.736 (Mittel 0.740). Das Plattform-Paar 0.762 vs 0.725 war zum Teil Glück. Bleibt: R175 +0.07 stabil, Auswahl-Test besser. Entscheidung Opus bleibt (fremde Regelung = besserer Stellvertreter), Begründung in STATUS korrigiert; Sonntag Weg A: zwei Opus-Läufe als zwei Würfe.
+- Ledger E039-a, E040-a, X-E033-hs-c; LEARNINGS korrigiert; PLAN Sonntagsablauf Weg A Punkt 5.
