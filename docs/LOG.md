@@ -199,3 +199,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Richter-Bericht E013 (lokal): häufigster Fehlgriff war verengter Geltungsbereich ('the rear lamp …' statt 'lamps'/'all light-signalling devices'/'devices marked TOP'), zweithäufigster Überzerlegung ('clearly legible and indelible' → 2 statt 1). Neue Schreibregeln: Geltungsbereich wörtlich, das Bauteil entscheidet nur OB ein Absatz gilt; trennen nur an (a)(b)(c), eigenständigen Sätzen, unabhängigen Grenzwerten; koordinierte Eigenschaften, Min/Max und Ausnahme+Regel zusammen; nichts aus Verweisen ergänzen. Beispiel im Prompt angepasst (weiter selbst geschrieben, R46)
 - Vormessung mit Gold-Regelungen (Diagnose, nicht hochladbar), Richter strict: Anforderungen P 0.200→0.407, R 0.442→0.742, F2 0.356→0.637; Seiten 0.943→0.946. Die Regeln beschreiben den Stil der Referenz, nicht die Heckleuchte
 - Geprüft: pytest tests/test_llmextract.py 3/3; offizielle Messung folgt
+
+### 2026-10-24 15:00:17 +0200 | [run] E013 Diagnose LLM-Extraktion mit Gold-Regelungen, Richter strict | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@6c9dad3
+- Anforderungen P 0.200 R 0.442 F2 0.356 (84/190), Seiten 0.943, Regelungen 1.000; Recall je Regelung: R10 4/32, R148 34/63, R150 24/39, R48 22/56
+- Fehlgriffe (106) laut Richter-Begründung: ~42 anderer Geltungsbereich/Bedingung (meist auf 'rear lamp' verengt), 26 überzerlegt, 25 Inhalt fehlt. Gold-Wissen, nicht hochladen. Beleg experiments/runs/E013/ (nur Kennzahlen)
