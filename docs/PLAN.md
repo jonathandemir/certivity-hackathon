@@ -20,24 +20,46 @@ ableitet, notiert in LEARNINGS, ob sie für einen Stoßfänger plausibel ist.
 
 Owner per `scripts/claim`. Fertig = Kriterium erfüllt, gemessen, geloggt, gepusht.
 
-| AP | Inhalt | Fertig, wenn |
-|---|---|---|
-| AP1 | Gerüst + Bewertungsschleife: ein Befehl `case-ordner → out/<case>.json`; danach validate.py, score_local.py, F2-Berechnung, Ablage in experiments/runs/<ID>/ | Erster valider Upload auf `dev-rear-lamp`, Score im Scoreboard |
-| AP2 | Regelungsauswahl: Spec + Teileliste → zutreffende Regelungen aus `index.json` (Titel, Scope-Absatz der PDFs) | Regelungs-F2 auf dev gemessen; Begründung je Regelung für die Demo |
-| AP3 | PDF-Aufbereitung: base-PDFs → Text je Seite + Absatznummern + Absatz→Seite-Zuordnung (Cache unter `out/`) | Stichprobe: Absatz → richtige Seite für die 53 Gold-Seiten des Dev-Falls |
-| AP4 | Anforderungsextraktion: relevante Absätze → eine Pflicht pro Anforderung, Seite + Absatz | Seiten-F2 lokal, Anforderungs-F2 auf der Plattform gemessen |
-| AP5 | Vision: Explosionszeichnung → Teile + Funktionen | Teileliste der Dev-Zeichnung stimmt mit spec.md überein |
-| AP6 | Demo/UI: Eingabe → Liste mit Links auf PDF-Seite (`#page=N`), Begründung je Regelung | Läuft end-to-end ohne Handgriffe auf dem Dev-Fall |
-| AP7 | Sub-Goal: Absatz-Diff alt/neu → modified/removed/added + reason | Recall auf `subgoal-dev` gegen expected.json gemessen |
-| AP8 | Held-out-Lauf + Upload-Strategie (So) | Beste Datei ist der letzte valide Upload vor 13:00 |
-| AP9 | Pitch: Lösung, Demo, Beleg aus LEDGER, Schwächen | Probedurchlauf vor 14:30 |
+| AP | Inhalt | Fertig, wenn | Wer |
+|---|---|---|---|
+| AP1 | Gerüst + Bewertungsschleife: ein Befehl `case-ordner → out/<case>.json`; danach validate.py, score_local.py, F2-Berechnung, Ablage in experiments/runs/<ID>/ | Erster valider Upload auf `dev-rear-lamp`, Score im Scoreboard. **Stand: Code fertig (E001), Upload offen** | A |
+| AP2 | Regelungsauswahl: Steckbrief je Regelung (Geltungsbereich aus Absatz 1, Bauteilarten, Ebene Bauteil/Fahrzeug, ersetzt durch …); Schluss Teile → Eigenschaften → Regelungen | Regelungs-F2 auf dev gemessen (E001: 0.405); Begründung je Regelung für die Demo | A |
+| AP3 | PDF-Aufbereitung: Absätze + Seite **erledigt** (121/121 Referenz-Absätze). Offen: Gliederung (Überschriften-Hierarchie je Absatz), Tabellen | Jeder Absatz kennt seine Abschnittsüberschriften; Tabellen-Pflichten der Referenz (z. B. R150 „Table 3") auffindbar | B |
+| AP4 | Extraktion: Relevanzfilter entlang der Gliederung (betrifft der Abschnitt unser Teil? richtet er sich an den Bauteilhersteller?), dann Zerlegung in eine Pflicht pro Bedingung/Grenzwert | Seiten-F2 lokal und Anforderungs-F2 (AP10-Richter, gelegentlich Plattform) besser als E001 | B |
+| AP5 | Vision: Explosionszeichnung → Teile + Funktionen (Eingabe für AP2) | Teileliste der Dev-Zeichnung stimmt mit spec.md überein | A |
+| AP6 | Demo/UI: Eingabe → Liste mit Links auf PDF-Seite (`#page=N`), Begründung je Regelung | Läuft end-to-end ohne Handgriffe auf dem Dev-Fall | C |
+| AP7 | Sub-Goal: Absatz-Diff alt/neu → modified/removed/added + reason | Recall auf `subgoal-dev` gegen expected.json gemessen | C |
+| AP8 | Held-out-Lauf + Upload-Strategie (So) | Beste Datei ist der letzte valide Upload vor 13:00 | alle, Uploads: A |
+| AP9 | Pitch: Lösung, Demo, Beleg aus LEDGER, Schwächen | Probedurchlauf vor 14:30 | C (Lead), alle |
+| AP10 | Lokaler LLM-Richter: unsere Anforderungen 1:1 nach Bedeutung gegen expected.json abgleichen wie die Plattform (gleicher Geltungsbereich, Bedingung, Grenzwert) | P/R/F2 der Anforderungsebene lokal in Minuten; einmal gegen den Plattform-Score von E001 geeicht | A |
+
+## Aufteilung (beschlossen 2026-10-24, Jonathan)
+
+| Person | Wer | Pakete | Reihenfolge |
+|---|---|---|---|
+| **A** | Jonathan (`jonathan`) | AP2, AP10, AP5, AP1-Rest; LLM-Zugang; Plattform-Uploads | 1. LLM-Zugang festlegen (Modell, Key in `.env`, nie ins Repo) und gemeinsamen Client `certreq/llm.py` bereitstellen, weil B und C ihn brauchen · 2. AP10 Richter · 3. AP2 Auswahl · 4. AP5 Vision |
+| **B** | Homsianer (`homsianer`) | AP3-Rest, AP4 | 1. Gliederung/Überschriften im Parser · 2. Relevanzfilter je Abschnitt · 3. Zerlegung in einzelne Pflichten · 4. Tabellen |
+| **C** | Amiad (`amiad`) | AP6, AP7, AP9-Lead | 1. Demo-Gerüst auf E001-Ausgabe · 2. Sub-Goal auf `subgoal-dev` · 3. Demo fertig machen (So vormittags) · 4. Pitch |
+| alle | | AP8 | So 07:30 Freeze, 08:00 Held-out, Uploads bis 12:45 (Zeitplan unten) |
+
+**Wer ändert welche Dateien** (vermeidet Konflikte; Ausnahmen vorher per Claim ankündigen):
+- A: `certreq/select.py`, `certreq/llm.py`, `certreq/judge.py`, `certreq/vision.py`, `certreq/evaluate.py`, `certreq/submission.py`
+- B: `certreq/extract.py`, `certreq/pdf.py`
+- C: `demo/`, `certreq/subgoal.py`
+- gemeinsam, nur kleine Änderungen mit Claim: `certreq/__main__.py` (CLI), `requirements.txt`, `tests/`
+
+**Schnittstellen, damit niemand auf jemanden wartet:**
+- A → B: Bis die Auswahl gut ist, misst B mit vorgegebenen Regelungen (`--regs "UN R148,UN R48,UN R150,UN R10"`, Diagnose wie E002), damit Extraktion und Auswahl getrennt messbar bleiben.
+- A → B: Der Richter (AP10) wird B's Hauptmessgröße für die Anforderungsebene; bis dahin Seiten-F2 lokal.
+- A/B → C: Die Demo liest nur `out/<fall>.json` + `.meta.json` (Format steht, E001 ist ein Beispiel). A liefert dazu die Begründung je Regelung in `.meta.json`.
+- C nutzt für das Sub-Goal `certreq.pdf.parse_pdf` auf alter und neuer Version (Absätze mit Seite).
 
 ## Zeitplan (Vorschlag, vom Team zu bestätigen; Sonntag = MEZ nach Zeitumstellung)
 
 | Wann | Was |
 |---|---|
 | Sa bis ~16:00 | AP1 fertig: erster valider End-to-End-Upload auf dev (R1-Risiko früh beseitigen) |
-| Sa ab ~16:00 | AP2–AP7 parallel; jede Änderung einzeln gegen die Bestmarke messen; Bestmarken taggen |
+| Sa ab ~16:00 | A: AP2/AP10, B: AP3/AP4, C: AP6/AP7 parallel; jede Änderung einzeln gegen die Bestmarke messen; Bestmarken taggen |
 | Sa abends | Demo-Grundgerüst (AP6) läuft auf dev |
 | So 07:30 | **Code-Freeze Hauptpipeline:** beste gemessene Version nach main gemergt und getaggt |
 | So 08:00 | Held-out holen (`git -C vendor/industrial-ai-hackathon pull` + Ankündigung), PDFs nachladen, Lauf von main, validate, **sofort erster Upload als Sicherung** |

@@ -59,3 +59,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Jetzt: --commit setzt 'gemessen auf <branch>@<hash>', prüft Existenz (sonst Abbruch) und ob gepusht (sonst Warnung + '(ungepusht)')
 - AGENTS.md §5/§9 ergänzt
 - Geprüft: Sandbox-Suite um 9 Prüfungen erweitert, 143/143 auf macOS (bash 3.2) und Debian (bash 5.2, mawk)
+
+### 2026-10-24 13:52:33 +0200 | [decision] Aufteilung A/B/C | Jonathan @ MacBook-Pro-von-Jonathan | main@f8ff330 +lokale Änderungen
+- A = Jonathan (jonathan): LLM-Zugang + certreq/llm.py zuerst, dann AP10 lokaler LLM-Richter, AP2 Regelungsauswahl, AP5 Vision, Plattform-Uploads
+- B = Homsianer (homsianer): AP3-Rest (Gliederung/Überschriften, Tabellen), AP4 Relevanzfilter entlang der Gliederung + Zerlegung in einzelne Pflichten; misst mit --regs, bis AP2 steht
+- C = Amiad (amiad): AP6 Demo-Gerüst auf E001-Ausgabe, AP7 Sub-Goal, AP9 Pitch-Lead; So alle AP8
+- Dateigrenzen je Person und Schnittstellen in docs/PLAN.md 'Aufteilung'; neues Paket AP10 (lokaler Richter für die Anforderungsebene)
