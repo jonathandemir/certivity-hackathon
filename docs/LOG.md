@@ -566,3 +566,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 20:23:53 +0200 | [run] E044-a: nur Zeichnung mit Opus 0.655 (Claude-Richter), gpt E043-a 0.644 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@c201dca
 - Opus schätzt die Klasse falsch (N3/O statt M1), Auswahl trotzdem 4/4; R148 56/63 (gpt 42), R48 34 (gpt 35). Vs Opus nur Spec 0.721/0.714: −0.06.
 - gpt-Guthaben fast leer (Jonathan): Richter ab jetzt Claude strict ([decision] in STATUS), Sonntags-Fallback Fable 5.1 statt gpt (PLAN), Hinweis an C: Demo mit CERTREQ_PROVIDER=anthropic starten; acpe-README angepasst.
+
+### 2026-10-24 20:25:27 +0200 | [run] R175-Prüfstein: Claude-Basis für Opus-Standard 0.622 / 0.649 | Jonathan @ MacBook-Pro-von-Jonathan | main@3316afe
+- X-R175-C/C-rep mit Claude-Richter strict neu bewertet (gpt-Guthaben fast leer): 53/78 und 55/78 Treffer. Basis für Homsianers Regeln duties/testcond; README-Befehl auf Claude-Richter umgestellt.
+- Belege experiments/runs/X-R175-C*/judge-claude-strict.json (nur IDs).

@@ -18,7 +18,8 @@ Lauf mit vorgegebener Regelung (etwa 30 s mit Opus) und Bewertung:
 ```bash
 CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq run experiments/synthetic/acpe --regs "UN R175" --vision off \
   [--extract modal,llm,lists,tables,exempt,tests,modes,<neue-regel>] --out out/x-r175/<ID>.json
-.venv/bin/python -m certreq eval out/x-r175/<ID>.json --expected out/x-r175/expected-eng.json --judge lenient --record X-R175-<ID>
+CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq eval out/x-r175/<ID>.json --expected out/x-r175/expected-eng.json \
+  --judge strict --record X-R175-<ID>
 ```
 
 Den Richter immer gleich lassen: Basis und Variante mit demselben Richter bewerten. Seit Sa abends ist das gpt-Guthaben fast
@@ -26,7 +27,10 @@ leer, also Claude: `CERTREQ_PROVIDER=anthropic … eval … --judge strict`. Die
 Rangfolge, keine Basis: die Basis (Standard mit Opus) einmal mit dem Claude-Richter neu bewerten (`certreq.judge --strict`
 auf `experiments/runs/X-R175-C/submission.json.gz`, entpackt).
 
-Bestwerte mit gpt-Richter lenient (Abschnitte 5–6):
+**Basis mit Claude-Richter strict (ab jetzt maßgeblich):** Opus-Standard 0.622 / 0.649 (53 / 55 von 78 Treffern; X-R175-C,
+C-rep, `judge-claude-strict.json`). Eine neue Regel muss über ~0.65 liegen, besser in beiden Läufen.
+
+Frühere Werte mit gpt-Richter lenient (Abschnitte 5–6), nur Rangfolge:
 - gpt-Extraktion: 0.578 / 0.597 (X-R175-B, B-rep)
 - Opus-Extraktion: 0.657 / 0.660 (X-R175-C, C-rep)
 
