@@ -25,7 +25,6 @@ Branch entsteht mit `scripts/setup <branch>`; „Rechner" trägt jeder danach se
 
 | Wer | Branch | Was | Dateien | Seit |
 |---|---|---|---|---|
-| Jonathan | jonathan | Aufteilung A/B/C in PLAN + STATUS | docs/PLAN.md, docs/STATUS.md | 2026-10-24 13:51 |
 
 ## Nächste Schritte
 
