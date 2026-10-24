@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# R4: Abgabe-Kopie des Repos als neues Git-Repo mit genau einem Commit, ohne Historie.
+# Warum ohne Historie: Die Historie enthält einen Anthropic-Key (Commits d3d3b7b/a87a74f, LOG 2026-10-24). Die Kopie
+# enthält nur, was im gepushten Stand getrackt ist (git archive), also nie vendor/, out/ oder .env*.
+#
+#   scripts/export-snapshot <neuer-ordner> [--pkg <paket-ordner>]     relative Pfade gelten ab dem Repo-Ordner
+#
+# Prüft vor dem Commit:
+#   1. Schlüssel: scripts/secret-scan auf jede Datei.
+#   2. Lizenz: keine Paketdaten. Gesucht wird nach Dateien, die byte-gleich mit Paketdateien sind (cases/, subgoal/,
+#      regulations/index.json), nach Certivity-eigenen Texten (Zeilen der Fall-Specs, Begründungen der Sub-Goal-Referenz)
+#      und nach Download-Links des Pakets. Zitate aus den Regelungen selbst sind erlaubt: unsere Ausgaben zitieren sie
+#      genauso wie die Referenz.
+# Exit 1 bei einem Fund; der Ordner bleibt zur Ansicht liegen. Pusht nichts: Name und Sichtbarkeit des Ziel-Repos
+# entscheidet das Team.
+. "$(dirname "$0")/lib.sh"
+
+dest=""; pkg="$REPO_ROOT/vendor/industrial-ai-hackathon"
+while [ $# -gt 0 ]; do
+  case $1 in
+    --pkg) [ $# -ge 2 ] || die "--pkg braucht einen Ordner."; pkg=$2; shift 2 ;;
+    -*) die "Unbekannte Option: $1" ;;
+    *) [ -z "$dest" ] || die "Nur ein Zielordner."; dest=$1; shift ;;
+  esac
+done
+[ -n "$dest" ] || die "Nutzung: scripts/export-snapshot <neuer-ordner> [--pkg <paket-ordner>]"
+case $dest in /*) ;; *) dest="$REPO_ROOT/$dest" ;; esac
+[ -e "$dest" ] && die "$dest existiert schon."
+[ -d "$pkg/cases" ] || die "Teilnehmerpaket fehlt unter $pkg (für die Lizenzprüfung nötig, scripts/setup)."
+[ -z "$(dirty_tracked)" ] || die "Uncommittete Änderungen. Abgegeben wird nur ein gepushter Stand."
+branch=$(current_branch) || die "Detached HEAD."
+fetch_origin 30 || die "fetch fehlgeschlagen."
+git merge-base --is-ancestor HEAD "origin/$branch" 2>/dev/null || die "HEAD ist nicht auf origin/$branch. Erst scripts/sync."
+ref="$branch@$(short_head)"
+
+mkdir -p "$dest" || die "Kann $dest nicht anlegen."
+git archive --format=tar HEAD | tar -x -C "$dest" || die "git archive fehlgeschlagen."
+n=$(find "$dest" -type f | wc -l | tr -d ' ')
+note "Kopie von $ref: $n Dateien in $dest"
+
+find "$dest" -type f -print0 | xargs -0 "$REPO_ROOT/scripts/secret-scan" \
+  || die "Schlüssel-Verdacht in $dest (siehe oben). Nichts committet."
+
+python3 - "$dest" "$pkg" <<'PY' || die "Paketdaten in $dest (siehe oben). Nichts committet."
+import gzip, hashlib, json, sys
+from pathlib import Path
+
+dest, pkg = Path(sys.argv[1]), Path(sys.argv[2])
+norm = lambda s: " ".join(s.split())
+pkg_files = [p for p in list(pkg.glob("cases/**/*")) + list(pkg.glob("subgoal/**/*")) + [pkg / "regulations" / "index.json"]
+             if p.is_file() and p.suffix.lower() != ".pdf"]
+hashes = {hashlib.sha256(p.read_bytes()).hexdigest(): p.relative_to(pkg) for p in pkg_files}
+index = json.loads((pkg / "regulations" / "index.json").read_text(encoding="utf-8"))
+regs = index if isinstance(index, list) else index.get("regulations", [])
+needles = {f["pdf_url"].rsplit("/", 1)[0] for r in regs for v in r["versions"] for f in v["files"]}  # Download-Links
+for p in pkg.glob("cases/*/*"):
+    if p.suffix.lower() in (".md", ".txt"):
+        needles |= {norm(line)[:80] for line in p.read_text(encoding="utf-8", errors="ignore").splitlines()
+                    if len(norm(line)) >= 60}
+for p in pkg.glob("subgoal/*/expected.json"):
+    needles |= {norm(c["reason"])[:80] for c in json.loads(p.read_text(encoding="utf-8"))["changes"]
+                if len(norm(c.get("reason") or "")) >= 60}
+hits, notes = [], []
+for f in sorted(dest.rglob("*")):
+    if not f.is_file() or ".git" in f.relative_to(dest).parts:
+        continue
+    rel, raw = f.relative_to(dest), f.read_bytes()
+    if hashlib.sha256(raw).hexdigest() in hashes:
+        hits.append(f"{rel}: byte-gleich mit Paketdatei {hashes[hashlib.sha256(raw).hexdigest()]}")
+        continue
+    if f.suffix == ".gz":
+        try:
+            raw = gzip.decompress(raw)
+        except OSError:
+            pass
+    text = norm(raw.decode("utf-8", errors="ignore"))
+    own_output = rel.parts[:2] == ("experiments", "runs") and f.name == "submission.json.gz"
+    for n in needles:
+        if n in text:
+            # Eigene Ausgaben (z. B. Sub-Goal-Begründungen im Referenzmuster) sind erlaubt: nur Hinweis, kein Abbruch.
+            (notes if own_output else hits).append(f"{rel}: enthält Paket-Text „{n[:50]}…“")
+            break
+for h in notes:
+    print(f"HINWEIS (eigene Ausgabe, erlaubt): {h}", file=sys.stderr)
+for h in hits:
+    print(f"LIZENZ? {h}", file=sys.stderr)
+print(f"Lizenzprüfung: {len(needles)} Paket-Texte, {len(hashes)} Paketdateien, {len(hits)} Funde, {len(notes)} Hinweise", file=sys.stderr)
+sys.exit(1 if hits else 0)
+PY
+
+git -C "$dest" init -q || die "git init fehlgeschlagen."
+git -C "$dest" symbolic-ref HEAD refs/heads/main
+git -C "$dest" add -A
+git -C "$dest" -c user.name="$(me)" -c user.email="$(git config user.email || echo unbekannt@example.com)" \
+  commit -q -m "Certivity Industrial Agents Hackathon: Abgabestand $ref (ohne Historie)" || die "Commit fehlgeschlagen."
+ok "Abgabe-Kopie $dest: 1 Commit, Stand $ref, Schlüssel- und Lizenzprüfung bestanden."
+note "Nächster Schritt (Team entscheidet Name und Sichtbarkeit), z. B.:"
+note "  gh repo create <name> --private --source \"$dest\" --push"

@@ -33,7 +33,7 @@ M1 — passenger car.
 
 ## Materials
 
-Representative values — confirm against actual bill of materials.
+Typical materials for this product class (synthetic test spec, not taken from a real bill of materials).
 
 | Component              | Typical material(s)                    |
 | ---------------------- | -------------------------------------- |

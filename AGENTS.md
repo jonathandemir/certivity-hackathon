@@ -137,6 +137,7 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 | `scripts/tag-best <wert>` | guten, gepushten Stand als `best-<branch>-<wert>` taggen |
 | `scripts/stop-check` | warnt bei ungepushten Commits / uncommitteten Änderungen (auch Stop-Hook) |
 | `scripts/secret-scan [dateien]` | Schlüsselsuche in ausgehenden Commits oder Dateien |
+| `scripts/export-snapshot <ordner>` | R4: Abgabe-Kopie ohne Git-Historie (ein Commit), prüft Schlüssel und Paketdaten; pusht nichts |
 | `scripts/selftest` | testet alle Skripte in einer Sandbox (3 simulierte Rechner); nach jeder Änderung an scripts/ ausführen |
 
 Alle Skripte sind Bash für macOS und Linux und stoppen mit einer klaren Meldung, statt zu raten.

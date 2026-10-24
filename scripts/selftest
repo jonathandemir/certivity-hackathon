@@ -11,6 +11,7 @@ SRC=${1:-$HERE}; PKG=${2:-$HERE/vendor/industrial-ai-hackathon}
 command -v jq >/dev/null 2>&1 || { echo "selftest braucht jq (brew install jq / apt install jq)" >&2; exit 2; }
 [ -d "$PKG/regulations" ] || { echo "Teilnehmerpaket fehlt unter $PKG (scripts/setup)" >&2; exit 2; }
 T=$(mktemp -d "${TMPDIR:-/tmp}/cert-test.XXXXXX")
+T=$(cd "$T" && pwd -P)   # macOS: /var → /private/var, Skripte geben aufgelöste Pfade aus
 git clone -q --bare "$PKG" "$T/pkg.git"   # simuliertes offizielles Certivity-Repo, in das wir "Held-out" pushen können
 export CERTIVITY_PKG_URL="$T/pkg.git"
 export HOME="$T/home"; mkdir -p "$HOME"
@@ -252,6 +253,17 @@ run "$M1" scripts/secret-scan; rc 1 ".env in ausgehendem Commit erkannt"
 git -C "$M1" reset -q --hard origin/main; rm -f "$M1/.env"
 run "$M1" scripts/secret-scan; rc 0 "sauber → 0"
 run "$M1" sh -c 'scripts/secret-scan AGENTS.md CLAUDE.md README.md docs/*.md experiments/LEDGER.md scripts/* .claude/settings.json'; rc 0 "keine Fehlalarme im eigenen Repo"
+
+title "export-snapshot (R4)"
+run "$M1" scripts/export-snapshot "$T/snap" --pkg "$PKG"; rc 0 "Abgabe-Kopie sauber"
+DESC="Kopie hat genau einen Commit";      yes_ [ "$(git -C "$T/snap" rev-list --count HEAD 2>/dev/null)" = 1 ]
+DESC="Kopie ohne vendor/ und .venv";      yes_ [ ! -e "$T/snap/vendor" ] && [ ! -e "$T/snap/.venv" ]
+run "$M1" scripts/export-snapshot "$T/snap" --pkg "$PKG"; rc 1 "existierender Zielordner verweigert"
+cp "$PKG/regulations/index.json" "$M1/idx-kopie.json"; git -C "$M1" add idx-kopie.json; git -C "$M1" commit -qm idx
+(cd "$M1" && scripts/sync >/dev/null 2>&1)
+run "$M1" scripts/export-snapshot "$T/snap2" --pkg "$PKG"; rc 1 "Paketdatei im Stand → verweigert"; has "LIZENZ" "Lizenzmeldung"
+DESC="bei Fund kein Commit in der Kopie"; yes_ [ ! -d "$T/snap2/.git" ]
+git -C "$M1" rm -q idx-kopie.json; git -C "$M1" commit -qm "idx weg"; (cd "$M1" && scripts/sync >/dev/null 2>&1)
 
 title "main-wt auf main + Hooks"
 run "$M1" scripts/main-wt; DESC="auf main: Checkout selbst"; yes_ [ "$(printf '%s' "$OUT" | tail -n 1)" = "$M1" ]
