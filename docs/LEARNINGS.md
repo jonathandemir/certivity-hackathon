@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Die Regelungsauswahl generalisiert im Recall; Fehler entstehen über „Lage am Fahrzeug“.** Beleg:
+  X-SEL-llm2 / X-SEL-llm (10 synthetische Bauteile, Lösungen vorab aus den Geltungsbereichen festgelegt, main@d044959).
+  llm2: 20/20 sichere Regelungen, keine Zusammenlegungs- oder Klassenfalle (R19/R123 → R149, R3/R104 → R150, R131 nur
+  M2/M3/N2/N3), 11 Fehlauswahlen, davon 9 mit Rolle cross-cutting (Front-Bauteile → R127, GTR 9, R26, R42; Bauteil nutzt
+  Blinker → R148/R48). llm: 22 Fehlauswahlen (Crash- und Cyber-Regelungen der Fahrzeugebene). Konsequenz: llm2 bleibt
+  Standard. Das Prinzip „Lage am Fahrzeug“ nicht vor Sonntag abschwächen: beim Frontstoßfänger sind R127/GTR 9/R42/R26
+  vermutlich richtig; eine Änderung müsste den synthetischen Stoßfänger und diesen Test gleichzeitig bestehen.
+  **Für den Stoßfänger plausibel?** Ja: die Fallen dort (R148/R149 bei integrierten Leuchten, R152 beim Radar) sind
+  hier abgedeckt; die Lösung ist aber unser Urteil, nicht Certivitys Gold.
 - **2026-10-24 · Zweiter Maßstab gegen Überanpassung: R175 mit Certivitys `requirements_old.json`.** Beleg: X-R175-A/B
   (main@c1d0d1d). `subgoal/dev/old.pdf` ist byte-gleich mit `UN_R175_base.pdf`; `requirements_old.json` sind 94
   Anforderungen von Certivity im Gold-Stil auf einer Regelung, die wir fürs Hauptziel nie benutzt haben. Mit vorgegebener

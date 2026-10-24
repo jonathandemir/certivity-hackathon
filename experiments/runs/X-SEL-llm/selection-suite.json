@@ -1,0 +1,757 @@
+{
+ "suite": "/Users/jonathandemir/projects/certivity-a/experiments/selection-suite",
+ "mode": "llm",
+ "model": "gpt-6.1-sol",
+ "summary": {
+  "precision": 0.4762,
+  "recall": 1.0,
+  "f2": 0.8197,
+  "hits": 20,
+  "missing": 0,
+  "wrong": 22,
+  "traps_taken": 3,
+  "components": 10,
+  "components_exact": 2
+ },
+ "components": {
+  "aebs-radar": {
+   "selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R13H",
+    "UN R152",
+    "UN R155",
+    "UN R156",
+    "UN R26",
+    "UN R42"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R152"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN GTR 9",
+    "UN R127",
+    "UN R26",
+    "UN R42"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R152",
+     "role": "installation",
+     "reason": "The radar is the main sensor of an M1/N1 AEBS, so its installed detection, collision-warning, braking-request and failure-reporting functions contribute directly to vehicle compliance."
+    },
+    {
+     "regulation": "UN R13H",
+     "role": "installation",
+     "reason": "The sensor's electronic braking requests and failure behaviour must be integrated without compromising the safety and performance of the M1/N1 vehicle braking system."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "component",
+     "reason": "The powered radar transceiver, microcontroller and CAN-FD interface constitute an electronic subassembly subject to applicable electromagnetic-emission and immunity requirements."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "cross-cutting",
+     "reason": "The software-controlled sensor communicates over CAN-FD and influences emergency braking, making its communication interfaces and security risks relevant to the M1/N1 vehicle's cybersecurity assessment and protections."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "cross-cutting",
+     "reason": "Where the vehicle permits software updates, updates affecting the radar's embedded collision-avoidance software must be covered by the vehicle's software-update management and safety requirements."
+    },
+    {
+     "regulation": "UN R127",
+     "role": "cross-cutting",
+     "reason": "The radar, plastic radome and rigid mounting bracket behind the front emblem can affect front-end stiffness and pedestrian-impact performance of the applicable M1/N1 vehicle."
+    },
+    {
+     "regulation": "UN GTR 9",
+     "role": "cross-cutting",
+     "reason": "For vehicles within its passenger-car/light-truck scope, the behind-emblem sensor package and bracket must be considered in the front-end pedestrian-impact performance addressed by this GTR."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "cross-cutting",
+     "reason": "On the M1 version, the radome and front-emblem installation must preserve compliance with external-projection requirements wherever the assembly forms an accessible exterior surface."
+    },
+    {
+     "regulation": "UN R42",
+     "role": "cross-cutting",
+     "reason": "On the M1 version, the behind-emblem installation and its brake-control interface must not cause low-speed front-protective-device impacts to compromise the braking functions protected by this regulation."
+    },
+    {
+     "regulation": "UN R131",
+     "role": "rejected",
+     "reason": "Its AEBS scope covers M2, M3, N2 and N3 vehicles, whereas the specified applications are M1 and N1 and are covered by UN R152."
+    },
+    {
+     "regulation": "UN R157",
+     "role": "rejected",
+     "reason": "The specified emergency-braking function does not provide the sustained lateral and longitudinal vehicle control of an Automated Lane Keeping System."
+    },
+    {
+     "regulation": "UN R171",
+     "role": "rejected",
+     "reason": "The specification describes an emergency intervention system, not a Driver Control Assistance System providing sustained driving assistance."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "rejected",
+     "reason": "The optical warning is directed to the driver through the instrument cluster, and no exterior lighting or light-signalling device is specified."
+    },
+    {
+     "regulation": "UN R43",
+     "role": "rejected",
+     "reason": "The plastic radar radome is not safety glazing installed as a windscreen, pane or partition."
+    }
+   ]
+  },
+  "airbag-module": {
+   "selected": [
+    "UN R10",
+    "UN R114",
+    "UN R137",
+    "UN R39",
+    "UN R79",
+    "UN R94"
+   ],
+   "hits": [
+    "UN R114"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R137",
+    "UN R39",
+    "UN R94"
+   ],
+   "traps_taken": [
+    "UN R137",
+    "UN R94"
+   ],
+   "explain": [
+    {
+     "regulation": "UN R114",
+     "role": "component",
+     "reason": "Its scope directly covers aftermarket replacement airbag modules and replacement steering wheels equipped with approved airbag modules for M1 and N1 vehicles."
+    },
+    {
+     "regulation": "UN R79",
+     "role": "installation",
+     "reason": "The replacement rim, spokes, hub and spline connection form part of the vehicle's steering equipment and must preserve compliant steering operation when installed."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The electrical igniter and clock-spring connection interface with the existing airbag control unit, requiring integration that preserves electromagnetic compatibility and immunity of the safety-related restraint function."
+    },
+    {
+     "regulation": "UN R137",
+     "role": "cross-cutting",
+     "reason": "The replacement airbag and steering wheel form part of the frontal-impact protective system and must preserve its required occupant-protection performance on M1 vehicles up to 3,500 kg and N1 vehicles."
+    },
+    {
+     "regulation": "UN R94",
+     "role": "cross-cutting",
+     "reason": "For M1 vehicles up to 3,500 kg and N1 vehicles up to 2,500 kg, the replacement wheel and driver airbag must preserve the installed restraint system's compliance with frontal-collision protection requirements."
+    },
+    {
+     "regulation": "UN R39",
+     "role": "cross-cutting",
+     "reason": "The replacement steering-wheel rim and spokes must not compromise the driver's required visibility and legibility of the installed speedometer."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "rejected",
+     "reason": "The specified module introduces no ECU, network interface or cybersecurity functionality; an electrical squib connection alone does not establish component-specific cybersecurity requirements."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "rejected",
+     "reason": "No software or software-update capability is specified for the replacement wheel or airbag module."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "rejected",
+     "reason": "The steering wheel and driver airbag are interior equipment, not external projections."
+    },
+    {
+     "regulation": "UN R161",
+     "role": "rejected",
+     "reason": "No steering lock or other device for protection against unauthorized use is supplied or specified as being modified."
+    },
+    {
+     "regulation": "UN R51",
+     "role": "rejected",
+     "reason": "The horn switch does not bring the assembly within requirements for vehicle sound during normal driving, and the pyrotechnic inflator operates during a collision rather than normal driving."
+    }
+   ]
+  },
+  "alarm-system": {
+   "selected": [
+    "UN R10",
+    "UN R148",
+    "UN R155",
+    "UN R163",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R163"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R148",
+    "UN R155",
+    "UN R48"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R163",
+     "role": "component",
+     "reason": "The permanently fitted 12 V alarm for an M1 car, including intrusion detection, acoustic and optical warnings, arming/disarming and vehicle integration, falls directly within its vehicle-alarm approval scope."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The alarm ECU, electronic sensors, battery-backed siren and CAN interface must meet applicable electromagnetic compatibility requirements as electrical/electronic equipment integrated into an M1 vehicle."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "installation",
+     "reason": "Using the vehicle's direction indicators for the optical alarm brings their electrical connections and alarm-related operation within the M1 lighting-installation requirements."
+    },
+    {
+     "regulation": "UN R148",
+     "role": "component",
+     "reason": "The direction-indicator lamps used for the optical alarm must have compliant device approval under this consolidated light-signalling regulation rather than the older UN R6 provisions."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "cross-cutting",
+     "reason": "The CAN-connected alarm ECU and its interface with key-operated central locking must be addressed within the M1 vehicle's cybersecurity risk assessment and protective measures."
+    },
+    {
+     "regulation": "UN R116",
+     "role": "rejected",
+     "reason": "Its relevant vehicle-alarm provisions are addressed through the dedicated UN R163 approval route selected here, rather than selecting the older alarm provisions again."
+    },
+    {
+     "regulation": "UN R161",
+     "role": "rejected",
+     "reason": "The product detects intrusion and raises an alarm but contains no steering, transmission or other device that prevents unauthorized vehicle use; central-locking coordination alone does not establish that function."
+    },
+    {
+     "regulation": "UN R162",
+     "role": "rejected",
+     "reason": "The specification explicitly excludes engine immobilisation and identifies the immobilizer as a separate system."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "rejected",
+     "reason": "Software-update capability is not specified, and an electronic ECU with CAN communication alone does not establish applicability of software-update requirements."
+    },
+    {
+     "regulation": "UN R51",
+     "role": "rejected",
+     "reason": "The siren provides an anti-intrusion alarm, whereas this regulation addresses vehicle sound during normal driving rather than alarm-siren performance."
+    }
+   ]
+  },
+  "contour-marking": {
+   "selected": [
+    "UN R150",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R150",
+    "UN R48"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R150",
+     "role": "component",
+     "reason": "The 50 mm microprismatic contour-marking tape is Class C retro-reflective marking material subject to requirements for optical performance, colour, durability and approval marking under this regulation, which consolidates UN R104."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "installation",
+     "reason": "Applying full contour markings to the sides and rear of an O4 semi-trailer requires compliance with this regulation’s installation requirements for conspicuity markings, including colour, positioning, extent and visibility."
+    },
+    {
+     "regulation": "UN R104",
+     "role": "rejected",
+     "reason": "Its scope directly covers the marking tape, but UN R150 consolidates its provisions and is selected instead."
+    },
+    {
+     "regulation": "UN R3",
+     "role": "rejected",
+     "reason": "The product is contour-marking material rather than a discrete retro-reflector, and UN R3 is also consolidated into UN R150."
+    },
+    {
+     "regulation": "UN R148",
+     "role": "rejected",
+     "reason": "The tape passively retro-reflects external illumination and contains none of the light-signalling lamps covered by this regulation."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "rejected",
+     "reason": "The film and adhesive contain no electrical or electronic devices that would introduce electromagnetic compatibility requirements."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "rejected",
+     "reason": "Although applied externally, the tape is fitted to an O4 semi-trailer, whereas this regulation covers external projections of M1 vehicles only."
+    }
+   ]
+  },
+  "eps-steering": {
+   "selected": [
+    "UN R10",
+    "UN R137",
+    "UN R155",
+    "UN R156",
+    "UN R79",
+    "UN R94"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R79"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R137",
+    "UN R94"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R79",
+     "role": "installation",
+     "reason": "The EPS column forms part of the M1 vehicle's steering equipment, whose steering performance, electronic control safety and operation following assistance failure must satisfy this regulation."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The electric motor, sensors, ECU and CAN interface are electrical/electronic equipment subject to applicable electromagnetic emissions and immunity requirements, particularly because interference could affect steering assistance."
+    },
+    {
+     "regulation": "UN R94",
+     "role": "cross-cutting",
+     "reason": "For M1 vehicles within its mass scope, the collapsible column and intermediate shaft must be integrated to support compliance with frontal-impact requirements, including steering-control displacement and driver protection."
+    },
+    {
+     "regulation": "UN R137",
+     "role": "cross-cutting",
+     "reason": "For M1 vehicles within its mass scope, the column's collapse behaviour and interaction with the steering wheel influence compliance with frontal-impact occupant-protection requirements."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "cross-cutting",
+     "reason": "The safety-critical EPS ECU and its CAN communications must be addressed by the M1 vehicle's cybersecurity risk assessment and applicable protective measures."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "cross-cutting",
+     "reason": "Where the host vehicle permits software updates, updates to the specified EPS control software must be covered by applicable software-update management and assessment of effects on steering type approval."
+    },
+    {
+     "regulation": "UN R100",
+     "role": "rejected",
+     "reason": "The specified 12 V steering-assistance motor is not an electric propulsion power train, and no traction battery or propulsion electrical equipment is specified."
+    },
+    {
+     "regulation": "UN R157",
+     "role": "rejected",
+     "reason": "The specification expressly excludes automated steering functions and contains no Automated Lane Keeping System."
+    },
+    {
+     "regulation": "UN R171",
+     "role": "rejected",
+     "reason": "Driver-commanded power assistance alone is not a Driver Control Assistance System, and no automated lateral or longitudinal control function is specified."
+    },
+    {
+     "regulation": "UN R161",
+     "role": "rejected",
+     "reason": "No steering lock or other device for preventing unauthorized vehicle use is included in the specified column."
+    },
+    {
+     "regulation": "UN R114",
+     "role": "rejected",
+     "reason": "The component is a steering column, not an aftermarket replacement airbag module or an airbag-equipped replacement steering wheel."
+    }
+   ]
+  },
+  "front-fog-lamp": {
+   "selected": [
+    "UN GTR 9",
+    "UN R10",
+    "UN R127",
+    "UN R149",
+    "UN R26",
+    "UN R42",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R149",
+    "UN R48"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN GTR 9",
+    "UN R127",
+    "UN R26",
+    "UN R42"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R149",
+     "role": "component",
+     "reason": "This consolidated regulation covers M1 front fog lamps, including requirements for the white beam, integrated LED module, electronic driver and plastic lens."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "installation",
+     "reason": "The pair of front fog lamps on an M1 vehicle must meet installation requirements concerning position, visibility, orientation, electrical switching and tell-tales."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The electronic constant-current LED driver connected to the vehicle's 12 V harness brings the lamp assembly within electromagnetic-compatibility requirements."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "cross-cutting",
+     "reason": "The lamp's exposed lens and any accessible housing edges in the M1 vehicle's front fascia must satisfy applicable external-projection requirements."
+    },
+    {
+     "regulation": "UN R42",
+     "role": "cross-cutting",
+     "reason": "Integration into the lower front fascia must account for the low-speed protective-device impact requirements, including applicable post-impact lighting functionality."
+    },
+    {
+     "regulation": "UN R127",
+     "role": "cross-cutting",
+     "reason": "The lower-front-fascia lamp, rigid heat sink and mounting bracket can affect pedestrian leg-impact performance and must be considered in the M1 vehicle's pedestrian-safety assessment."
+    },
+    {
+     "regulation": "UN GTR 9",
+     "role": "cross-cutting",
+     "reason": "The lower-front-fascia assembly can influence the vehicle-level pedestrian leg-impact performance addressed by this GTR, rather than requiring a standalone lamp approval."
+    },
+    {
+     "regulation": "UN R19",
+     "role": "rejected",
+     "reason": "Although it directly covers front fog lamps, its provisions are consolidated into UN R149, which is selected instead."
+    },
+    {
+     "regulation": "UN R128",
+     "role": "rejected",
+     "reason": "No standardized Annex 1 LED light-source category is specified; the soldered, non-replaceable LED module is assessed within the lamp under UN R149."
+    },
+    {
+     "regulation": "UN R43",
+     "role": "rejected",
+     "reason": "Its scope explicitly excludes glazing for lighting and light-signalling devices, so the polycarbonate lamp lens is not covered."
+    },
+    {
+     "regulation": "UN R148",
+     "role": "rejected",
+     "reason": "The specified device provides front fog road illumination, not any of the listed light-signalling functions such as rear fog lighting."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "rejected",
+     "reason": "The specification identifies no software or software-update capability that would bring the lamp's integration within software-update requirements."
+    }
+   ]
+  },
+  "motorcycle-silencer": {
+   "selected": [
+    "UN R40",
+    "UN R92"
+   ],
+   "hits": [
+    "UN R92"
+   ],
+   "missing": [],
+   "wrong": [],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R92",
+     "role": "component",
+     "reason": "The aftermarket slip-on is a non-original replacement exhaust-silencing component for an L3 motorcycle, directly subject to requirements covering noise performance, absorptive materials, construction and approval markings."
+    },
+    {
+     "regulation": "UN R40",
+     "role": "cross-cutting",
+     "reason": "If the motorcycle has a positive-ignition engine, integration of this exhaust-path component must preserve its applicable gaseous-emission compliance even though the catalytic converter and engine settings remain unchanged."
+    },
+    {
+     "regulation": "UN R51",
+     "role": "rejected",
+     "reason": "Its vehicle-noise requirements cover categories M and N, not the specified L3 motorcycle."
+    },
+    {
+     "regulation": "UN R103",
+     "role": "rejected",
+     "reason": "The silencer is not a replacement pollution-control device, leaves the catalytic converter unchanged, and is intended for a vehicle outside the related UN R83 categories."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "rejected",
+     "reason": "The specified silencer is entirely passive and contains no electrical or electronic device requiring electromagnetic-compatibility assessment."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "rejected",
+     "reason": "Although the silencer and bracket are exterior parts, this regulation covers external projections of M1 vehicles rather than L3 motorcycles."
+    },
+    {
+     "regulation": "UN R53",
+     "role": "rejected",
+     "reason": "No lighting device, shared lighting mounting or alteration to lighting installation is specified, so the rear location alone does not establish applicability."
+    }
+   ]
+  },
+  "rear-bumper": {
+   "selected": [
+    "UN R10",
+    "UN R150",
+    "UN R155",
+    "UN R26",
+    "UN R32",
+    "UN R42",
+    "UN R48"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R150",
+    "UN R42",
+    "UN R48"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R155"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R42",
+     "role": "installation",
+     "reason": "The fascia, energy absorber, steel beam and crash boxes provide the M1 car’s low-speed rear protection and must satisfy the regulation’s installed-vehicle impact-performance requirements."
+    },
+    {
+     "regulation": "UN R32",
+     "role": "cross-cutting",
+     "reason": "The rear steel cross-member and crash boxes influence rear-impact deformation and must be integrated so that the M1 vehicle meets rear-end collision requirements."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "cross-cutting",
+     "reason": "The exposed fascia, diffuser, tow-eye cover, sensors and reflectors must satisfy the applicable M1 external-projection requirements concerning potentially injurious shapes, edges and protrusions."
+    },
+    {
+     "regulation": "UN R150",
+     "role": "component",
+     "reason": "The two red Class IA retro-reflectors are explicitly within the consolidated regulation’s scope and must meet its device-performance requirements."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "installation",
+     "reason": "The two rear retro-reflectors must be installed on the M1 vehicle with the required number, colour, position, orientation and geometric visibility."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The powered ultrasonic sensors and their electrical connection to the parking-assistance ECU require assessment against applicable electromagnetic-compatibility requirements for electronic assemblies and their vehicle integration."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "cross-cutting",
+     "reason": "The ECU-connected parking sensors form part of the M1 vehicle’s electronic architecture and must be addressed in its vehicle-level cybersecurity risk assessment and applicable protective measures."
+    },
+    {
+     "regulation": "UN R3",
+     "role": "rejected",
+     "reason": "Its retro-reflector provisions are consolidated into UN R150, which is selected instead."
+    },
+    {
+     "regulation": "UN R127",
+     "role": "rejected",
+     "reason": "Its pedestrian-impact requirements concern the vehicle’s front-end impact areas, not this rear bumper assembly."
+    },
+    {
+     "regulation": "UN R148",
+     "role": "rejected",
+     "reason": "The assembly contains passive retro-reflectors, not any of the light-signalling lamps covered by this regulation."
+    },
+    {
+     "regulation": "UN R152",
+     "role": "rejected",
+     "reason": "The specified sensors provide reversing obstacle detection, not the forward-collision detection and automatic braking functions covered by this regulation."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "rejected",
+     "reason": "No software-update capability is specified for the vehicle or parking-assistance system, so ECU connectivity alone does not establish applicability."
+    }
+   ]
+  },
+  "seatbelt-reminder": {
+   "selected": [
+    "UN R10",
+    "UN R155",
+    "UN R156",
+    "UN R174"
+   ],
+   "hits": [
+    "UN R10",
+    "UN R174"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R155",
+    "UN R156"
+   ],
+   "traps_taken": [],
+   "explain": [
+    {
+     "regulation": "UN R174",
+     "role": "installation",
+     "reason": "This vehicle-level regulation directly covers safety-belt reminders at all five seating positions of the M1 car, including belt-status detection and escalating visual and audible warnings."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "cross-cutting",
+     "reason": "The 12 V sensors, buckle-switch circuits, electronic evaluation and warning outputs must meet applicable electromagnetic compatibility requirements as integrated into the vehicle."
+    },
+    {
+     "regulation": "UN R155",
+     "role": "cross-cutting",
+     "reason": "Integration of the electronic reminder into the M1 vehicle's body control unit brings its interfaces and warning-function integrity within the vehicle-level cybersecurity assessment."
+    },
+    {
+     "regulation": "UN R156",
+     "role": "cross-cutting",
+     "reason": "If the vehicle permits software updates, updates affecting the reminder evaluation function in the body control unit must satisfy the applicable vehicle-level software-update requirements."
+    },
+    {
+     "regulation": "UN R148",
+     "role": "rejected",
+     "reason": "The interior belt-status tell-tales are not any of the exterior light-signalling devices listed in this regulation's scope."
+    },
+    {
+     "regulation": "UN R48",
+     "role": "rejected",
+     "reason": "Installation of interior safety-belt reminder indicators is not governed by the exterior lighting and light-signalling installation requirements."
+    },
+    {
+     "regulation": "UN R39",
+     "role": "rejected",
+     "reason": "Using vehicle speed to escalate a warning does not make the reminder a speedometer or odometer or establish a modification to that equipment."
+    },
+    {
+     "regulation": "UN R137",
+     "role": "rejected",
+     "reason": "The specified system detects belt use and issues warnings rather than restraining occupants, and no modification affecting frontal-impact restraint performance is specified."
+    },
+    {
+     "regulation": "UN R100",
+     "role": "rejected",
+     "reason": "Operation on the 12 V electrical system does not make the reminder electric-powertrain or rechargeable-energy-storage equipment covered by this regulation."
+    }
+   ]
+  },
+  "windscreen": {
+   "selected": [
+    "UN R127",
+    "UN R137",
+    "UN R26",
+    "UN R43",
+    "UN R94"
+   ],
+   "hits": [
+    "UN R43"
+   ],
+   "missing": [],
+   "wrong": [
+    "UN R137",
+    "UN R26",
+    "UN R94"
+   ],
+   "traps_taken": [
+    "UN R26"
+   ],
+   "explain": [
+    {
+     "regulation": "UN R43",
+     "role": "component",
+     "reason": "The laminated glass/PVB windscreen is directly covered by safety-glazing requirements, and its installation in the M1 vehicle must also meet this regulation's applicable optical and installation provisions."
+    },
+    {
+     "regulation": "UN R26",
+     "role": "cross-cutting",
+     "reason": "The windscreen's exposed perimeter and plastic edge trim form part of the M1 vehicle's exterior and must satisfy applicable external-projection requirements."
+    },
+    {
+     "regulation": "UN R127",
+     "role": "cross-cutting",
+     "reason": "The windscreen and its supporting perimeter affect pedestrian head-impact performance and must meet the applicable requirements where included in the test area under the amendment series used for vehicle approval."
+    },
+    {
+     "regulation": "UN R94",
+     "role": "cross-cutting",
+     "reason": "The body-bonded windscreen and adhesive joint form part of the forward vehicle structure whose integration must support frontal-collision occupant protection, subject to the regulation's vehicle-mass scope."
+    },
+    {
+     "regulation": "UN R137",
+     "role": "cross-cutting",
+     "reason": "The bonded windscreen's structural contribution and potential interaction with occupants must be compatible with the vehicle's frontal-impact protective-system performance, subject to the regulation's vehicle-mass scope."
+    },
+    {
+     "regulation": "UN GTR 9",
+     "role": "rejected",
+     "reason": "Its bonnet-and-bumper pedestrian impact provisions do not directly prescribe windscreen performance; proximity to those test regions alone does not establish a separate requirement for this assembly."
+    },
+    {
+     "regulation": "UN R10",
+     "role": "rejected",
+     "reason": "The windscreen has no heating wires, antennas, electronics or other electrical functions requiring electromagnetic-compatibility assessment."
+    },
+    {
+     "regulation": "UN R32",
+     "role": "rejected",
+     "reason": "The specified front glazing assembly is not part of the rear structure or rear-impact protective features governed by this regulation."
+    },
+    {
+     "regulation": "UN R107",
+     "role": "rejected",
+     "reason": "This regulation covers M2 and M3 vehicles, whereas the windscreen is intended for an M1 passenger car."
+    },
+    {
+     "regulation": "UN R152",
+     "role": "rejected",
+     "reason": "No windscreen-mounted AEBS camera, sensor or associated optical interface is specified, so an AEBS integration requirement cannot be inferred."
+    }
+   ]
+  }
+ },
+ "llm_usage": {
+  "calls": 0,
+  "cached": 10,
+  "prompt_tokens": 0,
+  "completion_tokens": 0
+ }
+}

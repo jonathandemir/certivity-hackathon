@@ -1,0 +1,14 @@
+{
+ "run_id": "X-SEL-llm",
+ "note": "Auswahl-Test 10 Bauteile, llm (ohne Annahmen-/Fahrzeugebenen-Filter), gpt",
+ "git": {
+  "commit": "main@bd76dc6",
+  "full_hash": "bd76dc6e38a73223a506d0e9d9c9c30ae926c03c",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "mode": "llm",
+ "model": "gpt-6.1-sol",
+ "recorded_at": "2026-10-24T19:00:05+02:00"
+}

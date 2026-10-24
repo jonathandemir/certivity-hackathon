@@ -472,3 +472,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:54:18 +0200 | [change] certreq.suite: Auswahl-Test über 10 synthetische Bauteile | Jonathan @ MacBook-Pro-von-Jonathan | main@d044959 +lokale Änderungen
 - Neu certreq/suite.py + tests/test_suite.py: führt die Regelungsauswahl (llm2/llm) je Bauteil aus experiments/selection-suite/ aus und vergleicht mit den vorab committeten Lösungen (main@d044959: sure/unsure/traps aus den Geltungsbereichen). Zweck: Auswahlfehler außerhalb des Dev-Falls finden (zusammengelegte Regelungen, Fahrzeugklasse, Fahrzeugebene), bevor sie am Held-out passieren.
 - pytest 77/77; Lauf folgt als [run] X-SEL-*.
+
+### 2026-10-24 19:00:26 +0200 | [run] X-SEL: Auswahl-Test 10 Bauteile (llm2 vs llm) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8e900bb
+- llm2: P 0.645 R 1.000 F2 0.901, 20/20 sichere, 11 falsch (9 cross-cutting: Lage am Fahrzeug, Blinker der Alarmanlage), alle Zusammenlegungs-/Klassenfallen vermieden. llm: P 0.476 R 1.000 F2 0.820, 22 falsch (zusätzlich R94/R137/R155/R156).
+- python -m certreq.suite --select llm2|llm --record X-SEL-*; Lösungen vorab committet (main@d044959). llm-Lauf aus Cache, abgelegt auf main@bd76dc6. Ledger X-SEL-llm2/X-SEL-llm, LEARNINGS.
