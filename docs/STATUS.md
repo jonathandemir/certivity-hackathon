@@ -19,7 +19,7 @@ Team-ID der Certivity-Plattform: noch nicht registriert.
 |---|---|---|---|
 | Jonathan Demir | A | MacBook-Pro-von-Jonathan | AP2 Auswahl, AP10 Richter, AP5 Vision, LLM-Zugang, Uploads |
 | Homsianer | B | – | AP3-Rest Gliederung/Tabellen, AP4 Relevanzfilter + Zerlegung |
-| Amiad | C | – | AP6 Demo, AP7 Sub-Goal, AP9 Pitch-Lead |
+| Amiad | C | Fedora-Laptop (Claude über Cowork) | AP6 Demo, AP7 Sub-Goal, AP9 Pitch-Lead |
 
 Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein. Details: docs/PLAN.md „Aufteilung".
 
@@ -46,6 +46,8 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    mit `eval --judge strict` messen (~1–2 min, ~150–330k Tokens; Wiederholungen gecacht).
 5. **B:** Standard für Filter/Extraktion auf `--filters all --extract modal,llm` umstellen (E014/E016-a besser auf allen Ebenen). Größte Recall-Lücken: R10 (EMV-Prüfpegel als Einzelpflichten) und R48.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
+   **C:** Demo v2 steht (demo/README.md): `demo/run <fall-ordner>` = `certreq run` + `demo/prepare.py`, dann `demo/dist/index.html` öffnen, ohne Node/Server. Läuft für jeden Fall (Spec und/oder Zeichnung), am Dev-Fall 189/190 Anforderungen auf der PDF-Seite markiert. Nächstes C: `selection`-Begründungen in Szene 1, Pitch (AP9).
+   **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    Vorschlag A: Auswahl ohne bedingte Kandidaten („If …") und ohne reine Fahrzeugebene; am Dev-Fall messen (Streuung beachten).
    **B:** Bei GTRs nur den verbindlichen Teil „II. Text of the Regulation" extrahieren (GTR 9: ab S. 71; S. 1–70 sind

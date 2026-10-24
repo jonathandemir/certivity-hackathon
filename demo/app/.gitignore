@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# lizenzierte Falldaten und gerenderte Seiten, werden lokal erzeugt
+src/data.json
+src/assets/
