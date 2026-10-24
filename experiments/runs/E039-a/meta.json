@@ -1,0 +1,124 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --out out/E039-a.json",
+ "git": {
+  "commit": "main@b731327",
+  "full_hash": "b731327c894d2226d87fda6972ff216ebd12824b",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "R148 is the consolidated light-signalling device regulation covering the rear position, stop and reversing lamp functions in this module, including photometry and colour."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated PMMA prism retro-reflector must be approved as a retro-reflective device under the consolidated R150, which replaces R3."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "R48 governs the number, position, geometric visibility and electrical connection of rear position, stop, reversing lamps and rear retro-reflectors on M1 vehicles."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED modules on a PCB, with any driver electronics, make the lamp an electrical/electronic sub-assembly subject to EMC emission and immunity requirements."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The rear lamp forms part of the outer surface of an M1 vehicle, so its lens and housing edges must meet external projection requirements."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): R128 would apply only if the lamp used replaceable standardised LED light sources instead of the non-replaceable LED modules described."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Superseded by the consolidated R148, which covers position and stop lamps."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Superseded by the consolidated R148, which covers reversing lamps."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Superseded by the consolidated R150, which covers retro-reflectors."
+  },
+  {
+   "regulation": "UN R104",
+   "role": "rejected",
+   "reason": "Covers retro-reflective markings for M2, M3, N and O vehicles, not M1 lamp retro-reflectors, and is consolidated into R150."
+  },
+  {
+   "regulation": "UN R38",
+   "role": "rejected",
+   "reason": "The specification includes no rear fog lamp function."
+  }
+ ],
+ "vision_mode": "auto",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 62,
+  "paragraphs": 721,
+  "kept": 239,
+  "dropped": 482,
+  "missing": 11,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 0,
+   "cached": 63,
+   "prompt_tokens": 0,
+   "completion_tokens": 0
+  }
+ },
+ "n_requirements": 377,
+ "seconds": 1.8,
+ "created_at": "2026-10-24T19:18:42+02:00",
+ "run_id": "E039-a",
+ "note": "Generalprobe Sonntag: Standard mit CERTREQ_PROVIDER=anthropic (Opus 5.5) über Jonathans Key, Richter gpt lenient",
+ "submission_sha256": "af875f3234a7b6169419d4de1ed149ec3170fb3885f1b52360506b5ea9e4f95b",
+ "recorded_at": "2026-10-24T19:18:43+02:00"
+}
