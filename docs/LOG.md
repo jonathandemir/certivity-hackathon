@@ -643,3 +643,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 22:00:40 +0200 | [change] Pitch: Folie 6 „Ready for a pilot.“ (Impact) angehängt | Jonathan @ MacBook-Pro-von-Jonathan | main@8452f3c +lokale Änderungen
 - Im Stil von Folie 4 (Hintergrund #f3f2ee, Anton/Schibsted Grotesk, drei Karten, schwarze Karte mit roter Zahl): $3.60 und 2 min je Bauteil (synthetischer Frontstoßfänger, Opus, Listenpreis), 100 % mit Seite und Absatz, 24/24 Regelungsänderungen (E038-am-P); Satz: Richter sagt die Plattform auf 4 von 190 voraus (5 Uploads). Quelle docs/pitch/slide-06-impact.html, gerendert mit docs/pitch/render-slide.sh (Chrome headless, 3840x2160). Als Seite 6 ans PDF gehängt; @Amiad: Reihenfolge im Pitch nach Bedarf verschieben (offen bei dir: Demo-Übergang, Score, Sub-Goal, Schluss).
 - PDF 6 Seiten, Textebene auf Seite 6 lesbar; Folie optisch gegen Folie 4 verglichen.
+
+### 2026-10-24 22:02:24 +0200 | [change] Pitch Folie 6: Kosten/Zeit-Karte ersetzt durch 20/20 | Jonathan @ MacBook-Pro-von-Jonathan | main@37cead8 +lokale Änderungen
+- Auf Wunsch von Jonathan ohne Geld/Zeit (bei uns schwach). Erste Karte jetzt 20/20 rules found on 10 new parts (Auswahl-Test X-SEL-llm2/X-SEL-llm2-c: alle 20 sicheren Regelungen, Lösungen vorab festgelegt); Quellenzeile angepasst.
+- PDF 6 Seiten, Seite 6 ersetzt, Textebene geprüft; Folie optisch geprüft.
