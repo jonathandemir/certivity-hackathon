@@ -1,6 +1,6 @@
 """CLI.
 
-    .venv/bin/python -m certreq run <fall-ordner> [--regs "UN R148,UN R48"] [--out out/<fall>.json] [--team-id ...]
+    .venv/bin/python -m certreq run <fall-ordner> [--regs "UN R148,UN R48"] [--filters all] [--out out/<fall>.json] [--team-id ...]
     .venv/bin/python -m certreq eval <abgabe.json> [--record E001 --note "..."]
 
 Vor zählenden Läufen: scripts/pull-first (AGENTS.md §5).
@@ -19,6 +19,7 @@ from . import paths
 from .case import load_case
 from .evaluate import evaluate, format_result, record
 from .extract import extract_requirements
+from .relevance import FILTERS
 from .gitmeta import git_state
 from .select import select_regulations
 from .submission import build_submission, write_submission
@@ -31,13 +32,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     case = load_case(args.case)
     forced = [r.strip() for r in args.regs.split(",")] if args.regs else None
     regs = select_regulations(case, forced)
-    reqs = extract_requirements(regs)
+    filters = _parse_filters(args.filters)
+    reqs = extract_requirements(regs, case.spec_text, filters)
     team_id = args.team_id or os.environ.get("CERTIVITY_TEAM_ID") or PLACEHOLDER_TEAM
     data = build_submission(team_id, case.case_id, reqs)
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
     meta = {"case_id": case.case_id, "command": " ".join([Path(sys.executable).name, "-m", "certreq", *sys.argv[1:]]),
             "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced),
+            "filters": list(filters),
             "n_requirements": len(data["requirements"]), "seconds": round(time.time() - t0, 1),
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds")}
     out.with_suffix(".meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -47,6 +50,16 @@ def cmd_run(args: argparse.Namespace) -> int:
     if team_id == PLACEHOLDER_TEAM:
         print(f"Hinweis: team_id ist '{PLACEHOLDER_TEAM}'. Vor dem Upload CERTIVITY_TEAM_ID setzen bzw. --team-id angeben.")
     return 0
+
+
+def _parse_filters(value: str | None) -> tuple[str, ...]:
+    if not value or value == "none":
+        return ()
+    names = FILTERS if value == "all" else tuple(f.strip() for f in value.split(",") if f.strip())
+    unknown = [f for f in names if f not in FILTERS]
+    if unknown:
+        raise SystemExit(f"Unbekannte Filter {unknown}. Erlaubt: {', '.join(FILTERS)}, all, none")
+    return names
 
 
 def cmd_eval(args: argparse.Namespace) -> int:
@@ -66,6 +79,8 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="Fall-Ordner → Abgabe-JSON (+ .meta.json)")
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
+    r.add_argument("--filters", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
+                   "Standard: none (B0)")
     r.add_argument("--out", help="Ausgabedatei (Standard: out/<fall>.json)")
     r.add_argument("--team-id", help="Team-ID der Plattform (sonst $CERTIVITY_TEAM_ID)")
     r.set_defaults(func=cmd_run)
