@@ -152,11 +152,12 @@ def test_extract_options_modal_and_split(dev_expected):
 
 
 def test_run_defaults_are_the_measured_best(monkeypatch):
-    """`certreq run <fall>` ohne Schalter = Bestmarke E020-a (--select llm2 --filters all --extract modal,llm)."""
+    """`certreq run <fall>` ohne Schalter = Bestmarke E022-hs (--select llm2 --filters all --extract modal,llm + alle Regeln)."""
     import certreq.__main__ as cli
     seen = {}
     monkeypatch.setattr(cli, "cmd_run", lambda args: seen.update(vars(args)) or 0)
     assert cli.main(["run", "some-case"]) == 0
     assert (seen["select"], cli._parse_filters(seen["filters"])) == ("llm2", cli.FILTERS)
-    assert cli._parse_list(seen["extract"], cli.OPTIONS, "x") == ("modal", "llm")
+    from certreq.llmextract import RULES
+    assert cli._parse_list(seen["extract"], cli.OPTIONS, "x") == ("modal", "llm", *RULES)
     assert cli._parse_list("none", cli.OPTIONS, "x") == () and cli._parse_filters("none") == ()

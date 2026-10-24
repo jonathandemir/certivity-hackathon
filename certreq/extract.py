@@ -3,8 +3,8 @@
 Baseline B0 (AP1): jeder nummerierte Absatz der base-Version, der „shall" enthält, wird eine Anforderung
 (Text = Absatztext, Seite = Startseite, Absatz = Label). Keine Zerlegung in einzelne Pflichten.
 AP4: `filters` schaltet den Relevanzfilter entlang der Gliederung zu (certreq/relevance.py), `options` ändert die
-Extraktion. Die Funktion selbst ist ohne Argumente B0; die CLI (`certreq run`) nimmt seit E020-a `--filters all
---extract modal,llm` als Standard (gemessene Bestmarke, AGENTS.md §4).
+Extraktion. Die Funktion selbst ist ohne Argumente B0; die CLI (`certreq run`) nimmt `--filters all` und
+`--extract modal,llm` + alle Zusatzregeln als Standard (Bestmarke E022-hs/E024-hs-c, AGENTS.md §4).
 
 Optionen:
   modal  auch Absätze ohne „shall" mit anderer Pflicht- oder Erlaubnisform: must, may, (not) permitted/allowed,
@@ -19,7 +19,7 @@ Optionen:
   lists, tables, exempt, tests, modes
          Zusatzregeln für den LLM-Prompt (nur mit llm, llmextract.RULES): Aufzählungen im Satz zusammen lassen,
          Tabellen mit Alternativen vs. Pflichtzeilen, Ausnahmen behalten, Prüfparameter behalten, fremde
-         Betriebsarten verwerfen. Einzeln messbar; Standard ohne Regeln (= E020-a).
+         Betriebsarten verwerfen. Einzeln messbar (E025-hs-c…E029-hs-c); in der CLI alle fünf Standard.
 """
 from __future__ import annotations
 

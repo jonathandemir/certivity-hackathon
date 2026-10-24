@@ -3,7 +3,8 @@
     .venv/bin/python -m certreq run <fall-ordner> [--regs "UN R148,UN R48"] [--filters all|none] [--extract modal,llm|none] [--out out/<fall>.json] [--team-id ...]
     .venv/bin/python -m certreq eval <abgabe.json> [--record E001 --note "..."]
 
-Ohne Schalter läuft die Bestmarke E020-a (--select llm2 --filters all --extract modal,llm, braucht LLM-Key);
+Ohne Schalter läuft die Bestmarke E022-hs (--select llm2 --filters all --extract modal,llm,lists,tables,exempt,tests,modes,
+braucht LLM-Key);
 Baseline B0 ohne LLM: --select b0 --filters none --extract none.
 Vor zählenden Läufen: scripts/pull-first (AGENTS.md §5).
 """
@@ -26,6 +27,10 @@ from .gitmeta import git_state
 from . import vision
 from .select import select_regulations
 from .submission import TEAM_ID, build_submission, write_submission
+
+# Bestmarke E022-hs (gpt, lenient 0.704→0.743) und E024-hs-c (Claude, strict 0.697→0.721): LLM-Extraktion mit allen
+# Zusatzregeln aus llmextract.RULES. Vorher (E020-a) modal,llm ohne Regeln.
+DEFAULT_EXTRACT = "modal,llm,lists,tables,exempt,tests,modes"
 
 
 
@@ -98,8 +103,9 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--select", choices=["b0", "llm", "llm2"], default="llm2", help="Regelungsauswahl (AP2): llm2 = Steckbriefe + LLM ohne Annahmen und reine Fahrzeugebene (Standard seit E020-a), llm = ohne diesen Filter (E016-a), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")
     r.add_argument("--filters", default="all", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
                    "Standard: all (seit E020-a), none = B0")
-    r.add_argument("--extract", default="modal,llm", help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
-                   "Standard: modal,llm (seit E020-a, braucht LLM-Key), none = B0 (nur shall-Absätze, einer je Absatz)")
+    r.add_argument("--extract", default=DEFAULT_EXTRACT, help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
+                   f"Standard: {DEFAULT_EXTRACT} (seit E022-hs/E024-hs-c, braucht LLM-Key), modal,llm = E020-a, "
+                   "none = B0 (nur shall-Absätze, einer je Absatz)")
     r.add_argument("--out", help="Ausgabedatei (Standard: out/<fall>.json)")
     r.add_argument("--team-id", help=f"Team-ID der Plattform (sonst $CERTIVITY_TEAM_ID, sonst {TEAM_ID})")
     r.set_defaults(func=cmd_run)

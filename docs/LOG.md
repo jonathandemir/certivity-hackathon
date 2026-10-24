@@ -383,3 +383,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Richter claude-opus-5-5 strict (Plattform-Prognose, AP10-K3-c), Referenz E023-hs-c 0.697 (151/190, 323): alle 5 Regeln 0.721 (161, 356); ohne modes 0.695 (159, 384); ohne tables 0.690 (153, 349; R10 29→22); ohne tests 0.719 (154, 311); ohne exempt 0.722 (159, 341); ohne lists 0.709 (160, 368)
 - Schluss: modes und tables tragen den Gewinn (je ~−0.03 ohne), lists leicht, tests/exempt neutral. Der Verdacht aus dem Vergleich E021/E022 (modes kostet R48) bestätigt sich mit Claude nicht (R48 40 mit, 39 ohne modes). Bündel in beiden Modellreihen besser: gpt E021-hs→E022-hs strict +0.021/lenient +0.039, Claude E023-hs-c→E024-hs-c strict +0.024
 - Kosten je Lauf ~260k Eingabe-/66k Ausgabe-Tokens (62 Aufrufe, ~85 s) + Richter ~440k/22k. Belege experiments/runs/E024-hs-c … E029-hs-c
+
+### 2026-10-24 17:49:16 +0200 | [decision] run ohne Schalter = E022-hs: --extract modal,llm,lists,tables,exempt,tests,modes | Homsianer @ vm | main@4d69ad8 +lokale Änderungen
+- Begründung: Bündel in beiden Modellreihen besser (gpt E021-hs→E022-hs lenient 0.704→0.743, strict 0.650→0.671; Claude E023-hs-c→E024-hs-c strict 0.697→0.721). Einzeln (E025–E029-hs-c, Claude): modes und tables je ~−0.03 ohne, lists −0.012, tests/exempt neutral; keine Regel schadet. Alle fünf bleiben, weil genau diese Kombination in beiden Reihen gemessen ist. Abgestimmt mit Homsianer
+- certreq/__main__.py DEFAULT_EXTRACT; Werkbank 'best' folgt automatisch, 'fast' bleibt B0. Für Sonntag: run ohne Schalter mit Jonathans OpenAI-Key = E022-hs-Konfiguration; Plattform-Upload von E022-hs zur Bestätigung offen (A)
+- Geprüft: pytest 68/68 (test_run_defaults_are_the_measured_best angepasst), run --help zeigt den neuen Standard
