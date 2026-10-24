@@ -31,6 +31,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Jonathan | MacBook-Pro-von-Jonathan | AP3-Rest Gliederung + AP4 Relevanzfilter (B vorgezogen, Übergabe an Omar) | certreq/pdf.py, certreq/extract.py, tests/test_extract.py | 2026-10-24 14:10 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP4 LLM-Extraktion je Absatz (Relevanz + Zerlegung) | certreq/llmextract.py, tests/test_llmextract.py, certreq/extract.py | 2026-10-24 14:42 |
 | Homsianer | vm | AP3-Rest + AP4 (Übernahme von Jonathan): Parser, Relevanzfilter, LLM-Extraktion, GTR Teil II, R10 | certreq/pdf.py, certreq/extract.py, certreq/relevance.py, certreq/llmextract.py, tests/test_extract.py, tests/test_llmextract.py, tests/test_outline.py | 2026-10-24 14:16 |
+| Jonathan | MacBook-Pro-von-Jonathan | Fehleranalyse E020-a (Precision/Recall) + Verbesserungsliste | experiments/runs/E020-a/analyse.json, docs/STATUS.md | 2026-10-24 16:28 |
 
 ## Nächste Schritte
 
