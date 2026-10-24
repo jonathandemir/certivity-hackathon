@@ -69,6 +69,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | 2026-10-24 | Lokaler Richter (AP10) bewertet standardmäßig strikt | Gegenprobe: strict 0 echte Fehlurteile (5 Treffer = Duplikate in der Referenz), lenient 10 → 5,3 % falscher Recall. Eichung gegen Plattform mit E001-Upload | Jonathan |
 | 2026-10-24 | `certreq run` ohne Schalter = Bestmarke E020-a (`--filters all --extract modal,llm` als Standard) | E020-a/E016-a auf allen Ebenen besser als B0 und modal,split; Demo-Fallback ohne Key bleibt über explizites B0 (`--select b0 --filters none --extract none`, bytegleich zu E008-a) | Homsianer |
 | 2026-10-24 | `certreq run` ohne Schalter = E022-hs (alle 5 Prompt-Regeln) | in beiden Modellreihen besser als ohne Regeln (gpt E021-hs→E022-hs lenient +0.039, Claude E023-hs-c→E024-hs-c strict +0.024), Einzelmessung E025–E029-hs-c ohne schädliche Regel; neutrale Regeln (tests, exempt) bleiben, weil genau diese Kombination gemessen ist | Homsianer |
+| 2026-10-24 | **Held-out mit Opus 5.5** rechnen (`CERTREQ_PROVIDER=anthropic`, sonst Standard von `run`); lokaler Richter bleibt gpt; Ablauf: PLAN „Sonntagsablauf“ | Plattform dev 0.762 vs gpt 0.725 (E024-hs-c-P/E022-hs-P); außerhalb von dev R175 +0.07 (X-R175-C/C-rep vs B/B-rep), Auswahl-Test 9 statt 11 Fehlauswahlen (X-SEL-llm2-c) | Jonathan |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 
 ## Scoreboard

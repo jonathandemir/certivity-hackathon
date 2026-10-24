@@ -42,7 +42,7 @@ Alle arbeiten direkt auf main (AGENTS.md §4); die Dateigrenzen unten ersetzen d
 | **A** | Jonathan | AP2, AP10, AP5, AP1-Rest; LLM-Zugang; Plattform-Uploads | 1. LLM-Zugang festlegen (Modell, Key in `.env`, nie ins Repo) und gemeinsamen Client `certreq/llm.py` bereitstellen, weil B und C ihn brauchen · 2. AP10 Richter · 3. AP2 Auswahl · 4. AP5 Vision |
 | **B** | Homsianer | AP3-Rest, AP4 | 1. Gliederung/Überschriften im Parser · 2. Relevanzfilter je Abschnitt · 3. Zerlegung in einzelne Pflichten · 4. Tabellen |
 | **C** | Amiad | AP6, AP7, AP9-Lead | 1. Demo-Gerüst auf E001-Ausgabe · 2. Sub-Goal auf `subgoal-dev` · 3. Demo fertig machen (So vormittags) · 4. Pitch |
-| alle | | AP8 | So 07:30 Freeze, 08:00 Held-out, Uploads bis 12:45 (Zeitplan unten) |
+| alle | | AP8 | So 07:30 Freeze, 08:00 Held-out, letzter Upload 12:30 („Sonntagsablauf“ unten) |
 
 **Wer ändert welche Dateien** (vermeidet Konflikte; Ausnahmen vorher per Claim ankündigen):
 - A: `certreq/select.py`, `certreq/llm.py`, `certreq/judge.py`, `certreq/vision.py`, `certreq/evaluate.py`, `certreq/submission.py`
@@ -81,11 +81,44 @@ Gold-Pflichten fehlen (experiments/runs/E020-a/analyse.json). Messung lokal mit 
 | Sa bis ~16:00 | AP1 fertig: erster valider End-to-End-Upload auf dev (R1-Risiko früh beseitigen) |
 | Sa ab ~16:00 | A: AP2/AP10, B: AP3/AP4, C: AP6/AP7 parallel; jede Änderung einzeln gegen die Bestmarke messen; Bestmarken taggen |
 | Sa abends | Demo-Grundgerüst (AP6) läuft auf dev |
-| So 07:30 | **Code-Freeze Hauptpipeline:** Standard-Einstellungen = beste gemessene Variante, Stand als `best-main-…` getaggt; danach nur noch Fixes |
-| So 08:00 | Held-out holen: `scripts/setup` (zieht das Paket nach und lädt neue PDFs; `scripts/session-start` meldet neue Commits bei Certivity mit „ACHTUNG"). Zusätzlich Ankündigung vor Ort prüfen (Brief: zweites Zip). Dann Lauf von main (neuer Fall: ~4 min, ~0,5 M Tokens, gemessen am synthetischen Stoßfänger), `certreq eval` (nur Validierung), **sofort erster Upload als Sicherung** |
-| So 08:00–12:30 | Nur einzeln gemessene Änderungen; jede hochgeladene Datei + Plattform-Score in experiments/runs/ |
-| So 12:30 | Finale Auswahl der besten Datei (Entscheidung in STATUS) |
-| So 12:45 | **Letzter Upload = beste Datei** (der letzte valide zählt). Danach nichts mehr hochladen |
+| So 07:30–12:30 | **Held-out nach „Sonntagsablauf“ (unten)**: Code-Freeze 07:30, Lauf mit Opus 5.5 ab 08:00, Sicherungs-Upload, Upload-Paare, letzter Upload = beste Datei um 12:30 |
 | So 13:00 | Upload-Schluss |
 | So 13:00–14:30 | Demo- und Pitch-Freeze 14:30; R4 auf der Veranstalter-Plattform einreichen (Frist dort prüfen) |
 | So 15:00 | Pitch |
+
+## Sonntagsablauf (Held-out)
+
+Zeiten MEZ: in der Nacht springt die Uhr 03:00 → 02:00. Stand Sa 24.10. abends, beschlossen: Held-out mit Opus 5.5
+(STATUS „Entscheidungen“). Rollen: **Jonathan** Lauf + Uploads (Anthropic-Key und Plattform-Login auf seinem Rechner),
+**Homsianer** Bereitschaft für Pipeline-Fehler (nach 07:30 nur Fixes, kein Tuning), **Amiad** Sub-Goal-Held-out + Demo
+mit dem Held-out-Ergebnis. Held-out-Eingaben nie ins Repo (Lizenz), nur eigene Ausgaben und Scores.
+
+| Wann | Wer | Schritt | Befehl / Kriterium |
+|---|---|---|---|
+| 07:30 | alle | Code-Freeze: alles gepusht, Tests grün, Stand taggen | `scripts/sync`, `scripts/tag-best freeze-so` |
+| 07:45 | J | Key und Modell prüfen | `CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq.llm` |
+| 08:00 | J | Held-out holen; Ordner prüfen (erwartet `cases/heldout-front-bumper`, `subgoal/heldout`). Kommt er als Zip (Brief): nach `vendor/industrial-ai-hackathon/` entpacken, dann `python tools/fetch_regulations.py` im Paket | `scripts/setup`, `ls vendor/industrial-ai-hackathon/cases vendor/industrial-ai-hackathon/subgoal` |
+| 08:05 | J | Lauf H001 (2–4 min) und ablegen | `scripts/pull-first`, dann `CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/heldout-front-bumper --out out/H001.json`, dann `.venv/bin/python -m certreq eval out/H001.json --record H001` (nur Validierung), commit + `scripts/sync` |
+| 08:15 | J | **Sicherungs-Upload H001** | `.venv/bin/python -m certreq.upload H001` → `out/upload/H001-heldout-front-bumper.json` hochladen; Score nach `experiments/runs/H001/platform.json`, Ledger-Zeile, `[run]`-Log |
+| 08:15 | J | Zeigt die Plattform beim Held-out einen Score? → Weg A, sonst Weg B | |
+| 08:20 | J+H | Auswahl ansehen: Regelungen, Gründe, Anforderungen je Regelung | `out/H001.meta.json` (`selection`), `.venv/bin/python -m certreq.variants H001 --list` |
+| 08:05 | A | Sub-Goal-Held-out rechnen, ablegen; Upload über J (eigenes Kontingent) | `.venv/bin/python -m certreq.subgoal run vendor/industrial-ai-hackathon/subgoal/heldout --out out/subgoal-heldout.json`, Variante nach dem Dev-Plattformvergleich E037-am vs E038-am |
+| 12:00 | J | Beste Datei festlegen (nur nach Plattform-Score bzw. Weg B), Eintrag in STATUS | |
+| 12:30 | J | **Letzter Upload = beste Datei**, auch wenn sie schon einmal oben war (der letzte valide zählt). Danach keine Uploads mehr | `.venv/bin/python -m certreq.upload <ID>` |
+
+**Weg A: Score sichtbar → Upload-Paare gegen H001**, je Paar genau eine Änderung, höchstens 5 Uploads pro Stunde
+(etwa einer alle 12 min). Varianten ohne neuen LLM-Lauf (`certreq.variants`, übrige Anforderungen byte-gleich):
+1. R94 gewählt? → `certreq.variants H001 --drop "UN R94" --as H001-noR94` (Opus nahm R94 am synthetischen Stoßfänger, X-BUMPER-c).
+2. R127 und GTR 9 beide gewählt? → `--drop "UN GTR 9" --as H001-noGTR9`, danach `--drop "UN R127" --as H001-noR127`.
+3. R26 bzw. R42 nur testen, wenn Zeit bleibt (beim Stoßfänger vermutlich richtig).
+4. `modes` (R175-Prüfstein: kostet dort ~5 Treffer): Neulauf H002 mit `--extract modal,llm,lists,tables,exempt,tests`
+   (neuer LLM-Lauf, Streuung ~0.01).
+Übernehmen nur bei mehr als ~0.01 F2 Gewinn; Gewinne kombinieren (mehrere `--drop`) und die Kombination ebenfalls hochladen.
+
+**Weg B: kein Score → nicht spielen.** H001 bleibt; einzige Ausnahme: R94 gewählt → H001-noR94 hochladen (Fahrzeugebene,
+Opus' Fehlmuster im Auswahl-Test X-SEL-llm2-c). Keine weiteren Uploads.
+
+**Fallbacks:** Opus-Fehler oder Rate-Limit → Lauf ohne `CERTREQ_PROVIDER` (gpt-Standard, ~3 min) als H001-gpt.
+Validierungsfehler der Plattform → `python tools/validate.py <datei>` zeigt den JSON-Pfad. Schief gelaufener Upload
+→ beste bisherige Datei erneut hochladen (alle liegen unter experiments/runs/).
+

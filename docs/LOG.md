@@ -487,3 +487,11 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:12:41 +0200 | [run] Opus 5.5 vs gpt außerhalb des Dev-Falls (R175, Auswahl-Test, Stoßfänger) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@2ad7e46
 - R175 (gpt-Richter): Opus 0.657/0.660 vs gpt 0.578/0.597 → +0.07, ~10 Treffer mehr, stabil. Fable 5.1: 0.621. Auswahl-Test: Opus P 0.690 (9 falsch) vs gpt 0.645 (11), beide 20/20. Synthetischer Frontstoßfänger (main@e1aa2d1): gpt 269 Anf./7 Regelungen, Opus 354/8 (+R94 mit 19 Anf.).
 - Empfehlung: Held-out mit CERTREQ_PROVIDER=anthropic (Opus 5.5); Varianten ohne R94 bzw. R127/GTR 9 für Upload-Paare. Ledger X-R175-C/C-rep/F, X-SEL-llm2-c, X-BUMPER-c; LEARNINGS.
+
+### 2026-10-24 19:18:22 +0200 | [change] Sonntagsablauf + certreq.variants | Jonathan @ MacBook-Pro-von-Jonathan | main@2fef202 +lokale Änderungen
+- docs/PLAN.md „Sonntagsablauf“: Rollen, Befehle 07:30–12:30, Weg A (Score sichtbar: Upload-Paare gegen H001, je eine Änderung) und Weg B (kein Score: nicht spielen, nur ggf. ohne R94), Fallbacks. Neu certreq/variants.py: Varianten aus abgelegtem Lauf ohne neuen LLM-Lauf (--drop Regelung, --list), Ablage wie ein Lauf, danach certreq.upload.
+- pytest grün (neu tests/test_variants.py); Generalprobe E039-a folgt.
+
+### 2026-10-24 19:18:22 +0200 | [decision] Held-out mit Opus 5.5 (CERTREQ_PROVIDER=anthropic) | Jonathan @ MacBook-Pro-von-Jonathan | main@2fef202 +lokale Änderungen
+- Lokaler Richter bleibt gpt; Provider nur für den Lauf setzen, nie in .env.local.
+- Belege: Plattform E024-hs-c-P 0.762 vs E022-hs-P 0.725; R175 X-R175-C/C-rep +0.07; X-SEL-llm2-c. Bestätigt von Jonathan.
