@@ -36,6 +36,7 @@ OUT = paths.OUT_DIR / "arena"
 REAL = paths.REPO_ROOT / "experiments" / "real-parts"
 SYNTH = paths.REPO_ROOT / "experiments" / "selection-suite"
 SUBSUITE = paths.REPO_ROOT / "experiments" / "subgoal-suite"
+GUARD = paths.REPO_ROOT / "experiments" / "guard-cases"  # Schutzfälle (z. B. Frontstoßfänger), gehören immer zu tune
 MAX_GUIDANCE_WORDS = 300
 
 
@@ -98,7 +99,8 @@ def ask_trainer(system: str, user: str, schema: dict) -> dict:
 
 # ------------------------------------------------------------------ Spur „select" (Hauptziel, Regelungsauswahl)
 def select_cases() -> dict[str, list[dict]]:
-    """tune = synthetische Suite + echte Teile (tune) + Dev-Rückleuchte (Gold aus expected.json); holdout = echte Teile."""
+    """tune = synthetische Suite + Schutzfälle + echte Teile (tune) + Dev-Rückleuchte (Gold aus expected.json);
+    holdout = echte Teile (holdout)."""
     sets: dict[str, list[dict]] = {"tune": [], "holdout": []}
 
     def from_suite(folder: Path, split: str, tag: str):
@@ -110,6 +112,7 @@ def select_cases() -> dict[str, list[dict]]:
                 sets[split].append({"name": f"{tag}/{name}", "dir": folder / name, "exp": exp})
 
     from_suite(SYNTH, "tune", "synth")
+    from_suite(GUARD, "tune", "guard")
     from_suite(REAL / "tune", "tune", "real")
     from_suite(REAL / "holdout", "holdout", "real")
     dev = paths.CASES_DIR / "dev-rear-lamp"

@@ -1,0 +1,28 @@
+{
+ "about": "Schutzfälle für die Arena: Bauteile, bei denen eine zu enge Auswahlregel teuer wäre (Held-out ist ein Frontstoßfänger). Lösung = unser Urteil aus den Geltungsbereichen (kein Certivity-Gold), deshalb eng gefasst: sure nur, was der Geltungsbereich klar trägt und die Spec ausdrücklich nennt.",
+ "components": {
+  "front-bumper": {
+   "sure": [
+    "UN R42",
+    "UN R127",
+    "UN R149",
+    "UN R48",
+    "UN R10"
+   ],
+   "unsure": [
+    "UN GTR 9",
+    "UN R26",
+    "UN R94",
+    "UN R137",
+    "UN R152",
+    "UN R148",
+    "UN R150"
+   ],
+   "traps": [
+    "UN R19",
+    "UN R32"
+   ],
+   "basis": "Spec (synthetisch, experiments/synthetic/front-bumper): M1, Funktionen 'Low-speed impact protection', 'Pedestrian protection in frontal impacts (lower leg contact zone)', LED-Nebelscheinwerfer, Ultraschallsensoren. R42 Scope: 'applies to vehicles of category M1 with regard to the behaviour of their front and rear protective devices when involved in a collision at low speed'. R127 Scope: 'applies to motor vehicles of categories M1 and N1' (Fußgängerschutz, Beinform-Aufprall auf den Stoßfänger). R149 Nebelscheinwerfer (R19 aufgegangen), R48 Anbau, R10 Elektronik. GTR 9 parallel zu R127, R26/R94/R137 vertretbar → unsure."
+  }
+ }
+}

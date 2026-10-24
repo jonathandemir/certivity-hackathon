@@ -1,0 +1,320 @@
+{
+ "note": "certreq.arena select in Amiads Cloud-Sitzung (Code main@769a655 + arena/guard-cases dieses Commits), Claude opus-5-5",
+ "rounds": [
+  {
+   "round": 0,
+   "hypothesis": "Basislinie (ohne Zusatzregeln)",
+   "guidance": "",
+   "tune": {
+    "precision": 0.791,
+    "recall": 1.0,
+    "f2": 0.9498,
+    "hits": 53,
+    "missing": 0,
+    "wrong": 14,
+    "traps_taken": 3,
+    "components": 30,
+    "components_exact": 21
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "accepted": true,
+   "at": "20:12:12",
+   "tune_errors": {
+    "synth/front-fog-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R127",
+      "UN R26"
+     ]
+    },
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "synth/windscreen": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    },
+    "synth/airbag-module": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "synth/eps-steering": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R148",
+      "UN R48"
+     ]
+    },
+    "certivity/dev-rear-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    }
+   }
+  },
+  {
+   "round": 1,
+   "hypothesis": "Most false positives (R26 three times, R94/R137 twice, R127, R40 twice) come from adding whole-vehicle approval regulations simply because the component affects a vehicle-level test such as crash, pedestrian protection, external projections or vehicle emissions. One rule can remove them: select a vehicle-level regulation only if it offers component or separate-technical-unit approval for this device class. This should raise precision without losing recall.",
+   "guidance": "1. Separate vehicle-level regulations from component-level ones. Some regulations approve only a complete vehicle type. Examples: frontal and offset impact (R94, R137), side impact (R95), pedestrian protection (R127), external projections (R26), and vehicle exhaust emissions or noise of the whole vehicle type (e.g. R40 for motorcycle emissions). Do not select such a regulation just because the component influences or is checked during that vehicle test. Select it only if it explicitly provides approval for the component itself as a component or separate technical unit, and the specified part falls within that scope. Aftermarket or replacement parts are approved under their dedicated component or replacement-part regulation, not under the vehicle-type regulation of the vehicle they fit.",
+   "tune": {
+    "precision": 0.9455,
+    "recall": 0.9811,
+    "f2": 0.9738,
+    "hits": 52,
+    "missing": 1,
+    "wrong": 3,
+    "traps_taken": 0,
+    "components": 30,
+    "components_exact": 27
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 0.9091,
+    "f2": 0.9259,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "accepted": true,
+   "overfit_suspect": false,
+   "at": "20:13:39",
+   "tune_errors": {
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "guard/front-bumper": {
+     "missing": [
+      "UN R127"
+     ],
+     "wrong": []
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R48"
+     ]
+    }
+   }
+  },
+  {
+   "round": 2,
+   "hypothesis": "Two of the three remaining errors are false positives for the lighting installation regulation R48, and one is also for R10. In both cases a component only uses or replaces part of the lighting: a replaceable light source, and an alarm that flashes the existing direction indicators. A rule on light source vs. lamp vs. installation, and on when R48 and R10 apply, should remove these false positives. It should keep R48 for modules that actually carry lamps, such as the bumper with integrated fog lamps, which raises precision without hurting recall.",
+   "guidance": "Keep rule 1 unchanged and add the following rule 2 as the only change this round: '2. Distinguish light source, lamp and installation. A replaceable light source (filament R37, gas-discharge R99, LED light source R128 or an LED substitute for a filament category) is approved only under its light-source regulation. For a light source alone, do not add lamp device regulations, the installation regulation R48 or the EMC regulation R10. Select R48 only when the component is itself a lighting or light-signalling device, or a module that physically carries such devices for fitting to the vehicle. A system that merely activates existing vehicle lamps, such as an alarm or controller that flashes the direction indicators, does not trigger R48; select only that system's own regulations and, if it contains electronics, R10.' Do not change the R127 handling in this round. Revisit it separately later: the remaining miss concerns a front-end module that explicitly claims pedestrian protection.",
+   "tune": {
+    "precision": 0.8548,
+    "recall": 1.0,
+    "f2": 0.9672,
+    "hits": 53,
+    "missing": 0,
+    "wrong": 9,
+    "traps_taken": 3,
+    "components": 30,
+    "components_exact": 23
+   },
+   "holdout": {
+    "precision": 0.9167,
+    "recall": 1.0,
+    "f2": 0.9821,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "accepted": false,
+   "overfit_suspect": false,
+   "at": "20:15:19",
+   "tune_errors": {
+    "synth/front-fog-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    },
+    "synth/windscreen": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    },
+    "synth/airbag-module": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "synth/eps-steering": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "certivity/dev-rear-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    }
+   }
+  },
+  {
+   "round": 3,
+   "hypothesis": "The one remaining recall miss is a vehicle-level regulation (pedestrian protection). The component is the dedicated part that delivers that protection, and its spec states that protection as its own function. Rule 1 is currently absolute, so it suppresses such cases. The earlier attempt to target the R48/R10 false positives was rejected, so this round changes something else. It adds a narrow exception to rule 1: a vehicle-level regulation is selected when the spec explicitly names that regulation's protective function as a function of the component, and the component is the structure that provides it. This should restore recall. The R26/R94/R137/R40 false positives that rule 1 removed should stay removed, because influencing a test does not count as an explicitly stated, dedicated function.",
+   "guidance": "1. Separate vehicle-level regulations from component-level ones. Some regulations approve only a complete vehicle type. Examples: frontal and offset impact (R94, R137), side impact (R95), pedestrian protection (R127), external projections (R26), and vehicle exhaust emissions or noise of the whole vehicle type (e.g. R40 for motorcycle emissions). Do not select such a regulation just because the component influences or is checked during that vehicle test. Select it only in two cases. (a) It explicitly provides approval for the component itself as a component or separate technical unit, and the specified part falls within that scope. (b) The spec explicitly lists, as a function of the component, the specific protection that the regulation assesses, and the component is the dedicated vehicle structure that delivers it for the stated vehicle category. Example of (b): a front-end module whose stated function includes pedestrian lower-leg protection or low-speed impact protection; select the corresponding protection regulations. Being merely mounted on, near or inside such a structure, or being tested along with it, does not qualify. Aftermarket or replacement parts are approved under their dedicated component or replacement-part regulation, not under the vehicle-type regulation of the vehicle they fit.",
+   "tune": {
+    "precision": 0.9138,
+    "recall": 1.0,
+    "f2": 0.9815,
+    "hits": 53,
+    "missing": 0,
+    "wrong": 5,
+    "traps_taken": 0,
+    "components": 30,
+    "components_exact": 27
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 0.9091,
+    "f2": 0.9259,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 9
+   },
+   "accepted": true,
+   "overfit_suspect": false,
+   "at": "20:17:01",
+   "tune_errors": {
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "synth/eps-steering": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R148"
+     ]
+    }
+   }
+  },
+  {
+   "round": 4,
+   "hypothesis": "The steering-column false positives (frontal and offset impact regulations) arise because exception 1(b) fires on any stated crash-related function, here a collapsible column. Limiting (b) to parts whose primary purpose is the assessed protection should remove these false positives. Recall should hold, because the front-end/pedestrian case that motivated (b) still qualifies. This round leaves the lighting and alarm errors alone; the round-2 attempt on those was rejected.",
+   "guidance": "Replace rule 1 with this sharpened version and keep everything else unchanged:\n\n1. Separate vehicle-level regulations from component-level ones. Some regulations approve only a complete vehicle type. Examples are frontal and offset impact (R94, R137), side impact (R95), pedestrian protection (R127), external projections (R26), and whole-vehicle emissions or noise (e.g. R40). Do not select such a regulation just because the component influences, or is checked during, that vehicle test. Select it in only two cases.\n(a) The regulation explicitly approves the component itself as a component or separate technical unit, and the part falls within that scope.\n(b) The protection the regulation assesses is the primary purpose of the component, and the component is the dedicated vehicle structure that delivers it for the stated category. Example: a front-end module designed for pedestrian lower-leg or low-speed impact protection.\nA component whose primary function is something else (steering, seating, lighting, propulsion, comfort) does not qualify under (b), even if its spec lists crash energy absorption, collapse or occupant protection as a secondary feature. Being mounted on, near or inside such a structure, or being tested along with it, also does not qualify. Aftermarket or replacement parts are approved under their dedicated component or replacement-part regulation, never under the vehicle-type regulation of the vehicle they fit.\n\nKeep the whole block under 300 words.",
+   "tune": {
+    "precision": 0.9298,
+    "recall": 1.0,
+    "f2": 0.9851,
+    "hits": 53,
+    "missing": 0,
+    "wrong": 4,
+    "traps_taken": 0,
+    "components": 30,
+    "components_exact": 28
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 10
+   },
+   "accepted": false,
+   "overfit_suspect": false,
+   "at": "20:18:41",
+   "tune_errors": {
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R148",
+      "UN R48"
+     ]
+    }
+   }
+  }
+ ]
+}

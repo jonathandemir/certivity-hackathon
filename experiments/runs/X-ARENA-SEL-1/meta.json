@@ -1,0 +1,261 @@
+{
+ "note": "certreq.arena select in Amiads Cloud-Sitzung (Code main@769a655 + arena/guard-cases dieses Commits), Claude opus-5-5",
+ "rounds": [
+  {
+   "round": 0,
+   "hypothesis": "Basislinie (ohne Zusatzregeln)",
+   "guidance": "",
+   "tune": {
+    "precision": 0.7742,
+    "recall": 1.0,
+    "f2": 0.9449,
+    "hits": 48,
+    "missing": 0,
+    "wrong": 14,
+    "traps_taken": 3,
+    "components": 29,
+    "components_exact": 20
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "accepted": true,
+   "at": "20:05:06",
+   "tune_errors": {
+    "synth/front-fog-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R127",
+      "UN R26"
+     ]
+    },
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "synth/windscreen": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    },
+    "synth/airbag-module": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "synth/eps-steering": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R148",
+      "UN R48"
+     ]
+    },
+    "certivity/dev-rear-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    }
+   }
+  },
+  {
+   "round": 1,
+   "hypothesis": "Most false positives come from whole-vehicle regulations, which are tested on a complete vehicle rather than issued to a component. These are frontal and side impact (R94, R137, R95), external projections (R26) and pedestrian safety (R127). They were wrongly added to lamps, a windscreen, a steering column and an airbag steering wheel. One rule excluding vehicle-level crash and projection regulations unless the component is itself the approval subject should remove about 7 false positives without losing recall.",
+   "guidance": "1. Select only regulations under which the component itself, or its installation on the vehicle, is approved. Do not select whole-vehicle regulations whose test object is the complete vehicle. These include frontal impact (R94, R137), side impact (R95, R135), external projections (R26), pedestrian safety (R127) and rear impact or fuel-system integrity. Their only link to the component is that it contributes to the vehicle's crash or projection performance. Select them only when the specification states the item is a separate technical unit or system approved under that regulation, or explicitly requests vehicle-type approval.",
+   "tune": {
+    "precision": 0.8889,
+    "recall": 1.0,
+    "f2": 0.9756,
+    "hits": 48,
+    "missing": 0,
+    "wrong": 6,
+    "traps_taken": 0,
+    "components": 29,
+    "components_exact": 25
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "accepted": true,
+   "overfit_suspect": false,
+   "at": "20:06:13",
+   "tune_errors": {
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R10",
+      "UN R148",
+      "UN R48"
+     ]
+    }
+   }
+  },
+  {
+   "round": 2,
+   "hypothesis": "The remaining false positives share one pattern: the model adds regulations that govern a neighbouring object rather than the component itself. These are the lamp that houses a light source, the vehicle's lighting installation that a system merely triggers, and the vehicle-level emission approval that a replacement exhaust must not degrade. One rule separating the component's own approval regulation from these neighbouring ones should remove R40, R48, R148 and R10 for the light source. It should leave correct selections (R92, R37, R163/R116/R10 for electronic systems) intact.",
+   "guidance": "1. Select only regulations under which the component itself, or its installation on the vehicle, is approved. Do not select whole-vehicle regulations whose test object is the complete vehicle. These include frontal impact (R94, R137), side impact (R95, R135), external projections (R26), pedestrian safety (R127) and rear impact or fuel-system integrity. Their only link to the component is that it contributes to the vehicle's crash or projection performance. Select them only when the specification states the item is a separate technical unit or system approved under that regulation, or explicitly requests vehicle-type approval.\n2. Do not select regulations that govern a neighbouring object the component feeds, is fitted into, or merely activates. Three cases apply:\n(a) A light source (filament, gas-discharge or LED replacement lamp) is approved only under its light-source regulation (R37, R99, R128). Do not select the regulations for the lamps it is used in (e.g. R148, R149), the lighting-installation regulation (R48), or EMC (R10).\n(b) A system that only uses existing vehicle lamps or signals, such as flashing the direction indicators, does not bring in R48 or lamp regulations.\n(c) A replacement or aftermarket part with its own replacement-part regulation is approved under that regulation only. Examples are replacement silencing systems (R59, R92), replacement catalytic converters (R103) and replacement brake parts (R90). Do not add the vehicle-level emission or noise regulations (e.g. R40, R41, R47, R51, R83) whose limits the part must preserve, unless the specification explicitly requests vehicle approval.",
+   "tune": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 48,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 29,
+    "components_exact": 29
+   },
+   "holdout": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f2": 1.0,
+    "hits": 11,
+    "missing": 0,
+    "wrong": 0,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 10
+   },
+   "accepted": true,
+   "overfit_suspect": false,
+   "at": "20:07:43",
+   "tune_errors": {}
+  },
+  {
+   "round": 3,
+   "hypothesis": "Tune is now perfect, but rules 1 and 2 only remove regulations. On the hidden holdout they may cause missed regulations, which F2 punishes more than extra ones. The most common such regulation is EMC (R10): rule 2(a) excludes it for light sources, and the model may wrongly extend that exclusion to all electronic parts. Adding one recall-side rule should guard against this without changing tune behaviour. The rule says that any component containing electrical or electronic sub-assemblies, and which is not itself a light source, also needs R10 alongside its device regulation.",
+   "guidance": "Keep rules 1 and 2 unchanged and append this new rule:\n3. Electrical or electronic sub-assemblies need R10 (EMC) in addition to their device regulation. This covers any component with active electronics, such as control units, LED lamps with drivers, sensors, alarm or immobiliser units, chargers and electrically operated devices. It applies whether the item is supplied as a separate unit or fitted to the vehicle. The exclusion of R10 in rule 2(a) applies only to bare light sources approved under R37, R99 or R128. It does not apply to lamps, modules or other devices that contain electronics.\n\nCheck that the whole block stays under 300 words. If tune F2 drops because of false-positive R10 selections, narrow the rule to items that have electronic control or switching circuitry. Do not revert to removing it.",
+   "tune": {
+    "precision": 0.8276,
+    "recall": 1.0,
+    "f2": 0.96,
+    "hits": 48,
+    "missing": 0,
+    "wrong": 10,
+    "traps_taken": 2,
+    "components": 29,
+    "components_exact": 22
+   },
+   "holdout": {
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f2": 0.9091,
+    "hits": 10,
+    "missing": 1,
+    "wrong": 1,
+    "traps_taken": 0,
+    "components": 10,
+    "components_exact": 8
+   },
+   "accepted": false,
+   "overfit_suspect": false,
+   "at": "20:09:21",
+   "tune_errors": {
+    "synth/front-fog-lamp": {
+     "missing": [],
+     "wrong": [
+      "UN R26"
+     ]
+    },
+    "synth/alarm-system": {
+     "missing": [],
+     "wrong": [
+      "UN R48"
+     ]
+    },
+    "synth/airbag-module": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "synth/eps-steering": {
+     "missing": [],
+     "wrong": [
+      "UN R137",
+      "UN R94"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-1290-superduke-r": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+     "missing": [],
+     "wrong": [
+      "UN R40"
+     ]
+    },
+    "real/osram-night-breaker-led-c5w-ece": {
+     "missing": [],
+     "wrong": [
+      "UN R148",
+      "UN R48"
+     ]
+    }
+   }
+  }
+ ]
+}
