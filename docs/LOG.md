@@ -135,3 +135,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - cop: COP_RE auch 'Control of conformity of production' (R48-Anhang). parts: zweite Aufzählungsform, ≥3 Geschwister mit gleichem Titelanfang (3 Wörter) wie ein Treffer, z. B. R150 5.1–5.3 'Technical requirements concerning retro-reflectors / marking materials / advance warning triangles' → 5.2/5.3 fallen weg; nur die parallelen Geschwister, andere bleiben
 - Vormessung je Änderung (Arbeitsstand, offizielle Messung folgt): cop-Erweiterung allein Seiten-F2 gold-Regelungen 0.753→0.757, B0-Auswahl 0.342→0.344; parallele Abschnitte zusätzlich 0.757→0.773 bzw. 0.344→0.348; Seiten-Recall jeweils unverändert (1.000 bzw. 0.849)
 - Geprüft: pytest 33/33 (neu test_parts_parallel_sections_with_same_title_opening)
+
+### 2026-10-24 14:29:39 +0200 | [run] E006 Relevanzfilter-Feinschliff, --filters all | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@3e979ed
+- vs E004: Seiten P 0.101→0.103, R 0.849 gleich, F2 0.342→0.348; Regelungen gleich (F2 0.405); 2341 Anforderungen
+- Mit Gold-Regelungen (Diagnose, filters.txt): Seiten-F2 0.773 bei R 1.000, Absatz-Ebene F2 0.458 (eigene Messung gegen expected.json). Tag best-main-pagef2-0.348. Beleg experiments/runs/E006/

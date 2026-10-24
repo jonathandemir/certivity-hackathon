@@ -1,0 +1,15 @@
+# Einzelmessung je Filter, Stand main@3e979ed (Code sauber)
+== gold-regs
+  B0                 n= 1214  Seiten P 0.206 R 1.000 F2 0.565  | Absätze P 0.079 R 0.798 F2 0.282
+  admin              n= 1065  Seiten P 0.236 R 1.000 F2 0.606  | Absätze P 0.090 R 0.798 F2 0.309
+  cop                n= 1139  Seiten P 0.209 R 1.000 F2 0.570  | Absätze P 0.084 R 0.798 F2 0.295
+  parts              n=  921  Seiten P 0.264 R 1.000 F2 0.642  | Absätze P 0.104 R 0.798 F2 0.341
+  esa                n= 1073  Seiten P 0.239 R 1.000 F2 0.611  | Absätze P 0.089 R 0.798 F2 0.308
+  admin+cop+parts+esa n=  564  Seiten P 0.405 R 1.000 F2 0.773  | Absätze P 0.169 R 0.798 F2 0.458
+== auswahl-B0
+  B0                 n= 3642  Seiten P 0.073 R 0.849 F2 0.272  | Absätze P 0.023 R 0.681 F2 0.100
+  admin              n= 3044  Seiten P 0.084 R 0.849 F2 0.302  | Absätze P 0.027 R 0.681 F2 0.116
+  cop                n= 3318  Seiten P 0.076 R 0.849 F2 0.278  | Absätze P 0.025 R 0.681 F2 0.108
+  parts              n= 3263  Seiten P 0.083 R 0.849 F2 0.298  | Absätze P 0.025 R 0.681 F2 0.110
+  esa                n= 3642  Seiten P 0.073 R 0.849 F2 0.272  | Absätze P 0.023 R 0.681 F2 0.100
+  admin+cop+parts+esa n= 2341  Seiten P 0.103 R 0.849 F2 0.348  | Absätze P 0.035 R 0.681 F2 0.145
