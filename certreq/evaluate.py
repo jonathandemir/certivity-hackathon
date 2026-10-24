@@ -37,7 +37,8 @@ def score_local(submission: Path, expected: Path) -> dict:
     return levels
 
 
-def evaluate(submission: Path, expected: Path | None = None) -> dict:
+def evaluate(submission: Path, expected: Path | None = None, judge_mode: str | None = None) -> dict:
+    """judge_mode "strict"/"lenient": zusätzlich Anforderungsebene per lokalem LLM-Richter (certreq/judge.py)."""
     data = json.loads(submission.read_text(encoding="utf-8"))
     case_id = data.get("case_id", "")
     if expected is None:
@@ -48,6 +49,15 @@ def evaluate(submission: Path, expected: Path | None = None) -> dict:
               "validate_output": out, "expected": str(expected) if expected else None, "levels": {}}
     if ok and expected:
         result["levels"] = score_local(submission, expected)
+        if judge_mode:
+            from . import judge
+            gold = json.loads(Path(expected).read_text(encoding="utf-8"))["requirements"]
+            report = judge.judge(data, gold, lenient=judge_mode == "lenient")
+            # voller Bericht (mit Texten aus expected.json) nur lokal unter out/, nie ins Repo
+            submission.with_suffix(".judge.json").write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n",
+                                                            encoding="utf-8")
+            result["levels"]["requirement_level"] = report["level"] | {"source": f"lokaler Richter ({judge_mode})"}
+            result["judge"] = judge.public_summary(report)
     return result
 
 
@@ -59,7 +69,11 @@ def format_result(res: dict) -> str:
         for name, lv in res["levels"].items():
             lines.append(f"{name.replace('_level', ''):<12}{lv['precision']:>8.3f}{lv['recall']:>8.3f}{lv['f1']:>8.3f}"
                          f"{lv['f2']:>8.3f}   {lv['n_submitted']}/{lv['n_expected']}/{lv['n_matched']}")
-        lines.append("Anforderungsebene (Hauptscore): nur auf der Plattform.")
+        if "requirement_level" in res["levels"]:
+            lines.append(f"requirement = {res['levels']['requirement_level']['source']}, Näherung an den Plattform-Score; "
+                         "Fehlende je Fall: <abgabe>.judge.json (lokal, nicht committen).")
+        else:
+            lines.append("Anforderungsebene (Hauptscore): Plattform oder lokal mit --judge strict.")
     elif res["valid"]:
         lines.append("Kein expected.json für diesen Fall: nur validiert (Held-out wird nur auf der Plattform bewertet).")
     return "\n".join(lines)

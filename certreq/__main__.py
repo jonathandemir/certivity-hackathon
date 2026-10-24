@@ -69,7 +69,7 @@ def _parse_filters(value: str | None) -> tuple[str, ...]:
 
 def cmd_eval(args: argparse.Namespace) -> int:
     sub = Path(args.submission)
-    res = evaluate(sub, Path(args.expected) if args.expected else None)
+    res = evaluate(sub, Path(args.expected) if args.expected else None, args.judge)
     print(format_result(res))
     if args.record:
         dest = record(args.record, sub, res, args.note or "", args.allow_unclean)
@@ -97,6 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--record", metavar="ID", help="Ledger-ID, z. B. E001: Beleg nach experiments/runs/<ID>/")
     e.add_argument("--note", help="kurze Beschreibung für meta.json")
     e.add_argument("--allow-unclean", action="store_true", help="nur für Diagnosen: auch unsaubere Läufe ablegen")
+    e.add_argument("--judge", choices=["strict", "lenient"], help="Anforderungsebene per lokalem LLM-Richter (AP10)")
     e.set_defaults(func=cmd_eval)
     args = p.parse_args(argv)
     return args.func(args)
