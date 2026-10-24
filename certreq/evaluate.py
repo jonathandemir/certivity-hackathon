@@ -104,6 +104,9 @@ def record(run_id: str, submission: Path, res: dict, note: str, allow_unclean: b
     with gzip.GzipFile(dest / "submission.json.gz", "wb", mtime=0) as fh:
         fh.write(raw)
     (dest / "score.json").write_text(json.dumps(res, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if meta.get("drawing_regions"):  # Beschriftungstexte der Zeichnung sind Falldaten (Lizenz): nicht ins Repo
+        meta["drawing_regions"]["parts"] = [{k: v for k, v in p.items() if k != "note"}
+                                            for p in meta["drawing_regions"]["parts"]]
     meta.update({"run_id": run_id, "note": note, "submission_sha256": hashlib.sha256(raw).hexdigest(),
                  "recorded_at": datetime.now().astimezone().isoformat(timespec="seconds")})
     (dest / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

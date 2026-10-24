@@ -74,7 +74,12 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    Rechner mit Anthropic-Key; Ablauf PLAN „Sonntagsablauf“ (08:05, Upload über A). Entscheidung trifft C.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
    **C:** Produkt steht: `demo/werkbank` startet lokalen Server + Werkbank (Prüfung starten mit Upload, Anforderungen prüfen mit PDF-Beleg und Review, Auswahl erklärt, Versionsvergleich, Export); 3D-Präsentation je Lauf unter `/present/<lauf>/` bzw. ohne Server `demo/run <fall>`. Alles in demo/README.md. Nächstes C: Pitch (AP9), Probelauf mit LLM-Key.
-   **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.
+   **A → C (Bildregionen, erledigt Sa abends):** `certreq run … --regions` legt in `.meta.json` `drawing_regions` ab:
+   `{image, width, height, spec_parts, parts: [{label, note, bbox: [x0, y0, x1, y1] in Pixeln (Ursprung oben links), spec_parts}]}`.
+   `label` = Beschriftung in der Zeichnung, `spec_parts` = zugeordnete Namen aus „Main Parts“ der Spec (gleiche Regel wie
+   `prepare.parse_spec`). Ändert die Abgabe nicht; ein Aufruf mehr (~20 s). Ohne Lauf: `python -m certreq.vision regions <fall>
+   --out r.json --draw kontrolle.png`. Dev-Zeichnung geprüft: alle 7 Teile richtig umrandet (gpt trennt die 3 Schrauben, Opus
+   fasst sie zusammen). `note` (Beschriftungstext) bleibt lokal: `eval --record` entfernt ihn (Lizenz).
    **A/B → C (Werkbank):** erledigt: `certreq run` ohne Schalter = E022-hs (`--extract modal,llm,lists,tables,exempt,tests,modes`). `demo/server.py` „best" = `[]` folgt dem Standard automatisch (seit Homsianers MODES-Änderung, also jetzt auch `--select llm2` statt `llm`); „fast" bleibt B0 ohne Key. Neue Felder: `.meta.json` llm.rules (aktive Regeln), llm.usage.fallbacks (nur Anthropic).
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
