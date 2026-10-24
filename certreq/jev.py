@@ -129,3 +129,74 @@ if __name__ == "__main__":
         os.environ["CERTREQ_LLM_CACHE"] = "0"
         raise SystemExit(_check())
     raise SystemExit(__doc__)
+
+
+# ---------------------------------------------------------------- Anforderungen bewerten (Versuch 1)
+# Zwei Formulierungen, vorab festgelegt in experiments/jev/PROTOKOLL.md.
+REQ_FORMS = {
+    "A": ("{ref}: \"{text}\"\n\nIs this an obligation that the component described in the state must meet, in its own "
+          "design, performance, marking or testing, or in how it is installed on the vehicle?",
+          {"true": "Yes: it applies to this component or to a device or function it contains, under conditions this "
+                   "component actually has.",
+           "false": "No: it concerns other devices, other vehicle categories, variants or functions this component does "
+                    "not have, the vehicle as a whole, or only the administrative approval procedure."}),
+    "B": ("A homologation engineer lists the engineering requirements this component must fulfil under the UN "
+          "Regulations, one obligation per requirement, quoting the regulation. Would the engineer include this "
+          "requirement in that list?\n\n{ref}: \"{text}\"",
+          {"true": "Yes: a specific obligation this component must meet that belongs in its requirement list.",
+           "false": "No: not applicable to this component, too general, merely restating another requirement, a "
+                    "definition, or an administrative or approval-procedure matter."}),
+}
+BATCH = 40
+
+
+def _ref(r: dict) -> str:
+    s = r["source"]
+    par = f", paragraph {s['paragraph']}" if s.get("paragraph") else ""
+    return f"{s['regulation']}{par} (page {s['page']})"
+
+
+def score_requirements(spec_text: str, reqs: list[dict], form: str = "A", batch: int = BATCH,
+                       workers: int = 8) -> dict[str, float]:
+    """p je Anforderungs-ID: Wahrscheinlichkeit, dass Jev die Frage der Formulierung `form` mit Ja beantwortet."""
+    template, criteria = REQ_FORMS[form]
+    state = f"Component specification:\n{spec_text.strip()}"
+    chunks = [reqs[i:i + batch] for i in range(0, len(reqs), batch)]
+    requests = [(state, {f"q{j}": {"type": "boolean", "criteria": criteria,
+                                   "instructions": template.format(ref=_ref(r), text=r["text"])}
+                         for j, r in enumerate(chunk)}) for chunk in chunks]
+    out: dict[str, float] = {}
+    for chunk, ans in zip(chunks, decide_many(requests, workers=workers)):
+        for j, r in enumerate(chunk):
+            out[r["id"]] = float(ans["answers"][f"q{j}"]["probability"])
+    return out
+
+
+# ---------------------------------------------------------------- Kandidaten-Absätze bewerten (Versuch 2)
+PARA_FORM = ("Paragraph {label} of {reg} ({title}), section: {path}, page {page}:\n\"{text}\"\n\nA homologation engineer "
+             "lists the engineering requirements this component must fulfil under the UN Regulations. Would the "
+             "engineer take at least one requirement from this paragraph into that list?",
+             {"true": "Yes: the paragraph contains an obligation that this component, a device or function it contains, "
+                      "or its installation on the vehicle must meet.",
+              "false": "No: the paragraph only concerns other devices, vehicle categories or variants this component does "
+                       "not have, definitions, or administrative or approval-procedure matters."})
+PARA_BATCH = 25
+PARA_MAX_CHARS = 3000
+
+
+def score_paragraphs(spec_text: str, cands: list, batch: int = PARA_BATCH, workers: int = 8) -> list[float]:
+    """cands: Liste von (Regulation, Paragraph) wie in extract.extract_requirements. Rückgabe: p je Kandidat."""
+    template, criteria = PARA_FORM
+    state = f"Component specification:\n{spec_text.strip()}"
+    chunks = [cands[i:i + batch] for i in range(0, len(cands), batch)]
+
+    def question(reg, p) -> dict:
+        text = p.text if len(p.text) <= PARA_MAX_CHARS else p.text[:PARA_MAX_CHARS] + " [...]"
+        return {"type": "boolean", "criteria": criteria,
+                "instructions": template.format(label=p.label, reg=reg.name, title=reg.title,
+                                                path=" > ".join(p.headings) or "-", page=p.page, text=text)}
+    requests = [(state, {f"q{j}": question(reg, p) for j, (reg, p) in enumerate(chunk)}) for chunk in chunks]
+    out: list[float] = []
+    for chunk, ans in zip(chunks, decide_many(requests, workers=workers)):
+        out += [float(ans["answers"][f"q{j}"]["probability"]) for j in range(len(chunk))]
+    return out

@@ -1,0 +1,308 @@
+[
+ {
+  "case": "dev (Opus-Auswahl)",
+  "regs": [
+   "UN R148",
+   "UN R150",
+   "UN R48",
+   "UN R10",
+   "UN R26"
+  ],
+  "candidates": 721,
+  "gold_paragraphs": 119,
+  "gold_in_candidates": 116,
+  "curve": {
+   "0.00": {
+    "kept": 721,
+    "dropped_share": 0.0,
+    "chars_kept_share": 1.0,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.05": {
+    "kept": 721,
+    "dropped_share": 0.0,
+    "chars_kept_share": 1.0,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.10": {
+    "kept": 634,
+    "dropped_share": 0.121,
+    "chars_kept_share": 0.882,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.15": {
+    "kept": 568,
+    "dropped_share": 0.212,
+    "chars_kept_share": 0.792,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.20": {
+    "kept": 523,
+    "dropped_share": 0.275,
+    "chars_kept_share": 0.722,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.25": {
+    "kept": 494,
+    "dropped_share": 0.315,
+    "chars_kept_share": 0.68,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.30": {
+    "kept": 475,
+    "dropped_share": 0.341,
+    "chars_kept_share": 0.649,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.35": {
+    "kept": 456,
+    "dropped_share": 0.368,
+    "chars_kept_share": 0.629,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.40": {
+    "kept": 431,
+    "dropped_share": 0.402,
+    "chars_kept_share": 0.602,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.45": {
+    "kept": 409,
+    "dropped_share": 0.433,
+    "chars_kept_share": 0.577,
+    "gold_kept": 116,
+    "gold_recall": 1.0
+   },
+   "0.50": {
+    "kept": 378,
+    "dropped_share": 0.476,
+    "chars_kept_share": 0.546,
+    "gold_kept": 113,
+    "gold_recall": 0.9741
+   },
+   "0.55": {
+    "kept": 353,
+    "dropped_share": 0.51,
+    "chars_kept_share": 0.52,
+    "gold_kept": 111,
+    "gold_recall": 0.9569
+   },
+   "0.60": {
+    "kept": 318,
+    "dropped_share": 0.559,
+    "chars_kept_share": 0.471,
+    "gold_kept": 110,
+    "gold_recall": 0.9483
+   },
+   "0.65": {
+    "kept": 274,
+    "dropped_share": 0.62,
+    "chars_kept_share": 0.417,
+    "gold_kept": 102,
+    "gold_recall": 0.8793
+   },
+   "0.70": {
+    "kept": 231,
+    "dropped_share": 0.68,
+    "chars_kept_share": 0.348,
+    "gold_kept": 97,
+    "gold_recall": 0.8362
+   },
+   "0.75": {
+    "kept": 181,
+    "dropped_share": 0.749,
+    "chars_kept_share": 0.288,
+    "gold_kept": 87,
+    "gold_recall": 0.75
+   },
+   "0.80": {
+    "kept": 142,
+    "dropped_share": 0.803,
+    "chars_kept_share": 0.224,
+    "gold_kept": 76,
+    "gold_recall": 0.6552
+   },
+   "0.85": {
+    "kept": 103,
+    "dropped_share": 0.857,
+    "chars_kept_share": 0.173,
+    "gold_kept": 65,
+    "gold_recall": 0.5603
+   },
+   "0.90": {
+    "kept": 67,
+    "dropped_share": 0.907,
+    "chars_kept_share": 0.122,
+    "gold_kept": 45,
+    "gold_recall": 0.3879
+   },
+   "0.95": {
+    "kept": 26,
+    "dropped_share": 0.964,
+    "chars_kept_share": 0.051,
+    "gold_kept": 23,
+    "gold_recall": 0.1983
+   }
+  }
+ },
+ {
+  "case": "R175 (Abschnitte 5–6)",
+  "regs": [
+   "UN R175"
+  ],
+  "candidates": 80,
+  "gold_paragraphs": 45,
+  "gold_in_candidates": 45,
+  "curve": {
+   "0.00": {
+    "kept": 80,
+    "dropped_share": 0.0,
+    "chars_kept_share": 1.0,
+    "gold_kept": 45,
+    "gold_recall": 1.0
+   },
+   "0.05": {
+    "kept": 80,
+    "dropped_share": 0.0,
+    "chars_kept_share": 1.0,
+    "gold_kept": 45,
+    "gold_recall": 1.0
+   },
+   "0.10": {
+    "kept": 79,
+    "dropped_share": 0.012,
+    "chars_kept_share": 0.98,
+    "gold_kept": 45,
+    "gold_recall": 1.0
+   },
+   "0.15": {
+    "kept": 77,
+    "dropped_share": 0.037,
+    "chars_kept_share": 0.964,
+    "gold_kept": 45,
+    "gold_recall": 1.0
+   },
+   "0.20": {
+    "kept": 77,
+    "dropped_share": 0.037,
+    "chars_kept_share": 0.964,
+    "gold_kept": 45,
+    "gold_recall": 1.0
+   },
+   "0.25": {
+    "kept": 75,
+    "dropped_share": 0.062,
+    "chars_kept_share": 0.956,
+    "gold_kept": 43,
+    "gold_recall": 0.9556
+   },
+   "0.30": {
+    "kept": 74,
+    "dropped_share": 0.075,
+    "chars_kept_share": 0.953,
+    "gold_kept": 42,
+    "gold_recall": 0.9333
+   },
+   "0.35": {
+    "kept": 71,
+    "dropped_share": 0.113,
+    "chars_kept_share": 0.94,
+    "gold_kept": 40,
+    "gold_recall": 0.8889
+   },
+   "0.40": {
+    "kept": 71,
+    "dropped_share": 0.113,
+    "chars_kept_share": 0.94,
+    "gold_kept": 40,
+    "gold_recall": 0.8889
+   },
+   "0.45": {
+    "kept": 67,
+    "dropped_share": 0.162,
+    "chars_kept_share": 0.908,
+    "gold_kept": 37,
+    "gold_recall": 0.8222
+   },
+   "0.50": {
+    "kept": 66,
+    "dropped_share": 0.175,
+    "chars_kept_share": 0.907,
+    "gold_kept": 36,
+    "gold_recall": 0.8
+   },
+   "0.55": {
+    "kept": 62,
+    "dropped_share": 0.225,
+    "chars_kept_share": 0.885,
+    "gold_kept": 34,
+    "gold_recall": 0.7556
+   },
+   "0.60": {
+    "kept": 60,
+    "dropped_share": 0.25,
+    "chars_kept_share": 0.843,
+    "gold_kept": 33,
+    "gold_recall": 0.7333
+   },
+   "0.65": {
+    "kept": 59,
+    "dropped_share": 0.262,
+    "chars_kept_share": 0.837,
+    "gold_kept": 32,
+    "gold_recall": 0.7111
+   },
+   "0.70": {
+    "kept": 57,
+    "dropped_share": 0.287,
+    "chars_kept_share": 0.826,
+    "gold_kept": 30,
+    "gold_recall": 0.6667
+   },
+   "0.75": {
+    "kept": 54,
+    "dropped_share": 0.325,
+    "chars_kept_share": 0.755,
+    "gold_kept": 29,
+    "gold_recall": 0.6444
+   },
+   "0.80": {
+    "kept": 48,
+    "dropped_share": 0.4,
+    "chars_kept_share": 0.686,
+    "gold_kept": 26,
+    "gold_recall": 0.5778
+   },
+   "0.85": {
+    "kept": 38,
+    "dropped_share": 0.525,
+    "chars_kept_share": 0.57,
+    "gold_kept": 25,
+    "gold_recall": 0.5556
+   },
+   "0.90": {
+    "kept": 33,
+    "dropped_share": 0.588,
+    "chars_kept_share": 0.508,
+    "gold_kept": 23,
+    "gold_recall": 0.5111
+   },
+   "0.95": {
+    "kept": 18,
+    "dropped_share": 0.775,
+    "chars_kept_share": 0.242,
+    "gold_kept": 18,
+    "gold_recall": 0.4
+   }
+  }
+ }
+]

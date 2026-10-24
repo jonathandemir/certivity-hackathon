@@ -589,3 +589,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 21:04:06 +0200 | [change] certreq.jev: Jev über Vercel AI Gateway + Versuchsprotokoll | Jonathan @ MacBook-Pro-von-Jonathan | main@646768d +lokale Änderungen
 - Neu certreq/jev.py (POST /v1/evaluate, Cache out/cache/jev, Wiederholung bei 429/529/5xx, Kosten aus Gateway-Metadaten, TLS über truststore wie das Anthropic-SDK). Smoke-Test: 0,92 s, 391 Tokens, $0.000016, Antworten plausibel. experiments/jev/PROTOKOLL.md legt Versuch 1 (Nachfilter auf fertige Anforderungen, Abstimmung E039-a/E040-a, Tests E024-hs-c, X-R175-C/C-rep, E022-hs, E030-a, E044-a, Annahmekriterium) und Versuch 2 (Vorfilter auf Absätze) vor der Auswertung fest.
 - Testaufruf python -m certreq.jev check; pytest folgt mit tests/test_jev.py.
+
+### 2026-10-24 21:06:55 +0200 | [run] Jev-Versuche nach Protokoll: Nachfilter verworfen, Vorfilter nicht übernommen | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8c9547a
+- X-JEV-1: Form B, AUC Abstimmung 0.741, Test 0.66–0.74; θ* 0.05 streicht nichts, Gewinn 0.000 auf allen 6 Testläufen, bestes θ je Lauf ≤ +0.004; schlechtester p-Bereich trifft noch 13–20 % (≥ F2/5). X-JEV-2: dev θ 0.20–0.40 spart 28–40 % Absätze ohne Gold-Verlust, R175 verliert ab θ 0.25 Gold-Absätze → Kriterium verfehlt.
+- Protokoll experiments/jev/PROTOKOLL.md vorab committet (main@8c9547a). Gesamtkosten Jev $0.034, ~45 s. Ledger X-JEV-1/2, LEARNINGS (Verworfen). Pipeline-Standard unverändert.

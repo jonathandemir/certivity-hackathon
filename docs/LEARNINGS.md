@@ -181,6 +181,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Verworfen, nicht erneut versuchen
 
+- **2026-10-24 · Jev (Decision-Modell, Vercel AI Gateway) als Nachfilter auf Anforderungen.** Beleg: X-JEV-1
+  (Protokoll vorab, 8 Läufe mit bekannten Treffern). Jev trennt Treffer von Nicht-Treffern echt (AUC 0.66–0.74, Trefferquote
+  0.13 → 0.70 über p), aber der schlechteste Bereich trifft noch zu 13–20 %, also über der F2-Schwelle F2/5 ≈ 0.15:
+  Streichen bringt höchstens +0.004. Gilt für jeden Precision-Filter auf unsere Ausgaben, solange sie so aussehen.
+  Nicht erneut versuchen, außer die Ausgaben bekommen einen echten Bodensatz (z. B. nach starkem Recall-Ausbau).
+  Vorfilter auf Absätze (X-JEV-2): dev 28–40 % weniger Absätze ohne Gold-Verlust, aber R175 verliert ab θ 0.25 Gold-Absätze;
+  nur als Kostensenker nach dem Hackathon denkbar (θ ≤ 0.20, ~28 % Opus-Eingabe). Technisch: TLS über truststore,
+  ~0,4 s je Anfrage mit 40 Fragen, $0.042 je Mio. Eingabe-Tokens.
+
 - **Nachweispflichten per Regel `duties` zurückholen.** Beleg: X-R175-hs-duties-1/-2 (main@aeb9bd7, Claude-Richter strict): R175 0.642 → 0.623; die gezielten Nachweispflichten steigen nur von 3–5 auf 5–6 von 11, dafür ~20 Ausgaben mehr. Auf dev wurden alle 18 Nachweispflichten schon ohne Regel gefunden. `testcond` dagegen wirkt gezielt (Prüfbedingungen 6–7 → 9–10/13), ist aber netto neutral (R175 0.638, dev 0.707 vs 0.718, E041/E042-hs-c) und bleibt Upload-Kandidat. Hintergrund: die R175-Liste (requirements_old) zählt auch Prüfschritte und Messgenauigkeiten (6.2.x, 6.5), das Dev-Gold nicht; Regeln, die eine Liste bedienen, verschieben in der anderen.
 - **Weitere Prompt-Regeln für Einzelmuster (`optional`, `complete`, auch `vehicle`).** Beleg: E035-hs-c 0.692, E036-hs-c 0.684 vs Standard-Mittel 0.718 (E024/E033-hs-c, Streuung ~0.007; main@9542611): die gezielten Gold-Pflichten werden trotz Regel nicht getroffen ('optional' 3/9, 'except' 11/17 wie vorher), die Regel verschiebt aber andere Ausgaben. Konsequenz: die fünf Standardregeln sind der gemessene Endstand der Prompt-Arbeit; weitere Hebel eher über Auswahl (A) oder Plattform-Uploads.
 - **Fahrzeugausrüstung per Prompt-Regel verwerfen (`--extract …,vehicle`).** Beleg: E030-hs-c vs E024-hs-c (Claude-Reihe, main@870cd16): F2 strict 0.721→0.698, R48-Recall 40→34/56: das Modell verwirft mit der Regel auch Installationspflichten der Leuchte (Lage, Sichtbarkeit), obwohl die Regel sie ausdrücklich ausnimmt. Für den Stoßfänger noch riskanter (R26/R127 sind fahrzeugseitig formuliert). Stattdessen: Precision über Prüfabläufe (`procedure`, E031-hs-c: P 0.45→0.52 bei −7 Treffern) oder über Dubletten (PLAN Prio 2) holen.
