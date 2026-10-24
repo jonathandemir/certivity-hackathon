@@ -75,3 +75,11 @@ def test_neue_regeln_lassen_den_standard_prompt_unveraendert():
     prompt = llmextract.system_prompt(five)
     assert llmextract.RULES["vehicle"] not in prompt and llmextract.RULES["procedure"] not in prompt
     assert llmextract.RULES["vehicle"] in llmextract.system_prompt(five + ("vehicle",))
+
+
+def test_duties_und_testcond_hinter_schalter():
+    five = ("lists", "tables", "exempt", "tests", "modes")
+    base = llmextract.system_prompt(five)
+    for rule in ("duties", "testcond"):
+        assert llmextract.RULES[rule] not in base
+        assert llmextract.RULES[rule] in llmextract.system_prompt(five + (rule,))

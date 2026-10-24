@@ -8,7 +8,7 @@ Fehlt ein Absatz in der Antwort, bleibt sein Rohtext (kein stiller Recall-Verlus
 Das Beispiel im Prompt ist selbst geschrieben (andere Regelung), nicht aus dem Dev-Gold, damit die Dev-Messung ehrlich bleibt.
 
 Zusatzregeln (RULES) aus der Fehleranalyse von E020-a (LOG [finding] 2026-10-24): einzeln per `--extract` schaltbar
-(lists, tables, exempt, tests, modes; dazu vehicle, procedure, procedure2, optional, complete aus der Analyse von E024-hs-c), damit jede für sich
+(lists, tables, exempt, tests, modes; dazu vehicle, procedure, procedure2, optional, complete aus der Analyse von E024-hs-c; duties, testcond aus dem R175-Prüfstein), damit jede für sich
 gemessen werden kann. Ohne Regel ist der Prompt bytegleich
 zu v2, gecachte Antworten (E020-a) bleiben gültig. Die Beispiele in den Regeln sind allgemein formuliert, keine Gold-Texte.
 """
@@ -104,6 +104,16 @@ RULES = {
                 "component too, because it may be installed in that role: keep them, with their condition.",
     "complete": "Carry every exception, alternative and condition that belongs to a requirement into it completely, "
                 "including all lettered cases and conditions in parentheses; do not shorten or drop them.",
+    # Übergabe A (STATUS 19:45): auf dem R175-Prüfstein fehlen mit Opus 22 Anforderungen, 11 Nachweispflichten des
+    # Herstellers („declare / demonstrate / document … to the Approval Authority"), 11 Prüfbedingungen (6.3, 6.5)
+    "duties": "Obligations of the manufacturer or applicant to declare, demonstrate, document or justify to the Approval "
+              "Authority or Technical Service how this component (or the system it belongs to) meets a technical "
+              "requirement are requirements too: keep them, although they address the approval process. Application "
+              "forms, approval marks and communication between authorities stay excluded.",
+    "testcond": "Test conditions under which the component must meet a requirement are requirements: the test area or "
+                "zone on the component, the test target or impact point, speed, mass, environment, and the initial "
+                "state or pre-conditioning of the component or vehicle. This narrows the exclusion of the test set-up "
+                "above: only measuring instruments, their accuracy, cabling and data recording stay excluded.",
 }
 ANSWER_MARK = "Answer as JSON matching the schema"
 

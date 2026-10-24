@@ -16,13 +16,14 @@ Optionen:
   llm    das LLM liest jeden Kandidat-Absatz mit Gliederungspfad und Bauteil-Spec und gibt die einzelnen Pflichten
          als shall-Sätze zurück, leer = nicht anwendbar (certreq/llmextract.py). Ersetzt split; Kandidaten wie sonst
          (Filter, shall bzw. modal).
-  lists, tables, exempt, tests, modes, vehicle, procedure, procedure2, optional, complete
+  lists, tables, exempt, tests, modes, vehicle, procedure, procedure2, optional, complete, duties, testcond
          Zusatzregeln für den LLM-Prompt (nur mit llm, llmextract.RULES): Aufzählungen im Satz zusammen lassen,
          Tabellen mit Alternativen vs. Pflichtzeilen, Ausnahmen behalten, Prüfparameter behalten, fremde
          Betriebsarten verwerfen. Einzeln messbar (E025-hs-c…E029-hs-c); in der CLI die ersten fünf Standard.
          vehicle (reine Fahrzeugausrüstung verwerfen) und procedure (Prüfanweisungen an Labor/Technischen Dienst
          weglassen; procedure2 behält dabei „shall be tested by method X"), optional (Pflichten für den Einbau als
-         optionales Gerät behalten) und complete (Ausnahmen vollständig übernehmen) sind neu und noch hinter Schalter.
+         optionales Gerät behalten), complete (Ausnahmen vollständig übernehmen), duties (Nachweispflichten des
+         Herstellers behalten) und testcond (Prüfbedingungen behalten) sind neu und noch hinter Schalter.
 """
 from __future__ import annotations
 
