@@ -18,7 +18,7 @@ export default function Runs({ state, refresh, openRun, say, currentRun }) {
     const now = new Set(running.map((r) => r.id))
     for (const id of prev.current) if (!now.has(id)) {
       const r = state.runs.find((x) => x.id === id)
-      if (r?.state === 'done') say(`Prüfung ${id} fertig: ${r.n} Anforderungen`)
+      if (r?.state === 'done') { say(`Prüfung ${id} fertig: ${r.n} Anforderungen`); openRun(id, 'ueberblick') }
       if (r?.state === 'failed') say(`Prüfung ${id} fehlgeschlagen, Log ansehen`, 'err')
     }
     prev.current = now
@@ -88,7 +88,7 @@ function RunRow({ r, openRun, current }) {
         <span className="num">{done ? r.pages : '—'}</span>
         <span className="num">{r.state === 'running' ? fmtSec(r.elapsed) : fmtSec(r.seconds)}</span>
         <span className="rt-act">
-          {done && <button className="link" onClick={(e) => { e.stopPropagation(); window.open(`/present/${encodeURIComponent(r.id)}/`, '_blank') }}>Präsentation ↗</button>}
+          {done && <button className="link" onClick={(e) => { e.stopPropagation(); openRun(r.id, 'ueberblick') }}>Überblick</button>}
           {done && <button className="pill-btn">Öffnen</button>}
           {!done && <button className="link">{open || r.state === 'running' ? 'Log' : 'Log ▾'}</button>}
         </span>

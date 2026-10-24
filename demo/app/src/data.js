@@ -9,6 +9,9 @@ const D = (typeof window !== 'undefined' && window.CERTREQ) || EMPTY
 
 export const CASE = D.case
 export const RUN = D.run || {}
+export const RUN_ID = D.runId || ''
+// In der Werkbank eingebettet (Ansicht „Überblick“): eigene Kopfzeile schlanker, Belege springen in die Werkbank
+export const EMBED = typeof location !== 'undefined' && new URLSearchParams(location.search).has('embed')
 export const REGS = D.regs
 export const REQS = D.reqs
 export const PAGES_TOTAL = D.pagesTotal || new Set(REQS.map((r) => `${r.reg}#${r.version}#${r.page}`)).size

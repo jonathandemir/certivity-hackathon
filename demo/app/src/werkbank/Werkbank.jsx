@@ -8,9 +8,10 @@ import Compare from './Compare.jsx'
 
 const VIEWS = [
   ['pruefungen', 'Prüfungen'],
+  ['ueberblick', 'Überblick'],
   ['anforderungen', 'Anforderungen'],
   ['auswahl', 'Auswahl'],
-  ['vergleich', 'Vergleich'],
+  ['vergleich', 'Änderungen'],
 ]
 
 export default function Werkbank() {
@@ -76,13 +77,24 @@ export default function Werkbank() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setPalette((p) => !p) }
       if (e.target.closest('input, textarea')) return
       if (e.altKey || e.metaKey || e.ctrlKey) return
-      const i = ['1', '2', '3', '4'].indexOf(e.key)
+      const i = ['1', '2', '3', '4', '5'].indexOf(e.key)
       if (i >= 0) setView(VIEWS[i][0])
       if (e.key === 'p' && runId) present()
     }
     window.addEventListener('keydown', key)
     return () => window.removeEventListener('keydown', key)
   }, [present, runId])
+
+  // Aus dem eingebetteten Überblick: „In der Werkbank prüfen“ öffnet die Anforderung samt PDF-Beleg
+  useEffect(() => {
+    const msg = (e) => {
+      if (e.origin !== location.origin || e.data?.type !== 'certreq:req') return
+      setReqId(e.data.id); setView('anforderungen')
+    }
+    window.addEventListener('message', msg)
+    return () => window.removeEventListener('message', msg)
+  }, [])
+  const openReq = useCallback((id) => { setReqId(id); setFilters({ reg: null, part: null, status: null, q: '' }); setView('anforderungen') }, [])
 
   const runMeta = state?.runs.find((r) => r.id === runId)
   return (
@@ -119,8 +131,8 @@ export default function Werkbank() {
           ))}
         </nav>
         <div className="hdr-actions">
-          <button className="ghost" onClick={() => setPalette(true)}><span>Suchen und springen</span><kbd>⌘K</kbd></button>
-          <button className="ghost" onClick={present} disabled={!runId} title="3D-Präsentation dieses Laufs (P)">Präsentation ↗</button>
+          <button className="ghost" onClick={() => setPalette(true)} title="Ansicht, Lauf oder Anforderung suchen"><span>Suchen</span><kbd>⌘K</kbd></button>
+          <button className="ghost" onClick={present} disabled={!runId} title="Überblick als Vollbild für den Beamer (P)">Vollbild ↗</button>
           <button className="primary" onClick={() => setView('pruefungen')}>Neue Prüfung</button>
         </div>
       </header>
@@ -128,8 +140,9 @@ export default function Werkbank() {
       <main className="wb-main" onClick={() => switcher && setSwitcher(false)}>
         {view === 'pruefungen' && <Runs state={state} refresh={refresh} openRun={openRun} say={say} currentRun={runId} />}
         {view === 'anforderungen' && (run ? <Reqs run={run} color={color} filters={filters} setFilters={setFilters} reqId={reqId} setReqId={setReqId} setReview={setReview} say={say} /> : <Loading />)}
+        {view === 'ueberblick' && (runId ? <Overview runId={runId} /> : <Loading />)}
         {view === 'auswahl' && (run ? <Selection run={run} color={color} goReqs={(reg) => { setFilters((f) => ({ ...f, reg })); setView('anforderungen') }} /> : <Loading />)}
-        {view === 'vergleich' && <Compare state={state} say={say} />}
+        {view === 'vergleich' && <Compare state={state} run={run} say={say} openReq={openReq} />}
       </main>
 
       <AnimatePresence>{palette && <Palette state={state} run={run} close={() => setPalette(false)} setView={setView} openRun={openRun} setReqId={(id) => { setReqId(id); setView('anforderungen') }} present={present} />}</AnimatePresence>
@@ -140,6 +153,18 @@ export default function Werkbank() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  )
+}
+
+// Überblick = die 3D-Präsentation des Laufs, eingebettet (eigenes Bundle mit three.js, daher als Rahmen)
+function Overview({ runId }) {
+  const [ready, setReady] = useState(false)
+  return (
+    <div className="ov">
+      {!ready && <div className="loading ov-load"><span className="spin" />Baue Überblick …</div>}
+      <iframe key={runId} title="Überblick" className={`ov-frame ${ready ? 'on' : ''}`} onLoad={() => setReady(true)}
+        src={`/present/${encodeURIComponent(runId)}/?embed=1`} />
     </div>
   )
 }

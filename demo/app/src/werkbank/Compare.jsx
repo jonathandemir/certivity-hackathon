@@ -8,20 +8,34 @@ const TYPES = {
   added: { label: 'Neu', sign: '+', cls: 'add' },
 }
 
-// Versionsvergleich (Sub-Goal, AP7): alte → neue Fassung einer Regelung, Wirkung auf die Anforderungen.
-export default function Compare({ state, say }) {
+// Änderungen (Sub-Goal, AP7): alte → neue Fassung einer Regelung, Wirkung auf die Anforderungen.
+// Quellen: (1) zitierte Regelungen des geöffneten Laufs, für die es eine neuere Fassung gibt („Was ändert sich für MEIN
+// Bauteil?“), (2) die Sub-Goal-Ordner des Pakets (dev, Sonntag heldout).
+export default function Compare({ state, run, say, openReq }) {
   const folders = state?.subgoals || []
-  const [id, setId] = useState('')
+  const updates = run?.updates || []
+  const sources = useMemo(() => [
+    ...updates.map((u) => ({ key: `run:${u.reg}`, kind: 'run', reg: u.reg, label: u.reg.replace('UN ', ''), sub: `${u.from} → ${u.to}`, n: u.n })),
+    ...folders.map((f) => ({ key: `pkg:${f.id}`, kind: 'pkg', id: f.id, label: `Paket ${f.id}`, done: f.done })),
+  ], [updates, folders])
+  const [key, setKey] = useState('')
+  const [picked, setPicked] = useState(false) // von Hand gewählt → nicht mehr automatisch umschalten
   const [res, setRes] = useState(null)
   const [busy, setBusy] = useState(false)
   const [type, setType] = useState(null)
-  useEffect(() => { if (!id && folders.length) setId(folders[0].id) }, [folders, id])
-  const run = async (force = false) => {
-    if (!id) return
+  const src = sources.find((x) => x.key === key)
+  useEffect(() => {
+    if (sources.length && (!src || (!picked && key !== sources[0].key))) { setKey(sources[0].key); setRes(null) }
+  }, [sources, key, src, picked])
+  const go = async (force = false) => {
+    if (!src) return
     setBusy(true)
-    try { setRes(await api('/api/subgoal', { method: 'POST', body: { id, force } })) } catch (e) { say(e.message, 'err') } finally { setBusy(false) }
+    try {
+      const body = src.kind === 'run' ? { run: run.runId, reg: src.reg, force } : { id: src.id, force }
+      setRes(await api(src.kind === 'run' ? '/api/impact' : '/api/subgoal', { method: 'POST', body }))
+    } catch (e) { say(e.message, 'err') } finally { setBusy(false) }
   }
-  useEffect(() => { if (id && folders.find((f) => f.id === id)?.done) run() }, [id]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (src && (src.kind === 'run' || src.done)) go() }, [key, run?.runId]) // eslint-disable-line react-hooks/exhaustive-deps
   const old = useMemo(() => Object.fromEntries((res?.requirements || []).map((r) => [r.id, r])), [res])
   const changes = res?.submission.changes || []
   const counts = { modified: 0, removed: 0, added: 0 }
@@ -32,7 +46,7 @@ export default function Compare({ state, say }) {
     <div className="cmp">
       <div className="cmp-head">
         <div>
-          <div className="h-label">Versionsvergleich · Sub-Goal</div>
+          <div className="h-label">{src?.kind === 'run' ? `Neue Fassung · Wirkung auf Lauf ${run?.runId}` : 'Versionsvergleich · Sub-Goal'}</div>
           {res ? (
             <div className="cmp-title">
               <span className="ct-reg">{res.regulation}</span>
@@ -41,14 +55,18 @@ export default function Compare({ state, say }) {
               <span className="ct-v new">{res.new}</span>
             </div>
           ) : (
-            <div className="cmp-title muted">Alte und neue Fassung vergleichen, Wirkung auf bestehende Anforderungen</div>
+            <div className="cmp-title muted">{busy ? 'Vergleiche Fassungen …' : sources.length ? 'Neue Fassung prüfen: was ändert sich für die Anforderungen?' : 'Für die zitierten Regelungen gibt es keine neuere Fassung im Paket.'}</div>
           )}
         </div>
         <div className="cmp-ctrl">
           <div className="mini-tabs">
-            {folders.map((f) => <button key={f.id} className={id === f.id ? 'on' : ''} onClick={() => { setId(f.id); setRes(null) }}>{f.id}</button>)}
+            {sources.map((x) => (
+              <button key={x.key} className={key === x.key ? 'on' : ''} onClick={() => { setKey(x.key); setPicked(true); setRes(null); setType(null) }} title={x.kind === 'run' ? `${x.n} Anforderungen dieses Laufs` : 'Sub-Goal-Ordner des Pakets'}>
+                {x.label}{x.sub && <em className="mt-sub">{x.sub}</em>}
+              </button>
+            ))}
           </div>
-          <button className="primary" disabled={!id || busy} onClick={() => run(!!res)}>{busy ? 'Vergleicht …' : res ? 'Neu vergleichen' : 'Vergleichen'}</button>
+          <button className="primary" disabled={!src || busy} onClick={() => go(!!res)}>{busy ? 'Vergleicht …' : res ? 'Neu vergleichen' : 'Vergleichen'}</button>
         </div>
       </div>
 
@@ -66,7 +84,7 @@ export default function Compare({ state, say }) {
               <span>F2 lokal<br /><em>R {res.eval.all.recall.toFixed(2)} · P {res.eval.all.precision.toFixed(2)}</em></span>
             </div>
           )}
-          <div className="cmp-meta">{res.requirements.length} alte Anforderungen geprüft · {fmtSec(res.seconds)} · regelbasiert, ohne KI</div>
+          <div className="cmp-meta">{res.requirements.length} {res.run ? `Anforderungen aus Lauf ${res.run}` : 'alte Anforderungen'} geprüft · {fmtSec(res.seconds)} · regelbasiert, ohne KI</div>
         </div>
       )}
 
@@ -83,6 +101,7 @@ export default function Compare({ state, say }) {
                   <b>{c.requirement_id || 'neue Anforderung'}</b>
                   {o && <span>alt § {o.source.paragraph} · S. {o.source.page}</span>}
                   {c.source && <span>neu § {c.source.paragraph} · S. {c.source.page}</span>}
+                  {res.run && c.requirement_id && <button className="link ch-open" onClick={() => openReq(c.requirement_id)}>Anforderung öffnen →</button>}
                 </div>
                 {diff && <p className="ch-t">{diff.map((d, k) => d.op === '=' ? <span key={k}>{d.t}</span> : d.op === '-' ? <del key={k}>{d.t}</del> : <ins key={k}>{d.t}</ins>)}</p>}
                 {c.change === 'removed' && <p className="ch-t"><del>{o?.text}</del></p>}
@@ -93,7 +112,8 @@ export default function Compare({ state, say }) {
           )
         })}
         {res && !shown.length && <div className="empty-row">Keine Änderungen dieses Typs.</div>}
-        {!res && !busy && <div className="cmp-empty">Ordner wählen und vergleichen. Dauert wenige Sekunden.</div>}
+        {!res && !busy && <div className="cmp-empty">{sources.length ? 'Quelle wählen und vergleichen. Dauert wenige Sekunden.' : 'Nichts zu vergleichen.'}</div>}
+        {busy && !res && <div className="cmp-empty"><span className="spin" /> Liest beide Fassungen und gleicht Satz für Satz ab …</div>}
       </div>
     </div>
   )

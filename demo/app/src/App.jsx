@@ -4,7 +4,7 @@ import SceneRaw from './Scene.jsx'
 import { loadImage, segmentDrawing, textCards } from './segment.js'
 import {
   CASE, RUN, REGS, REQS, ACTIVE, PARTS, partById, partCounts, regColor, PAGES_TOTAL, LOG, HERO_REQ, DEFAULT_PART,
-  pageOf, hitsOf, activationT,
+  pageOf, hitsOf, activationT, RUN_ID, EMBED,
 } from './data.js'
 
 const Scene = memo(SceneRaw)
@@ -124,7 +124,7 @@ function Header({ act, setAct, onRun, t }) {
   const running = t > 0 && t < 1
   return (
     <header className="hdr">
-      <div className="brand"><span className="brand-dot" />BarelyLegal</div>
+      {EMBED ? <div /> : <div className="brand"><span className="brand-dot" />BarelyLegal</div>}
       <nav className="tabs">
         {ACT_NAMES.map((n, i) => (
           <button key={n} className={`tab ${act === i ? 'on' : ''}`} onClick={() => setAct(i)}>
@@ -154,6 +154,18 @@ function Footer({ act, setAct }) {
       </div>
     </footer>
   )
+}
+
+// Vom Beleg in die Werkbank: eingebettet per Nachricht an die Werkbank, sonst als Link (nur mit Server, nicht als Datei)
+function ToWerkbank({ id }) {
+  if (!EMBED && !(RUN_ID && location.protocol.startsWith('http'))) return null
+  const go = (e) => {
+    if (!EMBED) return
+    e.preventDefault()
+    window.parent.postMessage({ type: 'certreq:req', id }, location.origin)
+  }
+  const href = `/#v=anforderungen&run=${encodeURIComponent(RUN_ID)}&req=${encodeURIComponent(id)}`
+  return <a className="to-wb" href={href} onClick={go}>In der Werkbank prüfen <span>→</span></a>
 }
 
 /* ---------------- Akt 1: Lauf ---------------- */
@@ -373,7 +385,7 @@ function ActEvidence({ req, active, anchorOut }) {
   return (
     <div className="ev-wrap" ref={wrap}>
       <div className="ev-left">
-        <div className="eyebrow">Beleg · {req.id}</div>
+        <div className="ev-top"><div className="eyebrow">Beleg · {req.id}</div><ToWerkbank id={req.id} /></div>
         <blockquote className={`quote ${req.text.length > 260 ? 'long' : ''}`}>
           <span className="q-mark">“</span>{req.text}
         </blockquote>

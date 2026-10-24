@@ -206,3 +206,8 @@ kbd { font-family: var(--sans); font-size: 11px; display: inline-grid; place-ite
 .sf-note { margin-top: 40px; font: 500 12px var(--sans); color: #999; }
 .tk-line { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 34vw; }
 .callout .tag-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+
+.ev-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.to-wb { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; font-size: 13px !important; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18); transition: transform 0.2s; position: relative; z-index: 3; }
+.to-wb:hover { transform: translateY(-1px); }
+.to-wb span { color: var(--red); }

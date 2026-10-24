@@ -7,14 +7,17 @@ Nach außen (Werkbank, Präsentation, Pitch) treten wir als **BarelyLegal** auf 
     demo/werkbank                 # = .venv/bin/python demo/server.py, öffnet http://127.0.0.1:8765
 
 Lokaler Server (`demo/server.py`, nur Standardbibliothek + pymupdf, bindet an 127.0.0.1) + App
-(`demo/web/werkbank.html`). Vier Ansichten, Tasten 1–4, ⌘K/Strg+K = Befehlspalette, P = Präsentation:
+(`demo/web/werkbank.html`). Ein Produkt, fünf Ansichten, Tasten 1–5, ⌘K/Strg+K = Befehlspalette, P = Überblick als Vollbild
+(Beamer). Ablauf: Prüfung starten → fertig → automatisch Überblick → „In der Werkbank prüfen“ → Anforderung mit PDF-Beleg →
+Änderungen (was ändert die neue Fassung an genau diesen Anforderungen?).
 
 | Ansicht | Was |
 |---|---|
 | Prüfungen | Spec und/oder Zeichnung ablegen → Fall in `out/cases/`, Prüfung starten (`certreq run` als Unterprozess, Ergebnis in `out/runs/<id>/`). Modus „Bestmarke" = `certreq run` ohne Schalter, also immer der gemessene Standard (derzeit E022-hs; braucht einen LLM-Key in `.env.local`), „Schnell" = B0 ohne KI (`--select b0 --filters none --extract none`). Liste aller Läufe: eigene, Messungen aus `experiments/runs/`, ältere `out/<fall>.json`. |
+| Überblick | Die 3D-Präsentation des geöffneten Laufs, eingebettet (`/present/<lauf>/?embed=1`). Im Akt „Beleg“ springt „In der Werkbank prüfen“ per `postMessage` in die Ansicht Anforderungen zu genau dieser Anforderung. |
 | Anforderungen | Regelungs-Rad als Filter, Bauteile, Status; Liste (virtuell, auch 3600+); Beleg rechts mit live gerenderter PDF-Seite (Cache `out/cache/pages/`), markiertem Absatz und rotem Belegfaden Zeile → Stelle. Review: J/K blättern, A bestätigen, X verwerfen, U offen, N Notiz (gespeichert in `out/runs/<id>/review.json` bzw. `out/reviews/<id>.json`). Export: Abgabe-JSON ohne Verworfene, CSV mit Status/Notiz. |
 | Auswahl | Alle 56 Regelungen auf einem Kreis, gewählte nach Rolle (Bauteil/Anbau/Querschnitt), verworfene mit Grund; Begründungen aus `.meta.json` `selection`. |
-| Vergleich | Sub-Goal (AP7): alte → neue Fassung, Wort-Diff je Anforderung, lokale Bewertung gegen `expected.json` (Cache `out/subgoal/`). |
+| Änderungen | Sub-Goal (AP7) auf zwei Quellen: (1) **je Lauf**: jede zitierte Regelung, für die der Index eine neuere Fassung hat (`updates` im Lauf, z. B. R48 9.3.0 → 9.4.0) → `/api/impact` vergleicht base und latest und zeigt, welche Anforderungen DIESES Laufs sich ändern, entfallen oder neu dazukommen; „Anforderung öffnen →“ springt zum Beleg. (2) Sub-Goal-Ordner des Pakets (dev, Sonntag heldout) mit lokaler Bewertung gegen `expected.json`. Cache `out/subgoal/`, wird bei neuer `certreq/subgoal.py` neu gerechnet. |
 
 `/present/<lauf>/` zeigt die 3D-Präsentation (unten) mit den Daten eines Laufs, Seiten werden live gerendert.
 

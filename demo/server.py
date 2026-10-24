@@ -13,6 +13,8 @@ Was der Server kann (alles lokal, bindet nur an 127.0.0.1):
   * PDF-Seiten werden erst bei Bedarf gerendert (Cache out/cache/pages), Markierung des zitierten Absatzes je Seite.
   * Review je Anforderung (offen/bestätigt/verworfen + Notiz), Export als Abgabe-JSON (ohne Verworfene) oder CSV.
   * Versionsvergleich (Sub-Goal, certreq.subgoal) für Ordner unter vendor/.../subgoal.
+  * Änderungs-Check je Lauf: Gibt es zu einer zitierten Regelung eine neuere Fassung im Index, prüft derselbe Vergleich,
+    welche Anforderungen DIESES Laufs sie ändert, entfernt oder ergänzt (/api/impact).
   * /present/<lauf>/ = die 3D-Präsentation (demo/web/index.html) mit den Daten des Laufs.
 """
 from __future__ import annotations
@@ -318,8 +320,14 @@ def run_payload(run_id: str) -> dict:
         selected = set(meta.get("selected") or counts)
         regs = [{"id": n, "title": t, "selected": n in selected or n in counts, "count": counts.get(n, 0),
                  "version": versions.get(n, "")} for n, t in titles.items()]
+        updates = []
+        for n, c in counts.items():
+            reg = index.get(n)
+            new = reg.version("latest") if reg else None
+            if new and new.label != versions.get(n) and pdf_for(n, versions.get(n, "")) and pdf_for(n, new.label):
+                updates.append({"reg": n, "from": versions.get(n, ""), "to": new.label, "n": c})
         payload = {
-            "version": 1, "runId": run_id,
+            "version": 1, "runId": run_id, "updates": updates,
             "case": {"id": case_id, "title": spec["title"] or case_id, "productType": spec["productType"],
                      "category": spec["category"], "functions": spec["functions"], "parts": parts,
                      "hasSpec": bool(spec_text), "spec": spec_text, "drawing": drawing,
@@ -457,8 +465,9 @@ def run_subgoal(folder: str, force: bool = False) -> dict:
         raise ValueError("Sub-Goal-Ordner unbekannt")
     cache = SUBGOAL_OUT / f"{folder}.json"
     t0 = time.time()
+    stamp = Path(subgoal.__file__).stat().st_mtime  # neue Verfahrensversion → neu rechnen
     res = None if force else read_json(cache)
-    if not res:
+    if not res or res.get("stamp") != stamp:
         reqs = json.loads((d / "requirements_old.json").read_text(encoding="utf-8"))
         from certreq.submission import TEAM_ID
         sub = subgoal.compare(d / "old.pdf", d / "new.pdf", reqs, os.environ.get("CERTIVITY_TEAM_ID", TEAM_ID),
@@ -466,10 +475,36 @@ def run_subgoal(folder: str, force: bool = False) -> dict:
         reg_new, ver_new = subgoal.pdf_header(d / "new.pdf")
         reg_old, ver_old = subgoal.pdf_header(d / "old.pdf")
         res = {"submission": sub, "regulation": reg_new or reg_old, "old": ver_old, "new": ver_new,
-               "requirements": reqs, "seconds": round(time.time() - t0, 1), "created": now_iso()}
+               "requirements": reqs, "seconds": round(time.time() - t0, 1), "created": now_iso(), "stamp": stamp}
         exp = read_json(d / "expected.json")
         if exp:
             res["eval"] = subgoal.evaluate(sub, exp)
+        write_json(cache, res)
+    return res
+
+
+def run_impact(run_id: str, reg: str, force: bool = False) -> dict:
+    """Welche Anforderungen dieses Laufs ändert die neuere Fassung einer zitierten Regelung? (Sub-Goal auf eigenen Daten)"""
+    from certreq import subgoal
+    sub, meta, _ = load_run(run_id)
+    reqs = [r for r in sub.get("requirements", []) if r.get("source", {}).get("regulation") == reg]
+    if not reqs:
+        raise ValueError(f"{reg} kommt in {run_id} nicht vor")
+    old_v = reqs[0]["source"].get("version", "")
+    entry = load_index().get(reg)
+    new = entry.version("latest") if entry else None
+    old_pdf, new_pdf = pdf_for(reg, old_v), (pdf_for(reg, new.label) if new else None)
+    if not (old_pdf and new_pdf) or new.label == old_v:
+        raise ValueError(f"Keine neuere Fassung von {reg} im Paket")
+    cache = SUBGOAL_OUT / f"impact-{slug(run_id)}-{slug(reg)}.json"
+    stamp = [len(reqs), meta.get("created_at"), Path(subgoal.__file__).stat().st_mtime]
+    res = None if force else read_json(cache)
+    if not res or res.get("stamp") != stamp:
+        t0 = time.time()
+        from certreq.submission import TEAM_ID
+        out = subgoal.compare(old_pdf, new_pdf, reqs, os.environ.get("CERTIVITY_TEAM_ID", TEAM_ID), f"impact-{run_id}")
+        res = {"submission": out, "regulation": reg, "old": old_v, "new": new.label, "requirements": reqs, "run": run_id,
+               "seconds": round(time.time() - t0, 1), "created": now_iso(), "stamp": stamp}
         write_json(cache, res)
     return res
 
@@ -554,6 +589,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, body, ctype, {"Content-Disposition": f'attachment; filename="{name}"'})
         if path == "/api/subgoal":
             return self._json(run_subgoal(q["id"]))
+        if path == "/api/impact":
+            return self._json(run_impact(q["run"], q["reg"]))
         self._err(404, "unbekannt")
 
     def do_POST(self):
@@ -568,6 +605,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(save_review(body["run"], body))
             if u.path == "/api/subgoal":
                 return self._json(run_subgoal(body["id"], force=bool(body.get("force"))))
+            if u.path == "/api/impact":
+                return self._json(run_impact(body["run"], body["reg"], force=bool(body.get("force"))))
             self._err(404, "unbekannt")
         except (ValueError, KeyError) as e:
             self._err(400, str(e))
