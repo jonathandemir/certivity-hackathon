@@ -405,3 +405,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-24 17:57:53 +0200 | [change] STATUS/LEARNINGS: Stand B nach Claude-Reihe, Hinweis R4 (Key in der Historie) | Homsianer @ vm | main@6391022 +lokale Änderungen
 - LEARNINGS: modes und tables tragen den Regel-Gewinn (Beleg E025–E029-hs-c), Stoßfänger-Plausibilität. STATUS: B-Stand, nächste Schritte, Hinweis an A: Anthropic-Key in d3d3b7b/a87a74f, vor R4 widerrufen bzw. Historie bereinigen
+
+### 2026-10-24 18:01:37 +0200 | [finding] Plausibilität: neuer Standard am synthetischen Stoßfänger (Claude, keine Messung) | Homsianer @ vm | gemessen auf main@8c4f3d3
+- run ohne Schalter mit CERTREQ_PROVIDER=anthropic auf experiments/synthetic/front-bumper: 338 Anforderungen aus 9 Regelungen in 144 s (114 Aufrufe, 529k/98k Tokens): R149 96, R10 65, R48 57, R127 33, GTR 9 31, R26 27, R42 20, R94 6, R137 3
+- GTR 9 zitiert nur noch Teil II (S. 85–102: 4.1, 5.1 Kopfaufprall-Grenzwerte, 6.x Prüfspezifikation, 7.1 Prüfablauf) → Filter rationale wirkt. Für A: Claude-Auswahl behält R94/R137 als cross-cutting (gpt-llm2 verwarf sie), R127 und GTR 9 doppeln sich (33/31). GTR 9 S. 125ff. (Introduction/Procedure/…) wird nicht als Anhang erkannt, Labels 1–4 kollidieren dort (keine Kandidaten betroffen)
+- Kosten der Claude-Reihe bisher: 2839 Aufrufe, 7,9 M Eingabe-/0,94 M Ausgabe-Tokens (Listenpreis Opus 5.5 ≈ 50 $)
