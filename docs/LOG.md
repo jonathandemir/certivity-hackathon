@@ -109,3 +109,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - vs E001 (B0): Regelungen unverändert P 0.143 R 0.750 F2 0.405; Seiten P 0.073→0.101, R 0.849→0.849, F2 0.272→0.342; 2403 statt 3624 Anforderungen; 446 statt 616 zitierte Seiten, 45/53 Gold-Seiten wie vorher
 - Einzeln (gleicher Stand, experiments/runs/E004/filters.txt): admin 0.302, cop 0.277, parts 0.295, esa 0.272; mit Gold-Regelungen 0.565→0.753 bei Seiten-R 1.000. Absatz-Ebene gegen expected.json (eigene Messung, nicht Plattform): F2 0.100→0.142 bzw. mit Gold-Regelungen 0.282→0.430
 - Neue Bestmarke Seiten-F2 hinter Schalter, Tag best-main-pagef2-0.342. Standard bleibt B0, damit der geplante E001-Upload (Eichung der Anforderungsebene) nicht unbemerkt eine andere Datei erzeugt. Beleg experiments/runs/E004/
+
+### 2026-10-24 14:26:10 +0200 | [run] E005 Diagnose: Gold-Regelungen + --filters all | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@60fef43
+- vs E002: Seiten P 0.206→0.379, R 1.000→1.000, F2 0.565→0.753; 632 statt 1214 Anforderungen, 140 statt 257 zitierte Seiten. Gold-Wissen, nicht hochladen
+- Rest: Gold hat 119 Absätze/190 Anforderungen, wir 632 Absätze. Absatz-Recall bleibt 0.798, weil 37 Gold-Anforderungen aus Absätzen ohne 'shall' stammen (must, 'may … only', Listen wie R48 6.10.2 'Number Two'). Beleg experiments/runs/E005/
