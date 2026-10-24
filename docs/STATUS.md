@@ -28,6 +28,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Jonathan | MacBook-Pro-von-Jonathan | AP3-Rest Gliederung + AP4 Relevanzfilter (B vorgezogen, Übergabe an Omar) | certreq/pdf.py, certreq/extract.py, tests/test_extract.py | 2026-10-24 14:10 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP10 Lokaler LLM-Richter (Anforderungsebene) | certreq/judge.py, tests/test_judge.py, certreq/evaluate.py, eval-Teil von certreq/__main__.py | 2026-10-24 14:41 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP4 LLM-Extraktion je Absatz (Relevanz + Zerlegung) | certreq/llmextract.py, tests/test_llmextract.py, certreq/extract.py | 2026-10-24 14:42 |
+| Jonathan | MacBook-Pro-von-Jonathan | run-Teil __main__.py: LLM-Stats in meta.json, klein | certreq/__main__.py (cmd_run) | 2026-10-24 14:52 |
 
 ## Nächste Schritte
 
