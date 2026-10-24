@@ -34,5 +34,7 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   („may not redistribute"); das Repo wird zur Abgabe geteilt. Stattdessen `vendor/` (gitignored) per `scripts/setup`.
 - **Eigene Regulierungsdatenbank oder Crawler bauen.** Beleg: Brief §05 „Not needed"; UNECE-Seiten sind laut
   Brief §06 nicht per Skript ladbar, die PDFs liefert Certivity.
-- **docs/LOG.md ausschließlich auf main führen.** Dann können Code (persönlicher Branch) und Logeintrag nie im
-  selben Commit landen. Stattdessen: Einträge im eigenen Branch, `merge=union`, `scripts/session-start` liest alle Branches.
+- **Persönliche Branches pro Person (ursprünglicher Plan).** Beleg: Schon das erste Paket (AP1) musste vorzeitig
+  nach main gemergt werden, damit die anderen darauf aufbauen können (Entscheidung 2026-10-24); dazu kamen
+  main-Worktree für Doku und eine Sonderregel für LOG.md. Bei drei Leuten mit getrennten Dateien und gegenseitigen
+  Abhängigkeiten kostet das mehr, als es schützt. Stattdessen: alle auf main, Tests in `scripts/sync`, Schalter für neue Ansätze.

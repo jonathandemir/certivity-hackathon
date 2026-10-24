@@ -8,16 +8,15 @@ UN-Regelungen ableitet, jeweils mit Regelung, Version und Seite. Details: [docs/
 
 ```bash
 git clone https://github.com/jonathandemir/certivity-hackathon.git certivity && cd certivity
-scripts/setup <vorname>      # eigener Branch, main-Worktree, Teilnehmerpaket + PDFs unter vendor/
+scripts/setup                # auf main, Teilnehmerpaket + PDFs unter vendor/, .venv mit requirements.txt
 ```
 
-Danach Claude Code (oder einen anderen Agenten) **direkt in diesem Ordner** starten. Die Regeln für jede Session
+Alle arbeiten direkt auf main. Danach Claude Code (oder einen anderen Agenten) **direkt in diesem Ordner** starten. Die Regeln für jede Session
 stehen in [AGENTS.md](AGENTS.md), der aktuelle Stand in [docs/STATUS.md](docs/STATUS.md).
 
 ## Pipeline
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt     # einmal pro Rechner
 .venv/bin/python -m pytest                                              # Tests
 scripts/pull-first                                                      # vor zählenden Läufen
 .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp   # → out/dev-rear-lamp.json

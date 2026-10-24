@@ -17,11 +17,11 @@ Projektfakten: docs/CONTEXT.md.
 | experiments/LEDGER.md | Eine Zeile pro Versuch mit Messung gegen die Bestmarke |
 | experiments/runs/<ID>/ | Belege: hochgeladene/bewertete Ausgaben, Score-Ausgaben (klein, keine Rohdaten) |
 | vendor/industrial-ai-hackathon/ | Teilnehmerpaket + PDFs (gitignored, Lizenz: nie ins Repo) |
-| .worktrees/main/ | main-Checkout für geteilte Dateien (gitignored, von `scripts/main-wt` angelegt) |
+| certreq/, tests/ | Pipeline und Tests (Dateigrenzen je Person: docs/PLAN.md „Aufteilung") |
 
 ## 1. Sessionstart (immer, in dieser Reihenfolge)
 
-1. `scripts/sync`: holt deinen Branch, merged main mit (wenn konfliktfrei) und pusht.
+1. `scripts/sync`: holt den aktuellen Stand von main und pusht deine Commits.
 2. STATUS und LOG lesen. Der SessionStart-Hook gibt beides aus (`scripts/session-start`). Fehlt die Ausgabe im
    Kontext (z. B. Session im Oberordner gestartet), führe `scripts/session-start` selbst aus.
 3. Aufgabe gegen die Claims prüfen. **Überschneidet sie sich mit einem fremden Claim (gleiche Dateien oder gleiches
@@ -33,15 +33,16 @@ Projektfakten: docs/CONTEXT.md.
 
 1. **Claim setzen:** `scripts/claim add "Was" "Dateien/Ordner"` (pusht sofort auf main).
 2. **Kleiner Schritt** (deutlich unter 30 Minuten).
-3. **Tests grün:** die Tests des berührten Codes; erzeugt der Schritt eine Abgabedatei, zusätzlich
-   `python3 vendor/industrial-ai-hackathon/tools/validate.py <datei>`. Rot wird nicht committet.
+3. **Tests grün:** `.venv/bin/python -m pytest`; erzeugt der Schritt eine Abgabedatei, zusätzlich
+   `.venv/bin/python -m certreq eval <datei>`. Rot wird nicht gepusht: `scripts/sync` führt die Tests vor jedem
+   Push mit Code-Änderungen selbst aus und bricht bei Rot ab.
 4. **Loggen:** `scripts/log "[change] titel" "was und warum" "wie geprüft"`.
 5. **Commit:** `git status` lesen, dann gezielt `git add <deine dateien> docs/LOG.md` und `git commit`.
    Code und Logeintrag im selben Commit.
 6. **`scripts/sync`.**
 
 Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer Aufgabe:
-`scripts/claim done "Was"`, dauerhafte Erkenntnisse mit Beleg in docs/LEARNINGS.md (auf main).
+`scripts/claim done "Was"`, dauerhafte Erkenntnisse mit Beleg in docs/LEARNINGS.md.
 
 ## 3. Git-Sicherheit (nie verhandelbar)
 
@@ -51,29 +52,24 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 - **Vor jedem `git add`: `git status`.** Nie blind `git add -A` / `git add .`.
 - Konflikt: nur eigene Dateien selbst lösen; bei fremden Dateien den Menschen fragen. docs/LOG.md: beide Einträge
   behalten. Abbrechen ist immer sicher (`git rebase --abort` / `git merge --abort`).
-- Nie den Branch im gemeinsamen Checkout wechseln, um geteilte Dateien zu ändern (siehe §4).
+- Nie fremde Arbeit „aufräumen": rote Tests oder kaputter Code eines anderen → dem Menschen sagen bzw. `[blocker]` loggen.
 
-## 4. Branches und geteilte Dateien
+## 4. Alle arbeiten auf main
 
-- Jede Person arbeitet auf einem eigenen Branch (`<vorname>`, klein, angelegt von `scripts/setup <vorname>`).
-  Code entsteht dort. Agenten derselben Person teilen deren Branch, Claims verhindern Doppelarbeit.
-- **Geteilte Dateien liegen nur auf main:** AGENTS.md, CLAUDE.md, README.md, docs/, experiments/ (Ergebnisdaten),
-  scripts/, .claude/, .gitignore, .gitattributes. Ändern **über den main-Worktree**, nie per Branch-Wechsel:
-  ```bash
-  MAIN=$(scripts/main-wt)              # legt .worktrees/main an bzw. spult vor, gibt den Pfad aus
-  # Dateien unter $MAIN/... bearbeiten
-  git -C "$MAIN" status
-  git -C "$MAIN" add docs/STATUS.md && git -C "$MAIN" commit -m "status: ..."
-  "$MAIN/scripts/sync"
-  ```
-  `scripts/sync` warnt, wenn auf einem persönlichen Branch geteilte Dateien geändert wurden.
-- **Ausnahme docs/LOG.md:** Logeinträge kommen mit dem Code in deinen Branch (Regel §2.5). Das ist konfliktfrei,
-  weil LOG.md nur angehängt wird und `merge=union` hat. `scripts/session-start` liest LOG.md aus **allen**
-  origin-Branches und zeigt die Einträge zusammengeführt, also sieht jeder alle Einträge, sobald sie gepusht sind.
-  Logeinträge ohne Code (z. B. `[decision]`) gehen in den Branch, auf dem du gerade bist.
-- `scripts/sync` merged origin/main regelmäßig in deinen Branch (nur wenn konfliktfrei; sonst Warnung).
-- **Vor der Deadline wird die beste gemessene Version nach main gemergt** (Zeitpunkt: docs/PLAN.md). Wer merged,
-  steht als Entscheidung in docs/STATUS.md.
+- **Alle arbeiten direkt auf main** (entschieden 2026-10-24, docs/STATUS.md). Code, Doku, Ergebnisse und LOG liegen
+  am selben Ort; jeder sieht den Stand der anderen nach dem nächsten `scripts/sync`.
+- **Konflikte vermeiden durch Dateigrenzen:** Jede Person ändert ihre Dateien (docs/PLAN.md „Aufteilung").
+  Gemeinsame Dateien (`certreq/__main__.py`, `requirements.txt`, `tests/conftest.py`, docs/) nur mit Claim und klein.
+  Agenten derselben Person teilen sich deren Claims.
+- **Kein kaputter Code auf main:** `scripts/sync` lässt vor jedem Push mit Code-Änderungen die Tests laufen und pusht
+  bei Rot nicht. Nie Tests abschalten oder löschen, um grün zu werden.
+- **Neue Ansätze hinter einen Schalter** (z. B. `--select llm`, Umgebungsvariable oder Parameter), der Standard bleibt
+  der gemessene Bestwert. Den Standard umstellen erst, wenn die Messung besser ist (LEDGER-Zeile). So bleibt main
+  jederzeit lauffähig und jede Änderung einzeln messbar, obwohl alle gleichzeitig pushen.
+- **Branches nur ausnahmsweise** für ein riskantes Experiment, das länger als eine Stunde nicht lauffähig ist.
+  Dann kurzlebig, `scripts/sync` funktioniert dort auch (merged main konfliktfrei mit); geteilte Dateien weiter auf
+  main ändern (`scripts/main-wt` gibt den Pfad eines main-Checkouts). Danach zügig nach main mergen und löschen.
+- **Gute Stände sichern:** `scripts/tag-best <wert>` (Tag `best-main-<wert>`); Sonntag gilt der Freeze aus docs/PLAN.md.
 
 ## 5. Ergebnisse, Läufe, Experimente
 
@@ -82,11 +78,11 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 - Jedes Ergebnis (Messung, Run, Benchmark, Upload-Score) nennt seinen Commit als `<branch>@<kurzhash>`: gepusht,
   sauberes Arbeitsverzeichnis. **Hashes aus git lesen (`git rev-parse --short HEAD`, Ausgabe von pull-first),
   nie erfinden oder schätzen.**
-- Ergebnis eintragen: `[run]`-Logeintrag + Zeile in experiments/LEDGER.md + Belegdatei unter experiments/runs/<ID>/
-  (über den main-Worktree; `.venv/bin/python -m certreq eval <abgabe> --record <ID>` legt den Beleg ab).
-  Loggst du den Lauf aus einem anderen Checkout als dem gemessenen (z. B. im main-Worktree), gib den gemessenen Stand
-  an: `"$MAIN/scripts/log" --commit <branch>@<hash> "[run] ..."`. Das Skript prüft, dass der Commit existiert und gepusht ist. Neue Bestmarke: zusätzlich Scoreboard in docs/STATUS.md und
-  `scripts/tag-best <wert>` (Tag `best-<branch>-<wert>`, damit man jederzeit zurück kann).
+- Ergebnis eintragen: `[run]`-Logeintrag + Zeile in experiments/LEDGER.md + Beleg unter experiments/runs/<ID>/
+  (`.venv/bin/python -m certreq eval <abgabe> --record <ID>` legt den Beleg ab). Lief die Messung auf einem anderen
+  Commit als deinem aktuellen Stand, gib ihn an: `scripts/log --commit main@<hash> "[run] ..."` (das Skript prüft,
+  dass der Commit existiert und gepusht ist). Neue Bestmarke: zusätzlich Scoreboard in docs/STATUS.md und
+  `scripts/tag-best <wert>` (Tag `best-main-<wert>`, damit man jederzeit zurück kann).
 - **Entscheidungen nur anhand echter Messungen** (score_local.py, Plattform-Score), nie anhand von Simulation,
   Schätzung oder Bauchgefühl. **Jede Änderung einzeln gegen die aktuelle Bestmarke messen**, nicht mehrere auf einmal.
 - Plattform-Uploads sind knapp (5 valide/Stunde/Challenge für das ganze Team): vorher `scripts/claim add "upload ..."`,
@@ -126,15 +122,16 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 
 | Skript | Zweck |
 |---|---|
-| `scripts/setup <vorname>` | einmal pro Rechner: Branch, main-Worktree, Paket + PDFs, Oberordner-CLAUDE.md |
+| `scripts/setup` | einmal pro Rechner: auf main stellen, Paket + PDFs, .venv, Oberordner-CLAUDE.md |
 | `scripts/session-start` | STATUS (origin/main) + neueste LOG-Einträge aller Branches + Git-Zustand |
-| `scripts/sync` | holen (rebase, bei lokalen Merge-Commits merge), main mitmergen, Secret-Scan, pushen |
+| `scripts/sync` | holen (rebase, bei lokalen Merge-Commits merge), Secret-Scan, Tests bei Code-Änderungen, pushen |
 | `scripts/log [--commit b@h] "[typ] titel" "detail" …` | Eintrag an docs/LOG.md anhängen (Datum, Autor, Rechner, Stand bzw. gemessener Stand) |
-| `scripts/claim add/done/list` | Claims in docs/STATUS.md auf main pflegen, sofort gepusht |
-| `scripts/main-wt` | Pfad des main-Checkouts für geteilte Dateien |
+| `scripts/claim add/done/list` | Claims in docs/STATUS.md pflegen, sofort gepusht |
+| `scripts/main-wt` | nur auf Experiment-Branches: Pfad eines main-Checkouts für geteilte Dateien |
 | `scripts/pull-first` | vor Läufen: Teamstand holen, Commit melden, Exit 1 wenn der Lauf nicht zählt |
 | `scripts/tag-best <wert>` | guten, gepushten Stand als `best-<branch>-<wert>` taggen |
 | `scripts/stop-check` | warnt bei ungepushten Commits / uncommitteten Änderungen (auch Stop-Hook) |
 | `scripts/secret-scan [dateien]` | Schlüsselsuche in ausgehenden Commits oder Dateien |
+| `scripts/selftest` | testet alle Skripte in einer Sandbox (3 simulierte Rechner); nach jeder Änderung an scripts/ ausführen |
 
 Alle Skripte sind Bash für macOS und Linux und stoppen mit einer klaren Meldung, statt zu raten.

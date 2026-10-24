@@ -5,7 +5,7 @@ Historie steht in docs/LOG.md.
 
 ## Stand
 
-AP1 steht auf main: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
+AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
 Bestmarke (zulässig): E001, Seiten-F2 0.272 lokal. Anforderungsebene noch ungemessen (braucht Plattform-Upload).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
@@ -13,17 +13,17 @@ Team-ID der Certivity-Plattform: noch nicht registriert.
 
 ## Team
 
-| Name | Branch | Rechner | Fokus |
+| Name | Rolle | Rechner | Fokus |
 |---|---|---|---|
-| Jonathan Demir (A) | jonathan | MacBook-Pro-von-Jonathan | AP2 Auswahl, AP10 Richter, AP5 Vision, LLM-Zugang, Uploads |
-| Homsianer (B) | homsianer | – | AP3-Rest Gliederung/Tabellen, AP4 Relevanzfilter + Zerlegung |
-| Amiad (C) | amiad | – | AP6 Demo, AP7 Sub-Goal, AP9 Pitch-Lead |
+| Jonathan Demir | A | MacBook-Pro-von-Jonathan | AP2 Auswahl, AP10 Richter, AP5 Vision, LLM-Zugang, Uploads |
+| Homsianer | B | – | AP3-Rest Gliederung/Tabellen, AP4 Relevanzfilter + Zerlegung |
+| Amiad | C | – | AP6 Demo, AP7 Sub-Goal, AP9 Pitch-Lead |
 
-Branch entsteht mit `scripts/setup <branch>`; „Rechner" trägt jeder danach selbst ein. Details: docs/PLAN.md „Aufteilung".
+Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein. Details: docs/PLAN.md „Aufteilung".
 
 ## Claims
 
-| Wer | Branch | Was | Dateien | Seit |
+| Wer | Rechner | Was | Dateien | Seit |
 |---|---|---|---|---|
 | Jonathan | jonathan | Umstellung: alle arbeiten auf main | AGENTS.md, README.md, docs/, scripts/, tests der Skripte | 2026-10-24 13:57 |
 
@@ -35,19 +35,18 @@ Branch entsteht mit `scripts/setup <branch>`; „Rechner" trägt jeder danach se
 3. **Jonathan (A, AP1-Rest):** E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Datei neu erzeugen:
    `CERTIVITY_TEAM_ID=<id> .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp`
    (gleicher Commit wie E001, nur `team_id` anders). E002 nicht hochladen: nutzt Gold-Wissen, verfälscht das Dev-Leaderboard.
-4. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup homsianer` bzw. `scripts/setup amiad`, venv (README),
+4. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
    „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 
 ## Entscheidungen
 
 | Datum | Entscheidung | Warum | Wer |
 |---|---|---|---|
-| 2026-10-24 | Arbeitssystem nach AGENTS.md: persönliche Branches, geteilte Dateien nur auf main (main-Worktree), Claims, LOG, LEDGER | Mehrere Agenten und Rechner parallel; das Repo ist das einzige gemeinsame Gedächtnis | Jonathan |
-| 2026-10-24 | docs/LOG.md ist die Ausnahme: Einträge gehen mit dem Code in den eigenen Branch, `merge=union`, gelesen über alle Branches | Sonst unmöglich, Code und Logeintrag im selben Commit zu haben | Jonathan |
+| 2026-10-24 | Arbeitssystem nach AGENTS.md: alle auf main, Claims, LOG, LEDGER, Tests vor jedem Code-Push | Drei Leute + Agenten parallel; das Repo ist das einzige gemeinsame Gedächtnis | Jonathan |
+| 2026-10-24 | Alle arbeiten direkt auf main statt auf persönlichen Branches (ersetzt den ursprünglichen Plan) | Getrennte Dateien je Person, gegenseitige Abhängigkeiten (llm.py, Ausgaben für die Demo), weniger Git-Aufwand; Schutz durch Tests in sync und Schalter für neue Ansätze | Jonathan |
 | 2026-10-24 | Teilnehmerpaket und PDFs nur unter `vendor/` (gitignored), nie im Repo | LICENSE-DATA.md: keine Weitergabe; das Repo wird zur Abgabe geteilt | Jonathan |
 | 2026-10-24 | GitHub-Repo privat bis zur Abgabe; vor R4 Sichtbarkeit klären | Kein Zugriff Dritter während des Events | Jonathan |
-| 2026-10-24 | AP1-Gerüst schon jetzt nach main gemergt (nicht erst vor der Deadline) | Alle Branches brauchen dieselbe Basis für AP2–AP7; `scripts/sync` merged main automatisch mit. Die finale beste Version kommt trotzdem vor der Deadline nach main | Jonathan |
-| 2026-10-24 | Aufteilung: A = Jonathan (AP2, AP10, AP5, LLM-Zugang, Uploads), B = Homsianer (AP3-Rest, AP4), C = Amiad (AP6, AP7, Pitch-Lead); So alle AP8 | Drei unabhängige Stränge mit festen Dateigrenzen; B misst mit `--regs`, C arbeitet auf der JSON-Ausgabe, niemand wartet | Jonathan |
+| 2026-10-24 | Aufteilung: A = Jonathan (AP2, AP10, AP5, LLM-Zugang, Uploads), B = Homsianer (AP3-Rest, AP4), C = Amiad (AP6, AP7, Pitch-Lead); So alle AP8 | Drei Stränge mit festen Dateigrenzen; B misst mit `--regs`, C arbeitet auf der JSON-Ausgabe, niemand wartet | Jonathan |
 | offen | LLM-Modell und API-Key | Nötig für AP2, AP4, AP7, AP10 | A |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 

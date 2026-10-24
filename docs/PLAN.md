@@ -35,11 +35,13 @@ Owner per `scripts/claim`. Fertig = Kriterium erfüllt, gemessen, geloggt, gepus
 
 ## Aufteilung (beschlossen 2026-10-24, Jonathan)
 
+Alle arbeiten direkt auf main (AGENTS.md §4); die Dateigrenzen unten ersetzen die getrennten Branches.
+
 | Person | Wer | Pakete | Reihenfolge |
 |---|---|---|---|
-| **A** | Jonathan (`jonathan`) | AP2, AP10, AP5, AP1-Rest; LLM-Zugang; Plattform-Uploads | 1. LLM-Zugang festlegen (Modell, Key in `.env`, nie ins Repo) und gemeinsamen Client `certreq/llm.py` bereitstellen, weil B und C ihn brauchen · 2. AP10 Richter · 3. AP2 Auswahl · 4. AP5 Vision |
-| **B** | Homsianer (`homsianer`) | AP3-Rest, AP4 | 1. Gliederung/Überschriften im Parser · 2. Relevanzfilter je Abschnitt · 3. Zerlegung in einzelne Pflichten · 4. Tabellen |
-| **C** | Amiad (`amiad`) | AP6, AP7, AP9-Lead | 1. Demo-Gerüst auf E001-Ausgabe · 2. Sub-Goal auf `subgoal-dev` · 3. Demo fertig machen (So vormittags) · 4. Pitch |
+| **A** | Jonathan | AP2, AP10, AP5, AP1-Rest; LLM-Zugang; Plattform-Uploads | 1. LLM-Zugang festlegen (Modell, Key in `.env`, nie ins Repo) und gemeinsamen Client `certreq/llm.py` bereitstellen, weil B und C ihn brauchen · 2. AP10 Richter · 3. AP2 Auswahl · 4. AP5 Vision |
+| **B** | Homsianer | AP3-Rest, AP4 | 1. Gliederung/Überschriften im Parser · 2. Relevanzfilter je Abschnitt · 3. Zerlegung in einzelne Pflichten · 4. Tabellen |
+| **C** | Amiad | AP6, AP7, AP9-Lead | 1. Demo-Gerüst auf E001-Ausgabe · 2. Sub-Goal auf `subgoal-dev` · 3. Demo fertig machen (So vormittags) · 4. Pitch |
 | alle | | AP8 | So 07:30 Freeze, 08:00 Held-out, Uploads bis 12:45 (Zeitplan unten) |
 
 **Wer ändert welche Dateien** (vermeidet Konflikte; Ausnahmen vorher per Claim ankündigen):
@@ -61,7 +63,7 @@ Owner per `scripts/claim`. Fertig = Kriterium erfüllt, gemessen, geloggt, gepus
 | Sa bis ~16:00 | AP1 fertig: erster valider End-to-End-Upload auf dev (R1-Risiko früh beseitigen) |
 | Sa ab ~16:00 | A: AP2/AP10, B: AP3/AP4, C: AP6/AP7 parallel; jede Änderung einzeln gegen die Bestmarke messen; Bestmarken taggen |
 | Sa abends | Demo-Grundgerüst (AP6) läuft auf dev |
-| So 07:30 | **Code-Freeze Hauptpipeline:** beste gemessene Version nach main gemergt und getaggt |
+| So 07:30 | **Code-Freeze Hauptpipeline:** Standard-Einstellungen = beste gemessene Variante, Stand als `best-main-…` getaggt; danach nur noch Fixes |
 | So 08:00 | Held-out holen (`git -C vendor/industrial-ai-hackathon pull` + Ankündigung), PDFs nachladen, Lauf von main, validate, **sofort erster Upload als Sicherung** |
 | So 08:00–12:30 | Nur einzeln gemessene Änderungen; jede hochgeladene Datei + Plattform-Score in experiments/runs/ |
 | So 12:30 | Finale Auswahl der besten Datei (Entscheidung in STATUS) |

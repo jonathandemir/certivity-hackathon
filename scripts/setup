@@ -1,57 +1,48 @@
 #!/usr/bin/env bash
 # Einmalige Einrichtung eines Rechners. Idempotent, kann jederzeit erneut laufen.
 #
-#   scripts/setup <vorname> [--no-pdfs]
+#   scripts/setup [--no-pdfs] [--no-venv]
 #
 # 1. prüft git user.name / user.email
-# 2. legt den persönlichen Branch <vorname> an (von origin/main) bzw. wechselt auf ihn und pusht ihn
-# 3. legt den main-Worktree .worktrees/main an (für geteilte Dateien)
-# 4. holt das Teilnehmerpaket nach vendor/industrial-ai-hackathon (gitignored, darf nicht ins Repo)
+# 2. stellt den Checkout auf main (alle arbeiten auf main, AGENTS.md §4) und holt den aktuellen Stand
+# 3. holt das Teilnehmerpaket nach vendor/industrial-ai-hackathon (gitignored, darf nicht ins Repo)
 #    und lädt die Regulierungs-PDFs (~220 MB, Links laufen nach dem Event ab)
+# 4. legt .venv an und installiert requirements.txt (pymupdf, jsonschema, pytest)
 # 5. legt im Oberordner eine CLAUDE.md an, die auf dieses Repo verweist (nur wenn dort noch keine liegt)
 . "$(dirname "$0")/lib.sh"
 
 PKG_URL="${CERTIVITY_PKG_URL:-https://github.com/Certivity/industrial-ai-hackathon.git}"
 PKG_DIR="$REPO_ROOT/vendor/industrial-ai-hackathon"
 
-name=""; pdfs=1
+pdfs=1; venv=1
 for a in "$@"; do
   case "$a" in
     --no-pdfs) pdfs=0 ;;
+    --no-venv) venv=0 ;;
     -*) die "Unbekannte Option $a" ;;
-    *) name=$a ;;
+    *) warn "Argument \"$a\" wird ignoriert: es gibt keine persönlichen Branches mehr, alle arbeiten auf main." ;;
   esac
 done
-[ -n "$name" ] || die "Nutzung: scripts/setup <vorname> [--no-pdfs]   (Vorname klein, wird dein Branch)"
-printf '%s' "$name" | grep -qE '^[a-z][a-z0-9-]*$' || die "Branchname nur klein: a-z, 0-9, - (z. B. jonathan)."
-[ "$name" = main ] && die "main ist kein persönlicher Branch."
 
 # 1. Identität
 [ -n "$(git config user.name)" ]  || die "git config --global user.name \"Vorname Nachname\" fehlt."
 [ -n "$(git config user.email)" ] || die "git config --global user.email \"du@example.com\" fehlt."
 ok "Git-Identität: $(me) <$(git config user.email)> auf $(host)"
 
-# 2. Persönlicher Branch
+# 2. main
 fetch_origin 60 || die "git fetch fehlgeschlagen. Zugriff auf das GitHub-Repo vorhanden?"
 cur=$(current_branch || echo "")
-if [ "$cur" != "$name" ]; then
-  [ -z "$(dirty_tracked)" ] || die "Uncommittete Änderungen in $cur. Erst committen, dann setup erneut."
-  if has_ref "refs/heads/$name"; then
-    git switch --quiet "$name"
-  elif has_ref "refs/remotes/origin/$name"; then
-    git switch --quiet --track -c "$name" "origin/$name"
-  else
-    git switch --quiet -c "$name" origin/main
-  fi
+if [ "$cur" != main ]; then
+  [ -z "$(dirty_tracked)" ] || die "Uncommittete Änderungen auf ${cur:-detached}. Erst committen, dann setup erneut."
+  git switch --quiet main 2>/dev/null || git switch --quiet --track -c main origin/main || die "Konnte nicht auf main wechseln."
+  note "Auf main gewechselt (vorher: ${cur:-detached})."
 fi
-"$REPO_ROOT/scripts/sync" || die "sync fehlgeschlagen (siehe oben)."
-ok "Branch $name ist ausgecheckt und gepusht."
+if [ -z "$(dirty_tracked)" ]; then
+  integrate_upstream || die "Konnte origin/main nicht holen (siehe oben)."
+fi
+ok "Checkout auf main@$(short_head)."
 
-# 3. main-Worktree
-MAIN=$("$REPO_ROOT/scripts/main-wt") || die "main-Worktree fehlgeschlagen."
-ok "main-Worktree: $MAIN"
-
-# 4. Teilnehmerpaket + PDFs
+# 3. Teilnehmerpaket + PDFs
 mkdir -p "$REPO_ROOT/vendor"
 if [ -d "$PKG_DIR/.git" ]; then
   git -C "$PKG_DIR" pull --quiet --ff-only || warn "Paket konnte nicht aktualisiert werden ($PKG_DIR)."
@@ -60,7 +51,6 @@ else
 fi
 ok "Teilnehmerpaket: $PKG_DIR @ $(git -C "$PKG_DIR" rev-parse --short HEAD)"
 if command -v python3 >/dev/null 2>&1; then
-  python3 -c 'import jsonschema' 2>/dev/null || warn "Python-Paket jsonschema fehlt (für validate.py): python3 -m pip install --user jsonschema"
   if [ "$pdfs" -eq 1 ]; then
     note "Lade Regulierungs-PDFs (~220 MB) ..."
     if ! (cd "$PKG_DIR" && python3 tools/fetch_regulations.py); then
@@ -70,14 +60,25 @@ if command -v python3 >/dev/null 2>&1; then
       if [ -z "${SSL_CERT_FILE:-}" ] && [ -n "$ca" ]; then
         note "Erneuter Versuch mit den certifi-Zertifikaten (SSL_CERT_FILE=$ca) ..."
         (cd "$PKG_DIR" && SSL_CERT_FILE="$ca" python3 tools/fetch_regulations.py) \
-          || warn "PDF-Download unvollständig, auch mit certifi. Siehe vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup $name erneut."
+          || warn "PDF-Download unvollständig, auch mit certifi. Siehe vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup erneut."
       else
-        warn "PDF-Download unvollständig. Bei CERTIFICATE_VERIFY_FAILED: python3 -m pip install --user certifi oder vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup $name erneut."
+        warn "PDF-Download unvollständig. Bei CERTIFICATE_VERIFY_FAILED: python3 -m pip install --user certifi oder vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup erneut."
       fi
     fi
   fi
+  # 4. venv mit den Abhängigkeiten der Pipeline (scripts/sync führt damit vor jedem Code-Push die Tests aus)
+  if [ "$venv" -eq 1 ]; then
+    if [ ! -x "$REPO_ROOT/.venv/bin/python" ]; then
+      python3 -m venv "$REPO_ROOT/.venv" || warn "python3 -m venv fehlgeschlagen."
+    fi
+    if [ -x "$REPO_ROOT/.venv/bin/python" ] && "$REPO_ROOT/.venv/bin/python" -m pip install --quiet --disable-pip-version-check -r "$REPO_ROOT/requirements.txt"; then
+      ok "venv: $REPO_ROOT/.venv (requirements.txt installiert)"
+    else
+      warn "venv/requirements unvollständig. Von Hand: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt"
+    fi
+  fi
 else
-  warn "python3 fehlt. validate.py und fetch_regulations.py brauchen Python 3."
+  warn "python3 fehlt. Pipeline, validate.py und fetch_regulations.py brauchen Python 3."
 fi
 
 # 5. CLAUDE.md im Oberordner

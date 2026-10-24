@@ -159,4 +159,4 @@ der neuen Version, `reason` nennt den Absatz und was sich geändert hat.
 
 ## 11. Arbeitsregeln
 
-Wie wir zusammenarbeiten (Branches, Claims, Log, Sync, Messungen): AGENTS.md. Diese Datei ist nur der Projektinhalt.
+Wie wir zusammenarbeiten (alle auf main, Claims, Log, Sync, Messungen): AGENTS.md. Diese Datei ist nur der Projektinhalt.

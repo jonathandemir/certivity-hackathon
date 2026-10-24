@@ -119,7 +119,7 @@ integrate_upstream() {
   return 0
 }
 
-# Merged origin/main in einen persönlichen Branch, aber nur, wenn es konfliktfrei geht.
+# Merged origin/main in einen (Experiment-)Branch, aber nur, wenn es konfliktfrei geht. Auf main: nichts zu tun.
 merge_main_if_clean() {
   local branch n conflicts
   branch=$(current_branch) || return 0
@@ -137,7 +137,7 @@ merge_main_if_clean() {
   return 0
 }
 
-# Warnt, wenn auf einem persönlichen Branch geteilte Dateien geändert wurden.
+# Warnt, wenn auf einem Experiment-Branch geteilte Dateien geändert wurden (die gehören auf main).
 warn_shared_on_branch() {
   local branch files
   branch=$(current_branch) || return 0
@@ -149,6 +149,28 @@ warn_shared_on_branch() {
   warn "Auf Branch $branch sind geteilte Dateien geändert (gehören auf main, siehe AGENTS.md):"
   printf '%s\n' "$files" | sed 's/^/    /' >&2
   note "    Richtig: MAIN=\$(scripts/main-wt) und dort ändern, committen, \"\$MAIN/scripts/sync\"."
+}
+
+# Tests vor dem Push, aber nur wenn ausgehende Commits Code berühren (nicht nur docs/, experiments/, *.md).
+# So blockiert ein fremder roter Test keine Doku-Pushes, und kaputter Code erreicht main nicht.
+run_tests_if_code_changed() {
+  local code
+  code=$(git log --format= --name-only HEAD --not --remotes=origin 2>/dev/null | sort -u \
+    | grep -vE '^(docs/|experiments/)|\.md$' | grep -v '^$' || true)
+  [ -z "$code" ] && return 0
+  [ -d "$REPO_ROOT/tests" ] || return 0
+  if [ ! -x "$REPO_ROOT/.venv/bin/python" ]; then
+    warn "Ausgehende Code-Änderungen, aber keine .venv: Tests können nicht laufen. Erst scripts/setup (legt .venv an)."
+    return 1
+  fi
+  note "Ausgehende Code-Änderungen ($(printf '%s' "$code" | tr '\n' ' ' | cut -c1-120)): Tests laufen ..."
+  if ! (cd "$REPO_ROOT" && .venv/bin/python -m pytest -q -x >"${TMPDIR:-/tmp}/sync-pytest.$$" 2>&1); then
+    tail -n 25 "${TMPDIR:-/tmp}/sync-pytest.$$" >&2; rm -f "${TMPDIR:-/tmp}/sync-pytest.$$"
+    warn "Tests rot. Nichts gepusht. Erst reparieren (AGENTS.md §2: rot wird nicht gepusht)."
+    return 1
+  fi
+  rm -f "${TMPDIR:-/tmp}/sync-pytest.$$"
+  ok "Tests grün."
 }
 
 # Pfad eines main-Checkouts (dieser Checkout, ein anderer Worktree oder .worktrees/main).

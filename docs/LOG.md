@@ -69,3 +69,14 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - B = Homsianer (homsianer): AP3-Rest (Gliederung/Überschriften, Tabellen), AP4 Relevanzfilter entlang der Gliederung + Zerlegung in einzelne Pflichten; misst mit --regs, bis AP2 steht
 - C = Amiad (amiad): AP6 Demo-Gerüst auf E001-Ausgabe, AP7 Sub-Goal, AP9 Pitch-Lead; So alle AP8
 - Dateigrenzen je Person und Schnittstellen in docs/PLAN.md 'Aufteilung'; neues Paket AP10 (lokaler Richter für die Anforderungsebene)
+
+### 2026-10-24 14:01:58 +0200 | [decision] Alle arbeiten auf main | Jonathan @ MacBook-Pro-von-Jonathan | main@907f57a +lokale Änderungen
+- Ersetzt persönliche Branches (ursprünglicher Plan): drei Leute mit getrennten Dateien und gegenseitigen Abhängigkeiten; AP1 musste schon vorzeitig nach main, damit die anderen darauf aufbauen können
+- Schutz statt Branches: scripts/sync führt vor jedem Push mit Code-Änderungen die Tests aus und pusht bei Rot nicht; neue Ansätze kommen hinter Schalter, der Standard wird erst nach besserer Messung umgestellt; Sonntag Freeze + Tag best-main-…
+- Branches nur noch ausnahmsweise für riskante Experimente (kurzlebig)
+- Migration: Branch jonathan nach main gemergt (alle Commits enthalten, geprüft mit merge-base), lokal und auf origin gelöscht; main-Worktree entfernt; Tag best-jonathan-pagef2-0.272 zeigt weiter auf einen Commit in main
+
+### 2026-10-24 14:01:58 +0200 | [change] Skripte und Doku auf 'alle auf main' umgestellt | Jonathan @ MacBook-Pro-von-Jonathan | main@907f57a +lokale Änderungen
+- setup: stellt auf main, legt .venv an (requirements.txt), kein Namensargument mehr; sync: Test-Check vor Push, nur wenn ausgehende Commits Code berühren (rote fremde Tests blockieren keine Doku-Pushes); claim: Spalte Rechner statt Branch, spult main selbst vor
+- AGENTS.md §1-§5, §9, README, PLAN, STATUS, LEARNINGS (Verworfen: persönliche Branches), CONTEXT angepasst
+- Neu: scripts/selftest (Sandbox mit 3 simulierten Rechnern, alle auf main): 132/132 auf macOS (bash 3.2) und Debian (bash 5.2, mawk); pytest 8/8

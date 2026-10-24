@@ -1,0 +1,247 @@
+#!/usr/bin/env bash
+# Testet alle scripts/ in einer Sandbox: ein bare origin, drei simulierte Rechner (Anna auf m1+m2, Ben auf m3),
+# alle auf main. Nutzt den aktuellen Arbeitsstand (auch Uncommittetes) und berührt das echte Repo nicht.
+#
+#   scripts/selftest [repo-ordner] [paket-ordner]     braucht git, jq; Exit 0 = alles grün
+#
+# Nach jeder Änderung an scripts/ ausführen (AGENTS.md §2 "Tests grün").
+set -u
+HERE="$(cd "$(dirname "$0")/.." && pwd -P)"
+SRC=${1:-$HERE}; PKG=${2:-$HERE/vendor/industrial-ai-hackathon}
+command -v jq >/dev/null 2>&1 || { echo "selftest braucht jq (brew install jq / apt install jq)" >&2; exit 2; }
+[ -d "$PKG/regulations" ] || { echo "Teilnehmerpaket fehlt unter $PKG (scripts/setup)" >&2; exit 2; }
+T=$(mktemp -d "${TMPDIR:-/tmp}/cert-test.XXXXXX")
+export CERTIVITY_PKG_URL="$PKG"
+export HOME="$T/home"; mkdir -p "$HOME"
+export GIT_CONFIG_NOSYSTEM=1
+git config --global init.defaultBranch main
+git config --global protocol.file.allow always
+git config --global advice.detachedHead false
+
+PASS=0; FAIL=0; OUT=""; RC=0
+pass() { PASS=$((PASS+1)); echo "  PASS  $*"; }
+fail() { FAIL=$((FAIL+1)); echo "  FAIL  $*"; echo "------ output ------"; echo "$OUT" | tail -n 25; echo "--------------------"; }
+run()  { local d=$1; shift; OUT=$(cd "$d" && "$@" 2>&1); RC=$?; }
+rc()   { [ "$RC" -eq "$1" ] && pass "$2 (rc=$RC)" || fail "$2: erwartet rc=$1, bekam $RC"; }
+has()  { printf '%s' "$OUT" | grep -q -- "$1" && pass "$2" || fail "$2: '$1' fehlt"; }
+hasnt(){ printf '%s' "$OUT" | grep -q -- "$1" && fail "$2: '$1' unerwartet" || pass "$2"; }
+yes_() { if "$@"; then pass "$DESC"; else fail "$DESC"; fi; }
+title(){ echo; echo "== $*"; }
+jqok() { printf '%s' "$OUT" | jq -e "$1" >/dev/null 2>&1; }
+# Ersatz-venv: "pytest" ist grün, außer $T/fail-tests existiert.
+fakevenv() { mkdir -p "$1/.venv/bin"; printf '#!/bin/sh\n[ -f "%s/fail-tests" ] && { echo "1 failed"; exit 1; }\necho "8 passed"; exit 0\n' "$T" > "$1/.venv/bin/python"; chmod +x "$1/.venv/bin/python"; }
+code_commit() { echo "$2" > "$1/$3"; git -C "$1" add "$3"; git -C "$1" commit -qm "$3"; }
+
+cd "$T"
+git init -q --bare origin.git
+mkdir -p seed m1 m2 m3
+git clone -q origin.git seed/certivity 2>/dev/null
+tar -C "$SRC" --exclude=.git --exclude=.worktrees --exclude=vendor --exclude=.venv --exclude=out --exclude=__pycache__ -cf - . | tar -C seed/certivity -xf -
+S=$T/seed/certivity
+git -C "$S" config user.name Seed; git -C "$S" config user.email seed@example.com
+git -C "$S" add -A && git -C "$S" commit -qm seed && git -C "$S" push -q -u origin main
+for m in m1 m2 m3; do git clone -q "$T/origin.git" "$T/$m/certivity"; done
+M1=$T/m1/certivity; M2=$T/m2/certivity; M3=$T/m3/certivity
+for d in "$M1" "$M2"; do git -C "$d" config user.name Anna; git -C "$d" config user.email anna@example.com; done
+git -C "$M3" config user.name Ben; git -C "$M3" config user.email ben@example.com
+
+title "setup (alle auf main)"
+run "$M1" scripts/setup --no-pdfs --no-venv; rc 0 "setup m1"
+DESC="m1 ist auf main";                   yes_ [ "$(git -C "$M1" symbolic-ref --short HEAD)" = main ]
+DESC="kein persönlicher Branch auf origin"; yes_ [ "$(git -C "$T/origin.git" branch | wc -l | tr -d ' ')" = 1 ]
+DESC="kein main-Worktree angelegt";       yes_ [ ! -d "$M1/.worktrees/main" ]
+DESC="Paket geklont nach vendor/";        yes_ [ -f "$M1/vendor/industrial-ai-hackathon/regulations/index.json" ]
+DESC="Oberordner-CLAUDE.md verweist";     yes_ grep -q "certivity/AGENTS.md" "$T/m1/CLAUDE.md"
+DESC="git status sauber nach setup";      yes_ [ -z "$(git -C "$M1" status --porcelain)" ]
+run "$M2" scripts/setup anna --no-pdfs --no-venv; rc 0 "setup mit altem Namensargument läuft"; has "keine persönlichen Branches" "Hinweis auf main"
+git -C "$M3" switch -q -c irgendwas
+run "$M3" scripts/setup --no-pdfs --no-venv; rc 0 "setup von anderem Branch"
+DESC="setup wechselt auf main";           yes_ [ "$(git -C "$M3" symbolic-ref --short HEAD)" = main ]
+git -C "$M3" branch -q -D irgendwas
+for d in "$M1" "$M2" "$M3"; do fakevenv "$d"; done
+
+title "log"
+run "$M1" scripts/log "[foo] x";  rc 1 "unbekannter Typ abgelehnt"
+run "$M1" scripts/log "kein typ"; rc 1 "fehlender Typ abgelehnt"
+run "$M1" scripts/log "[run]";    rc 1 "fehlender Titel abgelehnt"
+echo a > "$M1/x.py"
+run "$M1" scripts/log "[change] m1 legt x an" "detail eins" "detail zwei
+zweite Zeile"; rc 0 "log [change]"
+OUT=$(tail -n 5 "$M1/docs/LOG.md")
+has "| \[change\] m1 legt x an | Anna @ " "Kopfzeile mit Typ, Autor, Rechner"
+has "main@[0-9a-f]\{7,\} +lokale Änderungen" "Stand main@hash aus git"
+has "^- detail eins" "Detail als Aufzählung"; has "^  zweite Zeile" "mehrzeiliges Detail eingerückt"
+
+title "sync auf main: rebase + union-Merge von LOG.md (zwei Rechner)"
+git -C "$M1" add x.py docs/LOG.md && git -C "$M1" commit -qm "x"
+run "$M1" scripts/sync; rc 0 "sync m1"; has "gepusht: main@" "meldet main@hash"; has "Tests grün" "Tests liefen (Code-Commit)"
+echo b > "$M2/y.py"; (cd "$M2" && scripts/log "[change] m2 legt y an" >/dev/null 2>&1)
+git -C "$M2" add y.py docs/LOG.md && git -C "$M2" commit -qm "y"
+run "$M2" scripts/sync; rc 0 "sync m2 trotz parallelem LOG-Eintrag"; has "per rebase" "ohne Merge-Commits: rebase"
+DESC="LOG enthält beide Einträge";        yes_ [ "$(grep -c 'legt [xy] an' "$M2/docs/LOG.md")" -eq 2 ]
+DESC="keine Konfliktmarker in LOG";       yes_ sh -c "! grep -q '^<<<<<<<' '$M2/docs/LOG.md'"
+run "$M1" scripts/sync; rc 0 "m1 holt m2 nach"
+echo dirty >> "$M1/x.py"
+run "$M1" scripts/sync; rc 1 "sync verweigert bei uncommitteten Änderungen"; has "Erst committen" "klare Meldung"
+git -C "$M1" checkout -q -- x.py
+
+title "Test-Check in sync"
+code_commit "$M1" rot c1.py; touch "$T/fail-tests"; BEFORE=$(git -C "$T/origin.git" rev-parse main)
+run "$M1" scripts/sync; rc 1 "rote Tests blockieren Code-Push"; has "Tests rot" "Meldung Tests rot"
+DESC="nichts gepusht bei roten Tests";    yes_ [ "$(git -C "$T/origin.git" rev-parse main)" = "$BEFORE" ]
+rm -f "$T/fail-tests"; run "$M1" scripts/sync; rc 0 "grün → gepusht"
+touch "$T/fail-tests"
+echo "notiz" >> "$M1/docs/PLAN.md"; git -C "$M1" commit -qam "nur doku"
+run "$M1" scripts/sync; rc 0 "Doku-Push trotz fremder roter Tests"; hasnt "Tests laufen" "keine Tests bei reinem Doku-Commit"
+rm -f "$T/fail-tests"
+mv "$M1/.venv" "$M1/.venv-weg"; code_commit "$M1" x c2.py
+run "$M1" scripts/sync; rc 1 "ohne .venv kein Code-Push"; has "keine .venv" "Meldung fehlende venv"
+mv "$M1/.venv-weg" "$M1/.venv"; run "$M1" scripts/sync; rc 0 "mit venv wieder gepusht"
+
+title "claim direkt auf main"
+echo wip > "$M3/arbeit.py"; echo wip >> "$M3/README.md"
+run "$M3" scripts/claim add "Regelungsauswahl" "certreq/select.py"; rc 0 "claim add mit eigener laufender Arbeit"
+DESC="Claim auf origin/main (Spalte Rechner)"; yes_ sh -c "git -C '$T/origin.git' show main:docs/STATUS.md | grep -q '| Ben | [^|]* | Regelungsauswahl | certreq/select.py |'"
+DESC="laufende Arbeit bleibt uncommittet"; yes_ sh -c "git -C '$M3' status --porcelain | grep -q 'README.md' && git -C '$M3' status --porcelain | grep -q 'arbeit.py'"
+DESC="Claim-Commit enthält nur STATUS.md"; yes_ [ "$(git -C "$M3" show --name-only --format= HEAD)" = "docs/STATUS.md" ]
+git -C "$M3" checkout -q -- README.md; rm -f "$M3/arbeit.py"
+run "$M2" scripts/claim add "Extraktion" "certreq/extract.py"; rc 0 "claim, obwohl m2 hinter origin war (spult vor)"
+run "$M1" scripts/claim done "Regelung"; rc 1 "fremden Claim entfernen verweigert"
+code_commit "$M1" lokal c3.py
+run "$M1" scripts/claim add "X" "y"; rc 1 "claim mit ungepushten Commits verweigert"; has "ungepushte Commits" "Meldung ungepushte Commits"
+(cd "$M1" && scripts/sync >/dev/null 2>&1)
+run "$M1" scripts/claim list; rc 0 "claim list"; has "Regelungsauswahl" "list zeigt Bens Claim"; has "Extraktion" "list zeigt Annas Claim"
+# Race: Bens Claim-Push wird abgelehnt, weil Anna im selben Moment main pusht.
+HOOK="$M3/.git/hooks/pre-push"
+cat > "$HOOK" <<EOF
+#!/bin/sh
+[ -f "$T/race.flag" ] || exit 0
+rm -f "$T/race.flag"
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX GIT_COMMON_DIR
+git -C "$M1" pull -q --rebase origin main && echo "race" >> "$M1/docs/PLAN.md" && git -C "$M1" commit -qam "parallel auf main" && git -C "$M1" push -q origin main
+exit 0
+EOF
+chmod +x "$HOOK"; touch "$T/race.flag"
+run "$M3" scripts/claim add "Sub-Goal" "certreq/subgoal.py"; rc 0 "claim trotz parallelem Push"; has "wende Claim neu an" "Retry-Pfad genommen"
+DESC="Claim + paralleler Commit beide auf main"; yes_ sh -c "git -C '$T/origin.git' show main:docs/STATUS.md | grep -q 'Sub-Goal' && git -C '$T/origin.git' log --oneline main | grep -q 'parallel auf main'"
+rm -f "$HOOK"
+run "$M2" scripts/claim done "extrakt"; rc 0 "eigenen Claim entfernen"
+DESC="Annas Claim weg, Bens Claims da";   yes_ sh -c "s=\$(git -C '$T/origin.git' show main:docs/STATUS.md); ! printf '%s' \"\$s\" | grep -q '| Extraktion |' && printf '%s' \"\$s\" | grep -q Regelungsauswahl"
+
+title "sync: merge-Pfad (lokaler Merge-Commit auf main wird nicht neu abgespielt)"
+run "$M1" scripts/sync; rc 0 "m1 aktuell"
+git -C "$M1" switch -q -c exp; code_commit "$M1" e exp.py; git -C "$M1" switch -q main
+git -C "$M1" merge -q --no-ff --no-edit exp; MSHA=$(git -C "$M1" rev-parse HEAD); git -C "$M1" branch -q -D exp
+code_commit "$M2" w w.py; (cd "$M2" && scripts/sync >/dev/null 2>&1)
+run "$M1" scripts/sync; rc 0 "sync mit lokalem Merge-Commit"; has "per merge" "merge statt rebase"
+DESC="Merge-Commit unverändert in der Historie"; yes_ git -C "$M1" merge-base --is-ancestor "$MSHA" HEAD
+
+title "sync: Konflikt"
+run "$M2" scripts/sync; rc 0 "m2 aktuell"
+echo konflikt-m1 > "$M1/x.py"; git -C "$M1" commit -qam "x m1"; run "$M1" scripts/sync; rc 0 "m1 pusht x"
+echo konflikt-m2 > "$M2/x.py"; git -C "$M2" commit -qam "x m2"
+BEFORE=$(git -C "$T/origin.git" rev-parse main)
+run "$M2" scripts/sync; rc 1 "Konflikt stoppt sync"; has "KONFLIKT" "Konfliktmeldung"; has "x.py" "nennt Datei"; has "git rebase --abort" "nennt Abbruch"
+DESC="nichts gepusht bei Konflikt";       yes_ [ "$(git -C "$T/origin.git" rev-parse main)" = "$BEFORE" ]
+git -C "$M2" rebase --abort && git -C "$M2" reset -q --hard origin/main
+
+title "pull-first auf main"
+run "$M1" scripts/sync; rc 0 "m1 aktuell"
+run "$M1" scripts/pull-first; rc 0 "sauber+gepusht → zählt"; has "ZÄHLT:" "Meldung ZÄHLT"
+DESC="stdout = main@hash";                yes_ [ "$(cd "$M1" && scripts/pull-first 2>/dev/null)" = "main@$(git -C "$M1" rev-parse --short HEAD)" ]
+code_commit "$M2" v v.py; (cd "$M2" && scripts/sync >/dev/null 2>&1)
+run "$M1" scripts/pull-first; rc 0 "origin neuer → nachgezogen"; has "nachgezogen" "meldet Nachziehen"
+DESC="m1 hat m2s Commit";                 yes_ [ -f "$M1/v.py" ]
+touch "$M1/neu.py"; run "$M1" scripts/pull-first; rc 1 "ungetrackte Datei → zählt nicht"; rm "$M1/neu.py"
+echo f >> "$M1/x.py"; run "$M1" scripts/pull-first; rc 1 "uncommittet → zählt nicht"; git -C "$M1" checkout -q -- x.py
+code_commit "$M1" g u.py
+run "$M1" scripts/pull-first; rc 1 "ungepusht → zählt nicht"; has "Ungepushte Commits" "listet ungepushte Commits"
+(cd "$M1" && scripts/sync >/dev/null 2>&1)
+
+title "log [run] und --commit"
+code_commit "$M1" h t.py
+run "$M1" scripts/log "[run] Testlauf" "F2 0.1"; rc 0 "log [run]"; has "ungepushten Commit" "warnt bei ungepushtem Stand"
+git -C "$M1" add docs/LOG.md && git -C "$M1" commit -qm "run log" && (cd "$M1" && scripts/sync >/dev/null 2>&1)
+H=$(git -C "$M1" rev-parse --short HEAD); (cd "$M2" && scripts/sync >/dev/null 2>&1); echo dirt >> "$M2/docs/PLAN.md"
+run "$M2" scripts/log --commit "main@$H" "[run] von anderem Stand geloggt" "F2 0.2"; rc 0 "log --commit"; hasnt "WARNUNG" "keine falsche Warnung"
+DESC="Kopf nennt gemessenen Stand";       yes_ grep -q "gemessen auf main@$H\$" "$M2/docs/LOG.md"
+run "$M2" scripts/log --commit "main@deadbee" "[run] x"; rc 1 "erfundener Hash abgelehnt"
+run "$M2" scripts/log --commit "kaputt" "[run] x"; rc 1 "Format ohne @ abgelehnt"
+git -C "$M2" checkout -q -- docs/PLAN.md docs/LOG.md
+code_commit "$M1" n q.py; HQ=$(git -C "$M1" rev-parse --short HEAD)
+run "$M1" scripts/log --commit "main@$HQ" "[run] ungepusht"; rc 0 "log --commit ungepusht"; has "keinem origin-Branch" "warnt bei ungepushtem Messstand"
+git -C "$M1" checkout -q -- docs/LOG.md; git -C "$M1" reset -q --hard origin/main
+
+title "Experiment-Branch (Ausnahme)"
+git -C "$M3" switch -q -c exp-ben
+echo "zusatz" >> "$M3/docs/PLAN.md"; git -C "$M3" commit -qam "plan auf branch (falsch)"
+run "$M3" scripts/sync; rc 0 "sync auf Experiment-Branch"; has "geteilte Dateien" "Warnung geteilte Datei"
+git -C "$M3" revert --no-edit HEAD >/dev/null && (cd "$M3" && scripts/sync >/dev/null 2>&1)
+(cd "$M3" && scripts/log "[finding] ben findet etwas auf exp" >/dev/null 2>&1 && git add docs/LOG.md && git commit -qm f && scripts/sync >/dev/null 2>&1)
+code_commit "$M1" shared common.py; (cd "$M1" && scripts/sync >/dev/null 2>&1)
+run "$M3" scripts/pull-first; rc 1 "main hat neuen Code → zählt auf Branch nicht"; has "common.py" "nennt neue Code-Datei"
+run "$M3" scripts/sync; rc 0 "sync merged main in Branch"; has "main gemergt" "main gemergt"
+run "$M3" scripts/pull-first; rc 0 "danach zählt es"
+run "$M3" scripts/main-wt; rc 0 "main-wt auf Branch"; DESC="legt .worktrees/main an"; yes_ [ "$(printf '%s' "$OUT" | tail -n 1)" = "$M3/.worktrees/main" ]
+echo k >> "$M3/.worktrees/main/docs/PLAN.md"
+run "$M3" scripts/stop-check; rc 1 "dirty main-Worktree erkannt"; has ".worktrees/main" "nennt main-Worktree"
+git -C "$M3/.worktrees/main" checkout -q -- docs/PLAN.md
+git -C "$M3" switch -q main && (cd "$M3" && scripts/sync >/dev/null 2>&1)
+
+title "session-start (LOG über alle Branches)"
+run "$M1" scripts/session-start 60; rc 0 "session-start"
+has "# Teamstand" "Überschrift"; has "docs/STATUS.md (Stand origin/main)" "STATUS von origin/main"
+has "| Ben | [^|]* | Regelungsauswahl" "Claims sichtbar"; has "ben findet etwas auf exp" "Eintrag vom Experiment-Branch sichtbar"; has "m2 legt y an" "Einträge der anderen sichtbar"
+DESC="kein Eintrag doppelt";              yes_ [ "$(printf '%s' "$OUT" | grep -c 'm1 legt x an')" -eq 1 ]
+DESC="chronologisch sortiert";            yes_ sh -c "printf '%s\n' \"\$1\" | grep '^### ' | cut -c5-29 | sort -c" _ "$OUT"
+run "$M3" scripts/session-start 3; DESC="Anzahl begrenzt"; yes_ [ "$(printf '%s' "$OUT" | grep -c '^### ')" -eq 3 ]
+
+title "stop-check"
+run "$M1" scripts/sync; run "$M1" scripts/stop-check; rc 0 "sauber"
+OUT=$(cd "$M1" && echo '{}' | scripts/stop-check --hook); DESC="Hook still wenn sauber"; yes_ [ -z "$OUT" ]
+echo i >> "$M1/x.py"
+run "$M1" scripts/stop-check; rc 1 "dirty → Exit 1"; has "x.py" "nennt Datei"
+OUT=$(cd "$M1" && echo '{"stop_hook_active":false}' | scripts/stop-check --hook); DESC="frisch dirty → systemMessage"; yes_ jqok '.systemMessage'
+touch -t 202601010000 "$M1/x.py"
+OUT=$(cd "$M1" && echo '{"stop_hook_active":false}' | scripts/stop-check --hook); DESC="alt dirty → block"; yes_ jqok '.decision == "block" and (.reason|length>0)'
+OUT=$(cd "$M1" && echo '{"stop_hook_active": true}' | scripts/stop-check --hook); DESC="stop_hook_active → kein zweiter Block"; yes_ jqok '(.systemMessage|length>0) and (.decision|not)'
+git -C "$M1" checkout -q -- x.py
+echo j > "$M1/s.py"; git -C "$M1" add s.py; GIT_COMMITTER_DATE="2026-01-01T00:00:00" git -C "$M1" commit -qm s
+OUT=$(cd "$M1" && echo '{}' | scripts/stop-check --hook); DESC="alter ungepushter Commit → block"; yes_ jqok '.decision == "block"'
+(cd "$M1" && scripts/sync >/dev/null 2>&1)
+
+title "tag-best"
+run "$M1" scripts/tag-best "a b"; rc 1 "ungültiger Wert"
+echo l >> "$M1/x.py"; run "$M1" scripts/tag-best f2-0.5; rc 1 "dirty → verweigert"; git -C "$M1" checkout -q -- x.py
+code_commit "$M1" m r.py
+run "$M1" scripts/tag-best f2-0.5; rc 1 "ungepusht → verweigert"; (cd "$M1" && scripts/sync >/dev/null 2>&1)
+run "$M1" scripts/tag-best f2-0.5 "E001 dev"; rc 0 "Tag gesetzt"
+DESC="Tag best-main-f2-0.5 auf origin";   yes_ git -C "$T/origin.git" rev-parse -q --verify refs/tags/best-main-f2-0.5 >/dev/null
+run "$M1" scripts/tag-best f2-0.5; rc 1 "doppelter Tag verweigert"
+
+title "secret-scan"
+FAKE="sk-ant-api03-$(printf 'A%.0s' $(seq 1 40))"
+echo "KEY = \"$FAKE\"" > "$M1/leak.py"; git -C "$M1" add leak.py; git -C "$M1" commit -qm leak
+BEFORE=$(git -C "$T/origin.git" rev-parse main)
+run "$M1" scripts/sync; rc 1 "sync blockiert Schlüssel"; has "GEHEIMNIS" "Fundmeldung"; hasnt "$FAKE" "Schlüssel nicht vollständig ausgegeben"
+DESC="nichts gepusht";                    yes_ [ "$(git -C "$T/origin.git" rev-parse main)" = "$BEFORE" ]
+git -C "$M1" reset -q --hard origin/main
+printf 'password: "%s"\n' "hunter2hunter2hunter2" > "$T/transcript.txt"
+run "$M1" scripts/secret-scan "$T/transcript.txt"; rc 1 "Dateimodus findet Passwort-Zuweisung"
+echo "TOKEN=abc" > "$M1/.env"; git -C "$M1" add -f .env; git -C "$M1" commit -qm env
+run "$M1" scripts/secret-scan; rc 1 ".env in ausgehendem Commit erkannt"
+git -C "$M1" reset -q --hard origin/main; rm -f "$M1/.env"
+run "$M1" scripts/secret-scan; rc 0 "sauber → 0"
+run "$M1" sh -c 'scripts/secret-scan AGENTS.md CLAUDE.md README.md docs/*.md experiments/LEDGER.md scripts/* .claude/settings.json'; rc 0 "keine Fehlalarme im eigenen Repo"
+
+title "main-wt auf main + Hooks"
+run "$M1" scripts/main-wt; DESC="auf main: Checkout selbst"; yes_ [ "$(printf '%s' "$OUT" | tail -n 1)" = "$M1" ]
+SS=$(jq -r '.hooks.SessionStart[0].hooks[0].command' "$M1/.claude/settings.json")
+SC=$(jq -r '.hooks.Stop[0].hooks[0].command' "$M1/.claude/settings.json")
+OUT=$(cd /; echo '{"hook_event_name":"SessionStart","source":"startup"}' | CLAUDE_PROJECT_DIR="$M1" bash -c "$SS" 2>&1); RC=$?
+rc 0 "SessionStart-Hook (aus beliebigem cwd)"; has "# Teamstand" "Hook-Ausgabe enthält Teamstand"
+OUT=$(cd /; echo '{"hook_event_name":"Stop","stop_hook_active":false}' | CLAUDE_PROJECT_DIR="$M1" bash -c "$SC" 2>&1); RC=$?
+rc 0 "Stop-Hook sauber"; DESC="Stop-Hook ohne Ausgabe wenn sauber"; yes_ [ -z "$OUT" ]
+
+echo; echo "ERGEBNIS: $PASS bestanden, $FAIL fehlgeschlagen  (Sandbox: $T, $(uname -s), bash $BASH_VERSION, git $(git --version | cut -d' ' -f3), awk: $(readlink "$(command -v awk)" 2>/dev/null || command -v awk))"
+[ "$FAIL" -eq 0 ]
