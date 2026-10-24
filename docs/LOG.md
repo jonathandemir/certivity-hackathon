@@ -578,3 +578,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 20:35:00 +0200 | [finding] F2-Schwelle: Streichen lohnt nur unter q* = F2/5 ≈ 15 % Trefferchance | Jonathan @ MacBook-Pro-von-Jonathan | main@82bcda0 +lokale Änderungen
 - F2 = 5TP/(4G+N). E040-a: 197 ohne Treffer (36 im Gold-Absatz, 93 Gold-Seite anderer Absatz, 68 ohne Gold), 23 fehlend alle mit Kandidat (15 R48: optionale Leuchten, Ausnahmen, Toleranz). Erklärt die gescheiterten Precision-Regeln; ein Treffer ≈ +0.0045, Streuung ±0.02 ≈ 4 Treffer.
 - Auswertung out/E040-a.judge.json (lokal), LEARNINGS.
+
+### 2026-10-24 20:37:22 +0200 | [decision] Sub-Goal: --refine llm ist Standard | Amiad @ claude | main@88be34d +lokale Änderungen
+- certreq.subgoal run nutzt jetzt standardmäßig --refine llm (Plattform E038-am-P: Change accuracy 1.000 vs 0.957 regelbasiert, Flags gleich 24/24). Ohne Key oder bei API-Fehler fällt es automatisch auf den regelbasierten Text zurück (auch SystemExit abgefangen). Werkbank-Versionsvergleich nutzt llm, wenn ein Key da ist. Sonntag also nur: python -m certreq.subgoal run vendor/.../subgoal/heldout.
+- pytest grün, neuer Test: CLI-Standard llm + Ausfall ohne Key

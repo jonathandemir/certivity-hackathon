@@ -110,3 +110,18 @@ def test_refine_llm_never_drops_obligations(monkeypatch):
         raise RuntimeError("kein Key")
     monkeypatch.setattr(llm, "ask_json", boom)
     assert [c["new_text"] for c in subgoal.refine_llm(base, "UN R1", "2")] == ["A shall a.", "B shall b."]
+
+
+def test_cli_default_is_refine_llm_and_survives_missing_key(monkeypatch):
+    import argparse
+    from certreq import llm, subgoal
+    seen = {}
+    monkeypatch.setattr(subgoal, "cmd_run", lambda a: seen.setdefault("refine", a.refine) and 0)
+    subgoal.main(["run", "x"])
+    assert seen["refine"] == "llm"
+    def nokey(*a, **k):
+        raise SystemExit("kein Key")
+    monkeypatch.setattr(llm, "ask_json", nokey)
+    base = [{"requirement_id": None, "change": "added", "new_text": "A shall a.", "reason": "Paragraph 1 of UN R1 is new in version 2: 'x'.",
+             "source": {"page": 1, "paragraph": "1"}, "_ctx": {"paragraph": "A shall a."}}]
+    assert subgoal.refine_llm(base, "UN R1", "2")[0]["new_text"] == "A shall a."

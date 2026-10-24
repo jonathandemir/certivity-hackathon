@@ -471,7 +471,7 @@ def run_subgoal(folder: str, force: bool = False) -> dict:
         reqs = json.loads((d / "requirements_old.json").read_text(encoding="utf-8"))
         from certreq.submission import TEAM_ID
         sub = subgoal.compare(d / "old.pdf", d / "new.pdf", reqs, os.environ.get("CERTIVITY_TEAM_ID", TEAM_ID),
-                              f"subgoal-{folder}")
+                              f"subgoal-{folder}", refine="llm" if llm_available() else "none")
         reg_new, ver_new = subgoal.pdf_header(d / "new.pdf")
         reg_old, ver_old = subgoal.pdf_header(d / "old.pdf")
         res = {"submission": sub, "regulation": reg_new or reg_old, "old": ver_old, "new": ver_new,

@@ -352,7 +352,7 @@ def refine_llm(changes: list[dict], regulation: str, version: str, modified: boo
                 f"Word diff found by a tool (may be noisy):\n" + "\n".join(x["detected"]))
         try:
             a = llm.ask_json(REFINE_MOD, user, _MOD_SCHEMA, name="modified")
-        except Exception as e:  # noqa: BLE001 – regelbasiert weiter
+        except (Exception, SystemExit) as e:  # noqa: BLE001 – regelbasiert weiter (auch ohne Key)
             print(f"refine modified {c['requirement_id']}: {e}", file=sys.stderr)
             return c
         if not a["changes"] or not a["new_text"].strip():
@@ -365,7 +365,7 @@ def refine_llm(changes: list[dict], regulation: str, version: str, modified: boo
         try:
             a = llm.ask_json(REFINE_ADD, f"Regulation: {regulation}, version {version}\n\nNEW PARAGRAPH:\n{para}\n\n"
                                          f"CANDIDATES:\n{cands}", _ADD_SCHEMA, name="added")
-        except Exception as e:  # noqa: BLE001
+        except (Exception, SystemExit) as e:  # noqa: BLE001 – ohne Key: regelbasierter Text bleibt
             print(f"refine added {group[0]['source']}: {e}", file=sys.stderr)
             return group
         items = [i for i in a["items"] if i["text"].strip()]
@@ -493,8 +493,9 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("folder", help="subgoal-Ordner mit old.pdf, new.pdf, requirements_old.json")
     r.add_argument("--out")
     r.add_argument("--team-id")
-    r.add_argument("--refine", choices=["none", "llm", "llm-all"], default="none",
-                   help="llm: Texte/Gründe per Sprachmodell nachschärfen (braucht Key; Markierungen bleiben regelbasiert)")
+    r.add_argument("--refine", choices=["none", "llm", "llm-all"], default="llm",
+                   help="llm (Standard seit E038-am-P, Change accuracy 1.000): Texte der added per Sprachmodell "
+                        "nachschärfen; ohne Key automatisch regelbasiert. none = E037-am")
     r.set_defaults(func=cmd_run)
     e = s.add_parser("eval")
     e.add_argument("submission")
