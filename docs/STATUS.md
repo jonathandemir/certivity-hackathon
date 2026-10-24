@@ -34,6 +34,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Homsianer | vm | AP3-Rest + AP4 (Übernahme von Jonathan): Parser, Relevanzfilter, LLM-Extraktion, GTR Teil II, R10 | certreq/pdf.py, certreq/extract.py, certreq/relevance.py, certreq/llmextract.py, tests/test_extract.py, tests/test_llmextract.py, tests/test_outline.py | 2026-10-24 14:16 |
 | Homsianer | vm | Anthropic-Zugang hinter Schalter CERTREQ_PROVIDER=anthropic (Standard bleibt OpenAI; Homsianer hat nur Anthropic-Key) | certreq/llm_anthropic.py (neu), certreq/llm.py (nur Anbieter-Schalter in model_name/_call/_check), certreq/judge.py (nur config.model), requirements.txt (+anthropic), tests/test_llm.py | 2026-10-24 17:04 |
 | Homsianer | vm | AP4: Prompt-Regeln duties + testcond (Übergabe A), Messung dev + R175 | certreq/llmextract.py, certreq/extract.py, tests/test_llmextract.py | 2026-10-24 19:43 |
+| Jonathan | MacBook-Pro-von-Jonathan | AP5b: Bildregion je Bauteil aus der Zeichnung (Bitte von C) | certreq/vision.py, tests/test_vision.py, run-Teil von certreq/__main__.py (Schalter --regions) | 2026-10-24 19:53 |
 
 ## Nächste Schritte
 
