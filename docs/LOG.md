@@ -374,3 +374,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 17:10:37 +0200 | [run] AP10-K3-c: Claude-Richter gegen Plattform geeicht (E020-a-Abgabe) | Homsianer @ vm | gemessen auf main@9886bfe
 - Gleiche Abgabe wie E020-a-P (360 Anforderungen, gpt-Ausgabe), Richter claude-opus-5-5: strict 152 Treffer F2 0.679, lenient 165 F2 0.737; Plattform 154 F2 0.687; gpt lenient 153, gpt strict 141
 - Schluss: für Claude-Messreihen strict als Plattform-Prognose nehmen, lenient als Obergrenze. Kosten je Richter-Lauf ~442k/22k Tokens (190 Aufrufe, ~70 s)
+
+### 2026-10-24 17:15:47 +0200 | [run] E023-hs-c: Referenz der Claude-Reihe (Standard mit CERTREQ_PROVIDER=anthropic) | Homsianer @ vm | gemessen auf main@ca4c59f
+- Richter claude-opus-5-5 strict (= Plattform-Prognose, AP10-K3-c): Anforderungen P 0.468 R 0.795 F2 0.697 (151/190, 323 eingereicht), lenient 0.752; Seiten 0.942, Regelungen 0.952 (R148, R150, R48, R10, R26; kein R42)
+- Recall je Regelung R10 19/32, R148 57/63, R150 35/39, R48 40/56. 100 s, 63 Aufrufe, 254k Eingabe-/63k Ausgabe-Tokens. Beleg experiments/runs/E023-hs-c
