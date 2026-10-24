@@ -35,6 +35,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Homsianer | vm | Anthropic-Zugang hinter Schalter CERTREQ_PROVIDER=anthropic (Standard bleibt OpenAI; Homsianer hat nur Anthropic-Key) | certreq/llm_anthropic.py (neu), certreq/llm.py (nur Anbieter-Schalter in model_name/_call/_check), certreq/judge.py (nur config.model), requirements.txt (+anthropic), tests/test_llm.py | 2026-10-24 17:04 |
 | Jonathan | MacBook-Pro-von-Jonathan | Übergaben B/C (STATUS), PLAN Weg B, R175-Prüfstein-README, R4-Snapshot-Skript | docs/STATUS.md (Nächste Schritte), docs/PLAN.md (Weg B), experiments/synthetic/acpe/README.md, scripts/export-snapshot (neu), scripts/selftest | 2026-10-24 19:40 |
 | Homsianer | vm | AP4: Prompt-Regeln duties + testcond (Übergabe A), Messung dev + R175 | certreq/llmextract.py, certreq/extract.py, tests/test_llmextract.py | 2026-10-24 19:43 |
+| Jonathan | MacBook-Pro-von-Jonathan | AGENTS.md Skript-Tabelle: export-snapshot | AGENTS.md (§9 eine Zeile) | 2026-10-24 19:46 |
 
 ## Nächste Schritte
 
