@@ -232,7 +232,9 @@ def _sources_of(req: dict, old_sents: list[Sentence]) -> list[int]:
     return hits
 
 
-def compare(old_pdf: Path, new_pdf: Path, reqs_old: list[dict], team_id: str, case_id: str) -> dict:
+def compare(old_pdf: Path, new_pdf: Path, reqs_old: list[dict], team_id: str, case_id: str, refine: str = "none") -> dict:
+    """refine="llm": Texte und Gründe der gefundenen Änderungen per Sprachmodell nachschärfen (siehe refine_llm);
+    welche Anforderungen markiert werden, entscheidet immer der regelbasierte Abgleich."""
     regulation, version = pdf_header(new_pdf)
     old_s, new_s = sentences_of(old_pdf), sentences_of(new_pdf)
     idx = Index(new_s)
@@ -274,7 +276,10 @@ def compare(old_pdf: Path, new_pdf: Path, reqs_old: list[dict], team_id: str, ca
         full_new = " ".join(new_s[i].text for i in sorted(set(matched) | set(extras)))
         changes.append({"requirement_id": req["id"], "change": "modified", "new_text": _norm(full_new)[:MAX_TEXT],
                         "reason": f"Paragraph {n0.label}{former} of {regulation} was amended in version {version}: "
-                                  f"{'; '.join(plist)}.", "source": {"page": n0.page, "paragraph": n0.label}})
+                                  f"{'; '.join(plist)}.", "source": {"page": n0.page, "paragraph": n0.label},
+                        "_ctx": {"old_requirement": req["text"], "old_paragraph": " ".join(old_s[k].full for k in srcs),
+                                 "new_paragraph": " ".join(new_s[i].full for i in sorted(set(matched) | set(extras))),
+                                 "detected": plist, "head": f"Paragraph {n0.label}{former} of {regulation} was amended in version {version}"}})
     mod_sets = [set(_tokens(_canon(c["new_text"]))) for c in changes if c["change"] == "modified"]
     fresh: list[Sentence] = []
     for i, s in enumerate(new_s):
@@ -289,8 +294,97 @@ def compare(old_pdf: Path, new_pdf: Path, reqs_old: list[dict], team_id: str, ca
     for s, text in _obligations(fresh):
         changes.append({"requirement_id": None, "change": "added", "new_text": text[:MAX_TEXT],
                         "reason": f"Paragraph {s.label} of {regulation} is new in version {version}: "
-                                  f"'{text[:300]}'.", "source": {"page": s.page, "paragraph": s.label}})
+                                  f"'{text[:300]}'.", "source": {"page": s.page, "paragraph": s.label},
+                        "_ctx": {"paragraph": " ".join(x.full for x in new_s if x.label == s.label)}})
+    if refine in ("llm", "llm-all"):
+        changes = refine_llm(changes, regulation, version, modified=refine == "llm-all")
+    for c in changes:
+        c.pop("_ctx", None)
     return {"team_id": team_id, "case_id": case_id, "changes": changes}
+
+
+REFINE_MOD = """You maintain engineering requirements derived from a UN Regulation. A requirement was written from the OLD
+version of a paragraph; the paragraph changed in the NEW version. Write the requirement as it reads under the NEW version:
+keep the old requirement's wording, scope and level of detail wherever the change does not touch it, change exactly what
+changed (values, conditions, added or removed items), and do not add unrelated content of the new paragraph that the old
+requirement did not cover. Then list the substantive changes as short verbatim quotes from the regulation texts:
+type "became" (old → new), "added" (new only) or "removed" (old only). Ignore pure renumbering, capitalisation, hyphenation
+and punctuation. If, read carefully, nothing substantive changed for THIS requirement, return an empty list."""
+REFINE_ADD = """You extract engineering requirements that are NEW in a version of a UN Regulation. You get the full new
+paragraph and candidate sentences that a rule-based diff found to be new. Return the new requirements as standalone
+sentences, staying close to the regulation's wording:
+- Normally one candidate = one requirement. Keep a sentence with one modal verb and several attributes ("shall be X and be
+  Y") as ONE requirement. Alternatives of one condition ("not required when: (a) ...; or (b) ...") stay ONE requirement.
+- Split a candidate only if it joins separate obligations with different modal verbs or different subjects ("shall be
+  deactivated if necessary, and may be combined where feasible"). Do not split clauses like "X when going rearwards, and
+  Y when going forwards" that share one modal verb.
+- Make each sentence standalone with the correct subject ("Tests without a target may be combined where feasible.",
+  "For tests in the rearward direction, ... 4 km/h ..."), keep values, units and references exactly.
+Cover every candidate; do not invent obligations or add content that is not in the candidates. For each item give the
+verbatim regulation sentence it comes from."""
+_MOD_SCHEMA = {"type": "object", "additionalProperties": False, "required": ["new_text", "changes"], "properties": {
+    "new_text": {"type": "string"},
+    "changes": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["type", "old", "new"],
+                "properties": {"type": {"type": "string", "enum": ["became", "added", "removed"]},
+                               "old": {"type": "string"}, "new": {"type": "string"}}}}}}
+_ADD_SCHEMA = {"type": "object", "additionalProperties": False, "required": ["items"], "properties": {
+    "items": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["text", "quote"],
+              "properties": {"text": {"type": "string"}, "quote": {"type": "string"}}}}}}
+
+
+def _phrase(ch: dict) -> str:
+    if ch["type"] == "became":
+        return f"'{ch['old']}' became '{ch['new']}'"
+    return f"'{ch['new'] or ch['old']}' was {'added' if ch['type'] == 'added' else 'removed'}"
+
+
+def refine_llm(changes: list[dict], regulation: str, version: str, modified: bool = False) -> list[dict]:
+    """Texte und Gründe per Sprachmodell (certreq.llm, Anbieter per CERTREQ_PROVIDER): `modified` = alte Anforderung auf
+    die neue Fassung fortgeschrieben, Gründe als Zitate; `added` je Absatz in eigenständige Einzelpflichten zerlegt.
+    Fällt ein Aufruf aus, bleibt der regelbasierte Text stehen."""
+    from concurrent.futures import ThreadPoolExecutor
+    from . import llm
+
+    def mod(c: dict) -> dict:
+        x = c["_ctx"]
+        user = (f"Regulation: {regulation}, new version {version}\n\nOLD REQUIREMENT:\n{x['old_requirement']}\n\n"
+                f"OLD PARAGRAPH TEXT:\n{x['old_paragraph']}\n\nNEW PARAGRAPH TEXT:\n{x['new_paragraph']}\n\n"
+                f"Word diff found by a tool (may be noisy):\n" + "\n".join(x["detected"]))
+        try:
+            a = llm.ask_json(REFINE_MOD, user, _MOD_SCHEMA, name="modified")
+        except Exception as e:  # noqa: BLE001 – regelbasiert weiter
+            print(f"refine modified {c['requirement_id']}: {e}", file=sys.stderr)
+            return c
+        if not a["changes"] or not a["new_text"].strip():
+            return c  # Modell sieht keine Änderung: Markierung bleibt (Recall), Text regelbasiert
+        return {**c, "new_text": _norm(a["new_text"])[:MAX_TEXT], "reason": f"{x['head']}: {'; '.join(map(_phrase, a['changes']))}."}
+
+    def add(group: list[dict]) -> list[dict]:
+        para = group[0]["_ctx"]["paragraph"]
+        cands = "\n".join(f"- {c['new_text']}" for c in group)
+        try:
+            a = llm.ask_json(REFINE_ADD, f"Regulation: {regulation}, version {version}\n\nNEW PARAGRAPH:\n{para}\n\n"
+                                         f"CANDIDATES:\n{cands}", _ADD_SCHEMA, name="added")
+        except Exception as e:  # noqa: BLE001
+            print(f"refine added {group[0]['source']}: {e}", file=sys.stderr)
+            return group
+        items = [i for i in a["items"] if i["text"].strip()]
+        if len(items) < len(group):  # Sicherung: nie weniger Pflichten als der Abgleich gefunden hat
+            return group
+        g0 = group[0]
+        head = g0["reason"].split(":", 1)[0]
+        return [{**g0, "new_text": _norm(i["text"])[:MAX_TEXT], "reason": f"{head}: '{_norm(i['quote'])[:300]}'."} for i in items]
+
+    mods = [c for c in changes if c["change"] == "modified"]
+    groups: dict[str, list[dict]] = {}
+    for c in changes:
+        if c["change"] == "added":
+            groups.setdefault(c["source"]["paragraph"], []).append(c)
+    with ThreadPoolExecutor(8) as ex:
+        new_mods = list(ex.map(mod, mods)) if modified else mods  # modified: regelbasiert besser (E038-am)
+        new_adds = list(ex.map(add, groups.values()))
+    out = [c for c in changes if c["change"] == "removed"]
+    return new_mods + out + [c for g in new_adds for c in g]
 
 
 def _new_list_items(matched: list[int], new_s: list[Sentence], used: set[int]) -> list[int]:
@@ -374,7 +468,7 @@ def cmd_run(a: argparse.Namespace) -> int:
     folder = Path(a.folder)
     reqs = json.loads((folder / "requirements_old.json").read_text(encoding="utf-8"))
     team = a.team_id or os.environ.get("CERTIVITY_TEAM_ID") or TEAM_ID
-    sub = compare(folder / "old.pdf", folder / "new.pdf", reqs, team, f"subgoal-{folder.name}")
+    sub = compare(folder / "old.pdf", folder / "new.pdf", reqs, team, f"subgoal-{folder.name}", refine=a.refine)
     from . import paths
     out = Path(a.out) if a.out else paths.OUT_DIR / f"{sub['case_id']}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -399,6 +493,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("folder", help="subgoal-Ordner mit old.pdf, new.pdf, requirements_old.json")
     r.add_argument("--out")
     r.add_argument("--team-id")
+    r.add_argument("--refine", choices=["none", "llm", "llm-all"], default="none",
+                   help="llm: Texte/Gründe per Sprachmodell nachschärfen (braucht Key; Markierungen bleiben regelbasiert)")
     r.set_defaults(func=cmd_run)
     e = s.add_parser("eval")
     e.add_argument("submission")

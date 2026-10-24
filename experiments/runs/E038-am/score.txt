@@ -1,0 +1,14 @@
+Typ       erwartet geliefert Treffer  Recall Precision
+modified         6         6       6   1.000     1.000
+removed          1         1       1   1.000     1.000
+added           17        20      17   1.000     0.850
+all             24        27      24   1.000     0.889
+F2 gesamt: 0.976  (lokale Näherung: id bzw. Absatzlabel, nicht semantisch)
+
+Change accuracy lokal (certreq.subgoal_judge, Claude, streng):
+Flags getroffen 24/24, accurate 22/24 = 0.917
+ ✗ modified R-021 | The reason roughly matches the reference's amendments: the trigger wording, 'not more than', added item (vi), and the new vehicle/wall/pedestrian obstacle criteria. The submitted new_text, however, misstates the requirement. Under (c) it adds sub-items (i)–(iv) on 1000 Lux illumination, RCS, weather
+ ✗ modified R-085 | The submission captures both reference changes: 'vehicle situated' became 'ACPE interventions triggered at', and 'with and without an expected ACPE intervention' was removed. However, its new_text adds a substantive condition absent from the reference text: that tests be performed 'both in a forward
+
+Zum Vergleich E037-am (regelbasiert, gleicher Richter):
+Flags getroffen 24/24, accurate 20/24 = 0.833

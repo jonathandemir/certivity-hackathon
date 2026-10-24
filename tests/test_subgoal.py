@@ -95,3 +95,18 @@ def test_align_is_one_to_one_and_uses_context():
 def test_editorial_changes_are_not_reported():
     assert diff_phrases("granted type approvals under paragraph 2.45.)", "granted type-approvals under paragraph 2.45).") == []
     assert diff_phrases("the Contracting Parties applying this Regulation", "the contracting parties applying this UN Regulation") == []
+
+
+def test_refine_llm_never_drops_obligations(monkeypatch):
+    from certreq import llm, subgoal
+    base = [{"requirement_id": None, "change": "added", "new_text": t, "reason": "Paragraph 6.1 of UN R1 is new in version 2: 'x'.",
+             "source": {"page": 3, "paragraph": "6.1"}, "_ctx": {"paragraph": "a. b."}} for t in ("A shall a.", "B shall b.")]
+    monkeypatch.setattr(llm, "ask_json", lambda *a, **k: {"items": [{"text": "A and B shall a and b.", "quote": "a"}]})
+    assert [c["new_text"] for c in subgoal.refine_llm(base, "UN R1", "2")] == ["A shall a.", "B shall b."]  # weniger → regelbasiert
+    monkeypatch.setattr(llm, "ask_json", lambda *a, **k: {"items": [{"text": "A shall a.", "quote": "a."}, {"text": "Tests may b.", "quote": "b."}]})
+    out = subgoal.refine_llm(base, "UN R1", "2")
+    assert [c["new_text"] for c in out] == ["A shall a.", "Tests may b."] and out[1]["reason"].endswith("'b.'.")
+    def boom(*a, **k):
+        raise RuntimeError("kein Key")
+    monkeypatch.setattr(llm, "ask_json", boom)
+    assert [c["new_text"] for c in subgoal.refine_llm(base, "UN R1", "2")] == ["A shall a.", "B shall b."]
