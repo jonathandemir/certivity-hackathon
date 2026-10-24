@@ -6,6 +6,10 @@ Steckbrief (Titel, Einleitung, Geltungsbereich aus der base-PDF) und wählt nach
 Typgenehmigung: Bauteil selbst, Anbau am Fahrzeug, querschnittliche Regelungen wegen Technik/Lage/Verkehrsteilnehmern,
 konsolidierte statt ersetzter Regelungen (die PDFs sagen das selbst, z. B. R148 „combines … Nos. 4, 6, 7, 23 …"),
 Fahrzeugklasse beachten. Keine fallspezifischen Regeln, damit es auch für den Held-out (Frontstoßfänger) trägt.
+mode="llm2" (AP2b): wie llm, aber das Modell gibt je Regelung zusätzlich an, ob der Auslöser in der Spec steht
+(`stated_in_spec`) und wo die Anforderungen liegen (`requirement_locus`: component / installation / vehicle-only).
+Der Code verwirft Annahmen („if the radar is used for AEBS …") und reine Fahrzeugebene (Crash der Insassen,
+Cybersecurity-Management …). Anlass: Robustheitsprüfung am synthetischen Stoßfänger (LEARNINGS).
 `forced` gibt die Auswahl explizit vor (Demo, Diagnose). `explain` (Liste) bekommt je Regelung Rolle und Begründung.
 """
 from __future__ import annotations
@@ -24,7 +28,7 @@ STOP = {
     "single", "module", "multiple", "combining", "confirm", "actual", "representative", "values", "typical",
     "material", "materials", "main", "parts", "product", "function", "apply", "across", "referenced",
 }
-MODES = ("b0", "llm")
+MODES = ("b0", "llm", "llm2")
 BRIEF_PAGES = 6
 INTRO_CHARS = 500
 SCOPE_CHARS = 800
@@ -44,6 +48,18 @@ must fulfil. Principles:
    the component clearly falls outside their scope.
 For each selected regulation give its role and a one-sentence reason grounded in the specification. Also list up to
 five regulations you considered but rejected, with the reason."""
+
+
+SYSTEM2 = SYSTEM + """
+For each selected regulation also state:
+- trigger: the feature of the specification that makes it apply (quote or close paraphrase),
+- stated_in_spec: false if it only applies under an assumption the specification does not state
+  (for example "if the radar is used for emergency braking" or "if standardised light sources are used"),
+- requirement_locus: "component" if the regulation sets requirements that the component's design, marking or
+  performance must meet, including vehicle tests whose result depends on this component (for example impact tests of
+  the structure it forms); "installation" if it governs how the component or its devices are mounted, positioned or
+  connected on the vehicle; "vehicle-only" if its requirements concern other vehicle systems, the vehicle as a whole
+  independently of this component, or the manufacturer's organisation and processes."""
 
 
 def _stems(text: str) -> set[str]:
@@ -83,30 +99,38 @@ def brief(name: str) -> str:
     return "\n".join(parts)
 
 
-def _select_llm(case: Case, index: dict[str, Regulation], explain: list | None) -> list[Regulation]:
+def _select_llm(case: Case, index: dict[str, Regulation], explain: list | None, strict: bool = False) -> list[Regulation]:
     names = sorted(index)
     catalogue = "\n\n".join(f"### {n}\n{brief(n)}" for n in names)
     user = f"Component specification:\n{case.spec_text.strip()}\n\nCatalogue of UN Regulations:\n\n{catalogue}"
     reg_enum = {"type": "string", "enum": names}
+    item = {"regulation": reg_enum, "role": {"type": "string", "enum": ["component", "installation", "cross-cutting"]},
+            "reason": {"type": "string"}}
+    if strict:
+        item |= {"trigger": {"type": "string"}, "stated_in_spec": {"type": "boolean"},
+                 "requirement_locus": {"type": "string", "enum": ["component", "installation", "vehicle-only"]}}
     schema = {"type": "object", "additionalProperties": False, "required": ["selected", "rejected"], "properties": {
         "selected": {"type": "array", "items": {"type": "object", "additionalProperties": False,
-                                                "required": ["regulation", "role", "reason"], "properties": {
-                                                    "regulation": reg_enum,
-                                                    "role": {"type": "string", "enum": ["component", "installation", "cross-cutting"]},
-                                                    "reason": {"type": "string"}}}},
+                                                "required": list(item), "properties": item}},
         "rejected": {"type": "array", "items": {"type": "object", "additionalProperties": False,
                                                 "required": ["regulation", "reason"],
                                                 "properties": {"regulation": reg_enum, "reason": {"type": "string"}}}}}}
-    ans = llm.ask_json(SYSTEM, user, schema, name="selection", model=llm.STRONG_MODEL, effort="high")
-    chosen, seen = [], set()
+    ans = llm.ask_json(SYSTEM2 if strict else SYSTEM, user, schema, name="selection", model=llm.STRONG_MODEL, effort="high")
+    chosen, seen, dropped = [], set(), []
     for item in ans["selected"]:
+        if strict and (not item["stated_in_spec"] or item["requirement_locus"] == "vehicle-only"):
+            why = "Annahme, nicht in der Spec" if not item["stated_in_spec"] else "nur Fahrzeugebene"
+            dropped.append({"regulation": item["regulation"], "role": "rejected",
+                            "reason": f"verworfen ({why}): {item['reason']}"})
+            continue
         if item["regulation"] in index and item["regulation"] not in seen:
             seen.add(item["regulation"])
             chosen.append(index[item["regulation"]])
             if explain is not None:
                 explain.append({"regulation": item["regulation"], "role": item["role"], "reason": item["reason"]})
     if explain is not None:
-        explain += [{"regulation": r["regulation"], "role": "rejected", "reason": r["reason"]} for r in ans["rejected"]]
+        explain += dropped + [{"regulation": r["regulation"], "role": "rejected", "reason": r["reason"]}
+                              for r in ans["rejected"]]
     return chosen
 
 
@@ -118,8 +142,8 @@ def select_regulations(case: Case, forced: list[str] | None = None, mode: str = 
         if unknown:
             raise SystemExit(f"Nicht im Index: {unknown}. Erlaubt: {sorted(index)}")
         return [index[r] for r in forced]
-    if mode == "llm":
-        return _select_llm(case, index, explain)
+    if mode in ("llm", "llm2"):
+        return _select_llm(case, index, explain, strict=mode == "llm2")
     if mode != "b0":
         raise SystemExit(f"Unbekannter Auswahlmodus {mode!r}, erlaubt: {MODES}")
     return _select_b0(case, index)

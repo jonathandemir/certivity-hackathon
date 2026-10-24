@@ -263,3 +263,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Auswahl (12): Kern plausibel R42, R26, R127, R149 (R19 als konsolidiert verworfen), R48, R10; schwach: bedingte Picks R128/R152, Fahrzeugebene R94/R137/R155 (R155 23, R128 32 Anforderungen)
 - GTR 9: Extraktion zitiert den Begründungsteil (S. 4/15/18); verbindlicher Text erst ab S. 71 → Aufgabe für B in STATUS
 - Beleg experiments/synthetic/front-bumper-run.json (Zusammenfassung, keine Messung)
+
+### 2026-10-24 15:49:01 +0200 | [change] AP2b: --select llm2 verwirft Annahmen und reine Fahrzeugebene | Jonathan @ MacBook-Pro-von-Jonathan | main@3467af0 +lokale Änderungen
+- Modell gibt je Regelung trigger, stated_in_spec, requirement_locus (component/installation/vehicle-only) an; Code verwirft stated_in_spec=false und vehicle-only, mit Begründung in .meta.json 'selection'
+- Anlass: synthetischer Stoßfänger wählte R128/R152 ('If …') und R94/R137/R155 (Fahrzeugebene)
+- llm-Modus unverändert (Cache-Treffer geprüft); Tests: 1 neuer, gesamt 52 grün

@@ -41,3 +41,23 @@ def test_modi():
     assert len(S.select_regulations(case)) == 21  # B0 unverändert (E001)
     with pytest.raises(SystemExit):
         S.select_regulations(case, mode="quatsch")
+
+
+@needs_package
+def test_llm2_verwirft_annahmen_und_fahrzeugebene(monkeypatch):
+    seen = {}
+
+    def fake(system, user, schema, **kw):
+        seen["system"], seen["required"] = system, schema["properties"]["selected"]["items"]["required"]
+        sel = lambda reg, stated, locus: {"regulation": reg, "role": "cross-cutting", "reason": "r", "trigger": "t",
+                                          "stated_in_spec": stated, "requirement_locus": locus}
+        return {"selected": [sel("UN R42", True, "component"), sel("UN R48", True, "installation"),
+                             sel("UN R152", False, "installation"), sel("UN R155", True, "vehicle-only")],
+                "rejected": []}
+    monkeypatch.setattr(S.llm, "ask_json", fake)
+    explain = []
+    regs = S.select_regulations(load_case(DEV_CASE), mode="llm2", explain=explain)
+    assert [r.name for r in regs] == ["UN R42", "UN R48"]
+    assert "requirement_locus" in seen["required"] and "vehicle-only" in seen["system"]
+    dropped = {e["regulation"]: e["reason"] for e in explain if e["role"] == "rejected"}
+    assert dropped["UN R152"].startswith("verworfen (Annahme") and dropped["UN R155"].startswith("verworfen (nur Fahrzeugebene")
