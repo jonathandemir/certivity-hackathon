@@ -122,6 +122,13 @@ eine überzählige Regelung kostet ~0.01 F2 (dev: R26/R42 zusammen ~0.016, Nebel
 303 Anforderungen), eine fehlende mit ~20 Gold-Anforderungen ~0.08. Weglassen lohnt nur, wenn die Regelung mit über ~90 %
 falsch ist; das gilt auch für R94. Keine weiteren Uploads.
 
+**Kosten (Claude-Listenpreise, Opus 5.5 $4/$20 je Mio. Tokens ein/aus; Verbrauch gemessen, Denk-Tokens inklusive):**
+ein Held-out-Lauf ≈ $3.6 (synthetischer Stoßfänger 460k/89k), Dev-Lauf ≈ $2.5, nur Zeichnung ≈ $3.7, R175-Lauf ≈ $0.4,
+Claude-Richter auf dev ≈ $2.2, Fable-Fallback ≈ $9. Wiederholungen aus dem Cache und `certreq.variants` kosten nichts.
+Sonntag: H001 + H002 (+ ggf. ohne `modes`) + Sub-Goal + Regionen ≈ $8–13; mit Reserve für einen Fable-Fallback ≈ $25 bereithalten.
+Messungen am Abend: eine Regel komplett (je 2× dev + R175, mit Richter) ≈ $10 → erst auf R175 prüfen (≈ $0.8 je Lauf mit
+Richter), nur Vielversprechendes auf dev.
+
 **Fallbacks (gpt-Guthaben ist fast leer, also kein gpt):** Opus-Fehler oder Rate-Limit → denselben Befehl einmal wiederholen
 (Cache hält fertige Antworten); scheitert er wieder → `CERTREQ_ANTHROPIC_MODEL=claude-fable-5-1` dazu (R175: 0.621, X-R175-F) als H001-fable.
 Validierungsfehler der Plattform → `python tools/validate.py <datei>` zeigt den JSON-Pfad. Schief gelaufener Upload

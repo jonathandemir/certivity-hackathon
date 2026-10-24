@@ -570,3 +570,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 20:25:27 +0200 | [run] R175-Prüfstein: Claude-Basis für Opus-Standard 0.622 / 0.649 | Jonathan @ MacBook-Pro-von-Jonathan | main@3316afe
 - X-R175-C/C-rep mit Claude-Richter strict neu bewertet (gpt-Guthaben fast leer): 53/78 und 55/78 Treffer. Basis für Homsianers Regeln duties/testcond; README-Befehl auf Claude-Richter umgestellt.
 - Belege experiments/runs/X-R175-C*/judge-claude-strict.json (nur IDs).
+
+### 2026-10-24 20:29:05 +0200 | [finding] Claude-Kosten je Lauf (gemessene Tokens × Listenpreis) | Jonathan @ MacBook-Pro-von-Jonathan | main@05d3a23 +lokale Änderungen
+- Opus 5.5 $4/$20 je Mio.: Held-out-Lauf ≈ $3.6, Dev-Lauf ≈ $2.5, nur Zeichnung ≈ $3.7, R175 ≈ $0.4, Claude-Richter dev ≈ $2.2, Fable-Fallback ≈ $9. Sonntag ≈ $8–13, mit Reserve ≈ $25; eine Regel komplett messen ≈ $10.
+- Tokens aus meta.json (E040-a, E044-a, out/bumper, X-R175-C-rep) und AP10-K3-c; Preise aus der Anthropic-Modelltabelle. In PLAN Sonntagsablauf.
