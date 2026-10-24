@@ -84,6 +84,8 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    Teile mit Anforderungshinweisen beschriftet. Nur Zeichnung jetzt F2 0.691 (E043-a, 4/4 Regelungen) dank `--infer-category`
    (Standard, wirkt nur ohne Spec); vorher R48 als Annahme verworfen (E042-a 0.608). Mit Spec bringt die Zeichnung nichts (E041-a).
    Für die Demo (C): der Pfad „nur Zeichnung“ läuft mit dem Standard von `run` ohne Zusatzschalter.
+   **C (wichtig):** gpt-Guthaben fast leer → Werkbank/Demo mit `CERTREQ_PROVIDER=anthropic` starten, sonst scheitern „best“ und
+   die Zeichnungsanalyse am OpenAI-Key. Nur Zeichnung mit Opus: E044-a 0.655 (Claude-Richter), Regelungen 4/4.
    **A/B → C (Werkbank):** erledigt: `certreq run` ohne Schalter = E022-hs (`--extract modal,llm,lists,tables,exempt,tests,modes`). `demo/server.py` „best" = `[]` folgt dem Standard automatisch (seit Homsianers MODES-Änderung, also jetzt auch `--select llm2` statt `llm`); „fast" bleibt B0 ohne Key. Neue Felder: `.meta.json` llm.rules (aktive Regeln), llm.usage.fallbacks (nur Anthropic).
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
@@ -105,6 +107,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | 2026-10-24 | `certreq run` ohne Schalter = Bestmarke E020-a (`--filters all --extract modal,llm` als Standard) | E020-a/E016-a auf allen Ebenen besser als B0 und modal,split; Demo-Fallback ohne Key bleibt über explizites B0 (`--select b0 --filters none --extract none`, bytegleich zu E008-a) | Homsianer |
 | 2026-10-24 | `certreq run` ohne Schalter = E022-hs (alle 5 Prompt-Regeln) | in beiden Modellreihen besser als ohne Regeln (gpt E021-hs→E022-hs lenient +0.039, Claude E023-hs-c→E024-hs-c strict +0.024), Einzelmessung E025–E029-hs-c ohne schädliche Regel; neutrale Regeln (tests, exempt) bleiben, weil genau diese Kombination gemessen ist | Homsianer |
 | 2026-10-24 | **Held-out mit Opus 5.5** rechnen (`CERTREQ_PROVIDER=anthropic`, sonst Standard von `run`); lokaler Richter bleibt gpt; Ablauf: PLAN „Sonntagsablauf“ | Außerhalb von dev R175 +0.07, stabil (X-R175-C/C-rep vs B/B-rep); Auswahl-Test 9 statt 11 Fehlauswahlen (X-SEL-llm2-c). Auf dev im Mittel gleich (Opus 0.740 aus 4 Läufen, Spanne ±0.02; gpt 0.740 aus 2; E039-a/E040-a); das Plattform-Paar 0.762 vs 0.725 war teils Glück | Jonathan |
+| 2026-10-24 | **Kein gpt mehr (Guthaben fast leer):** lokaler Richter ab jetzt Claude strict (`CERTREQ_PROVIDER=anthropic … eval --judge strict`); Vergleiche nur unter demselben Richter (gpt-lenient-Werte nicht mit Claude-strict-Werten mischen); Fallback am Sonntag Fable 5.1 statt gpt | Claude strict lag bei E020-a bei 152 vs Plattform 154, unterschätzt Opus-Ausgaben (E024-hs-c 161 vs 170) → für Rangfolgen geeignet, nicht als Plattform-Prognose | Jonathan |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 
 ## Scoreboard

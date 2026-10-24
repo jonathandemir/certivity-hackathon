@@ -8,7 +8,8 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 - **2026-10-24 · Nur mit Zeichnung braucht die Auswahl eine abgeleitete Fahrzeugklasse.** Beleg: E042-a → E043-a (neue
   Dev-Zeichnung, gpt, Richter lenient): ohne Klasse verwirft `--select llm2` R48 als Annahme („If the host vehicle is category
   M, N or O …“), F2 0.608; mit `--infer-category` (Vision-Modell leitet M1 aus Produktart und Bauform ab) 4/4 Regelungen,
-  F2 0.691. Mit Spec bringt die Zeichnung nichts (E041-a 0.727 vs 0.74). Konsequenz: `--infer-category` ist Standard (wirkt
+  F2 0.691. Mit Opus (E044-a, Claude-Richter strict) 0.655 vs gpt 0.644 unter gleichem Richter, obwohl Opus die Klasse falsch
+  schätzt (N3 statt M1). Mit Spec bringt die Zeichnung nichts (E041-a 0.727 vs 0.74). Konsequenz: `--infer-category` ist Standard (wirkt
   nur ohne Spec). **Für den Stoßfänger plausibel?** Ja: kommt der Held-out nur als Zeichnung, fehlte sonst jede Anbau- und
   Fahrzeugklassen-abhängige Regelung (R48, R42, R26, R127 gelten nur für M1).
 - **2026-10-24 · Opus 5.5 extrahiert außerhalb des Dev-Falls besser als gpt-6.1-sol; auf dev im Mittel gleich.** Beleg:

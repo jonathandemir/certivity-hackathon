@@ -122,7 +122,8 @@ eine überzählige Regelung kostet ~0.01 F2 (dev: R26/R42 zusammen ~0.016, Nebel
 303 Anforderungen), eine fehlende mit ~20 Gold-Anforderungen ~0.08. Weglassen lohnt nur, wenn die Regelung mit über ~90 %
 falsch ist; das gilt auch für R94. Keine weiteren Uploads.
 
-**Fallbacks:** Opus-Fehler oder Rate-Limit → Lauf ohne `CERTREQ_PROVIDER` (gpt-Standard, ~3 min) als H001-gpt.
+**Fallbacks (gpt-Guthaben ist fast leer, also kein gpt):** Opus-Fehler oder Rate-Limit → denselben Befehl einmal wiederholen
+(Cache hält fertige Antworten); scheitert er wieder → `CERTREQ_ANTHROPIC_MODEL=claude-fable-5-1` dazu (R175: 0.621, X-R175-F) als H001-fable.
 Validierungsfehler der Plattform → `python tools/validate.py <datei>` zeigt den JSON-Pfad. Schief gelaufener Upload
 → beste bisherige Datei erneut hochladen (alle liegen unter experiments/runs/).
 

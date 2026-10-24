@@ -1,0 +1,173 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision only --out out/E044-a.json",
+ "git": {
+  "commit": "main@c201dca",
+  "full_hash": "c201dca8516ee0a59a44500d4ec41b3ef3be31c3",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The lamp combines rear position, stop and reversing functions (and possibly a direction indicator), all of which are light-signalling devices within R148, which consolidates R6, R7, R23 and R38."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated retro-reflector prism plate is a retro-reflective device covered by R150, which consolidates R3 and R104."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "R48 governs the mounting position, geometric visibility, number and electrical connection of rear position, stop and reversing lamps and rear retro-reflectors on N3 trucks and O trailers."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED PCB with SMD LEDs, a multi-pin connector and further electronic components is an electrical/electronic sub-assembly, so it must meet EMC emission and immunity requirements."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Position and stop lamp requirements are consolidated into R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Reversing lamp requirements are consolidated into R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Retro-reflector requirements are consolidated into R150, which is selected instead."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "The LEDs are SMD LEDs soldered on a PCB, not replaceable standardised LED light source categories."
+  },
+  {
+   "regulation": "UN R104",
+   "role": "rejected",
+   "reason": "The lamp has a small retro-reflector rather than retro-reflective marking tape, and R104 is consolidated into R150 anyway."
+  }
+ ],
+ "vision_mode": "only",
+ "infer_category": true,
+ "drawing": {
+  "product": "Multi-function rear combination lamp (tail/stop/reversing lamp with integrated retro-reflector), shown as an exploded isometric view",
+  "vehicle_location": "Rear of vehicle (exterior, rear body or rear frame/bumper area); the callouts name rear position, stop and reversing functions, which are rear-facing signals",
+  "parts": [
+   {
+    "name": "Outer lens",
+    "function": "Closes the lamp to the front, transmits and colours the emitted light and protects the internal parts",
+    "technology": "Transparent moulded plastic lens, labelled red; a separate rectangular window area is visible, probably a clear zone for the reversing function",
+    "evidence": "Front-most rounded-rectangular part with hatch lines indicating transparency and a raised rectangular inset in the upper right; callout 'Outer lens – red'"
+   },
+   {
+    "name": "Retro-reflector",
+    "function": "Returns incident light from other vehicles' headlamps (passive conspicuity)",
+    "technology": "Retro-reflective prism plate, small rectangular insert",
+    "evidence": "Small rectangular element with vertical line pattern between the lens and the gasket; callout 'Retro-reflector'"
+   },
+   {
+    "name": "Seal / gasket",
+    "function": "Seals the lens-to-housing joint against water and dust ingress",
+    "technology": "Elastomer perimeter gasket (rubber or foam), thin ring following the lamp outline",
+    "evidence": "Thin double-line outline frame of the same shape as the lens with an open centre; callout 'Seal / gasket – no water ingress'"
+   },
+   {
+    "name": "Reflector / optic carrier",
+    "function": "Shapes and directs the light of the position lamp and the other light sources; contains separate optical chambers",
+    "technology": "Moulded plastic reflector, probably metallised, with an array of round optical cells, a vertical rectangular compartment and a gridded rectangular section",
+    "evidence": "Third layer with rows of oval cells, small square cells along the top, a tall rectangular slot and a hatched rectangular area at upper right; callout 'Reflector – rear position lamp'"
+   },
+   {
+    "name": "LED modules on PCB",
+    "function": "Light sources for the lamp functions (stop lamp named in callout) plus the electrical interface",
+    "technology": "Electronic printed circuit board with an array of SMD LEDs; a multi-pin connector and one larger square component (possibly a larger LED or sensor area) are on the board",
+    "evidence": "Flat rectangular board with rows of small square elements containing circular marks, a striped connector-like block and a square element with a circle; callout 'LED modules on PCB – stop lamp'"
+   },
+   {
+    "name": "Housing",
+    "function": "Rear body that carries the optics and PCB, gives the mounting points and closes the lamp at the back",
+    "technology": "Moulded plastic housing (opaque), deep tray shape with screw bosses/holes in the corners",
+    "evidence": "Rear-most deep tray with oval holes near the corners and visible side walls/depth; callout 'Housing'"
+   },
+   {
+    "name": "Fasteners / clips",
+    "function": "Fix the lamp assembly to the vehicle and hold it in its aimed position",
+    "technology": "Metal screws or bolts (three shown)",
+    "evidence": "Three rod-shaped fasteners with oval heads aligned with the housing holes along dash-dot assembly lines; callout 'Fasteners / clips'"
+   }
+  ],
+  "uncertainties": [
+   "The callout texts are performance statements (intensity, colour, sealing) and do not prove internal construction; actual intensity values cannot be checked from the drawing",
+   "Which LED or optical chamber serves which function (position, stop, reversing, possibly direction indicator) is not clearly assigned; the reversing lamp is only named in a callout, its own light source is not clearly distinguishable",
+   "Materials (e.g. PMMA vs PC lens, metallisation of reflector, gasket compound) are not stated",
+   "The function of the large square component on the PCB and the gridded area on the reflector is unclear",
+   "Electrical connection to the vehicle (cable, connector type) is not shown in detail",
+   "Whether the fasteners are screws, bolts or clips and their material cannot be determined exactly",
+   "Exact dimensions and scale are not given"
+  ],
+  "vehicle_category": "Inferred: N3 heavy truck (or O trailer). Reason: a flat, box-shaped, surface-mounted multi-function rear lamp with integrated retro-reflector, a large LED array and screw-on housing is typical of trucks and trailers rather than integrated body-styled passenger car lamps; scale cannot be confirmed from the drawing, so the category is inferred only."
+ },
+ "drawing_regions": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 89,
+  "paragraphs": 1038,
+  "kept": 242,
+  "dropped": 796,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 91,
+   "cached": 0,
+   "prompt_tokens": 466405,
+   "completion_tokens": 90804,
+   "fallbacks": 0
+  }
+ },
+ "n_requirements": 385,
+ "seconds": 141.8,
+ "created_at": "2026-10-24T20:20:04+02:00",
+ "run_id": "E044-a",
+ "note": "nur neue Zeichnung + infer-category (Standard), Opus; Richter Claude strict (gpt-Guthaben fast leer)",
+ "submission_sha256": "203801c8fb779f178582890da4122dd421a3c11715c3fdfd2904b7dd22295c26",
+ "recorded_at": "2026-10-24T20:21:33+02:00"
+}

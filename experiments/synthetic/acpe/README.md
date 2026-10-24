@@ -21,9 +21,10 @@ CERTREQ_PROVIDER=anthropic .venv/bin/python -m certreq run experiments/synthetic
 .venv/bin/python -m certreq eval out/x-r175/<ID>.json --expected out/x-r175/expected-eng.json --judge lenient --record X-R175-<ID>
 ```
 
-Den Richter immer gleich lassen: Basis und Variante mit demselben Richter bewerten. Ohne `CERTREQ_PROVIDER` ist das gpt
-lenient (Jonathan). Mit `CERTREQ_PROVIDER=anthropic` ist es Claude, dann `--judge strict` nehmen, wie in der
-Claude-Reihe.
+Den Richter immer gleich lassen: Basis und Variante mit demselben Richter bewerten. Seit Sa abends ist das gpt-Guthaben fast
+leer, also Claude: `CERTREQ_PROVIDER=anthropic … eval … --judge strict`. Die gpt-lenient-Werte unten sind dann nur noch
+Rangfolge, keine Basis: die Basis (Standard mit Opus) einmal mit dem Claude-Richter neu bewerten (`certreq.judge --strict`
+auf `experiments/runs/X-R175-C/submission.json.gz`, entpackt).
 
 Bestwerte mit gpt-Richter lenient (Abschnitte 5–6):
 - gpt-Extraktion: 0.578 / 0.597 (X-R175-B, B-rep)
