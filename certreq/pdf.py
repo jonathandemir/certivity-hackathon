@@ -9,6 +9,11 @@ Gliederung (AP3): Überschriften sind typografisch nicht abgesetzt (alles TimesN
 erkannt: kurze Zeile ohne Verb und Doppelpunkt, danach Absatzende oder ein neuer Satz („6.10.1. Presence" /
 „Devices of R … : Mandatory"). Jeder Absatz kennt seine eigene Überschrift (`title`) und die der umgebenden
 Abschnitte (`headings`, außen zuerst, inkl. Anhang- und Teil-Titel).
+
+GTRs (UN GTR 9) bestehen aus „I. Statement of technical rationale and justification" (Begründung, unverbindlich,
+GTR 9 S. 1–70, eigene Nummerierung 1., 2. …) und „II. Text of the Regulation" (verbindlich, ab S. 71). Absätze aus
+Teil I tragen den Titel von Teil I als äußersten Kontext (RATIONALE_TITLE), damit der Relevanzfilter `rationale`
+sie erkennt; Teil II wird wie jede Regelung geparst.
 """
 from __future__ import annotations
 
@@ -33,6 +38,10 @@ VERB_RE = re.compile(r"\b(shall|must|may|should|will|can|is|are|be|was|were|has|
 # Satzanfänge und -enden, die bei verblosen Satzfragmenten auftreten („Within 60 seconds of … by paragraph").
 SENTENCE_START_RE = re.compile(r"^(If|When|Where|Whenever|Within|Unless|Except|Annex|Table|Figure|The|This|These|"
                                r"Each|Every|Any|No|Require|Requires)\b")
+# GTR-Teile: I = Begründung (unverbindlich), II = Regelungstext. Nur diese beiden Titel, nicht die römisch
+# nummerierten Kapitel innerhalb von Teil I („II. SUMMARY …", „III. PROCEDURAL BACKGROUND").
+GTR_PART_RE = re.compile(r"^(I|II)\.\s+(Statement of technical rationale and justification|Text of the Regulation)\s*$", re.I)
+RATIONALE_TITLE = "Statement of technical rationale and justification"
 DANGLING_END_RE = re.compile(r"\b(of|the|and|or|to|by|with|in|for|a|an|on|at|from|paragraph|paragraphs|than)$", re.I)
 
 
@@ -135,11 +144,16 @@ def parse_pdf(path: str | Path) -> tuple[Paragraph, ...]:
     cur: Paragraph | None = None
     titles: dict[str, list[str]] = {"annex": [], "part": []}  # Zeilen der aktuellen Anhang-/Teil-Überschrift
     open_title: str | None = None  # Überschrift, die noch umbrechen kann
+    rationale = False  # in Teil I einer GTR (Begründung)
     with pymupdf.open(str(path)) as doc:
         for pno, page in enumerate(doc, start=1):
             for raw in page.get_text().splitlines():
                 line = raw.strip()
                 if not line or HEADER_RE.match(line):
+                    continue
+                m = GTR_PART_RE.match(line)
+                if m:
+                    rationale, cur, open_title = m.group(1) == "I", None, None
                     continue
                 m = ANNEX_RE.match(line)
                 if m and _is_next_annex(m, annex_no, annex):
@@ -167,7 +181,8 @@ def parse_pdf(path: str | Path) -> tuple[Paragraph, ...]:
                     cur = Paragraph(_context_label(annex, appendix, part) + number, number, pno, pno, m.group(2))
                     paras.append(cur)
                     lines_of.append([m.group(2)])
-                    context_of.append(tuple(_join(t) for t in titles.values() if t and t[0]))
+                    context_of.append(((RATIONALE_TITLE,) if rationale else ())
+                                      + tuple(_join(t) for t in titles.values() if t and t[0]))
                     open_title = None
                 elif cur is not None:
                     cur.text += " " + line

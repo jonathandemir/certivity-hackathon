@@ -40,7 +40,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 3. **Erledigt: Plattform-Eichung** (E020-a-P, E008-a-P, E003-am-P, AP10-K2). Dateien: `.venv/bin/python -m certreq.upload E020-a E008-a E003-am`
    → `out/upload/`. Hochladen: E020-a + E008-a (Hauptziel, dev-rear-lamp), E003-am (Sub-Goal, subgoal-dev). Angezeigte
    Plattformwerte an A geben → Eichung lokaler Richter (strict 0.629 / 0.060, lenient B0 0.095) und Sub-Goal-Näherung (0.826).
-4. **B (Homsianer):** erledigt: `run` ohne Schalter = E020-a. Als Nächstes: GTR nur Teil II, dann R10 (EMV-Prüfpegel als Einzelpflichten) und R48. Jede AP4-Änderung mit `eval --judge strict` messen.
+4. **B (Homsianer):** erledigt: `run` ohne Schalter = E020-a. Als Nächstes: R10 (EMV-Prüfpegel als Einzelpflichten) und R48. Jede AP4-Änderung mit `eval --judge strict` messen.
    **C (Demo):** `demo/server.py` MODES angepasst (abgesprochen über Homsianer): „best" = Standard von `run` (jetzt `--select llm2`), „fast" = `--select b0 --filters none --extract none` (sonst bräuchte fast nach der Umstellung einen Key). Bitte demo/README.md Zeile „Prüfungen" nachziehen.
    **C (Sub-Goal):** `certreq/subgoal.py` nutzt noch `team-unregistered`; bitte `from .submission import TEAM_ID` (team-12) als Standard nehmen.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
@@ -49,8 +49,8 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
    Gold nimmt, ist unbekannt (beide behalten, F2 gewichtet Recall).
-   **B:** Bei GTRs nur den verbindlichen Teil „II. Text of the Regulation" extrahieren (GTR 9: ab S. 71; S. 1–70 sind
-   Begründung). Betrifft den Held-out sehr wahrscheinlich, falls GTR 9 gewählt wird.
+   **B:** erledigt: GTR-Teil I (Begründung) fällt mit Filter `rationale` weg (in `--filters all`, also Standard); GTR 9: 214 → 176
+   Kandidaten, keiner mehr vor S. 71. Dev unverändert (nur GTR 9 betroffen).
 6. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
    „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 

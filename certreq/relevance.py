@@ -15,6 +15,8 @@ Regeln, einzeln schaltbar (`filters`), damit jede einzeln gegen die Bestmarke ge
          Allgemeine Geschwister („General …", „Other requirements", „Exceptions") gelten für alle und bleiben.
          Zweite Form einer Aufzählung: mindestens drei Geschwister mit gleichem Titelanfang wie der Treffer
          (R150 5.1–5.3 „Technical requirements concerning retro-reflectors / marking materials / triangles").
+  rationale  Teil I einer GTR („Statement of technical rationale and justification", GTR 9 S. 1–70) fällt weg: Begründung
+         und Vorgeschichte, keine Pflichten; verbindlich ist erst „II. Text of the Regulation" (certreq/pdf.py).
   esa    Wo Geschwister nach Fahrzeug und Bauteil getrennt sind (R10 6.2 „… from vehicles" / 6.5 „… by ESAs", auch
          Anhänge), bleiben die Bauteil-Abschnitte: Eingabe ist immer ein Bauteil, nie ein ganzes Fahrzeug.
 
@@ -25,12 +27,12 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 
-from .pdf import Paragraph
+from .pdf import RATIONALE_TITLE, Paragraph
 
-FILTERS = ("admin", "cop", "parts", "esa")
+FILTERS = ("admin", "cop", "parts", "esa", "rationale")
 
 ADMIN_RE = re.compile(
-    r"^(scope|definitions?|application for( type)?[- ]approval|approval\s*$|approval of a vehicle type|esa type approval|"
+    r"^((application\s*/\s*)?scope|definitions?|application for( type)?[- ]approval|approval\s*$|approval of a vehicle type|esa type approval|"
     r"type approval procedures|granting of type approval|notice of approval|modifications?\b|amendment or extension|"
     r"penalties\b|production definitively discontinued|names and addresses|transitional provisions|communication\b|"
     r"information document|arrangements? of approval mark|examples of approval mark)", re.I)
@@ -146,7 +148,9 @@ def relevant(paras: tuple[Paragraph, ...], filters: tuple[str, ...] = FILTERS,
     keep = []
     for p in paras:
         path = p.headings + ((p.title,) if p.title else ())
-        if "admin" in filters and any(ADMIN_RE.match(h) for h in path):
+        if "rationale" in filters and p.context[:1] == (RATIONALE_TITLE,):
+            keep.append(False)
+        elif "admin" in filters and any(ADMIN_RE.match(h) for h in path):
             keep.append(False)
         elif "cop" in filters and any(COP_RE.match(h) for h in path) and not TOLERANCE_RE.search(p.text):
             keep.append(False)

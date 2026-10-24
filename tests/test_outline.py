@@ -51,3 +51,17 @@ def test_paragraph_number_without_trailing_dot():
     paras = {p.label: p for p in parse_pdf(paths.PKG_DIR / "subgoal" / "dev" / "new.pdf")}
     assert paras["5.1.4.1"].page == 5 and paras["5.1.4.1"].text.startswith("An ACPE intervention is not required")
     assert "5.1.4.2" in paras and "5.1.4.1" not in paras["5.1.4"].text
+
+
+@needs_package
+def test_gtr_rationale_part_is_marked_and_filtered():
+    """GTR 9: Teil I (Begründung, S. 1–70) ist markiert und fällt mit dem Filter rationale weg, Teil II bleibt."""
+    from certreq.pdf import RATIONALE_TITLE
+    from certreq.relevance import relevant
+    paras = parse_pdf(load_index()["UN GTR 9"].base.pdfs[0])
+    part1 = [p for p in paras if p.context[:1] == (RATIONALE_TITLE,)]
+    assert part1 and max(p.page for p in part1) < 71
+    assert all(p.page >= 71 for p in paras if p not in part1)
+    keep = relevant(paras, ("rationale",))
+    assert not any(k for p, k in zip(paras, keep) if p in part1)
+    assert all(k for p, k in zip(paras, keep) if p not in part1)

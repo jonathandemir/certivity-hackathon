@@ -5,6 +5,7 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · GTRs haben einen unverbindlichen Teil I, der wie Regelungstext aussieht.** Beleg: UN GTR 9 base (131 S.): „I. Statement of technical rationale and justification" S. 1–70 mit eigener Nummerierung 1., 2. … (13 doppelte Absatzlabels mit Teil II), „II. Text of the Regulation" ab S. 71; mit `--filters` admin/cop/parts/esa stammen 38 von 214 modal-Kandidaten aus Teil I (Jonathans Robustheitslauf zitierte S. 4/15/18). Konsequenz: pdf.py markiert Teil I im Kontext, Filter `rationale` wirft ihn raus (in `--filters all`). **Für den Stoßfänger plausibel?** Ja, genau dort: GTR 9 (Fußgängerschutz) betrifft die Fahrzeugfront.
 - **2026-10-24 · Plattform-Eichung: Seiten und Regelungen lokal exakt, Anforderungen lokal mit `--judge lenient`.**
   Beleg: E020-a-P, E008-a-P, AP10-K2 (experiments/runs/*/platform.json): Seiten- und Regelungswerte von score_local
   stimmen auf 3 Stellen mit der Plattform überein. Anforderungen Plattform 154 Treffer (F2 0.687) vs lokal lenient 153
