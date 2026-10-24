@@ -6,9 +6,12 @@
 Verfahren (regelbasiert, ohne LLM; jede Stufe ist austauschbar):
 1. Alt- und Neu-PDF mit `certreq.pdf.parse_pdf` in Absätze zerlegen, diese in Sätze und Aufzählungspunkte.
 2. Jede alte Anforderung wird den alten Sätzen zugeordnet, aus denen sie stammt (Absatzlabel + Wortüberdeckung).
-3. Jeder alte Satz sucht global den ähnlichsten neuen Satz (nicht nur gleiches Label: Absätze werden verschoben und
-   umnummeriert). Identisch → unverändert; ähnlich → `modified`; kein Gegenstück → `removed`.
-4. Neue Sätze mit „shall“ ohne alte Entsprechung → `added`.
+3. Alte und neue Sätze werden global 1:1 einander zugeordnet (nicht nur gleiches Label: Absätze werden verschoben und
+   umnummeriert; jeder alte Satz höchstens einmal, bei Gleichstand entscheidet der Kontext der Nachbarsätze).
+   Identisch → unverändert; ähnlich → `modified`; kein Gegenstück → `removed`.
+4. Neue normative Sätze ohne alte Entsprechung → `added`: „shall“, aber auch Pflichten ohne „shall“ („is not required
+   when“, „is not more than“, „may“). Bedingungslisten („… not required when: (a) …; or (b) …“) bleiben eine Pflicht,
+   zwei verbundene Pflichten in einem Satz („shall …, and may …“) werden zwei.
 `reason` nennt Absatz, Version und die Wortänderungen („'a' became 'b'; 'c' was added“), `new_text` den neuen Satz.
 """
 from __future__ import annotations
@@ -26,6 +29,14 @@ from .pdf import Paragraph, parse_pdf
 from .submission import TEAM_ID
 
 SHALL_RE = re.compile(r"\bshall\b", re.IGNORECASE)
+# Pflicht, Verbot, Erlaubnis oder Grenzwert, auch ohne „shall“ (z. B. „is not required when“, „is not more than 25 per cent“)
+NORM_RE = re.compile(r"\b(?:shall|must|may|required|exceed(?:s|ed|ing)?|permitted|prohibited|allowed)\b|"
+                     r"\b(?:not|no) (?:be )?(?:more|less|greater|lower|higher|smaller|larger|fewer) than\b|\bat (?:least|most)\b", re.I)
+# Einleitung einer Bedingungsliste: die Punkte sind Alternativen einer Pflicht, keine eigenen Pflichten
+COND_LEAD_RE = re.compile(r"\b(?:when|if|where|unless|provided(?: that)?|in (?:the )?case(?: of)?|following conditions?)\b[^:]*:$", re.I)
+# „X shall a, and may b“: zweite Pflicht mit ausgelassenem Subjekt
+COORD_RE = re.compile(r",?\s+and\s+(?=(?:shall|may|must)\b)", re.I)
+MODAL_RE = re.compile(r"\b(?:shall|may|must)\b", re.I)
 HEADER_RE = re.compile(r"^(UN [^,|]+?), version (\S+) \| page \d+ of \d+", re.M)
 # Satzende: . ; : gefolgt von Großbuchstabe oder Aufzählungsklammer. „5.1.2. are“ (klein) trennt nicht.
 SPLIT_RE = re.compile(r"(?<=[.;:])\s+(?=[A-Z(])|\s+(?=\([a-z]\)\s)|\s+(?=\([ivx]+\)\s)")
@@ -51,6 +62,13 @@ class Sentence:
 
 UNIT_SUBS = [(re.compile(r"(\d)\s*%"), r"\1 per cent"), (re.compile(r"\bseconds?\b"), "s"), (re.compile(r"\bmetres?\b"), "m"),
              (re.compile(r"\bcentre\b"), "center"), (re.compile(r"\bcentreline\b"), "centerline")]
+EDITORIAL_WORDS = {"UN", "the"}  # „UN Regulation“ statt „Regulation“, Artikel: keine inhaltliche Änderung
+
+
+def _editorial(x: str, y: str) -> bool:
+    """Nur Schreibweise: Groß/klein, Bindestrich/Leerzeichen, Satzzeichen am Ende, Punkt vor Klammer („2.45.)“ ↔ „2.45)“)."""
+    f = lambda t: re.sub(r"[.,;:]+$", "", re.sub(r"[\s\-]|\.(?=\))", "", t.lower()))
+    return f(x) == f(y)
 TRAILING_NUM_RE = re.compile(r"(?:\s+\d{1,2}(?:\.\d{1,2}){1,7}\.?)+\s*$")  # „… 10 km/h. 5.1.4.2“: Parser-Rest
 
 
@@ -102,8 +120,11 @@ def diff_phrases(old: str, new: str) -> list[str]:
     """Wortgenaue Änderungen im Stil der Referenz: 'a' became 'b'; 'c' was added; 'd' was removed."""
     a, b = _canon(old).split(), _canon(new).split()
     out = []
-    for tag, i1, i2, j1, j2 in SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+    key = lambda w: re.sub(r"\.(?=\))", "", w.lower())  # Groß/klein und „5.1.2.)“/„5.1.2)“ sind keine Änderung
+    for tag, i1, i2, j1, j2 in SequenceMatcher(None, [key(w) for w in a], [key(w) for w in b], autojunk=False).get_opcodes():
         x, y = " ".join(a[i1:i2]), " ".join(b[j1:j2])
+        if (tag == "replace" and _editorial(x, y)) or (tag != "replace" and (x or y) in EDITORIAL_WORDS):
+            continue
         if tag == "insert" and i1 == 0 and j2 - j1 <= 6 and not SHALL_RE.search(y):
             continue  # eingefügte Überschrift („Acceleration from standstill“), keine inhaltliche Änderung
         if tag == "replace":
@@ -141,20 +162,71 @@ class Index:
         return best_i, best_r
 
 
-def _sources_of(req: dict, old_sents: list[Sentence]) -> list[Sentence]:
-    """Alte Sätze, aus denen die Anforderung abgeleitet wurde (Label + Wortüberdeckung)."""
+def align(old_s: list[Sentence], new_s: list[Sentence], top: int = 8) -> dict[int, tuple[int, float]]:
+    """1:1-Zuordnung alter zu neuen Sätzen (alt-Index → (neu-Index, Ähnlichkeit)), nur Paare ab MODIFIED_MIN.
+
+    Gierig nach Ähnlichkeit plus Kontext: stimmen auch Vorgänger, Nachfolger oder Absatzlabel überein, gewinnt dieses Paar. So landet
+    ein wortgleicher Satz („(b) Hold the vehicle stationary …“) bei seiner echten Nachfolgerin, eine zweite, neue Kopie
+    an anderer Stelle bleibt frei und wird als `added` erkannt."""
+    ot = [_tokens(_canon(s.full)) for s in old_s]
+    nt = [_tokens(_canon(s.full)) for s in new_s]
+    ns = [set(t) for t in nt]
+    inv: dict[str, list[int]] = {}
+    for j, st in enumerate(ns):
+        for t in st:
+            inv.setdefault(t, []).append(j)
+    cache: dict[tuple[int, int], float] = {}
+
+    def r(i: int, j: int) -> float:
+        if not (0 <= i < len(ot) and 0 <= j < len(nt)):
+            return 0.0
+        if (i, j) not in cache:
+            cache[(i, j)] = 1.0 if ot[i] == nt[j] else _ratio(ot[i], nt[j])
+        return cache[(i, j)]
+
+    pairs = []
+    for i, tk in enumerate(ot):
+        st = set(tk)
+        if not st:
+            continue
+        common: dict[int, int] = {}
+        for t in st:
+            lst = inv.get(t, ())
+            if len(lst) > 400:  # Allerweltswort, trägt nichts zur Auswahl bei
+                continue
+            for j in lst:
+                common[j] = common.get(j, 0) + 1
+        cands = sorted(common, key=lambda j: -common[j] / (len(st | ns[j]) or 1))[:top]
+        for j in cands:
+            v = r(i, j)
+            if v >= MODIFIED_MIN:
+                ctx = 0.1 * (r(i - 1, j - 1) + r(i + 1, j + 1)) + (0.05 if old_s[i].label == new_s[j].label else 0.0)
+                pairs.append((v + ctx, v, i, j))
+    out: dict[int, tuple[int, float]] = {}
+    taken: set[int] = set()
+    for _, v, i, j in sorted(pairs, reverse=True):
+        if i in out or j in taken:
+            continue
+        out[i] = (j, v)
+        taken.add(j)
+    return out
+
+
+def _sources_of(req: dict, old_sents: list[Sentence]) -> list[int]:
+    """Indizes der alten Sätze, aus denen die Anforderung abgeleitet wurde (Label + Wortüberdeckung)."""
     label = req["source"].get("paragraph", "")
     rt = set(_tokens(req["text"]))
-    pool = [s for s in old_sents if s.label == label] or old_sents
+    pool = [k for k, s in enumerate(old_sents) if s.label == label] or list(range(len(old_sents)))
     scored = []
-    for s in pool:
+    for k in pool:
+        s = old_sents[k]
         st = set(_tokens(s.text))
         if not st:
             continue
         cover = len(st & rt) / len(st)  # wie viel des Satzes steckt in der Anforderung
         within = len(rt & st) / (len(rt) or 1)  # wie viel der Anforderung steckt im Satz
-        scored.append((max(cover, within * 0.9), s))
-    hits = [s for sc, s in scored if sc >= 0.8]
+        scored.append((max(cover, within * 0.9), k))
+    hits = [k for sc, k in scored if sc >= 0.8]
     if not hits and scored:
         hits = [max(scored, key=lambda t: t[0])[1]]
     return hits
@@ -164,54 +236,101 @@ def compare(old_pdf: Path, new_pdf: Path, reqs_old: list[dict], team_id: str, ca
     regulation, version = pdf_header(new_pdf)
     old_s, new_s = sentences_of(old_pdf), sentences_of(new_pdf)
     idx = Index(new_s)
-    used_new: set[int] = set()
+    pairs = align(old_s, new_s)
+    used_new: set[int] = {j for j, _ in pairs.values()}
     changes: list[dict] = []
     for req in reqs_old:
         srcs = _sources_of(req, old_s)
-        modified, missing = [], []
-        for s in srcs:
-            i, r = idx.best(s.full)
+        changed, missing, matched = [], [], []
+        for k in srcs:
+            s = old_s[k]
+            i, r = pairs[k] if k in pairs else idx.best(s.full)  # ohne 1:1-Partner: bester Kandidat (Zusammenlegung)
             if i >= 0 and r >= MODIFIED_MIN:
                 used_new.add(i)
+                matched.append(i)
                 if r < 0.999 and _canon(s.full).lower() != _canon(new_s[i].full).lower():
-                    modified.append((s, new_s[i]))
+                    changed.append((k, i))
             else:
-                missing.append(s)
+                missing.append(k)
         label_old = req["source"].get("paragraph", "")
-        if modified:
-            olds = " ".join(s.text for s, _ in modified)
-            news = " ".join(n.text for _, n in modified)
-            n0 = modified[0][1]
-            former = f" (formerly {label_old})" if n0.label != label_old else ""
-            plist = diff_phrases(olds, news)
-            if not plist:
-                continue  # nur Schreibweise/Überschrift/Umnummerierung
-            phrases = "; ".join(plist)
-            changes.append({"requirement_id": req["id"], "change": "modified", "new_text": _norm(news)[:MAX_TEXT],
-                            "reason": f"Paragraph {n0.label}{former} of {regulation} was amended in version {version}: "
-                                      f"{phrases}.", "source": {"page": n0.page, "paragraph": n0.label}})
-        elif missing and len(missing) == len(srcs):
-            gone = " ".join(s.text for s in missing)[:300]
-            changes.append({"requirement_id": req["id"], "change": "removed", "new_text": None,
-                            "reason": f"Paragraph {label_old} of {regulation} was amended in version {version}; "
-                                      f"the provision '{gone}' was removed."})
-    old_idx = Index(old_s)
+        if not matched:
+            if srcs:
+                gone = " ".join(old_s[k].text for k in missing)[:300]
+                changes.append({"requirement_id": req["id"], "change": "removed", "new_text": None,
+                                "reason": f"Paragraph {label_old} of {regulation} was amended in version {version}; "
+                                          f"the provision '{gone}' was removed."})
+            continue
+        extras = _new_list_items(matched, new_s, used_new)
+        used_new.update(extras)
+        if not changed and not extras and not any(NORM_RE.search(old_s[k].full) for k in missing):
+            continue  # unverändert (höchstens Überschriften o. Ä. verschwunden)
+        olds = " ".join(old_s[k].text for k in sorted({k for k, _ in changed} | set(missing)))
+        news = " ".join(new_s[i].text for i in sorted({i for _, i in changed} | set(extras)))
+        plist = diff_phrases(olds, news)
+        if not plist:
+            continue  # nur Schreibweise/Überschrift/Umnummerierung
+        n0 = new_s[min(matched)]
+        former = f" (formerly {label_old})" if n0.label != label_old else ""
+        full_new = " ".join(new_s[i].text for i in sorted(set(matched) | set(extras)))
+        changes.append({"requirement_id": req["id"], "change": "modified", "new_text": _norm(full_new)[:MAX_TEXT],
+                        "reason": f"Paragraph {n0.label}{former} of {regulation} was amended in version {version}: "
+                                  f"{'; '.join(plist)}.", "source": {"page": n0.page, "paragraph": n0.label}})
     mod_sets = [set(_tokens(_canon(c["new_text"]))) for c in changes if c["change"] == "modified"]
+    fresh: list[Sentence] = []
     for i, s in enumerate(new_s):
-        if i in used_new or not SHALL_RE.search(s.full) or ADMIN_RE.search(s.full):
+        if i in used_new or not NORM_RE.search(s.full) or ADMIN_RE.search(s.full):
             continue
         if s.text.endswith(":") and not s.lead:
             continue  # bloße Einleitung („…shall be as follows:“); die Pflichten stehen in den Aufzählungspunkten
         st = set(_tokens(_canon(s.full)))
         if any(len(st & m) / (len(st) or 1) >= 0.8 for m in mod_sets):
             continue  # steckt schon in einer `modified`-Meldung
-        j, r = old_idx.best(s.full)
-        if r >= MODIFIED_MIN:  # steht (ähnlich) schon in der alten Fassung, nur ohne Anforderung → nicht neu
-            continue
-        changes.append({"requirement_id": None, "change": "added", "new_text": _norm(s.full)[:MAX_TEXT],
+        fresh.append(s)
+    for s, text in _obligations(fresh):
+        changes.append({"requirement_id": None, "change": "added", "new_text": text[:MAX_TEXT],
                         "reason": f"Paragraph {s.label} of {regulation} is new in version {version}: "
-                                  f"'{s.text[:300]}'.", "source": {"page": s.page, "paragraph": s.label}})
+                                  f"'{text[:300]}'.", "source": {"page": s.page, "paragraph": s.label}})
     return {"team_id": team_id, "case_id": case_id, "changes": changes}
+
+
+def _new_list_items(matched: list[int], new_s: list[Sentence], used: set[int]) -> list[int]:
+    """Neue Aufzählungspunkte unter einer schon vorhandenen Pflicht (gleiche Einleitung, gleicher Absatz), z. B. eine
+    zusätzliche Bedingung (vi) in „…, provided: (a) … (b) …“: Sie ändern diese Anforderung, sind keine neue."""
+    labels = {new_s[i].label for i in matched}
+    anchors = {_norm(new_s[i].text) for i in matched} | {_norm(new_s[i].lead) for i in matched if new_s[i].lead}
+    lo, hi = min(matched), max(matched)  # nur innerhalb der Spanne der Anforderung; Anhänge am Listenende → `added`
+    return [i for i in range(lo, hi + 1)
+            if i not in used and new_s[i].lead and new_s[i].label in labels and _norm(new_s[i].lead) in anchors]
+
+
+def _obligations(fresh: list[Sentence]) -> list[tuple[Sentence, str]]:
+    """Neue Sätze → einzelne Pflichten: Bedingungslisten zusammenfassen, verbundene Pflichten trennen."""
+    out: list[tuple[Sentence, str]] = []
+    k = 0
+    while k < len(fresh):
+        s = fresh[k]
+        if s.lead and COND_LEAD_RE.search(s.lead):
+            group = [s]
+            while k + 1 < len(fresh) and fresh[k + 1].lead == s.lead and fresh[k + 1].label == s.label:
+                k += 1
+                group.append(fresh[k])
+            out.append((s, _norm(s.lead + " " + " ".join(g.text for g in group))))
+        else:
+            out.extend((s, t) for t in split_coordinated(_norm(s.full)))
+        k += 1
+    return out
+
+
+def split_coordinated(text: str) -> list[str]:
+    """„For tests without a target the ACPE shall be deactivated if necessary, and may be combined where feasible.“
+    → zwei Pflichten; die zweite bekommt den Satzanfang bis zum ersten Modalverb als Subjekt."""
+    first = MODAL_RE.search(text)
+    m = COORD_RE.search(text, first.end()) if first else None
+    if not m:
+        return [text]
+    one = text[:m.start()].rstrip(" ,;") + "."
+    two = text[:first.start()].rstrip() + " " + text[m.end():].lstrip()
+    return [one, *split_coordinated(two)]
 
 
 def evaluate(sub: dict, expected: dict) -> dict:

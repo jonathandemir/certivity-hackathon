@@ -1,0 +1,13 @@
+Typ       erwartet geliefert Treffer  Recall Precision
+modified         6         6       6   1.000     1.000
+removed          1         1       1   1.000     1.000
+added           17        19      17   1.000     0.895
+all             24        26      24   1.000     0.923
+F2 gesamt: 0.984  (lokale Näherung: id bzw. Absatzlabel, nicht semantisch)
+
+Gegenprobe ohne Referenz (base→latest aus regulations/pdf, Anforderungen aus E024-hs-c bzw. synthetisch = alle shall-Sätze der base):
+UN R148: added 1 → 7 (neuer Abschnitt 5.13 Fahrtrichtungsanzeiger-Projektor, vorher wegen ähnlicher Bausteine aus 5.12 übersehen)
+UN R10:  added 9 → 22 (ADS-Prüfkonfiguration, alternative Methoden 6.11.3)
+UN R48:  added 24 → 48 (ADS 5.38, Fahrtrichtungsanzeiger-Projektion 6.29)
+UN R127 (346 synthetische): modified 19 → 15 (nur redaktionelle Änderungen wie '2.45.)'→'2.45).' entfallen), added 8 → 11
+Stichprobe der neuen Meldungen: inhaltlich neue Pflichten, keine Fehlalarme gesehen.
