@@ -1,0 +1,125 @@
+{
+ "about": "Echte Teile mit belegter Genehmigung (Hersteller-/Händlerangaben, Quelle je Bauteil in 'source', wörtliche Zitate in 'basis'). sure = Regelung, nach der das Teil laut Quelle genehmigt ist; wurde die genannte alte Regelung laut Einleitung von R148/R149/R150 in eine Sammelregelung überführt, ist die Sammelregelung sure und die alte eine Falle (wie im Dev-Gold, docs/CONTEXT.md §10). unsure = nicht belegt, aber vertretbar (z. B. R48-Anbau, R10 ohne Angabe). Die Specs enthalten nur Angaben aus der Quelle und keine Regelungsnummern. Grenzen: Genehmigungen beschreiben das Teil, nicht den Einbau; der Test misst nur die Regelungsauswahl. Aufgeteilt in tune/ (zum Verbessern) und holdout/ (nur zum Prüfen, nie zum Abstimmen; siehe README).",
+ "split": "holdout",
+ "components": {
+  "3m-diamond-grade-983-conspicuity-marking": {
+   "sure": [
+    "UN R150",
+    "UN R48"
+   ],
+   "unsure": [],
+   "traps": [
+    "UN R104",
+    "UN R10"
+   ],
+   "basis": "3M: 'approved as Retro-Reflective Markings for Vehicles of Category M, N and O … according to ECE regulation No. 104 Class C with E1 type approval No. 00821'; 'Application and use … on Large Vehicles is described in ECE regulation No. 48.' R104 laut R150-Einleitung in R150 aufgegangen.",
+   "source": "https://multimedia.3m.com/mws/media/1525500O/3m-product-bulletin-pb-983.pdf&fn=3M Technische Information IF 983_R1.pdf"
+  },
+  "akrapovic-exhaust-yamaha-yzf-r125": {
+   "sure": [
+    "UN R92"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Zertifikat: 'E26 92R-008005', Slovenian Traffic Safety Agency 12.05.2014, Prüfbericht TÜV SÜD 25.04.2014.",
+   "source": "https://www.easyparts-rollerteile.de/documentation/8776/ECE_Aproval.pdf"
+  },
+  "hella-83mm-led-rear-fog-lamp": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R148",
+    "UN R38",
+    "UN R48"
+   ],
+   "traps": [],
+   "basis": "Hersteller: Approval markings 'E4 11391 | E4 10R 04-2741'. Regelung hinter 'E4 11391' nicht genannt → R148/R38 unsure.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/ece-approved-led-lamps/83mm-round-led-rear-fog-lamp-ece.html"
+  },
+  "hella-retro-reflector-60mm": {
+   "sure": [
+    "UN R150"
+   ],
+   "unsure": [
+    "UN R48"
+   ],
+   "traps": [
+    "UN R3",
+    "UN R10"
+   ],
+   "basis": "Hersteller: 'E13 02 3535', 'ECE R3/02', 'Reflectors with self adhesive are ECE certified'. R3 → R150 laut R150-Einleitung. Keine Elektronik → R10 wäre Fehlauswahl.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/reflectors/retro-reflector-60mm-diameter.html"
+  },
+  "hella-slimline-fog-cornering-lamp": {
+   "sure": [
+    "UN R149"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10"
+   ],
+   "traps": [
+    "UN R19",
+    "UN R123"
+   ],
+   "basis": "Hersteller: 'Approved ECE-R149.01, FMVSS 108, CCC'; 'Compliant CISPR 25 Class 4' (kein R10 genannt → unsure). R19/R119-Funktionen laut R149-Einleitung in R149 aufgegangen.",
+   "source": "https://www.hella.com/resources-soe/assets/documents/2192_KI_Slimline_Fog-lamp_cornering-light_FORVIA_HELLA_EN.pdf"
+  },
+  "osram-lightbar-vx180-sp": {
+   "sure": [
+    "UN R149",
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R48"
+   ],
+   "traps": [],
+   "basis": "Hersteller: Standards 'ECE R10, R149', Approval marks 'E9 approval', ECE reference number '25'.",
+   "source": "https://www.osram.co.uk/ecat/gb/en/GPS01_4001784/PP_EUROPE_UK_eCat/ZMP_4064709"
+  },
+  "ringfeder-coupling-86-g110": {
+   "sure": [],
+   "unsure": [
+    "UN R102"
+   ],
+   "traps": [],
+   "basis": "KBA-Genehmigung 15.10.2014: 'Regelung Nr. 55', 'Nummer der Genehmigung: 012339, Erweiterung 01', Klasse S. R55 steht NICHT im Index → kein Index-Treffer erwartet (Präzisionstest). Das Dokument nennt weder R102 noch 'close-coupling device' → R102 unsure.",
+   "source": "https://ringfeder-rf.com/globalassets/inriver/resources/ringfeder-coupling-86-g110---certificate---e1-55r-012339.pdf"
+  },
+  "teltonika-ecan02-can-adapter": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Teltonika-Wiki: 'Regulation No. 10 R, Amendment 05, Supplement 01' (Seitentext), Genehmigung 'E57 10R-06 1673'.",
+   "source": "https://wiki.teltonika-gps.com/view/ECAN02_E-Mark"
+  },
+  "tesla-model3-alarm-immobiliser": {
+   "sure": [
+    "UN R116"
+   ],
+   "unsure": [
+    "UN R161",
+    "UN R162",
+    "UN R163",
+    "UN R10"
+   ],
+   "traps": [],
+   "basis": "Tesla-Homologationsschreiben: 'UNECE Regulation No. 116', 'UNECE R116 Approval Number: E9*116RLAI00/05*1274'. R161/R162/R163 (Index: Schutz gegen unbefugte Benutzung, Wegfahrsperren, Alarmanlagen) behandeln dasselbe Thema → unsure, nicht belegt.",
+   "source": "https://digitalassets.tesla.com/tesla-contents/image/upload/Model-3-Alarm-Approval-Letter-V2"
+  },
+  "walker-replacement-pollution-control-93014": {
+   "sure": [
+    "UN R103"
+   ],
+   "unsure": [
+    "UN R83"
+   ],
+   "traps": [],
+   "basis": "Walker/Tenneco-Genehmigung: 'Approval granted for a replacement product No: 93014', 'E24 103R-000573 /PF3787' (Katalysatoren und DPF nach ECE-Regelung Nr. 103; Schalldämpfer nach EG-Richtlinie 70/157, nicht UN). R83 (Fahrzeugemissionen) nicht genannt.",
+   "source": "https://autoteile-store.at/download/654a8488-efe1-9a39-384f-57c9f56ef5f0/8f74d709d4fdd27ea741208b92389409.pdf"
+  }
+ }
+}

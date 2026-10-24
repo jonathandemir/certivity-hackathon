@@ -531,3 +531,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:47:10 +0200 | [change] LOG: Zitat aus der Dev-Spec aus eigenem Eintrag entfernt | Jonathan @ MacBook-Pro-von-Jonathan | main@dd246ec
 - Mein [change]-Eintrag 'scripts/export-snapshot (R4) …' zitierte die übernommene Spec-Zeile wörtlich; scripts/export-snapshot hat das als Paketdaten erkannt. Zitat durch '(Material-Hinweiszeile)' ersetzt (Ausnahme vom Nur-Anhängen, Lizenz geht vor).
 - Probe-Export danach erneut.
+
+### 2026-10-24 19:49:50 +0200 | [change] experiments/real-parts: 28 echte Teile, aufgeteilt in tune (18) und holdout (10) | Amiad @ claude | main@cce7757 +lokale Änderungen
+- Neu u. a. Osram DRL/Lightbars/C5W-LED (R37), 3M 983 Konturmarkierung (R104→R150 + R48 laut 3M), 2 weitere Akrapovič-Genehmigungen (92R), Hella Seitenmarkierung/Kennzeichen/Nebelschluss/Kombi/Caravan, Walker-Ersatzkat (E24 103R), Teltonika FMB150/ECAN02 (10R), Tomasetto/Valtek LPG (67R), Ringfeder-Kupplung (R55, nicht im Index → nichts wählen = Präzisionstest). holdout nur messen, nie danach abstimmen (README). Quellen + wörtliche Zitate in expected.json.
+- Specs auf Regelungsnummern geprüft (nur Produktnamen wie R80/R125)

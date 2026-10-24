@@ -1,0 +1,228 @@
+{
+ "about": "Echte Teile mit belegter Genehmigung (Hersteller-/Händlerangaben, Quelle je Bauteil in 'source', wörtliche Zitate in 'basis'). sure = Regelung, nach der das Teil laut Quelle genehmigt ist; wurde die genannte alte Regelung laut Einleitung von R148/R149/R150 in eine Sammelregelung überführt, ist die Sammelregelung sure und die alte eine Falle (wie im Dev-Gold, docs/CONTEXT.md §10). unsure = nicht belegt, aber vertretbar (z. B. R48-Anbau, R10 ohne Angabe). Die Specs enthalten nur Angaben aus der Quelle und keine Regelungsnummern. Grenzen: Genehmigungen beschreiben das Teil, nicht den Einbau; der Test misst nur die Regelungsauswahl. Aufgeteilt in tune/ (zum Verbessern) und holdout/ (nur zum Prüfen, nie zum Abstimmen; siehe README).",
+ "split": "tune",
+ "components": {
+  "akrapovic-exhaust-ktm-1290-superduke-r": {
+   "sure": [
+    "UN R92"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Genehmigung: 'Approval No.: E26 92R-001097' (Slowenien, 10.11.2014, Prüfbericht TÜV SÜD). '92R' = R92 (Index-Titel: 'Replacement exhaust silencing systems for motorcycles').",
+   "source": "https://www.ersatzteile-ktm.de/assets/images/shop/ktm/dok_pp_genece_61305979100_ece__akrapovic___sall__awsg__v1.pdf"
+  },
+  "akrapovic-exhaust-ktm-exc-husqvarna-fe": {
+   "sure": [
+    "UN R92"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Zertifikat: 'E26 92R-008013', Slovenian Traffic Safety Agency 20.08.2014, Prüfbericht TÜV SÜD 12.08.2014.",
+   "source": "https://www.ktmshop.se/documents/manuals/dok_pp_genece_78105981100_ece__akrapovic_certificate___sall__awsg__v1.pdf"
+  },
+  "hella-eco18-led-reversing-lamp": {
+   "sure": [
+    "UN R148",
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R48"
+   ],
+   "traps": [
+    "UN R23"
+   ],
+   "basis": "Hersteller: Type approval 'ECE-R23' (Rückfahrscheinwerfer), EMC protection 'ECE-R10'. R23 laut R148-Einleitung in R148 aufgegangen ('combines … Nos. 4, 6, 7, 23, 38, 50, 77, 87 and 91'); Dev-Gold zitiert R148 statt R7/R6/R23/R38 (docs/CONTEXT.md §10).",
+   "source": "https://www.hella.com/soe/en/Products/Product-detail-4957/?pid=3974"
+  },
+  "hella-euroled-rear-direction-indicator": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R148",
+    "UN R6",
+    "UN R48"
+   ],
+   "traps": [],
+   "basis": "Hersteller: Approval Markings 'E4 10208 | E4 10R 04-2742 | ISO 13207-1'. '10R 04' = Genehmigung nach R10 (04er Serie). Die Regelung hinter 'E4 10208' (Fahrtrichtungsanzeiger) nennt der Hersteller nicht → R148/R6 unsure.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/ece-approved-led-lamps/euroled-rear-direction-indicator-lamp-hcs-ece.html"
+  },
+  "hella-led-caravan-clearance-lamp": {
+   "sure": [
+    "UN R148"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10"
+   ],
+   "traps": [
+    "UN R7"
+   ],
+   "basis": "Hersteller: 'ECE R7/02'. R7 → R148 laut R148-Einleitung.",
+   "source": "https://hella.co.nz/en/products/marker-signal/led-marker-lamps/led-caravan-redwhite-clearance-lamp.html"
+  },
+  "hella-led-fog-lamp-r80": {
+   "sure": [
+    "UN R149",
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R48"
+   ],
+   "traps": [
+    "UN R19",
+    "UN R123"
+   ],
+   "basis": "Hersteller: 'Approval: SAE J583, ECE-R149.01'; 'Compliant: ECE-R10.06, CISPR 25 Class 5'. R19 ist laut R149-Einleitung in R149 aufgegangen ('combines … Nos. 19, 98, 112, 113, 119 and 123'). R48 (Anbau) nennt der Hersteller nicht.",
+   "source": "https://www.hella.com/soe/en/Products/Product-detail-4957/?pid=6091"
+  },
+  "hella-led-headlamp-1ef328550": {
+   "sure": [
+    "UN R149",
+    "UN R148",
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R48"
+   ],
+   "traps": [
+    "UN R123",
+    "UN R6",
+    "UN R7"
+   ],
+   "basis": "Händler-Datenblatt (winparts): 'Fulfils ECE norm R149', 'R148', 'R10'. Herstellerseite nicht abgerufen (Händlerangabe, schwächere Quelle). R6/R7 laut R148-Einleitung in R148 aufgegangen.",
+   "source": "https://www.winparts.co.uk/lighting-lamps/lighting/universal-lighting-parts/c1552/headlight/p1975355.html"
+  },
+  "hella-led-number-plate-lamp": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R148",
+    "UN R48"
+   ],
+   "traps": [],
+   "basis": "Hersteller: Approval markings 'E4 4068 | E4 10R 04-2906'. Die Regelung hinter 'E4 4068' nennt die Quelle nicht → R148 unsure.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/ece-approved-led-lamps/led-number-plate-lamp-ece.html"
+  },
+  "hella-led-rear-combination-lamp-number-plate": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [
+    "UN R148",
+    "UN R48",
+    "UN R6",
+    "UN R7"
+   ],
+   "traps": [],
+   "basis": "Hersteller: Approval markings 'E24 5860' und 'E4 10R 05-3262'. Regelung hinter 'E24 5860' nicht genannt → R148 unsure.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/ece-approved-led-lamps/led-stoprear-positionrear-direction-indicator-lamp-with-number-plate-function-ece.html"
+  },
+  "hella-led-rear-position-lamp-reflector": {
+   "sure": [
+    "UN R148",
+    "UN R150"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10"
+   ],
+   "traps": [
+    "UN R3",
+    "UN R7"
+   ],
+   "basis": "Hersteller: 'E24 5881', 'ECE R3/02', 'ECE R7/02'. R7 → R148 (R148-Einleitung: combines … 7 …), R3 → R150 (R150-Einleitung: combines … Nos. 3, 27, 69, 70 and 104). Kein R10 genannt.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/led-marker-lamps/led-rear-position-lamp-red.html"
+  },
+  "hella-led-side-marker-lamp-amber": {
+   "sure": [
+    "UN R148",
+    "UN R150"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10"
+   ],
+   "traps": [
+    "UN R3"
+   ],
+   "basis": "Hersteller: 'E1 1395', 'E1 1396', 'ECE R3/02', 'ECE R91/00'. R91 → R148 (R148-Einleitung: combines … 91), R3 → R150. R91 steht nicht im Index.",
+   "source": "https://www.hella.co.nz/en/products/marker-signal/led-marker-lamps/led-side-marker-lamp-amber.html"
+  },
+  "osram-ledriving-curved-lightbar-vx1000": {
+   "sure": [
+    "UN R149"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10",
+    "UN R148"
+   ],
+   "traps": [],
+   "basis": "Hersteller: 'it is certified for single mounting (2x ECE R149)', Approval marks 'E57 approval', ECE reference number '30 + 30'; Boost-Modus und amber Positionslicht 'do not have ECE approval'. R10 nicht genannt.",
+   "source": "https://www.osram.com/ecat/LEDriving%20Curved%20Lightbar%20VX1000-CB%20SR%20SM-Value%20Series-LED%20driving%20lights-Car%20lighting-Automotive/gb/en/GPS01_32359188/ZMP_4069211/"
+  },
+  "osram-ledriving-px5-drl": {
+   "sure": [
+    "UN R148"
+   ],
+   "unsure": [
+    "UN R48",
+    "UN R10"
+   ],
+   "traps": [],
+   "basis": "Hersteller: 'certified according to ECE, SAE and CCC regulations (ECE E4 approval; ECE R87 approval)', Standards 'ECE R87'. R87 laut R148-Einleitung in R148 aufgegangen ('combines … 77, 87 and 91'); R87 steht nicht im Index.",
+   "source": "https://www.osram.co.uk/ecat/LEDriving%20PX-5-LED%20daytime%20running%20lights-Car%20lighting-Automotive/gb/en/GPS01_1062701/ZMP_1166035/"
+  },
+  "osram-night-breaker-led-c5w-ece": {
+   "sure": [
+    "UN R37"
+   ],
+   "unsure": [
+    "UN R128"
+   ],
+   "traps": [],
+   "basis": "Hersteller: 'fully homologated according to ECE R37 and consequently approved for all 12V vehicles in all ECE member states', Standards 'ECE R37'. R128 (LED-Lichtquellen) nicht genannt → unsure.",
+   "source": "https://www.osram.com/ecat/com/en/GPS01_36366743/PP_EUROPE_Europe_eCat/ZMP_4069797"
+  },
+  "stako-lpg-toroidal-tank": {
+   "sure": [
+    "UN R67"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Quelle: 'Regulaminu 67.01 EKG ONZ', Genehmigungsnummer 'E20-67R-010424'. R67 = Index-Titel 'LPG vehicles'.",
+   "source": "https://nagaz24.com/zbiornik-stako-520-36-w-225mm-25kg/"
+  },
+  "teltonika-fmb150-tracker": {
+   "sure": [
+    "UN R10"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Teltonika-Wiki: 'Regulation No. 10 R, Amendment 06, Supplement 029', Genehmigung 'E57*10R06/00*1548'.",
+   "source": "https://wiki.teltonika-gps.com/view/FMB150_E-Mark"
+  },
+  "tomasetto-lpg-multivalve-mv4000": {
+   "sure": [
+    "UN R67"
+   ],
+   "unsure": [],
+   "traps": [],
+   "basis": "Quelle: 'approval number: E20-67R-010527' (67R-01 = R67, 01er Serie).",
+   "source": "https://nagaz24.com/tomasetto-multivalve-valve-1/"
+  },
+  "valtek-type30-lpg-injector-rail": {
+   "sure": [
+    "UN R67"
+   ],
+   "unsure": [
+    "UN R10"
+   ],
+   "traps": [],
+   "basis": "Quelle: 'approval number: E4-67R-010104' (67R-01 = R67).",
+   "source": "https://nagaz24.com/valtek-type-30-4-cylindry-3-ohm-injector-rail/"
+  }
+ }
+}
