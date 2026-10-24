@@ -20,6 +20,7 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 
 | Wer | Branch | Was | Dateien | Seit |
 |---|---|---|---|---|
+| Jonathan | jonathan | AP1 Gerüst + Bewertungsschleife | certreq/, tests/, requirements.txt | 2026-10-24 13:22 |
 
 ## Nächste Schritte
 
