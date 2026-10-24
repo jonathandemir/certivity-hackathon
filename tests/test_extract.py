@@ -149,3 +149,14 @@ def test_extract_options_modal_and_split(dev_expected):
     assert sum(r.paragraph == "5.1.1" for r in split) == 3 and sum(r.paragraph == "5.1.1" for r in base) == 1
     with pytest.raises(ValueError):
         extract_requirements(regs, case.spec_text, (), ("bogus",))
+
+
+def test_run_defaults_are_the_measured_best(monkeypatch):
+    """`certreq run <fall>` ohne Schalter = Bestmarke E020-a (--select llm2 --filters all --extract modal,llm)."""
+    import certreq.__main__ as cli
+    seen = {}
+    monkeypatch.setattr(cli, "cmd_run", lambda args: seen.update(vars(args)) or 0)
+    assert cli.main(["run", "some-case"]) == 0
+    assert (seen["select"], cli._parse_filters(seen["filters"])) == ("llm2", cli.FILTERS)
+    assert cli._parse_list(seen["extract"], cli.OPTIONS, "x") == ("modal", "llm")
+    assert cli._parse_list("none", cli.OPTIONS, "x") == () and cli._parse_filters("none") == ()

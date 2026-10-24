@@ -3,7 +3,8 @@
 Baseline B0 (AP1): jeder nummerierte Absatz der base-Version, der „shall" enthält, wird eine Anforderung
 (Text = Absatztext, Seite = Startseite, Absatz = Label). Keine Zerlegung in einzelne Pflichten.
 AP4: `filters` schaltet den Relevanzfilter entlang der Gliederung zu (certreq/relevance.py), `options` ändert die
-Extraktion. Standard bleibt B0, bis eine Messung besser ist (AGENTS.md §4).
+Extraktion. Die Funktion selbst ist ohne Argumente B0; die CLI (`certreq run`) nimmt seit E020-a `--filters all
+--extract modal,llm` als Standard (gemessene Bestmarke, AGENTS.md §4).
 
 Optionen:
   modal  auch Absätze ohne „shall" mit anderer Pflicht- oder Erlaubnisform: must, may, (not) permitted/allowed,

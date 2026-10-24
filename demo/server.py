@@ -7,8 +7,8 @@
 Was der Server kann (alles lokal, bindet nur an 127.0.0.1):
   * Fälle: Paket-Fälle (vendor/.../cases) und eigene Uploads (Spec und/oder Zeichnung, landen in out/cases/).
   * Prüfungen starten: `certreq run` als Unterprozess, Fortschritt per Abfrage (Log + Status), Ergebnis in out/runs/<id>/.
-    Modus "best" = Bestmarke (--select llm --filters all --extract modal,llm, braucht LLM-Key),
-    Modus "fast" = Baseline ohne KI (--select b0).
+    Modus "best" = Bestmarke = Standard von certreq run (--select llm2 --filters all --extract modal,llm, braucht LLM-Key),
+    Modus "fast" = Baseline ohne KI (--select b0 --filters none --extract none).
   * Läufe ansehen: eigene Läufe, abgelegte Messungen (experiments/runs/<ID>) und ältere out/<fall>.json.
   * PDF-Seiten werden erst bei Bedarf gerendert (Cache out/cache/pages), Markierung des zitierten Absatzes je Seite.
   * Review je Anforderung (offen/bestätigt/verworfen + Notiz), Export als Abgabe-JSON (ohne Verworfene) oder CSV.
@@ -58,8 +58,8 @@ SUBGOAL_DIR = paths.PKG_DIR / "subgoal"
 EXPERIMENTS = REPO / "experiments" / "runs"
 ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,80}$")
 MODES = {
-    "best": ["--select", "llm", "--filters", "all", "--extract", "modal,llm"],
-    "fast": ["--select", "b0"],
+    "best": [],  # Standard von certreq run = gemessene Bestmarke (AGENTS.md §4), braucht LLM-Key
+    "fast": ["--select", "b0", "--filters", "none", "--extract", "none"],
 }
 TYPICAL_SECONDS = {"best": 240, "fast": 25}
 
