@@ -128,7 +128,7 @@ def judge(submission: dict, expected: list[dict], lenient: bool = True, workers:
         "level": {"precision": round(p, 4), "recall": round(r, 4), "f1": round(2 * p * r / (p + r), 4) if p + r else 0.0,
                   "f2": round(5 * p * r / (4 * p + r), 4) if p + r else 0.0,
                   "n_submitted": n_ours, "n_expected": n_exp, "n_matched": n},
-        "config": {"model": llm.STRONG_MODEL, "lenient": lenient, "window": window, "max_candidates": MAX_CANDIDATES},
+        "config": {"model": llm.model_name(llm.STRONG_MODEL), "lenient": lenient, "window": window, "max_candidates": MAX_CANDIDATES},
         "recall_by_regulation": {k: f"{v[0]}/{v[1]}" for k, v in sorted(per_reg.items())},
         "no_candidates": sorted(e["id"] for e in expected if not cands[e["id"]]),
         "llm_said_match_but_unassigned": sorted(e for e, os_ in edges.items() if os_ and e not in match),

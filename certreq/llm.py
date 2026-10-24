@@ -8,6 +8,11 @@ Schlüssel und Modell nie im Repo: OPENAI_API_KEY (oder LLM_API_KEY) und CERTREQ
 aus `.env` / `.env.local` im Repo-Root (beide gitignored, Vorlage `.env.example`). `.venv/bin/python -m certreq.llm` prüft Key und Modell, listet die
 verfügbaren Modelle und macht einen Testaufruf.
 
+Anbieter: Standard OpenAI (Team-Entscheidung). CERTREQ_PROVIDER=anthropic schickt alle Aufrufe über
+certreq/llm_anthropic.py an Claude (ANTHROPIC_API_KEY, Modell CERTREQ_ANTHROPIC_MODEL bzw. claude-opus-5-5); die
+gpt-Modellnamen der Aufrufer (DEFAULT_MODEL, STRONG_MODEL) werden dann auf dieses Modell abgebildet. Messungen mit
+Claude sind eine eigene Reihe, nicht mit gpt-6.1-sol-Messungen vergleichbar.
+
 Cache: out/cache/llm/<sha256>.json, Schlüssel = Modell + Nachrichten + Schema. Gleiche Anfrage → gleiche Antwort ohne
 Kosten, Messungen bleiben reproduzierbar. Abschalten mit CERTREQ_LLM_CACHE=0.
 `schema` wird als OpenAI Structured Output (strict) geschickt: jedes Objekt braucht "additionalProperties": false und
@@ -58,9 +63,18 @@ def _load_file(env_file: Path) -> None:
             os.environ[key] = value
 
 
+def provider() -> str:
+    load_env()
+    return os.environ.get("CERTREQ_PROVIDER", "").strip().lower() or "openai"
+
+
 def model_name(model: str | None = None) -> str:
     load_env()
-    return model or os.environ.get("CERTREQ_MODEL", "") or DEFAULT_MODEL
+    chosen = model or os.environ.get("CERTREQ_MODEL", "") or DEFAULT_MODEL
+    if provider() == "anthropic" and not chosen.startswith("claude"):
+        from . import llm_anthropic
+        return llm_anthropic.model_name()
+    return chosen
 
 
 def _client():
@@ -70,7 +84,8 @@ def _client():
         key = next((os.environ[k] for k in KEY_NAMES if os.environ.get(k)), "")
         if not key:
             raise SystemExit("OPENAI_API_KEY (oder LLM_API_KEY) fehlt: in .env oder .env.local im Repo-Root eintragen "
-                             "(gitignored; nie committen, nie in den Chat kopieren).")
+                             "(gitignored; nie committen, nie in den Chat kopieren). Nur ein Anthropic-Key: "
+                             "CERTREQ_PROVIDER=anthropic setzen.")
         from openai import OpenAI  # erst hier, damit Tests ohne Netz und ohne Key laufen
         _client_obj = OpenAI(api_key=key, max_retries=5, timeout=180)
     return _client_obj
@@ -78,6 +93,9 @@ def _client():
 
 def _call(model: str, messages: list[dict], response_format: dict, effort: str | None = None) -> tuple[str, dict]:
     """Ein API-Aufruf. Gibt (Antworttext, Token-Verbrauch) zurück; in Tests ersetzt."""
+    if provider() == "anthropic":
+        from . import llm_anthropic
+        return llm_anthropic.call(model, messages, response_format, effort)
     extra = {"reasoning_effort": effort} if effort else {}
     r = _client().chat.completions.create(model=model, messages=messages, response_format=response_format, **extra)
     u = r.usage
@@ -125,8 +143,8 @@ def ask_json(system: str, user: str, schema: dict | None = None, name: str = "an
         raise RuntimeError(f"Modell {model} lieferte kein gültiges JSON ({e}): {content[:300]}") from e
     with _lock:
         _usage["calls"] += 1
-        for k in ("prompt_tokens", "completion_tokens"):
-            _usage[k] += usage.get(k, 0)
+        for k, v in usage.items():  # OpenAI: prompt/completion_tokens; Anthropic zusätzlich fallbacks
+            _usage[k] = _usage.get(k, 0) + v
     if use_cache:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         tmp = cache_file.with_suffix(f".{threading.get_ident()}.tmp")
@@ -150,13 +168,24 @@ def usage() -> dict:
 
 def _check() -> int:
     load_env()
+    if provider() == "anthropic":
+        from . import llm_anthropic
+        ids = llm_anthropic.check()
+        print(f"Anbieter anthropic, Key OK. {len(ids)} Modelle verfügbar, u. a.: {', '.join(ids)[:600]}")
+        if model_name() not in ids:
+            print(f"WARNUNG: {model_name()} ist mit diesem Key nicht verfügbar.")
+        return _check_call()
     client = _client()
     ids = sorted(m.id for m in client.models.list())
     print(f"Key OK. {len(ids)} Modelle verfügbar, u. a.: {', '.join(i for i in ids if i.startswith(('gpt', 'o')))[:600]}")
-    chosen = model_name()
     for m in (DEFAULT_MODEL, STRONG_MODEL):
         if m not in ids:
             print(f"WARNUNG: {m} ist mit diesem Key nicht verfügbar.")
+    return _check_call()
+
+
+def _check_call() -> int:
+    chosen = model_name()
     schema = {"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"], "additionalProperties": False}
     t0 = time.time()
     os.environ["CERTREQ_LLM_CACHE"] = "0"

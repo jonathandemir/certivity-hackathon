@@ -87,3 +87,46 @@ def test_modellwahl_und_fehlender_key(monkeypatch, tmp_path):
     monkeypatch.setattr(llm, "_client_obj", None)
     with pytest.raises(SystemExit, match="OPENAI_API_KEY .*fehlt"):
         llm._client()
+
+
+def test_anthropic_bildet_gpt_modelle_ab(monkeypatch):
+    monkeypatch.setenv("CERTREQ_PROVIDER", "anthropic")
+    monkeypatch.delenv("CERTREQ_ANTHROPIC_MODEL", raising=False)
+    monkeypatch.setenv("CERTREQ_MODEL", "")
+    assert llm.model_name() == llm.model_name(llm.STRONG_MODEL) == "claude-opus-5-5"
+    assert llm.model_name("claude-sonnet-5-5") == "claude-sonnet-5-5"
+    monkeypatch.setenv("CERTREQ_PROVIDER", "")
+    assert llm.model_name(llm.STRONG_MODEL) == llm.STRONG_MODEL
+
+
+def test_anthropic_anfrage_uebersetzt(tmp_path):
+    from certreq import llm_anthropic
+    img = tmp_path / "z.png"
+    img.write_bytes(b"\x89PNG fake")
+    part, _ = llm._image_part(img)
+    msgs = [{"role": "system", "content": "SYS"}, {"role": "user", "content": [{"type": "text", "text": "U"}, part]}]
+    fmt = {"type": "json_schema", "json_schema": {"name": "n", "schema": SCHEMA, "strict": True}}
+    r = llm_anthropic.request("claude-opus-5-5", msgs, fmt, "xhigh")
+    assert r["system"] == "SYS" and r["output_config"] == {"effort": "xhigh", "format": {"type": "json_schema", "schema": SCHEMA}}
+    assert r["messages"][0]["content"][0] == {"type": "text", "text": "U"}
+    assert r["messages"][0]["content"][1]["source"]["media_type"] == "image/png"
+    assert r["fallbacks"] == "default" and r["betas"] == [llm_anthropic.FALLBACK_BETA]
+    plain = llm_anthropic.request("m", [{"role": "user", "content": "q"}], {"type": "json_object"}, None)
+    assert plain["output_config"] == {"effort": "medium"} and "JSON" in plain["system"]
+    assert llm_anthropic.EFFORTS["none"] == "low"
+    assert llm_anthropic._json_text('Hier:\n```json\n{"a": 1}\n```') == '{"a": 1}'
+
+
+def test_anthropic_eigener_cache_schluessel(monkeypatch, tmp_path):
+    from certreq import llm_anthropic
+    seen = []
+    monkeypatch.setattr(llm_anthropic, "call", lambda model, m, f, e=None: seen.append(model) or ('{"x": 1}', {"prompt_tokens": 1, "completion_tokens": 1, "fallbacks": 0}))
+    monkeypatch.setattr(llm, "CACHE_DIR", tmp_path)
+    monkeypatch.delenv("CERTREQ_LLM_CACHE", raising=False)
+    monkeypatch.setenv("CERTREQ_PROVIDER", "anthropic")
+    monkeypatch.setenv("CERTREQ_MODEL", "")
+    monkeypatch.delenv("CERTREQ_ANTHROPIC_MODEL", raising=False)
+    assert llm.ask_json("s", "q", SCHEMA, model=llm.STRONG_MODEL) == {"x": 1}
+    assert seen == ["claude-opus-5-5"]
+    json_files = list(tmp_path.glob("*.json"))
+    assert len(json_files) == 1 and json.loads(json_files[0].read_text())["model"] == "claude-opus-5-5"
