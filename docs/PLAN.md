@@ -117,8 +117,10 @@ mit dem Held-out-Ergebnis. Held-out-Eingaben nie ins Repo (Lizenz), nur eigene A
 5. Opus streut auf dev ±0.02 je Lauf (E039-a/E040-a): gleich nach H001 einen zweiten Lauf H002 (gleiche Einstellungen,
    `CERTREQ_LLM_CACHE=0`) rechnen und hochladen; der bessere Wurf ist die Basis für die Varianten 1–3.
 
-**Weg B: kein Score → nicht spielen.** H001 bleibt; einzige Ausnahme: R94 gewählt → H001-noR94 hochladen (Fahrzeugebene,
-Opus' Fehlmuster im Auswahl-Test X-SEL-llm2-c). Keine weiteren Uploads.
+**Weg B: kein Score → nicht spielen, nichts weglassen.** H001 bleibt die Abgabe (bzw. der Fallback-Lauf). Grund F2-Asymmetrie:
+eine überzählige Regelung kostet ~0.01 F2 (dev: R26/R42 zusammen ~0.016, Nebelscheinwerfer: 4 falsche Regelungen = 11 von
+303 Anforderungen), eine fehlende mit ~20 Gold-Anforderungen ~0.08. Weglassen lohnt nur, wenn die Regelung mit über ~90 %
+falsch ist; das gilt auch für R94. Keine weiteren Uploads.
 
 **Fallbacks:** Opus-Fehler oder Rate-Limit → Lauf ohne `CERTREQ_PROVIDER` (gpt-Standard, ~3 min) als H001-gpt.
 Validierungsfehler der Plattform → `python tools/validate.py <datei>` zeigt den JSON-Pfad. Schief gelaufener Upload

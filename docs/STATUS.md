@@ -37,6 +37,28 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 ## Nächste Schritte
 
+0. **Übergaben für den Abend (A, Sa 24.10. ~19:45), Freeze So 07:30.** Hintergrund: Opus ist auf dev im Mittel gleich gpt (0.740, ±0.02),
+   außerhalb von dev klar besser (R175 +0.07); Sub-Goal auf dev ausgereizt (24/24, Change accuracy 1.000).
+   **B (Homsianer): zwei neue Prompt-Regeln für den Held-out, je hinter Schalter in `llmextract.RULES`.**
+   (1) `duties`: Pflichten von Hersteller oder Technischem Dienst, die das Bauteil betreffen („shall declare / demonstrate /
+   document / justify … to the Approval Authority or Technical Service“), sind Anforderungen, behalten. Beleg: mit Opus fehlen auf
+   R175 22 Anforderungen, 11 davon diese Art (X-R175-C und C-rep identisch); auf dev fanden wir alle 18 dieser Art, also prüfen,
+   dass dev nicht verliert. (2) `testcond`: Prüfbedingungen, unter denen das Bauteil die Anforderung erfüllen muss (Prüffläche,
+   Umgebung, Geschwindigkeit, Prüfziel, Ausgangszustand), sind Anforderungen; nur der Messaufbau nicht. Beleg: die übrigen 11
+   Lücken auf R175 (6.2.x, 6.5); R127/GTR 9 beim Stoßfänger bestehen großteils aus Prüfbedingungen. Achtung: die Regel `tests`
+   schließt bisher den „physical arrangement of the test set-up“ aus, `testcond` darf R10 auf dev nicht verschlechtern.
+   **Messen:** je Regel Opus auf dev und auf dem R175-Prüfstein, je 2 Läufe (2. mit `CERTREQ_LLM_CACHE=0`), Basis und Variante mit
+   demselben Richter (Befehle: `experiments/synthetic/acpe/README.md`). Übernehmen nur, wenn die Regel auf beiden nicht verliert
+   und auf mindestens einem mehr als die Streuung (~0.02) gewinnt. Bis 07:30 Standard umstellen oder hinter Schalter lassen.
+   Nebenbefund (Precision, niedrigere Priorität): R150 Annex 6 überzerlegt (dev 30 vs Gold 8, Annex 7: 7 vs 0), X-SMOKE-a.
+   **C (Amiad):** (a) Demo komplett proben auf dem Pitch-Rechner: synthetischer Stoßfänger einmal mit Spec, einmal nur Zeichnung
+   (`--vision only`), ohne Handgriffe, jede Anforderung verlinkt auf ihre PDF-Seite; Ergebnis für So vorrechnen (Cache).
+   (b) Sub-Goal-Gegenprobe für `--refine llm` auf einem großen Paar (z. B. R48 base→latest): läuft durch, Laufzeit, Fehlalarme
+   in einer Stichprobe. (c) Pitch-Belege: Richter gegen Plattform geeicht (5 Uploads, −1/+4/0/+1/0 Treffer), Gegenproben
+   außerhalb von dev (R175-Prüfstein, Auswahl-Test mit 10 Bauteilen und vorab festgelegten Lösungen), offene Schwächen
+   (Opus-Streuung ±0.02, nur Zeichnung 0.42, Hersteller-Pflichten).
+   **A (Jonathan):** R4 vorbereiten (Abgabe-Kopie ohne Historie, `scripts/export-snapshot`), Sonntag Lauf + Uploads nach PLAN
+   „Sonntagsablauf“. **Homsianer:** alten Anthropic-Key widerrufen (steht in der Git-Historie).
 1. **Alle: priorisierte Verbesserungsliste in docs/PLAN.md „Verbesserungen nach Punkten"** (Plattform-Eichung + Fehleranalyse E020-a).
    Messen mit `eval --judge lenient` (= Plattform ±1 Treffer) und `--judge strict` (Untergrenze).
 2. **Erledigt (A):** Team BarelyLegal registriert (team-12), alle drei im Repo; LLM-Zugang (`certreq/llm.py`); Plattform-Eichung

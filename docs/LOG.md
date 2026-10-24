@@ -515,3 +515,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:39:03 +0200 | [run] X-REAL-llm2-c: Auswahl-Test auf 10 echten Bauteilen | Amiad @ claude | gemessen auf main@467a855
 - certreq.suite experiments/real-parts --select llm2, Claude (opus-5-5): P 0.933 R 0.933 F2 0.933, 8/10 exakt. Fehler: Tesla-Alarm wählt R161/R162/R163 statt der belegten R116 (Nachfolger, im Gold unsure); Akrapovič zusätzlich R40 (Motorrad-Abgas; Teil hat Katalysator, Genehmigung nur R92). Alte Einzelregelungen (R3/R7/R19/R23) nie gewählt. Code = main@6b4b3b7 (Lauf in Amiads Cloud-Sitzung).
 - Beleg experiments/runs/X-REAL-llm2-c/meta.json
+
+### 2026-10-24 19:40:41 +0200 | [handoff] Übergaben für den Abend: B zwei Regeln (duties, testcond), C Demo-Probe + Sub-Goal-Gegenprobe + Pitch-Belege | Jonathan @ MacBook-Pro-von-Jonathan | main@1b2cb38 +lokale Änderungen
+- Details in docs/STATUS.md Nächste Schritte Punkt 0. Messprotokoll R175-Prüfstein: experiments/synthetic/acpe/README.md (Referenz nur lokal unter out/). PLAN Weg B geändert: ohne Plattform-Score nichts weglassen (F2-Asymmetrie: überzählige Regelung ~0.01, fehlende ~0.08), auch R94 bleibt.
+- Stand: Opus-Entscheidung, Sonntagsablauf, Varianten-Werkzeug stehen. Nächster Schritt A: R4-Abgabekopie (scripts/export-snapshot). Fallen: Basis und Variante immer mit demselben Richter; Opus streut ±0.02, daher je 2 Läufe.
