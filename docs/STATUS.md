@@ -6,8 +6,8 @@ Historie steht in docs/LOG.md.
 ## Stand
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
-Bestmarke (zulässig, alle Ebenen): E014 = `--filters all --extract modal,llm` (Relevanzfilter + LLM-Extraktion je Absatz, Prompt v2): Anforderungen F2 0.491 (P 0.238, R 0.668; lokaler Richter strict, `eval --judge strict`), Seiten 0.717, Regelungen 0.556. Vorher E012 0.290, E011-a (modal,split) 0.098, B0 0.060. Mit Gold-Regelungen (Diagnose) Anforderungen 0.637. Standard ohne Schalter ist weiter B0.
-Anforderungs-Engpässe (E011-a): 32 von 190 fehlen, weil UN R10 nicht gewählt ist (AP2); 85 trotz Kandidaten (Absätze statt Einzelpflichten, AP4); Precision 0.025 (2966 statt ~190 Anforderungen).
+Bestmarke (zulässig, alle Ebenen): **E016-a** = `--select llm --filters all --extract modal,llm` (Tag `best-main-reqf2-0.621`): Anforderungen F2 **0.621** (P 0.375, R 0.742; lokaler Richter strict), Seiten 0.920, Regelungen 0.870. Vorher E014 (B0-Auswahl) 0.491, E012 0.290, B0 0.060. Mit Gold-Regelungen (Diagnose E015) 0.637 → die Auswahl ist praktisch ausgereizt. `--select llm` ist seit E016-a Standard; Filter/Extraktion stehen noch per Schalter.
+Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
 Team-ID der Certivity-Plattform: noch nicht registriert.
@@ -42,7 +42,9 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 4. **B (Omar/Homsianer):** Standard auf `--filters all --extract modal,split` umstellen: auf der Anforderungsebene besser
    (E011-a 0.098 vs E010-a 0.084 vs B0 0.060), obwohl Seiten-F2 leicht sinkt (0.339 vs 0.348). Jede AP4-Änderung ab jetzt
    mit `eval --judge strict` messen (~1–2 min, ~150–330k Tokens; Wiederholungen gecacht).
-5. **Jonathan (A):** AP2 Regelungsauswahl (R10 fehlt: 32 von 190 Anforderungen).
+5. **B:** Standard für Filter/Extraktion auf `--filters all --extract modal,llm` umstellen (E014/E016-a besser auf allen Ebenen). Größte Recall-Lücken: R10 (EMV-Prüfpegel als Einzelpflichten) und R48.
+   **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
+   **A:** als Nächstes AP5 (Zeichnung lesen) bzw. Robustheit für den Held-out (Stoßfänger) prüfen.
 6. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
    „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 
@@ -65,7 +67,7 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 
 | Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
 |---|---|---|---|---|---|---|---|---|---|
-| dev-rear-lamp | Regelungen | 0.273 | 0.750 | 0.556 | main@8a17957 (`--filters all --extract modal,llm`) | best-main-reqf2-0.491 | score_local | E014 | 2026-10-24 15:04 |
-| dev-rear-lamp | Seiten | 0.441 | 0.849 | 0.717 | main@8a17957 (`--filters all --extract modal,llm`) | best-main-reqf2-0.491 | score_local | E014 | 2026-10-24 15:04 |
-| dev-rear-lamp | Anforderungen | 0.238 | 0.668 | 0.491 | main@8a17957 (`--filters all --extract modal,llm`) | best-main-reqf2-0.491 | lokaler Richter strict (gpt-6.1-sol) | E014 | 2026-10-24 15:04 |
+| dev-rear-lamp | Regelungen | 0.571 | 1.000 | 0.870 | main@39b1077 (`--select llm --filters all --extract modal,llm`) | best-main-reqf2-0.621 | score_local | E016-a | 2026-10-24 15:15 |
+| dev-rear-lamp | Seiten | 0.697 | 1.000 | 0.920 | main@39b1077 (dto.) | best-main-reqf2-0.621 | score_local | E016-a | 2026-10-24 15:15 |
+| dev-rear-lamp | Anforderungen | 0.375 | 0.742 | 0.621 | main@39b1077 (dto.) | best-main-reqf2-0.621 | lokaler Richter strict (gpt-6.1-sol) | E016-a | 2026-10-24 15:15 |
 | dev-rear-lamp | Anforderungen | – | – | – | – | – | Plattform (offen, E001-Upload) | – | – |

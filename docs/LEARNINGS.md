@@ -5,6 +5,12 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Regelungsauswahl per LLM mit Steckbriefen aus den PDFs trifft alle Gold-Regelungen.** Beleg: E016-a
+  (main@39b1077): 7 gewählt, 4/4 Gold inkl. UN R10 (Begründung: LED-Platine → EMV), Regelungs-F2 0.405→0.870,
+  Anforderungs-F2 0.491→0.621 (Gold-Diagnose 0.637); 3 Läufe ohne Cache identisch. Die PDFs nennen ihre Konsolidierung
+  selbst (R148 „combines … Nos. 4, 6, 7, 23 …", R150 „Nos. 3, 27, 69, 70 and 104"): das LLM verwirft R7/R23/R3 mit dieser
+  Begründung. **Für den Stoßfänger plausibel?** Ja: Prinzipien und Steckbriefe sind fallunabhängig; Extras wie R26/R42
+  kosten beim Leuchten-Fall ~0.016 F2, sind beim Stoßfänger aber vermutlich Pflicht.
 - **2026-10-24 · Die LLM-Extraktion muss den Geltungsbereich wörtlich aus der Regelung übernehmen.** Beleg: E013 →
   E015 (Gold-Regelungen, Richter strict): Prompt v1 („name the subject explicitly" + Bauteil-Spec) schrieb „the rear
   lamp shall …", wo die Regelung „lamps" / „all light-signalling devices" sagt, und zerlegte „clearly legible and

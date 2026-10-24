@@ -1,0 +1,116 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --select llm --filters all --extract modal,llm --out out/E016-a.json",
+ "git": {
+  "commit": "main@39b1077",
+  "full_hash": "39b10774c3299c994b9f866920ba2e86fe3c4749",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26",
+  "UN R13H",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The rear-position, stop and reversing functions fall within its consolidated light-signalling-device requirements, including photometric performance, emitted colour and LED-module provisions."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated PMMA prism retro-reflector must meet the applicable retro-reflector requirements for passive conspicuity."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation on the M1 car must satisfy requirements for the lamps and retro-reflector concerning number, position, orientation, geometric visibility and electrical operation."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED modules and PCB constitute an electrical/electronic assembly whose electromagnetic emissions and immunity must be addressed under the applicable component and vehicle EMC requirements."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The exposed lens, housing and attachment geometry form part of the M1 vehicle's exterior and must satisfy applicable external-projection requirements."
+  },
+  {
+   "regulation": "UN R13H",
+   "role": "cross-cutting",
+   "reason": "The stop-lamp function must be integrated with the M1 braking system's prescribed braking-signal generation and deactivation."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "The rear lamp's placement and mounting must support the vehicle-level requirements for continued lighting and signalling operation and visibility after prescribed low-speed impacts."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear-position and stop-lamp provisions are consolidated into selected UN R148, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into selected UN R148, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into selected UN R150, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "PCB-mounted LED modules do not establish use of an Annex 1 standardized LED light-source category; the specified modules are addressed through the lamp approval under UN R148."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "Its scope explicitly excludes glazing for lighting and light-signalling devices, including this lamp's PMMA outer lens."
+  }
+ ],
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa"
+ ],
+ "extract": [
+  "modal",
+  "llm"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 96,
+  "paragraphs": 1113,
+  "kept": 217,
+  "dropped": 896,
+  "missing": 0,
+  "usage": {
+   "calls": 1,
+   "cached": 96,
+   "prompt_tokens": 11322,
+   "completion_tokens": 1301
+  }
+ },
+ "n_requirements": 376,
+ "seconds": 32.3,
+ "created_at": "2026-10-24T15:07:39+02:00",
+ "run_id": "E016-a",
+ "note": "AP2: --select llm + E014-Konfiguration (--filters all --extract modal,llm), Richter strict",
+ "submission_sha256": "b9d0217eb6591cdfe4c9f62632cf98570d20fa0600652b612fee7f6de6debf7c",
+ "recorded_at": "2026-10-24T15:07:48+02:00"
+}

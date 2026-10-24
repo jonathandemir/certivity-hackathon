@@ -223,3 +223,13 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Standard bleibt b0, bis die Anforderungsebene besser gemessen ist
 - Vormessung dev (Regelungsebene, ohne Cache, 3 Läufe identisch): 7 gewählt, alle 4 Gold-Regelungen inkl. UN R10, R7/R23/R3 mit Begründung 'konsolidiert' verworfen; P 0.57 R 1.00 F2 0.870 (B0 0.405); Extras R26, R13H, R42
 - Tests: 3 neue (Steckbrief, Antwortauswertung, Modi), gesamt 48 grün
+
+### 2026-10-24 15:08:41 +0200 | [run] E016-a: --select llm + beste Extraktion | Jonathan @ MacBook-Pro-von-Jonathan | main@39b1077 +lokale Änderungen
+- Stand main@39b1077 (pull-first: zählt), Richter strict
+- Regelungen P 0.571 R 1.000 F2 0.870; Seiten P 0.697 R 1.000 F2 0.920; Anforderungen P 0.375 R 0.742 F2 0.621 (141/190, 376 eingereicht)
+- vs E014 (B0-Auswahl) 0.491; Gold-Regelungen-Diagnose E015 0.637 → Auswahl nahezu ausgereizt; Recall je Regelung R10 14/32, R148 54/63, R150 33/39, R48 40/56
+- Tag best-main-reqf2-0.621, Beleg experiments/runs/E016-a/
+
+### 2026-10-24 15:08:41 +0200 | [decision] --select llm ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@39b1077 +lokale Änderungen
+- auf allen drei Ebenen besser gemessen (E016-a vs E014); b0 bleibt per --select b0 verfügbar (Referenz E001)
+- Filter/Extraktion-Standards sind B's Entscheidung, Empfehlung in STATUS
