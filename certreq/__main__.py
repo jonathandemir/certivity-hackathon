@@ -23,9 +23,8 @@ from .relevance import FILTERS
 from .gitmeta import git_state
 from . import vision
 from .select import select_regulations
-from .submission import build_submission, write_submission
+from .submission import TEAM_ID, build_submission, write_submission
 
-PLACEHOLDER_TEAM = "team-unregistered"
 
 
 def cmd_run(args: argparse.Namespace) -> int:
@@ -39,7 +38,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     options = _parse_list(args.extract, OPTIONS, "Extraktionsoptionen")
     llm_stats: dict = {}
     reqs = extract_requirements(regs, case.spec_text, filters, options, stats=llm_stats)
-    team_id = args.team_id or os.environ.get("CERTIVITY_TEAM_ID") or PLACEHOLDER_TEAM
+    team_id = args.team_id or os.environ.get("CERTIVITY_TEAM_ID") or TEAM_ID
     data = build_submission(team_id, case.case_id, reqs)
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
@@ -52,8 +51,6 @@ def cmd_run(args: argparse.Namespace) -> int:
     print(f"{out}: {meta['n_requirements']} Anforderungen aus {len(regs)} Regelung(en) {meta['selected']} "
           f"in {meta['seconds']} s, Stand {meta['git']['commit']}"
           + ("" if meta["git"]["clean"] else " (UNSAUBER: zählt nicht)"))
-    if team_id == PLACEHOLDER_TEAM:
-        print(f"Hinweis: team_id ist '{PLACEHOLDER_TEAM}'. Vor dem Upload CERTIVITY_TEAM_ID setzen bzw. --team-id angeben.")
     return 0
 
 
@@ -102,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--extract", help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
                    "Standard: none (nur shall-Absätze, einer je Absatz)")
     r.add_argument("--out", help="Ausgabedatei (Standard: out/<fall>.json)")
-    r.add_argument("--team-id", help="Team-ID der Plattform (sonst $CERTIVITY_TEAM_ID)")
+    r.add_argument("--team-id", help=f"Team-ID der Plattform (sonst $CERTIVITY_TEAM_ID, sonst {TEAM_ID})")
     r.set_defaults(func=cmd_run)
     e = sub.add_parser("eval", help="validieren, lokal bewerten (P/R/F1/F2), optional als Beleg ablegen")
     e.add_argument("submission")

@@ -11,7 +11,7 @@ Streuung (E019-a): identische Konfiguration ohne Cache 0.602 statt 0.621 → Unt
 Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
-Teamname: **BarelyLegal**. Team-ID der Certivity-Plattform: noch offen (wird nach der Registrierung auf hackathon.certivity.io angezeigt, Format laut Paket `team-NN`).
+Teamname: **BarelyLegal**. Team-ID der Certivity-Plattform: **team-12** (registriert 2026-10-24; Standard in `certreq/submission.py`, Passwort nicht im Repo).
 
 ## Team
 
@@ -37,13 +37,14 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
    Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
 2. **Alle:** LLM-Zugang steht (`certreq/llm.py`, OpenAI). Einmal `scripts/setup` (installiert `openai`), Key in `.env.local` im eigenen Checkout (von Jonathan; nie ins Repo, nie in den Chat), Check: `.venv/bin/python -m certreq.llm`.
-3. **Jonathan (A): Plattform-Eichung** (wichtigster offener Punkt). Dateien: `.venv/bin/python -m certreq.upload --team-id <id> E020-a E008-a E003-am`
+3. **Jonathan (A): Plattform-Eichung** (wichtigster offener Punkt). Dateien: `.venv/bin/python -m certreq.upload E020-a E008-a E003-am`
    → `out/upload/`. Hochladen: E020-a + E008-a (Hauptziel, dev-rear-lamp), E003-am (Sub-Goal, subgoal-dev). Angezeigte
    Plattformwerte an A geben → Eichung lokaler Richter (strict 0.629 / 0.060, lenient B0 0.095) und Sub-Goal-Näherung (0.826).
 4. **B (Omar/Homsianer):** Standard auf `--filters all --extract modal,split` umstellen: auf der Anforderungsebene besser
    (E011-a 0.098 vs E010-a 0.084 vs B0 0.060), obwohl Seiten-F2 leicht sinkt (0.339 vs 0.348). Jede AP4-Änderung ab jetzt
    mit `eval --judge strict` messen (~1–2 min, ~150–330k Tokens; Wiederholungen gecacht).
 5. **B:** Standard für Filter/Extraktion auf `--filters all --extract modal,llm` umstellen (E014/E016-a besser auf allen Ebenen). Größte Recall-Lücken: R10 (EMV-Prüfpegel als Einzelpflichten) und R48.
+   **C (Sub-Goal):** `certreq/subgoal.py` nutzt noch `team-unregistered`; bitte `from .submission import TEAM_ID` (team-12) als Standard nehmen.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
    **C:** Demo v2 steht (demo/README.md): `demo/run <fall-ordner>` = `certreq run` + `demo/prepare.py`, dann `demo/dist/index.html` öffnen, ohne Node/Server. Läuft für jeden Fall (Spec und/oder Zeichnung), am Dev-Fall 189/190 Anforderungen auf der PDF-Seite markiert. Nächstes C: `selection`-Begründungen in Szene 1, Pitch (AP9).
    **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.

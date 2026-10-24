@@ -5,6 +5,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+# Team-ID auf hackathon.certivity.io (Team BarelyLegal), kein Geheimnis. Override: --team-id / CERTIVITY_TEAM_ID.
+TEAM_ID = "team-12"
 MAX_TEXT = 2000
 MAX_REQUIREMENTS = 5000
 

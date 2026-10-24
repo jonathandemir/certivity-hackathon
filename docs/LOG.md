@@ -293,3 +293,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-24 16:03:38 +0200 | [change] Teamname BarelyLegal in STATUS | Jonathan @ MacBook-Pro-von-Jonathan | main@4342e4f +lokale Änderungen
 - Team-ID noch offen: erscheint nach der Registrierung auf der Plattform (Format laut expected.json/README team-NN); Upload-Dateien entstehen danach mit certreq.upload
+
+### 2026-10-24 16:10:32 +0200 | [change] Team-ID team-12 als Standard (certreq/submission.py TEAM_ID) | Jonathan @ MacBook-Pro-von-Jonathan | main@4cca05a +lokale Änderungen
+- run und certreq.upload setzen team-12 ohne Schalter; Override --team-id / CERTIVITY_TEAM_ID
+- Upload-Dateien erzeugt und validiert: out/upload/E020-a-dev-rear-lamp.json (360), E008-a-dev-rear-lamp.json (3642), E003-am-subgoal-dev.json (25 Änderungen)
+- Hinweis an C in STATUS: subgoal.py hat noch eigenen Platzhalter

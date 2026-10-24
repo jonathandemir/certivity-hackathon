@@ -1,6 +1,6 @@
 """Upload-Dateien aus gemessenen Läufen bauen: exakt die abgelegte Abgabe, nur mit echter Team-ID, validiert.
 
-    .venv/bin/python -m certreq.upload --team-id <id> E020-a E008-a E003-am
+    .venv/bin/python -m certreq.upload E020-a E008-a E003-am          (Team-ID Standard: team-12)
 
 Liest experiments/runs/<ID>/submission.json.gz, setzt team_id, schreibt out/upload/<ID>-<case_id>.json und prüft jede
 Datei mit dem offiziellen validate.py (Sub-Goal mit requirements_old.json des Falls). So hat die hochgeladene Datei
@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 from . import paths
+from .submission import TEAM_ID
 
 RUNS = paths.REPO_ROOT / "experiments" / "runs"
 OUT = paths.OUT_DIR / "upload"
@@ -65,7 +66,7 @@ def local_scores(run_id: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m certreq.upload", description=__doc__.splitlines()[0])
     ap.add_argument("runs", nargs="+", help="Ledger-IDs mit abgelegter Abgabe, z. B. E020-a")
-    ap.add_argument("--team-id", required=True, help="Team-ID von hackathon.certivity.io (kein Geheimnis)")
+    ap.add_argument("--team-id", default=TEAM_ID, help=f"Team-ID von hackathon.certivity.io (Standard {TEAM_ID})")
     args = ap.parse_args(argv)
     ok_all = True
     for run_id in args.runs:
