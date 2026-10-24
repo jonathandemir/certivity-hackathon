@@ -476,3 +476,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:00:26 +0200 | [run] X-SEL: Auswahl-Test 10 Bauteile (llm2 vs llm) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8e900bb
 - llm2: P 0.645 R 1.000 F2 0.901, 20/20 sichere, 11 falsch (9 cross-cutting: Lage am Fahrzeug, Blinker der Alarmanlage), alle Zusammenlegungs-/Klassenfallen vermieden. llm: P 0.476 R 1.000 F2 0.820, 22 falsch (zusätzlich R94/R137/R155/R156).
 - python -m certreq.suite --select llm2|llm --record X-SEL-*; Lösungen vorab committet (main@d044959). llm-Lauf aus Cache, abgelegt auf main@bd76dc6. Ledger X-SEL-llm2/X-SEL-llm, LEARNINGS.
+
+### 2026-10-24 19:03:51 +0200 | [run] X-SMOKE-a: Komplettlauf auf 3 fremden Bauteilen | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@6e89328
+- Heckstoßfänger 215 Anf./6 Regelungen/95 s, Nebelscheinwerfer 303/7/125 s, Motorrad-Schalldämpfer 41/1/17 s; alle validate.py ok, ohne Handgriffe. Falsch gewählte Regelungen (Nebelscheinwerfer: R26, R127, GTR 9, R42) liefern nur 11 von 303 Anforderungen → Extraktion je Absatz fängt Auswahlfehler ab. GTR 9 nur Teil II zitiert.
+- Für B (Precision, PLAN Prio 2): R150 Annex 6 wird überzerlegt – Stoßfänger 35, dev E024-hs-c 30 bei 8 im Gold; Annex 7 dev 7 bei 0 im Gold. Ausgaben unter out/smoke/ (lokal).
