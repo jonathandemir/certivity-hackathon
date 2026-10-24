@@ -203,3 +203,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 15:00:17 +0200 | [run] E013 Diagnose LLM-Extraktion mit Gold-Regelungen, Richter strict | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@6c9dad3
 - Anforderungen P 0.200 R 0.442 F2 0.356 (84/190), Seiten 0.943, Regelungen 1.000; Recall je Regelung: R10 4/32, R148 34/63, R150 24/39, R48 22/56
 - Fehlgriffe (106) laut Richter-Begründung: ~42 anderer Geltungsbereich/Bedingung (meist auf 'rear lamp' verengt), 26 überzerlegt, 25 Inhalt fehlt. Gold-Wissen, nicht hochladen. Beleg experiments/runs/E013/ (nur Kennzahlen)
+
+### 2026-10-24 15:04:01 +0200 | [run] E014 Prompt v2, --filters all --extract modal,llm, Richter strict | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8a17957
+- vs E012: Anforderungen P 0.129→0.238, R 0.421→0.668 (127/190), F2 0.290→0.491; Seiten 0.714→0.717; Regelungen 0.556 gleich; 533 Anforderungen
+- Rest-Recall: UN R10 fehlt in der B0-Auswahl (32 Gold-Anforderungen, AP2); Rest-Precision u. a. alte Leuchten-Regelungen R3/R7/R23/R128 (AP2). Tag best-main-reqf2-0.491. Beleg experiments/runs/E014/
+- Vorschlag an Jonathan: Standard auf --filters all --extract modal,llm umstellen (bessere Messung auf allen drei Ebenen); Kosten ungecacht ~7 min für 227 Aufrufe
