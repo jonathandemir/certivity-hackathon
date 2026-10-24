@@ -5,6 +5,29 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Relevanzfilter entlang der Gliederung hebt die Precision ohne Recall-Verlust.** Beleg: E006
+  (main@3e979ed, experiments/runs/E006/filters.txt): `--filters all` Seiten-F2 0.272→0.348 (B0-Auswahl) bzw.
+  0.565→0.773 mit Gold-Regelungen, Seiten-Recall unverändert, kein Gold-Absatz von B0 geht verloren (Test
+  `test_filters_keep_every_gold_paragraph_of_b0`). Jede Regel einzeln besser: admin, cop, parts, esa. Konsequenz:
+  Kandidat für den Standard, sobald der E001-Upload die Anforderungsebene geeicht hat. **Für den Stoßfänger
+  plausibel?** admin/cop/esa sind Struktur der UN-Regelungen, nicht leuchtenspezifisch; parts hängt an den Teilenamen
+  der Spec (Lagewörter front/rear müssen stimmen) und greift ohne Treffer nicht.
+- **2026-10-24 · Conformity of production enthält konstruktionsrelevante Toleranzen.** Beleg: Gold dev R148 6.1.3 und
+  R150 Annex 2 1.2 („shall not deviate unfavourably by more than 20 per cent"); ohne Ausnahme verlor `cop` 2 Gold-Seiten
+  (Vormessung vor E004, LOG 14:25). Konsequenz: `cop` behält Absätze mit Abweichung + Prozentwert.
+- **2026-10-24 · 35 von 190 Gold-Anforderungen stammen aus Absätzen ohne „shall".** Beleg: Abgleich expected.json mit
+  parse_pdf (must, „is not permitted", „may … only", Listen wie R48 6.10.2 „Number Two"); die Referenz formuliert sie
+  als shall-Sätze. `--extract modal` holt sie (Absatz-Recall 0.798→0.975 mit Gold-Regelungen, E007/options.txt), kostet
+  aber Seiten-F2 (0.773→0.759). Konsequenz: Entscheidung erst mit Anforderungs-Messung (AP10 oder Plattform).
+- **2026-10-24 · Gold zerlegt 119 Absätze in 190 Anforderungen; (a)(b)(c)-Aufzählungen lassen sich regelbasiert
+  zerlegen.** Beleg: E007/options.txt: `--extract split` hebt die Obergrenze der Anforderungsebene (je Gold-Absatz
+  min(unsere, Gold-Anzahl), kein Plattformwert) von 0.359 auf 0.384, mit modal 0.430; Seiten unverändert. Nur 8 der 35
+  mehrfach zerlegten Gold-Absätze sind Aufzählungen, der Rest ist Bedingung/Grenzwert im Fließtext (R10 6.9.1: 10
+  Anforderungen) → braucht das LLM.
+- **2026-10-24 · Überschriften sind in den PDFs typografisch nicht abgesetzt.** Beleg: `page.get_text("dict")` auf R48
+  S. 50, R148 S. 9, R10 S. 20: Überschriften und Text gleich (TimesNewRomanPSMT 10.5, flags 4). Konsequenz: pdf.py
+  erkennt Überschriften am Text (kurz, ohne Verb/Doppelpunkt, danach neuer Satz); 7967 von 27231 Absätzen mit Titel.
+
 - **2026-10-24 · Zwei Agenten im selben Checkout blockieren sich.** Beleg: Eine zweite Session in
   `~/projects/certivity` arbeitete uncommittet an `certreq/pdf.py`/`extract.py`, während diese Session pushen wollte;
   `scripts/sync` verweigert zu Recht bei fremden uncommitteten Dateien. Konsequenz: eine Session = ein Klon
@@ -37,6 +60,10 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Verworfen, nicht erneut versuchen
 
+- **Anforderungen satzweise zerlegen (ein Pflichtsatz = eine Anforderung).** Beleg: Vormessung auf dem Arbeitsstand
+  vor main@006d141 (LOG-Eintrag „[change] AP4: Extraktionsoptionen --extract"): Obergrenze Anforderungsebene 0.411
+  statt 0.407 ohne Zerlegung, geschätzt 0.437 mit Aufzählungs-Zerlegung (umgesetzt: 0.430, E007); Precision fällt 0.174→0.143, weil auch Absätze ohne Gold-Zerlegung zerfallen. Stattdessen
+  `--extract split` (nur (a)(b)(c)) und für Bedingungen/Grenzwerte im Fließtext das LLM.
 - **Teilnehmerpaket / PDFs / expected.json ins Repo committen.** Beleg: `vendor/industrial-ai-hackathon/LICENSE-DATA.md`
   („may not redistribute"); das Repo wird zur Abgabe geteilt. Stattdessen `vendor/` (gitignored) per `scripts/setup`.
 - **Eigene Regulierungsdatenbank oder Crawler bauen.** Beleg: Brief §05 „Not needed"; UNECE-Seiten sind laut
