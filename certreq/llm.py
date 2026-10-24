@@ -15,6 +15,7 @@ alle Felder in "required". Ohne `schema` gilt JSON-Modus (die Anweisung muss dan
 """
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import os
@@ -84,15 +85,31 @@ def _call(model: str, messages: list[dict], response_format: dict, effort: str |
                                                 "completion_tokens": getattr(u, "completion_tokens", 0) or 0}
 
 
+def _image_part(path: Path) -> tuple[dict, dict]:
+    """Bild als Nachrichtenteil (data-URL) und als Platzhalter für den Cache-Schlüssel (nur Hash, nicht die Bytes)."""
+    data = Path(path).read_bytes()
+    mime = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp",
+            ".gif": "image/gif"}.get(Path(path).suffix.lower(), "application/octet-stream")
+    url = f"data:{mime};base64,{base64.b64encode(data).decode('ascii')}"
+    return ({"type": "image_url", "image_url": {"url": url, "detail": "high"}},
+            {"type": "image_sha256", "sha256": hashlib.sha256(data).hexdigest()})
+
+
 def ask_json(system: str, user: str, schema: dict | None = None, name: str = "antwort", model: str | None = None,
-             effort: str | None = None) -> dict:
+             effort: str | None = None, images: list[Path] | None = None) -> dict:
     """effort: Denkaufwand, erlaubte Werte je Modell (gpt-6.1-sol: low/medium/high/xhigh; gpt-5.4-mini zusätzlich none);
-    None = Modell-Standard."""
+    None = Modell-Standard. images: Bilder (z. B. Explosionszeichnung), die mit der Nutzernachricht geschickt werden."""
     model = model_name(model)
     messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
+    key_messages = messages
+    if images:
+        parts = [_image_part(p) for p in images]
+        messages = [messages[0], {"role": "user", "content": [{"type": "text", "text": user}] + [a for a, _ in parts]}]
+        key_messages = [messages[0], {"role": "user", "content": [{"type": "text", "text": user}] + [b for _, b in parts]}]
     response_format = ({"type": "json_schema", "json_schema": {"name": name, "schema": schema, "strict": True}}
                        if schema else {"type": "json_object"})
-    key = hashlib.sha256(json.dumps([model, messages, response_format, effort], sort_keys=True, ensure_ascii=False)
+    # Ohne Bilder ist der Schlüssel identisch zu früher, vorhandene Caches bleiben gültig.
+    key = hashlib.sha256(json.dumps([model, key_messages, response_format, effort], sort_keys=True, ensure_ascii=False)
                          .encode("utf-8")).hexdigest()
     cache_file = CACHE_DIR / f"{key}.json"
     use_cache = os.environ.get("CERTREQ_LLM_CACHE", "1") != "0"

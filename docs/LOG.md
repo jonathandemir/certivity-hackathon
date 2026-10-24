@@ -233,3 +233,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 15:08:41 +0200 | [decision] --select llm ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@39b1077 +lokale Änderungen
 - auf allen drei Ebenen besser gemessen (E016-a vs E014); b0 bleibt per --select b0 verfügbar (Referenz E001)
 - Filter/Extraktion-Standards sind B's Entscheidung, Empfehlung in STATUS
+
+### 2026-10-24 15:24:33 +0200 | [change] AP5: Explosionszeichnung lesen (certreq/vision.py, --vision off|on|only) | Jonathan @ MacBook-Pro-von-Jonathan | main@5eb2652 +lokale Änderungen
+- llm.ask_json kann Bilder (data-URL, detail high); Cache-Schlüssel enthält nur den Bild-Hash, Textaufrufe behalten ihre alten Schlüssel (geprüft: Auswahl weiter Cache-Treffer)
+- vision.describe: Produkt, Lage am Fahrzeug, Teile mit Funktion/Technik/Bildbeleg, Unsicherheiten; nennt bewusst keine Regelungen. on = an Spec anhängen, only = nur Zeichnung (Demo R3); Standard off bis gemessen
+- Vorprüfung dev (Patentzeichnung ohne Beschriftung): nur Zeichnung → 'Außenleuchte, vermutlich Heck-Kombinationsleuchte', Lichtscheibe, LED-artige Felder, Funktionen offen; mit Spec → Rückfahrleuchte zugeordnet; Rückstrahler in beiden Fällen nicht erkennbar und als unsicher markiert
+- Tests: 2 neue (Bild im Aufruf + Cache, Modi), gesamt 50 grün
