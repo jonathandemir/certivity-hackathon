@@ -31,7 +31,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     t0 = time.time()
     case = load_case(args.case)
     forced = [r.strip() for r in args.regs.split(",")] if args.regs else None
-    regs = select_regulations(case, forced)
+    selection: list = []
+    regs = select_regulations(case, forced, mode=args.select, explain=selection)
     filters = _parse_filters(args.filters)
     options = _parse_list(args.extract, OPTIONS, "Extraktionsoptionen")
     llm_stats: dict = {}
@@ -41,7 +42,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
     meta = {"case_id": case.case_id, "command": " ".join([Path(sys.executable).name, "-m", "certreq", *sys.argv[1:]]),
-            "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced),
+            "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced), "select_mode": args.select, "selection": selection,
             "filters": list(filters), "extract": list(options), **_llm_meta(options, llm_stats),
             "n_requirements": len(data["requirements"]), "seconds": round(time.time() - t0, 1),
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds")}
@@ -92,6 +93,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="Fall-Ordner → Abgabe-JSON (+ .meta.json)")
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
+    r.add_argument("--select", choices=["b0", "llm"], default="b0", help="Regelungsauswahl (AP2): b0 = Titel-Wortüberlappung (Standard), llm = Steckbriefe + LLM; Begründungen in .meta.json")
     r.add_argument("--filters", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
                    "Standard: none (B0)")
     r.add_argument("--extract", help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
