@@ -8,7 +8,7 @@ Fehlt ein Absatz in der Antwort, bleibt sein Rohtext (kein stiller Recall-Verlus
 Das Beispiel im Prompt ist selbst geschrieben (andere Regelung), nicht aus dem Dev-Gold, damit die Dev-Messung ehrlich bleibt.
 
 Zusatzregeln (RULES) aus der Fehleranalyse von E020-a (LOG [finding] 2026-10-24): einzeln per `--extract` schaltbar
-(lists, tables, exempt, tests, modes; dazu vehicle, procedure aus der Analyse von E024-hs-c), damit jede für sich
+(lists, tables, exempt, tests, modes; dazu vehicle, procedure, procedure2 aus der Analyse von E024-hs-c), damit jede für sich
 gemessen werden kann. Ohne Regel ist der Prompt bytegleich
 zu v2, gecachte Antworten (E020-a) bleiben gültig. Die Beispiele in den Regeln sind allgemein formuliert, keine Gold-Texte.
 """
@@ -89,6 +89,14 @@ RULES = {
                  "method to follow, set-up, sequence of steps, sample handling, measuring intervals, test methods the "
                  "manufacturer may choose among) are not requirements: leave them out. Keep what the component must "
                  "withstand or achieve in the test (severity levels, exposure durations, pass or fail criteria).",
+    # procedure2 = procedure ohne den Fehler aus E031-hs-c (verwarf „the ESA shall be tested by the method(s) according
+    # to ISO 7637-2 as described in Annex 10", eine Gold-Pflicht in R10 6.7.1/6.8.2.1/6.9.1)
+    "procedure2": "Instructions on how the Technical Service or test laboratory carries out a test (set-up, sequence of "
+                  "steps, sample handling, measuring equipment and intervals, test methods the manufacturer may choose "
+                  "among) are not requirements: leave them out. Keep the obligation that the component is tested by a "
+                  "named method or standard where the regulation states it (\"the ESA shall be tested according to ISO "
+                  "7637-2 as described in Annex 10\"), and keep what the component must withstand or achieve in the test "
+                  "(severity levels, exposure durations, pass or fail criteria).",
 }
 ANSWER_MARK = "Answer as JSON matching the schema"
 
