@@ -398,3 +398,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - E031-a (ohne modes, gpt): 0.705 → modes hilft netto (R48 +2, aber 74 Treffer-lose mehr); bestätigt Homsianers Claude-Leave-one-out
 - Kreuz (gpt-Richter lenient auf Claude-Ausgaben): E023-hs-c 0.725 vs gpt 0.704, E024-hs-c 0.762 vs gpt 0.743/0.736 → Claude ~+0.02
 - Empfehlung: alle 5 Regeln Standard (B); Modellwahl per Upload-Paar E022-hs/E024-hs-c
+
+### 2026-10-24 17:57:34 +0200 | [run] E030-hs-c/E031-hs-c: Regeln vehicle und procedure (Claude-Reihe) | Homsianer @ vm | gemessen auf main@870cd16
+- Referenz E024-hs-c 0.721 (161/356). +vehicle: 0.698 (152/329; R48 40→34) → verworfen (LEARNINGS). +procedure: 0.729 (154/296; P 0.452→0.520, R 0.847→0.810; R10 29→24) → innerhalb der Streuung, bleibt hinter Schalter
+- Standard bleibt E022-hs/E024-hs-c (5 Regeln). Belege experiments/runs/E030-hs-c, E031-hs-c

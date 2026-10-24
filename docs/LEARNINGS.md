@@ -131,6 +131,7 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Verworfen, nicht erneut versuchen
 
+- **Fahrzeugausrüstung per Prompt-Regel verwerfen (`--extract …,vehicle`).** Beleg: E030-hs-c vs E024-hs-c (Claude-Reihe, main@870cd16): F2 strict 0.721→0.698, R48-Recall 40→34/56: das Modell verwirft mit der Regel auch Installationspflichten der Leuchte (Lage, Sichtbarkeit), obwohl die Regel sie ausdrücklich ausnimmt. Für den Stoßfänger noch riskanter (R26/R127 sind fahrzeugseitig formuliert). Stattdessen: Precision über Prüfabläufe (`procedure`, E031-hs-c: P 0.45→0.52 bei −7 Treffern) oder über Dubletten (PLAN Prio 2) holen.
 - **Anforderungen satzweise zerlegen (ein Pflichtsatz = eine Anforderung).** Beleg: Vormessung auf dem Arbeitsstand
   vor main@006d141 (LOG-Eintrag „[change] AP4: Extraktionsoptionen --extract"): Obergrenze Anforderungsebene 0.411
   statt 0.407 ohne Zerlegung, geschätzt 0.437 mit Aufzählungs-Zerlegung (umgesetzt: 0.430, E007); Precision fällt 0.174→0.143, weil auch Absätze ohne Gold-Zerlegung zerfallen. Stattdessen
