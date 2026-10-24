@@ -60,6 +60,10 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - AGENTS.md §5/§9 ergänzt
 - Geprüft: Sandbox-Suite um 9 Prüfungen erweitert, 143/143 auf macOS (bash 3.2) und Debian (bash 5.2, mawk)
 
+### 2026-10-24 13:31:50 +0200 | [handoff] AP1 fertig bis auf den Plattform-Upload | Jonathan @ MacBook-Pro-von-Jonathan | jonathan@a48c8a5
+- Stand: certreq (run/eval/--record) auf main und jonathan (a48c8a5); 8 Tests grün; E001 = Referenz (Seiten-F2 0.272, Regelungs-F2 0.405, Tag best-jonathan-pagef2-0.272); E002 = Diagnose mit Gold-Regelungen (Seiten-R 1.000, P 0.206)
+- Nächster Schritt: Jonathan registriert das Team und lädt E001 mit echter Team-ID hoch (Befehl in STATUS 'Nächste Schritte'), Anforderungs-Score ins Scoreboard; danach AP2 (Regelungsauswahl, größter Hebel) und AP4 (Precision: 1214 statt ~190 Anforderungen) claimen
+- Fallen: E002 nicht hochladen (Gold-Wissen verfälscht Dev-Leaderboard); out/ ist gitignored, Belege nur über eval --record; [run]-Einträge aus dem main-Worktree mit scripts/log --commit; venv: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ### 2026-10-24 13:52:33 +0200 | [decision] Aufteilung A/B/C | Jonathan @ MacBook-Pro-von-Jonathan | main@f8ff330 +lokale Änderungen
 - A = Jonathan (jonathan): LLM-Zugang + certreq/llm.py zuerst, dann AP10 lokaler LLM-Richter, AP2 Regelungsauswahl, AP5 Vision, Plattform-Uploads
 - B = Homsianer (homsianer): AP3-Rest (Gliederung/Überschriften, Tabellen), AP4 Relevanzfilter entlang der Gliederung + Zerlegung in einzelne Pflichten; misst mit --regs, bis AP2 steht
