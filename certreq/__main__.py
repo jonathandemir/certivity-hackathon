@@ -1,6 +1,6 @@
 """CLI.
 
-    .venv/bin/python -m certreq run <fall-ordner> [--regs "UN R148,UN R48"] [--filters all] [--out out/<fall>.json] [--team-id ...]
+    .venv/bin/python -m certreq run <fall-ordner> [--regs "UN R148,UN R48"] [--filters all] [--extract modal,split] [--out out/<fall>.json] [--team-id ...]
     .venv/bin/python -m certreq eval <abgabe.json> [--record E001 --note "..."]
 
 Vor zählenden Läufen: scripts/pull-first (AGENTS.md §5).
@@ -18,7 +18,7 @@ from pathlib import Path
 from . import paths
 from .case import load_case
 from .evaluate import evaluate, format_result, record
-from .extract import extract_requirements
+from .extract import OPTIONS, extract_requirements
 from .relevance import FILTERS
 from .gitmeta import git_state
 from .select import select_regulations
@@ -33,14 +33,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     forced = [r.strip() for r in args.regs.split(",")] if args.regs else None
     regs = select_regulations(case, forced)
     filters = _parse_filters(args.filters)
-    reqs = extract_requirements(regs, case.spec_text, filters)
+    options = _parse_list(args.extract, OPTIONS, "Extraktionsoptionen")
+    reqs = extract_requirements(regs, case.spec_text, filters, options)
     team_id = args.team_id or os.environ.get("CERTIVITY_TEAM_ID") or PLACEHOLDER_TEAM
     data = build_submission(team_id, case.case_id, reqs)
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
     meta = {"case_id": case.case_id, "command": " ".join([Path(sys.executable).name, "-m", "certreq", *sys.argv[1:]]),
             "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced),
-            "filters": list(filters),
+            "filters": list(filters), "extract": list(options),
             "n_requirements": len(data["requirements"]), "seconds": round(time.time() - t0, 1),
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds")}
     out.with_suffix(".meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -52,14 +53,18 @@ def cmd_run(args: argparse.Namespace) -> int:
     return 0
 
 
-def _parse_filters(value: str | None) -> tuple[str, ...]:
+def _parse_list(value: str | None, allowed: tuple[str, ...], what: str) -> tuple[str, ...]:
     if not value or value == "none":
         return ()
-    names = FILTERS if value == "all" else tuple(f.strip() for f in value.split(",") if f.strip())
-    unknown = [f for f in names if f not in FILTERS]
+    names = allowed if value == "all" else tuple(f.strip() for f in value.split(",") if f.strip())
+    unknown = [f for f in names if f not in allowed]
     if unknown:
-        raise SystemExit(f"Unbekannte Filter {unknown}. Erlaubt: {', '.join(FILTERS)}, all, none")
+        raise SystemExit(f"Unbekannte {what} {unknown}. Erlaubt: {', '.join(allowed)}, all, none")
     return names
+
+
+def _parse_filters(value: str | None) -> tuple[str, ...]:
+    return _parse_list(value, FILTERS, "Filter")
 
 
 def cmd_eval(args: argparse.Namespace) -> int:
@@ -81,6 +86,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
     r.add_argument("--filters", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
                    "Standard: none (B0)")
+    r.add_argument("--extract", help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
+                   "Standard: none (nur shall-Absätze, einer je Absatz)")
     r.add_argument("--out", help="Ausgabedatei (Standard: out/<fall>.json)")
     r.add_argument("--team-id", help="Team-ID der Plattform (sonst $CERTIVITY_TEAM_ID)")
     r.set_defaults(func=cmd_run)

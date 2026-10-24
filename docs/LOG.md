@@ -144,3 +144,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Vorgabe Jonathan. certreq/llm.py: DEFAULT_MODEL und STRONG_MODEL = gpt-6.1-sol (Override CERTREQ_MODEL bzw. model=)
 - Live-Test: Structured Output ok, fachlich richtige Antwort (UN R148), ~2,5–3 s pro kurzem Aufruf; reasoning_effort nur low/medium/high/xhigh
 - Kein datierter Snapshot verfügbar (nur Alias): jede gecachte Antwort speichert das Modell; Fallback für Massenaufrufe bei Tempo-/Kostenproblemen: gpt-5.4-mini-2026-03-17
+
+### 2026-10-24 14:33:04 +0200 | [change] AP4: Extraktionsoptionen --extract modal,split (Standard none) | Jonathan @ MacBook-Pro-von-Jonathan | main@475417f +lokale Änderungen
+- modal: auch Absätze mit must/may/(not) permitted/allowed/required/mandatory/prohibited (im Dev-Gold 35 von 190 Anforderungen ohne shall). split: Aufzählungen (a)(b)(c) je Punkt eine Anforderung mit Einleitungssatz (R150 5.1.1 → 3), Verweise wie 'paragraphs 3.3.3.5. (a) and (b)' bleiben ganz; Text aus Paragraph.body (ohne Überschrift). Satzweises Zerlegen geprüft und verworfen (Obergrenze 0.411 statt 0.407, Precision fällt). meta.json hält 'extract' fest
+- Vormessung (offiziell folgt): Obergrenze Anforderungsebene = je Gold-Absatz min(unsere, Gold-Anzahl), unterstellt Treffer im richtigen Absatz, KEIN Plattformwert. Mit Gold-Regelungen + --filters all: ohne 0.359, modal 0.407, split 0.384, beide 0.430; Seiten-F2 modal 0.773→0.759 (zusätzliche Nicht-Gold-Seiten), split unverändert
+- Geprüft: pytest 35/35, Ausgabe mit --filters all --extract all besteht validate.py

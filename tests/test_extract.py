@@ -123,3 +123,29 @@ def test_parts_parallel_sections_with_same_title_opening():
     keep = dict(zip([p.label for p in paras], relevant(paras, ("parts",), SPEC)))
     assert keep["5.1.1"] and keep["5.4.1"]  # Treffer und nicht-paralleles Geschwister bleiben
     assert not keep["5.2.1"] and not keep["5.3.1"]
+
+
+def test_split_items_lead_and_items():
+    from certreq.extract import split_items
+    out = split_items("Every retro-reflector, when tested, shall meet: (a) The dimensions set forth in Annex 5; and "
+                      "(b) The photometric requirements of paragraph 5.1.4.; and (c) The mechanical requirements.")
+    assert out == ["Every retro-reflector, when tested, shall meet the dimensions set forth in Annex 5.",
+                   "Every retro-reflector, when tested, shall meet the photometric requirements of paragraph 5.1.4.",
+                   "Every retro-reflector, when tested, shall meet the mechanical requirements."]
+    ref = "The markings in paragraphs 3.3.3.5. (a) and (b) shall be affixed on the lamp."
+    assert split_items(ref) == [ref]  # Verweis, keine Aufzählung
+    assert split_items("The lamp shall be red.") == ["The lamp shall be red."]
+
+
+@needs_package
+def test_extract_options_modal_and_split(dev_expected):
+    case = load_case(DEV_CASE)
+    regs = select_regulations(case, ["UN R150"])
+    base = extract_requirements(regs, case.spec_text, ("admin",))
+    modal = extract_requirements(regs, case.spec_text, ("admin",), ("modal",))
+    split = extract_requirements(regs, case.spec_text, ("admin",), ("split",))
+    labels = {r.paragraph for r in modal} - {r.paragraph for r in base}
+    assert "4.1.6.2" in labels  # „… is not permitted", ohne shall
+    assert sum(r.paragraph == "5.1.1" for r in split) == 3 and sum(r.paragraph == "5.1.1" for r in base) == 1
+    with pytest.raises(ValueError):
+        extract_requirements(regs, case.spec_text, (), ("bogus",))
