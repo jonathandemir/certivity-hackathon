@@ -1,0 +1,26 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --regs UN R148,UN R48,UN R150,UN R10 --out out/dev-rear-lamp-gold-regs.json",
+ "git": {
+  "commit": "jonathan@29c0d0b",
+  "full_hash": "29c0d0bd26dfbda76ee468889728d58b91b1bda1",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R148",
+  "UN R48",
+  "UN R150",
+  "UN R10"
+ ],
+ "forced": true,
+ "n_requirements": 1214,
+ "seconds": 0.7,
+ "created_at": "2026-10-24T13:27:54+02:00",
+ "run_id": "E002",
+ "note": "DIAGNOSE (nicht zulässig für Held-out): Gold-Regelungen des Dev-Falls erzwungen, Extraktion B0",
+ "submission_sha256": "e6b9b7b6f596bc917e5f91c748a77f9043c2f8c32955f21cdfa395c4680afacc",
+ "recorded_at": "2026-10-24T13:27:55+02:00"
+}

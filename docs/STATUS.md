@@ -5,7 +5,10 @@ Historie steht in docs/LOG.md.
 
 ## Stand
 
-Arbeitssystem steht (AGENTS.md, docs/, scripts/, Hooks). Noch kein Pipeline-Code, noch keine Messung.
+AP1 steht auf main: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
+Bestmarke (zulässig): E001, Seiten-F2 0.272 lokal. Anforderungsebene noch ungemessen (braucht Plattform-Upload).
+Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
+danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
 Team-ID der Certivity-Plattform: noch nicht registriert.
 
 ## Team
@@ -24,10 +27,12 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 
 ## Nächste Schritte
 
-1. Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo).
-2. Teammitglieder: Repo-Zugang, `scripts/setup <vorname>`, Zeile unter „Team".
-3. AP1 (docs/PLAN.md): Gerüst + Bewertungsschleife, erster valider End-to-End-Upload auf `dev-rear-lamp`.
-4. Arbeitspakete AP2–AP7 per Claim verteilen.
+1. Jonathan: Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo).
+2. Jonathan (AP1-Rest): E001 mit echter Team-ID hochladen, Anforderungs-Score ins Scoreboard. Datei neu erzeugen:
+   `CERTIVITY_TEAM_ID=<id> .venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp`
+   (gleicher Commit wie E001, nur `team_id` anders). E002 nicht hochladen: nutzt Gold-Wissen, verfälscht das Dev-Leaderboard.
+3. Teammitglieder: Repo-Zugang, `scripts/setup <vorname>`, venv (README), Zeile unter „Team".
+4. AP2 (Regelungsauswahl) zuerst: B0 verfehlt UN R10 und nimmt 18 falsche Regelungen (E001). Danach AP4 (Precision).
 
 ## Entscheidungen
 
@@ -37,6 +42,7 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 | 2026-10-24 | docs/LOG.md ist die Ausnahme: Einträge gehen mit dem Code in den eigenen Branch, `merge=union`, gelesen über alle Branches | Sonst unmöglich, Code und Logeintrag im selben Commit zu haben | Jonathan |
 | 2026-10-24 | Teilnehmerpaket und PDFs nur unter `vendor/` (gitignored), nie im Repo | LICENSE-DATA.md: keine Weitergabe; das Repo wird zur Abgabe geteilt | Jonathan |
 | 2026-10-24 | GitHub-Repo privat bis zur Abgabe; vor R4 Sichtbarkeit klären | Kein Zugriff Dritter während des Events | Jonathan |
+| 2026-10-24 | AP1-Gerüst schon jetzt nach main gemergt (nicht erst vor der Deadline) | Alle Branches brauchen dieselbe Basis für AP2–AP7; `scripts/sync` merged main automatisch mit. Die finale beste Version kommt trotzdem vor der Deadline nach main | Jonathan |
 | offen | Freeze-Zeiten aus docs/PLAN.md bestätigen | Vorschlag, Team muss zustimmen | Team |
 
 ## Scoreboard
@@ -45,4 +51,6 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 
 | Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
 |---|---|---|---|---|---|---|---|---|---|
-| dev-rear-lamp | – | – | – | – | noch keine Messung | – | – | – | – |
+| dev-rear-lamp | Regelungen | 0.143 | 0.750 | 0.405 | jonathan@29c0d0b | best-jonathan-pagef2-0.272 | score_local | E001 | 2026-10-24 13:27 |
+| dev-rear-lamp | Seiten | 0.073 | 0.849 | 0.272 | jonathan@29c0d0b | best-jonathan-pagef2-0.272 | score_local | E001 | 2026-10-24 13:27 |
+| dev-rear-lamp | Anforderungen | – | – | – | jonathan@29c0d0b | – | Plattform (offen) | – | – |

@@ -1,0 +1,27 @@
+{
+ "case_id": "dev-rear-lamp",
+ "n_requirements": 1214,
+ "valid": true,
+ "validate_output": "OK: dev-rear-lamp-gold-regs.json is valid (1214 requirements).",
+ "expected": "/Users/jonathandemir/projects/certivity/vendor/industrial-ai-hackathon/cases/dev-rear-lamp/expected.json",
+ "levels": {
+  "regulation_level": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "n_submitted": 4,
+   "n_expected": 4,
+   "n_matched": 4,
+   "f2": 1.0
+  },
+  "page_level": {
+   "precision": 0.20622568093385213,
+   "recall": 1.0,
+   "f1": 0.3419354838709677,
+   "n_submitted": 257,
+   "n_expected": 53,
+   "n_matched": 53,
+   "f2": 0.565
+  }
+ }
+}

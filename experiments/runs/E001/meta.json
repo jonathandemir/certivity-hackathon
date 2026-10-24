@@ -1,0 +1,43 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp",
+ "git": {
+  "commit": "jonathan@29c0d0b",
+  "full_hash": "29c0d0bd26dfbda76ee468889728d58b91b1bda1",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R128",
+  "UN R48",
+  "UN R53",
+  "UN R7",
+  "UN R13H",
+  "UN R148",
+  "UN R152",
+  "UN R23",
+  "UN R37",
+  "UN R38",
+  "UN R104",
+  "UN R123",
+  "UN R131",
+  "UN R149",
+  "UN R150",
+  "UN R161",
+  "UN R19",
+  "UN R26",
+  "UN R3",
+  "UN R32",
+  "UN R42"
+ ],
+ "forced": false,
+ "n_requirements": 3624,
+ "seconds": 1.5,
+ "created_at": "2026-10-24T13:27:52+02:00",
+ "run_id": "E001",
+ "note": "B0: Auswahl per Titel-Wortüberlappung, Extraktion jeder shall-Absatz",
+ "submission_sha256": "9e907d18a7a7fceb660c3371f09992c4abb29b261d8eea0c164770992651f4f7",
+ "recorded_at": "2026-10-24T13:27:53+02:00"
+}

@@ -14,6 +14,19 @@ scripts/setup <vorname>      # eigener Branch, main-Worktree, Teilnehmerpaket + 
 Danach Claude Code (oder einen anderen Agenten) **direkt in diesem Ordner** starten. Die Regeln für jede Session
 stehen in [AGENTS.md](AGENTS.md), der aktuelle Stand in [docs/STATUS.md](docs/STATUS.md).
 
+## Pipeline
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt     # einmal pro Rechner
+.venv/bin/python -m pytest                                              # Tests
+scripts/pull-first                                                      # vor zählenden Läufen
+.venv/bin/python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp   # → out/dev-rear-lamp.json
+.venv/bin/python -m certreq eval out/dev-rear-lamp.json [--record E0xx --note "..."]  # validate + P/R/F1/F2
+```
+
+Stufen in `certreq/`: `select.py` (Regelungsauswahl), `extract.py` (Anforderungen), `pdf.py` (Absätze mit Seite),
+`submission.py` (Abgabeformat), `evaluate.py` (Bewertung, Belege). Team-ID über `CERTIVITY_TEAM_ID`.
+
 ## Aufbau
 
 | Pfad | Inhalt |
@@ -21,5 +34,6 @@ stehen in [AGENTS.md](AGENTS.md), der aktuelle Stand in [docs/STATUS.md](docs/ST
 | AGENTS.md, CLAUDE.md | Arbeitsregeln für Agenten und Menschen |
 | docs/ | CONTEXT, STATUS, PLAN, LEARNINGS, LOG |
 | experiments/ | LEDGER (ein Versuch pro Zeile) und Belege unter runs/ |
+| certreq/, tests/ | Pipeline und Tests |
 | scripts/ | sync, log, claim, pull-first, session-start, stop-check, main-wt, tag-best, secret-scan, setup |
 | vendor/ | Teilnehmerpaket von Certivity (nicht im Repo, Lizenz: nur für den Hackathon) |

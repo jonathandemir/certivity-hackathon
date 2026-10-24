@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Mit den richtigen Regelungen findet schon die naive shall-Extraktion alle 53 Gold-Seiten.**
+  Beleg: E002 (jonathan@29c0d0b, experiments/runs/E002): Seiten-Recall 1.000, Precision 0.206, 1214 statt 190
+  Anforderungen. Konsequenz: Auswahl (AP2) ist der größte Hebel; danach Relevanzfilter/Zerlegung (AP4) für Precision.
+- **2026-10-24 · Titel-Wortüberlappung reicht für die Regelungsauswahl nicht.** Beleg: E001 (jonathan@29c0d0b): 21
+  Regelungen gewählt, nur 3 von 4 richtig; UN R10 (EMV, 32 von 190 Anforderungen) fehlt, weil kein Titelwort in der
+  Spezifikation vorkommt. Konsequenz: AP2 muss aus Bauteilen/Eigenschaften schließen (Elektronik → EMV), nicht aus Wörtern.
+- **2026-10-24 · Absatz-Parser: Anhang-Überschriften nur in Reihenfolge akzeptieren.** Beleg: Tabellenzelle
+  „Annex 10 (values in" (UN R150, S. 5) labelte vorher alle folgenden Haupttext-Absätze als Anhang 10 (90/121
+  Referenz-Absätze gefunden); mit Reihenfolgeregel 121/121 (Test `test_paragraph_labels_match_reference`).
 - **2026-10-24 · PDF-Download scheitert mit python.org-Python auf macOS, klappt mit dem certifi-Bündel.**
   Beleg: Jonathans Rechner, Python 3.14 aus /Library/Frameworks: `fetch_regulations.py` → 0 von 94,
   `[SSL: CERTIFICATE_VERIFY_FAILED]`; mit `SSL_CERT_FILE="$(python3 -m certifi)"` → 94 von 94, Checksummen geprüft.
@@ -13,8 +22,8 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   Beleg: Ausgabe von `python3 tools/score_local.py cases/dev-rear-lamp/expected.json` (Spalten precision, recall, F1).
   Konsequenz: F2 = 5·P·R/(4·P+R) selbst berechnen, im Scoreboard F2 eintragen.
 - **2026-10-24 · `validate.py` braucht `jsonschema`, das in Jonathans Python 3.14.2 fehlt.**
-  Beleg: `python3 -c "import jsonschema"` → `ModuleNotFoundError`. Konsequenz: `python3 -m pip install --user jsonschema`
-  auf jedem Rechner; `scripts/setup` warnt, wenn es fehlt.
+  Beleg: `python3 -c "import jsonschema"` → `ModuleNotFoundError`. Konsequenz: steht in requirements.txt (.venv);
+  für `python3 tools/validate.py` außerhalb der venv `python3 -m pip install --user jsonschema` (bei Jonathan erledigt).
 - **2026-10-24 · Paralleles Anhängen an docs/LOG.md von zwei Rechnern erzeugt weder bei rebase noch bei merge
   einen Konflikt** (`merge=union` in .gitattributes). Beleg: Testlauf der Skripte mit zwei Klonen gegen ein
   gemeinsames origin (Abschnitt „Tests" im `[decision]`-Eintrag vom 2026-10-24 in docs/LOG.md).

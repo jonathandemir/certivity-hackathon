@@ -39,3 +39,17 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Fix im Parser: Anhang-Überschriften nur in Reihenfolge akzeptieren; Tabellenzelle 'Annex 10 (values in' (UN R150 S. 5) hatte vorher alle Haupttext-Absätze falsch gelabelt (90/121 → 121/121 Referenz-Absätze mit Label + Seite gefunden)
 - Tests: 8 grün (pytest), u. a. Regressionstest 121/121 Absätze der Referenz, Abgaben bestehen validate.py, expected.json wird nie gelesen
 - Setup: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt (pymupdf, jsonschema, pytest)
+
+### 2026-10-24 13:29:05 +0200 | [run] E001 Baseline B0 auf dev-rear-lamp | Jonathan @ MacBook-Pro-von-Jonathan | main@9c48f4f +lokale Änderungen (ungepusht)
+- Stand jonathan@29c0d0b (pull-first: zählt), Tag best-jonathan-pagef2-0.272
+- Regelungen P 0.143 R 0.750 F2 0.405 (21 gewählt, UN R10 fehlt); Seiten P 0.073 R 0.849 F2 0.272 (score_local); 3624 Anforderungen; Anforderungsebene braucht Plattform-Upload
+- Beleg experiments/runs/E001/
+
+### 2026-10-24 13:29:06 +0200 | [run] E002 Diagnose: B0-Extraktion mit Gold-Regelungen | Jonathan @ MacBook-Pro-von-Jonathan | main@9c48f4f +lokale Änderungen (ungepusht)
+- Stand jonathan@29c0d0b; --regs 'UN R148,UN R48,UN R150,UN R10' (Gold-Wissen, für Held-out unzulässig, nicht hochladen)
+- Regelungen F2 1.000; Seiten P 0.206 R 1.000 F2 0.565; 1214 Anforderungen statt 190
+- Schluss: Auswahl (AP2) ist der größte Hebel, dann Precision (AP4). Beleg experiments/runs/E002/
+
+### 2026-10-24 13:29:06 +0200 | [decision] AP1-Gerüst jetzt nach main | Jonathan @ MacBook-Pro-von-Jonathan | main@9c48f4f +lokale Änderungen
+- certreq/ + tests/ auf main gemergt (Merge-Commit), damit alle Branches dieselbe Basis für AP2–AP7 haben; sync merged main automatisch in jeden Branch
+- Die finale beste Version wird trotzdem vor der Deadline nach main gemergt (PLAN So 07:30)
