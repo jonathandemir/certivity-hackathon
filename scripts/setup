@@ -63,8 +63,18 @@ if command -v python3 >/dev/null 2>&1; then
   python3 -c 'import jsonschema' 2>/dev/null || warn "Python-Paket jsonschema fehlt (für validate.py): python3 -m pip install --user jsonschema"
   if [ "$pdfs" -eq 1 ]; then
     note "Lade Regulierungs-PDFs (~220 MB) ..."
-    (cd "$PKG_DIR" && python3 tools/fetch_regulations.py) \
-      || warn "PDF-Download unvollständig. Bei CERTIFICATE_VERIFY_FAILED: siehe vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup $name erneut."
+    if ! (cd "$PKG_DIR" && python3 tools/fetch_regulations.py); then
+      # macOS + python.org-Python hat keine CA-Zertifikate (CERTIFICATE_VERIFY_FAILED).
+      # Dann das certifi-Bündel nur für diesen Aufruf nutzen, ohne Systemänderung.
+      ca=$(python3 -m certifi 2>/dev/null || true)
+      if [ -z "${SSL_CERT_FILE:-}" ] && [ -n "$ca" ]; then
+        note "Erneuter Versuch mit den certifi-Zertifikaten (SSL_CERT_FILE=$ca) ..."
+        (cd "$PKG_DIR" && SSL_CERT_FILE="$ca" python3 tools/fetch_regulations.py) \
+          || warn "PDF-Download unvollständig, auch mit certifi. Siehe vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup $name erneut."
+      else
+        warn "PDF-Download unvollständig. Bei CERTIFICATE_VERIFY_FAILED: python3 -m pip install --user certifi oder vendor/industrial-ai-hackathon/README.md §1, dann scripts/setup $name erneut."
+      fi
+    fi
   fi
 else
   warn "python3 fehlt. validate.py und fetch_regulations.py brauchen Python 3."
