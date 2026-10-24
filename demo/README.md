@@ -1,6 +1,24 @@
 # Demo (AP6, Amiad / C)
 
-Ein Befehl von der Eingabe bis zur Demo (R3):
+## Werkbank (das Produkt)
+
+    demo/werkbank                 # = .venv/bin/python demo/server.py, öffnet http://127.0.0.1:8765
+
+Lokaler Server (`demo/server.py`, nur Standardbibliothek + pymupdf, bindet an 127.0.0.1) + App
+(`demo/web/werkbank.html`). Vier Ansichten, Tasten 1–4, ⌘K/Strg+K = Befehlspalette, P = Präsentation:
+
+| Ansicht | Was |
+|---|---|
+| Prüfungen | Spec und/oder Zeichnung ablegen → Fall in `out/cases/`, Prüfung starten (`certreq run` als Unterprozess, Ergebnis in `out/runs/<id>/`). Modus „Bestmarke" = `--select llm --filters all --extract modal,llm` (braucht `.env.local`), „Schnell" = `--select b0`. Liste aller Läufe: eigene, Messungen aus `experiments/runs/`, ältere `out/<fall>.json`. |
+| Anforderungen | Regelungs-Rad als Filter, Bauteile, Status; Liste (virtuell, auch 3600+); Beleg rechts mit live gerenderter PDF-Seite (Cache `out/cache/pages/`), markiertem Absatz und rotem Belegfaden Zeile → Stelle. Review: J/K blättern, A bestätigen, X verwerfen, U offen, N Notiz (gespeichert in `out/runs/<id>/review.json` bzw. `out/reviews/<id>.json`). Export: Abgabe-JSON ohne Verworfene, CSV mit Status/Notiz. |
+| Auswahl | Alle 56 Regelungen auf einem Kreis, gewählte nach Rolle (Bauteil/Anbau/Querschnitt), verworfene mit Grund; Begründungen aus `.meta.json` `selection`. |
+| Vergleich | Sub-Goal (AP7): alte → neue Fassung, Wort-Diff je Anforderung, lokale Bewertung gegen `expected.json` (Cache `out/subgoal/`). |
+
+`/present/<lauf>/` zeigt die 3D-Präsentation (unten) mit den Daten eines Laufs, Seiten werden live gerendert.
+
+## Präsentation (3D, ohne Server)
+
+Ein Befehl von der Eingabe bis zur Präsentation (R3):
 
     demo/run vendor/industrial-ai-hackathon/cases/<fall>      # certreq run + prepare, ~4 min mit LLM
     # oder nur aus einer vorhandenen Abgabe:
@@ -12,7 +30,9 @@ Ein Befehl von der Eingabe bis zur Demo (R3):
 | Pfad | Was | Im Repo? |
 |---|---|---|
 | `demo/prepare.py` | Abgabe-JSON + `.meta.json` + Fall-Ordner → `demo/dist/data.js` (`window.CERTREQ`), kopiert `web/index.html` dazu | ja |
-| `demo/web/index.html` | fertig gebaute App (Vite, eine Datei, ~1,6 MB, ohne Falldaten) | ja |
+| `demo/web/index.html` | fertig gebaute Präsentation (Vite, eine Datei, ~1,6 MB, ohne Falldaten) | ja |
+| `demo/web/werkbank.html` | fertig gebaute Werkbank (~0,7 MB) | ja |
+| `demo/server.py`, `demo/werkbank` | lokaler Server der Werkbank | ja |
 | `demo/app/` | Quellcode der App (React, three.js/react-three-fiber, motion) | ja |
 | `demo/dist/` | Ausgabe mit Paketdaten (Seitenbilder, Zeichnung) | **nein** (gitignored, Lizenz) |
 | `demo/build.py`, `demo/template.html` | erste einfache Demo (Liste mit PDF-Links), bleibt als Rückfall | ja |
@@ -32,7 +52,8 @@ Drei Szenen, Wechsel mit ←/→ oder 1/2/3, R startet den Lauf neu: 01 Lauf (Ri
 
 ## App ändern
 
-    cd demo/app && npm install && npm run build && cp dist/index.html ../web/index.html
+    cd demo/app && npm install && npm run build      # baut beide Seiten
+    cp dist/index.html ../web/index.html && cp dist-werkbank/werkbank.html ../web/werkbank.html
     # zum Testen: Daten danebenlegen
     cp ../dist/data.js dist/ && open dist/index.html     # ?lite = ohne Glas/Bloom, ?t=1 = Lauf sofort fertig
 

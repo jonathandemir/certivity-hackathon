@@ -47,7 +47,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 5. **B:** Standard für Filter/Extraktion auf `--filters all --extract modal,llm` umstellen (E014/E016-a besser auf allen Ebenen). Größte Recall-Lücken: R10 (EMV-Prüfpegel als Einzelpflichten) und R48.
    **C (Sub-Goal):** `certreq/subgoal.py` nutzt noch `team-unregistered`; bitte `from .submission import TEAM_ID` (team-12) als Standard nehmen.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
-   **C:** Demo v2 steht (demo/README.md): `demo/run <fall-ordner>` = `certreq run` + `demo/prepare.py`, dann `demo/dist/index.html` öffnen, ohne Node/Server. Läuft für jeden Fall (Spec und/oder Zeichnung), am Dev-Fall 189/190 Anforderungen auf der PDF-Seite markiert. Nächstes C: `selection`-Begründungen in Szene 1, Pitch (AP9).
+   **C:** Produkt steht: `demo/werkbank` startet lokalen Server + Werkbank (Prüfung starten mit Upload, Anforderungen prüfen mit PDF-Beleg und Review, Auswahl erklärt, Versionsvergleich, Export); 3D-Präsentation je Lauf unter `/present/<lauf>/` bzw. ohne Server `demo/run <fall>`. Alles in demo/README.md. Nächstes C: Pitch (AP9), Probelauf mit LLM-Key.
    **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das

@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-werkbank/
 # lizenzierte Falldaten und gerenderte Seiten, werden lokal erzeugt
 src/data.json
 src/assets/
