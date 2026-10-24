@@ -441,3 +441,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:22:25 +0200 | [decision] Sub-Goal-Verbesserung bleibt bei C (Amiad) | Jonathan @ MacBook-Pro-von-Jonathan | main@40894da +lokale Änderungen
 - Übergabe in docs/STATUS.md „Nächste Schritte“ (Zeile C Sub-Goal): Ausgangswerte, die 4 Lücken mit Ursache und Codestelle, Vorgehen je Schalter, Messbefehle, Gegenprobe gegen Überanpassung, Upload über A.
 - Analyse: [finding] „Sub-Goal: 4 fehlende Flags“ (main@2df91fb). Entscheidung Jonathan.
+### 2026-10-24 18:22:55 +0200 | [run] E032–E034-hs-c: procedure2 doppelt gemessen, Streuung der Claude-Reihe | Homsianer @ vm | gemessen auf main@3ee52fd
+- Standard: E024-hs-c 0.721, Wiederholung E033-hs-c 0.714 (ohne Cache) → Streuung ~0.007. procedure2: E032-hs-c 0.721, E034-hs-c 0.721 → Mittel 0.721 vs 0.718, neutral; R10 bleibt 28–29/32 (Fehler von procedure behoben), aber kein Nettogewinn
+- Entscheidung: Standard bleibt E022-hs (5 Regeln). 3 von 5 freigegebenen Läufen verbraucht; weitere Prompt-Verbote lohnen nach Datenlage nicht (LEARNINGS)

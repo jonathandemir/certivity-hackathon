@@ -1,0 +1,71 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --regs UN R148,UN R150,UN R48,UN R10,UN R26 --extract modal,llm,lists,tables,exempt,tests,modes,procedure2 --out out/E034-hs-c.json",
+ "git": {
+  "commit": "main@3ee52fd",
+  "full_hash": "3ee52fda454d70256c28c95ee628e1e7f2adddfb",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26"
+ ],
+ "forced": true,
+ "select_mode": "llm2",
+ "selection": [],
+ "vision_mode": "auto",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes",
+  "procedure2"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 62,
+  "paragraphs": 721,
+  "kept": 221,
+  "dropped": 500,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes",
+   "procedure2"
+  ],
+  "usage": {
+   "calls": 62,
+   "cached": 0,
+   "prompt_tokens": 275869,
+   "completion_tokens": 66726,
+   "fallbacks": 0
+  }
+ },
+ "n_requirements": 342,
+ "seconds": 80.2,
+ "created_at": "2026-10-24T16:18:36+00:00",
+ "run_id": "E034-hs-c",
+ "note": "Claude-Reihe: Standard + procedure2 wiederholt ohne Cache, --regs = Claude-Auswahl",
+ "submission_sha256": "07a763ac2494f5f7016b20ada7b41a7a9272fe1e5e382160b2ac20ca3ade714b",
+ "recorded_at": "2026-10-24T16:22:55+00:00"
+}
