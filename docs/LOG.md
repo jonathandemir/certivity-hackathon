@@ -378,3 +378,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 17:15:47 +0200 | [run] E023-hs-c: Referenz der Claude-Reihe (Standard mit CERTREQ_PROVIDER=anthropic) | Homsianer @ vm | gemessen auf main@ca4c59f
 - Richter claude-opus-5-5 strict (= Plattform-Prognose, AP10-K3-c): Anforderungen P 0.468 R 0.795 F2 0.697 (151/190, 323 eingereicht), lenient 0.752; Seiten 0.942, Regelungen 0.952 (R148, R150, R48, R10, R26; kein R42)
 - Recall je Regelung R10 19/32, R148 57/63, R150 35/39, R48 40/56. 100 s, 63 Aufrufe, 254k Eingabe-/63k Ausgabe-Tokens. Beleg experiments/runs/E023-hs-c
+
+### 2026-10-24 17:32:52 +0200 | [run] E024-hs-c…E029-hs-c: Prompt-Regeln mit Claude, gesamt und je eine weggelassen | Homsianer @ vm | gemessen auf main@8c201e1
+- Richter claude-opus-5-5 strict (Plattform-Prognose, AP10-K3-c), Referenz E023-hs-c 0.697 (151/190, 323): alle 5 Regeln 0.721 (161, 356); ohne modes 0.695 (159, 384); ohne tables 0.690 (153, 349; R10 29→22); ohne tests 0.719 (154, 311); ohne exempt 0.722 (159, 341); ohne lists 0.709 (160, 368)
+- Schluss: modes und tables tragen den Gewinn (je ~−0.03 ohne), lists leicht, tests/exempt neutral. Der Verdacht aus dem Vergleich E021/E022 (modes kostet R48) bestätigt sich mit Claude nicht (R48 40 mit, 39 ohne modes). Bündel in beiden Modellreihen besser: gpt E021-hs→E022-hs strict +0.021/lenient +0.039, Claude E023-hs-c→E024-hs-c strict +0.024
+- Kosten je Lauf ~260k Eingabe-/66k Ausgabe-Tokens (62 Aufrufe, ~85 s) + Richter ~440k/22k. Belege experiments/runs/E024-hs-c … E029-hs-c
