@@ -1,0 +1,14 @@
+{
+ "run_id": "X-SEL-llm2",
+ "note": "Auswahl-Test 10 Bauteile, Standard llm2, gpt",
+ "git": {
+  "commit": "main@8e900bb",
+  "full_hash": "8e900bb059ed4eca9b4b0ecbf17cc726e9d470a0",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "mode": "llm2",
+ "model": "gpt-6.1-sol",
+ "recorded_at": "2026-10-24T18:56:46+02:00"
+}
