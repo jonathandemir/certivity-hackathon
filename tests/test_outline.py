@@ -36,3 +36,18 @@ def test_headings_main_text_and_annex_parts():
     r10 = {p.label: p for p in parse_pdf(idx["UN R10"].base.pdfs[0])}
     assert r10["Annex 9 3.1"].headings[0].startswith("Method(s) of testing for immunity of electrical/electronic sub-assemblies")
     assert r10["6.9.1"].headings[-1].startswith("Specifications concerning the immunity of ESAs to transient")
+
+
+def test_successor_rule_for_numbers_without_dot():
+    from certreq.pdf import _is_successor
+    assert _is_successor("5.1.4", "5.1.4.1") and _is_successor("5.1.4.1", "5.1.4.2") and _is_successor("5.1.4.2", "5.2")
+    assert not _is_successor("5.3.2", "13.5") and not _is_successor("5.1.4", "5.1.6")
+
+
+@needs_package
+def test_paragraph_number_without_trailing_dot():
+    """Fund von Amiad (LOG 2026-10-24 12:19): '5.1.4.1 An ACPE intervention …' ohne Punkt nach der Nummer."""
+    from certreq import paths
+    paras = {p.label: p for p in parse_pdf(paths.PKG_DIR / "subgoal" / "dev" / "new.pdf")}
+    assert paras["5.1.4.1"].page == 5 and paras["5.1.4.1"].text.startswith("An ACPE intervention is not required")
+    assert "5.1.4.2" in paras and "5.1.4.1" not in paras["5.1.4"].text

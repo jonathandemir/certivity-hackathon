@@ -119,3 +119,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Modelle als feste Snapshots: DEFAULT_MODEL gpt-5.4-mini-2026-03-17 (Massenaufrufe), STRONG_MODEL gpt-5.5-2026-04-23 (Auswahl, Richter); Override CERTREQ_MODEL bzw. model=; effort none/low/medium/high/xhigh (minimal gibt 400)
 - Cache out/cache/llm/<sha256>.json über Modell+Prompt+Schema+effort: Wiederholungen kosten nichts und sind reproduzierbar
 - Geprüft: 8 neue Tests ohne Netz (24/24 grün), Live-Check beider Modelle ok (python -m certreq.llm)
+
+### 2026-10-24 14:27:53 +0200 | [change] pdf.py: Absatznummern ohne abschließenden Punkt (Fund von Amiad) | Jonathan @ MacBook-Pro-von-Jonathan | main@7a5d0ef +lokale Änderungen
+- Behebt [finding] 'pdf.py übersieht Absätze ohne Punkt nach der Nummer' (Amiad, 12:19): '5.1.4.1 An ACPE intervention …' (subgoal/dev/new.pdf S. 5) wird jetzt eigener Absatz. Regel: Nummer mehrstufig, danach großgeschriebenes Wort (keine Einheit wie Hz), und direkter Nachfolger des laufenden Absatzes (Kind, Geschwister oder nächste höhere Ebene), sonst bleibt es Fließtext (Messwerte wie '13.5 V')
+- Wirkung: 228 neue Absätze über alle 56 Regelungen (126 in base), Stichprobe 25/25 echte Absätze; dev: R48 bekommt u. a. 5.7 (Unterabsätze tragen 4 Gold-Anforderungen), Scores auf 3 Stellen unverändert (E004-Konfiguration Seiten-F2 0.342, gold-Regelungen 0.753). B0-Standard auf dev: 3642 statt 3624 Anforderungen
+- Achtung E001-Upload: die abgelegte Datei experiments/runs/E001/submission.json.gz nehmen (team_id ersetzen) oder vom Tag best-jonathan-pagef2-0.272 erzeugen; ein Lauf auf dem aktuellen main ist nicht mehr bytegleich zu E001. Geprüft: pytest 24/24

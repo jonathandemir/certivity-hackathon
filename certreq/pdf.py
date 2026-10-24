@@ -20,6 +20,10 @@ from pathlib import Path
 HEADER_RE = re.compile(r"^UN .+, version \S+ \| page \d+ of \d+$")
 # Absatzbeginn: Nummer mit abschließendem Punkt, dann Text. Abbildungsnummern ("16") und Messwerte ("13.5 V") fallen raus.
 PARA_RE = re.compile(r"^(\d{1,2}(?:\.\d{1,2}){0,7})\.\s+(\S.*)$")
+# Nummer ohne abschließenden Punkt („5.1.4.1 An ACPE intervention …", R175 latest S. 5): nur mehrstufig, vor einem
+# großgeschriebenen Wort und nur als direkter Nachfolger des laufenden Absatzes (_is_successor), sonst Messwert.
+PARA_NODOT_RE = re.compile(r"^(\d{1,2}(?:\.\d{1,2}){1,7})\s+([A-Z(][A-Za-z(]\S*.*)$")
+UNITS = {"Hz", "MHz", "GHz", "Nm", "Pa", "MPa", "Cd", "Lx", "Ah", "Wh", "VA"}
 # Anhang-Überschrift: "Annex 10 Method(s) ...", "Annex 4 - Appendix 1", "Annex 2A Information ...", "Annex 3"
 ANNEX_RE = re.compile(r"^Annex\s+(\d{1,2})([A-Z]?)(?:\s*[-–]\s*Appendix\s+(\d{1,2}))?(?:\s+[A-Z(\"].*)?$")
 PART_RE = re.compile(r"^Part\s+(\d{1,2})\s*[-–:]\s*(\S.*)$")
@@ -71,6 +75,12 @@ def _is_next_annex(m: re.Match, annex_no: int, annex: str | None) -> bool:
     if annex_no < num <= annex_no + 2:  # nächster Anhang, ein reservierter darf fehlen
         return True
     return num == annex_no and bool(appendix or (letter and f"{num}{letter}" != annex))
+
+
+def _is_successor(prev: str, number: str) -> bool:
+    """number folgt direkt auf prev: erstes Kind (5.1.4 → 5.1.4.1) oder nächster auf einer Ebene (5.1.4.1 → 5.1.4.2, 5.2)."""
+    p, n = [int(x) for x in prev.split(".")], [int(x) for x in number.split(".")]
+    return n == p + [1] or any(n == p[:k] + [p[k] + 1] for k in range(len(p)))
 
 
 def _looks_like_title(s: str) -> bool:
@@ -148,6 +158,10 @@ def parse_pdf(path: str | Path) -> tuple[Paragraph, ...]:
                     titles["part"] = [m.group(2)]
                     continue
                 m = PARA_RE.match(line)
+                if not m and cur is not None:
+                    m = PARA_NODOT_RE.match(line)
+                    if m and (m.group(2).split()[0] in UNITS or not _is_successor(cur.number, m.group(1))):
+                        m = None
                 if m:
                     number = m.group(1)
                     cur = Paragraph(_context_label(annex, appendix, part) + number, number, pno, pno, m.group(2))
