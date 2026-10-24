@@ -165,3 +165,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Modi: strict (Standard) und lenient (Kandidat mit weiteren Pflichten zählt); CLI: certreq eval <abgabe> --judge strict|lenient [--record ...]; auch python -m certreq.judge
 - Lizenz: voller Bericht mit Texten aus expected.json nur lokal (<abgabe>.judge.json unter out/), ins Repo nur Kennzahlen/IDs (public_summary)
 - Tests: 8 neue ohne Netz (Kandidaten, Kuhn-Matching, Kennzahlen, Lizenzschutz), gesamt 42 grün
+
+### 2026-10-24 14:52:40 +0200 | [change] AP4: LLM-Extraktion je Absatz (--extract llm) | Jonathan @ MacBook-Pro-von-Jonathan | main@f80cc7c +lokale Änderungen
+- Neu certreq/llmextract.py: Kandidat-Absätze (nach --filters, shall bzw. modal) in Batches ≤12 Absätze/9000 Zeichen je Regelung an gpt-6.1-sol (certreq/llm.py, Cache), mit Gliederungspfad, Seite und Bauteil-Spec. Antwort je Absatz: eigenständige shall-Sätze, eine Pflicht je Satz, leer = gilt nicht für das Bauteil/keine Pflicht (Definition, Verwaltung, andere Geräte/Klassen, reiner Prüfaufbau). Fehlende Antwort → Rohtext bleibt. Prompt-Beispiel selbst geschrieben (R46-Spiegel), nichts aus dem Dev-Gold. run schreibt meta.json 'llm' (Modell, Batches, behalten/verworfen, Verbrauch)
+- Vormessung (offiziell folgt), --filters all, gegen expected.json: B0-Auswahl Seiten-F2 0.348→0.714 (modal+llm), Obergrenze Anforderungsebene 0.131→0.493 (kein Plattformwert); mit Gold-Regelungen Seiten 0.773→0.943, Obergrenze 0.430→0.691. shall+llm: 0.680 bzw. 0.909. Kosten: 227 Aufrufe für B0-Auswahl, ~7,5 min ungecacht mit 8 parallel
+- Geprüft: pytest 45/45 (neu tests/test_llmextract.py, ohne Netz), Lauf aus Cache bytegleich zur Vormessung

@@ -12,17 +12,20 @@ Optionen:
   split  Aufzählungen (a), (b), (c) … werden je Punkt eine Anforderung: Einleitung + Punkt, wie die Referenz es tut
          (R150 5.1.1 „Every retro-reflector … shall meet: (a) … (b) … (c) …" → 3 Anforderungen). Verschachtelte
          (i), (ii) bleiben im Punkt. Verweise wie „paragraph 3.3.3.5. (a)" sind keine Aufzählung.
+  llm    das LLM liest jeden Kandidat-Absatz mit Gliederungspfad und Bauteil-Spec und gibt die einzelnen Pflichten
+         als shall-Sätze zurück, leer = nicht anwendbar (certreq/llmextract.py). Ersetzt split; Kandidaten wie sonst
+         (Filter, shall bzw. modal).
 """
 from __future__ import annotations
 
 import re
 
-from .pdf import parse_pdf
+from .pdf import Paragraph, parse_pdf
 from .regindex import Regulation
 from .relevance import relevant
 from .submission import Requirement
 
-OPTIONS = ("modal", "split")
+OPTIONS = ("modal", "split", "llm")
 SHALL_RE = re.compile(r"\bshall\b", re.IGNORECASE)
 MODAL_RE = re.compile(r"\b(shall|must|may|permitted|allowed|required|mandatory|prohibited)\b", re.IGNORECASE)
 ITEM_RE = re.compile(r"(?:^|(?<=\s))\(([a-z])\)\s+")
@@ -50,12 +53,12 @@ def split_items(text: str) -> list[str]:
 
 
 def extract_requirements(regs: list[Regulation], spec_text: str = "", filters: tuple[str, ...] = (),
-                         options: tuple[str, ...] = ()) -> list[Requirement]:
+                         options: tuple[str, ...] = (), stats: dict | None = None) -> list[Requirement]:
     unknown = set(options) - set(OPTIONS)
     if unknown:
         raise ValueError(f"Unbekannte Optionen {sorted(unknown)}, erlaubt: {OPTIONS}")
     obligation = MODAL_RE if "modal" in options else SHALL_RE
-    reqs: list[Requirement] = []
+    cands: list[tuple[Regulation, Paragraph]] = []
     for reg in regs:
         base = reg.base
         for pdf in base.pdfs:
@@ -63,10 +66,12 @@ def extract_requirements(regs: list[Regulation], spec_text: str = "", filters: t
                 raise SystemExit(f"PDF fehlt: {pdf}. Im Paket python3 tools/fetch_regulations.py ausführen.")
             paras = parse_pdf(pdf)
             keep = relevant(paras, filters, spec_text) if filters else [True] * len(paras)
-            for para, ok in zip(paras, keep):
-                if not (ok and obligation.search(para.text)):
-                    continue
-                texts = split_items(para.body) if "split" in options else [para.text]
-                for text in texts:
-                    reqs.append(Requirement(text, reg.name, base.label, para.page, para.label))
+            cands.extend((reg, para) for para, ok in zip(paras, keep) if ok and obligation.search(para.text))
+    if "llm" in options:
+        from .llmextract import llm_requirements
+        return llm_requirements(cands, spec_text, stats=stats)
+    reqs: list[Requirement] = []
+    for reg, para in cands:
+        texts = split_items(para.body) if "split" in options else [para.text]
+        reqs.extend(Requirement(text, reg.name, reg.base.label, para.page, para.label) for text in texts)
     return reqs

@@ -34,14 +34,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     regs = select_regulations(case, forced)
     filters = _parse_filters(args.filters)
     options = _parse_list(args.extract, OPTIONS, "Extraktionsoptionen")
-    reqs = extract_requirements(regs, case.spec_text, filters, options)
+    llm_stats: dict = {}
+    reqs = extract_requirements(regs, case.spec_text, filters, options, stats=llm_stats)
     team_id = args.team_id or os.environ.get("CERTIVITY_TEAM_ID") or PLACEHOLDER_TEAM
     data = build_submission(team_id, case.case_id, reqs)
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
     meta = {"case_id": case.case_id, "command": " ".join([Path(sys.executable).name, "-m", "certreq", *sys.argv[1:]]),
             "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced),
-            "filters": list(filters), "extract": list(options),
+            "filters": list(filters), "extract": list(options), **_llm_meta(options, llm_stats),
             "n_requirements": len(data["requirements"]), "seconds": round(time.time() - t0, 1),
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds")}
     out.with_suffix(".meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -51,6 +52,13 @@ def cmd_run(args: argparse.Namespace) -> int:
     if team_id == PLACEHOLDER_TEAM:
         print(f"Hinweis: team_id ist '{PLACEHOLDER_TEAM}'. Vor dem Upload CERTIVITY_TEAM_ID setzen bzw. --team-id angeben.")
     return 0
+
+
+def _llm_meta(options: tuple[str, ...], stats: dict) -> dict:
+    if "llm" not in options:
+        return {}
+    from . import llm
+    return {"llm": {"model": llm.model_name(), **stats, "usage": llm.usage()}}
 
 
 def _parse_list(value: str | None, allowed: tuple[str, ...], what: str) -> tuple[str, ...]:
