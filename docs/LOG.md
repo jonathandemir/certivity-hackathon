@@ -244,3 +244,12 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - nur Zeichnung (--vision only): Anforderungen F2 0.417 (P 0.205 R 0.563), Regelungen 0.682, Seiten 0.654; R150 0/39, weil der Rückstrahler auf der Patentzeichnung nicht erkennbar ist, R53 falsch gewählt (Fahrzeugklasse fehlt im Bild)
 - Spec + Zeichnung (--vision on): Anforderungen 0.605 vs 0.621 nur Spec → kein Gewinn
 - Belege experiments/runs/E017-a, E018-a
+
+### 2026-10-24 15:38:28 +0200 | [run] E019-a: Streuung der LLM-Pipeline | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@19423b2
+- E016-a-Konfiguration identisch ohne LLM-Cache: Anforderungen 0.621 → 0.602, Seiten 0.920 → 0.895, Auswahl identisch
+- Schluss: ±0.02 je Einzellauf, Unterschiede < ~0.03 nicht belastbar; E018-a (Zeichnung + Spec, 0.605) damit ohne Befund
+- Beleg experiments/runs/E019-a
+
+### 2026-10-24 15:38:28 +0200 | [decision] --vision auto ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@19423b2 +lokale Änderungen
+- mit Spec: Zeichnung ignoriert (E016-a; E018-a ohne Gewinn); ohne Spec: nur Zeichnung (E017-a, F2 0.417) → Demo läuft mit reinem Zeichnungsordner ohne Schalter (geprüft)
+- Sonntag: bei dünner Held-out-Spec --vision on per Upload testen

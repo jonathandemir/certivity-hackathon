@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Die LLM-Pipeline streut um etwa ±0.02 Anforderungs-F2 je Lauf.** Beleg: E019-a = E016-a identisch
+  ohne Cache: 0.621 → 0.602, Auswahl gleich, Recall je Regelung schwankt (R10 14↔19). Konsequenz: Unterschiede unter
+  ~0.03 aus Einzelläufen nicht als Verbesserung werten; bei knappen Entscheidungen 2–3 Läufe ohne Cache vergleichen.
+  Bestmarke realistisch ~0.61.
+- **2026-10-24 · Nur aus der Zeichnung trägt die Pipeline, aber schwächer; zusätzlich zur Spec bringt sie nichts.**
+  Beleg: E017-a (`--vision only`) Anforderungen 0.417, Regelungen 0.682 (R150 fehlt: Rückstrahler auf der
+  Patentzeichnung nicht erkennbar; R53 falsch: Fahrzeugklasse fehlt im Bild); E018-a (`--vision on`) 0.605 vs 0.621,
+  innerhalb der Streuung. Konsequenz: `--vision auto` (Standard): Zeichnung nur lesen, wenn keine Spec da ist.
+  **Sonntag:** Ist die Held-out-Spec deutlich dünner als die Dev-Spec, `--vision on` per Plattform-Upload testen.
 - **2026-10-24 · Regelungsauswahl per LLM mit Steckbriefen aus den PDFs trifft alle Gold-Regelungen.** Beleg: E016-a
   (main@39b1077): 7 gewählt, 4/4 Gold inkl. UN R10 (Begründung: LED-Platine → EMV), Regelungs-F2 0.405→0.870,
   Anforderungs-F2 0.491→0.621 (Gold-Diagnose 0.637); 3 Läufe ohne Cache identisch. Die PDFs nennen ihre Konsolidierung

@@ -95,7 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="Fall-Ordner → Abgabe-JSON (+ .meta.json)")
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
-    r.add_argument("--vision", choices=["off", "on", "only"], default="off", help="Explosionszeichnung lesen (AP5): on = Beschreibung an die Spec anhängen, only = nur die Zeichnung (Fall ohne Spec, Demo R3)")
+    r.add_argument("--vision", choices=["auto", "off", "on", "only"], default="auto", help="Explosionszeichnung lesen (AP5): auto = nur wenn keine Spec da ist (Standard), on = Beschreibung an die Spec anhängen, only = nur die Zeichnung, off = nie")
     r.add_argument("--select", choices=["b0", "llm"], default="llm", help="Regelungsauswahl (AP2): llm = Steckbriefe + LLM (Standard seit E016-a), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")
     r.add_argument("--filters", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
                    "Standard: none (B0)")

@@ -7,6 +7,7 @@ Historie steht in docs/LOG.md.
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
 Bestmarke (zulässig, alle Ebenen): **E016-a** = `--select llm --filters all --extract modal,llm` (Tag `best-main-reqf2-0.621`): Anforderungen F2 **0.621** (P 0.375, R 0.742; lokaler Richter strict), Seiten 0.920, Regelungen 0.870. Vorher E014 (B0-Auswahl) 0.491, E012 0.290, B0 0.060. Mit Gold-Regelungen (Diagnose E015) 0.637 → die Auswahl ist praktisch ausgereizt. `--select llm` ist seit E016-a Standard; Filter/Extraktion stehen noch per Schalter.
+Streuung (E019-a): identische Konfiguration ohne Cache 0.602 statt 0.621 → Unterschiede < ~0.03 sind nicht belastbar. AP5 (Zeichnung) fertig: `--vision auto` liest die Zeichnung, wenn keine Spec vorliegt (nur Zeichnung: F2 0.417, E017-a).
 Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
@@ -44,7 +45,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    mit `eval --judge strict` messen (~1–2 min, ~150–330k Tokens; Wiederholungen gecacht).
 5. **B:** Standard für Filter/Extraktion auf `--filters all --extract modal,llm` umstellen (E014/E016-a besser auf allen Ebenen). Größte Recall-Lücken: R10 (EMV-Prüfpegel als Einzelpflichten) und R48.
    **C (Demo):** `.meta.json` enthält jetzt `selection` (je Regelung Rolle + Begründung, auch verworfene wie „R7 in R148 aufgegangen") – gut für die Demo und den Pitch.
-   **A:** als Nächstes AP5 (Zeichnung lesen) bzw. Robustheit für den Held-out (Stoßfänger) prüfen.
+   **A:** AP5 erledigt; als Nächstes Robustheit für den Held-out (Stoßfänger) prüfen und E001/E016-a-Upload zur Eichung.
 6. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
    „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 

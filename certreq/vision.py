@@ -12,7 +12,7 @@ from dataclasses import replace
 from . import llm
 from .case import Case
 
-MODES = ("off", "on", "only")
+MODES = ("auto", "off", "on", "only")
 
 SYSTEM = """You are an automotive design engineer reading a technical drawing (for example an exploded view or a patent
 figure) of a vehicle component. Describe only what the drawing shows or strongly implies:
@@ -56,10 +56,13 @@ def render(desc: dict) -> str:
     return "\n".join(lines)
 
 
-def apply(case: Case, mode: str = "off") -> tuple[Case, dict | None]:
-    """Gibt den (ggf. ergänzten) Fall und die Zeichnungsbeschreibung (für .meta.json) zurück."""
+def apply(case: Case, mode: str = "auto") -> tuple[Case, dict | None]:
+    """Gibt den (ggf. ergänzten) Fall und die Zeichnungsbeschreibung (für .meta.json) zurück.
+    auto: mit Spec wie off (E016-a; Zeichnung brachte zusätzlich nichts, E018-a), ohne Spec wie only (E017-a)."""
     if mode not in MODES:
         raise SystemExit(f"Unbekannter Vision-Modus {mode!r}, erlaubt: {MODES}")
+    if mode == "auto":
+        mode = "off" if case.spec_text.strip() else "only"
     if mode == "off" or not case.images:
         if mode == "only" and not case.images:
             raise SystemExit(f"--vision only, aber keine Zeichnung in {case.folder}")

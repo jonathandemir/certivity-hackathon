@@ -45,3 +45,8 @@ def test_modi(monkeypatch, img):
     assert "# Spec" not in only.spec_text and "Outer lens" in only.spec_text
     with pytest.raises(SystemExit):
         vision.apply(Case("c", img.parent, spec_text="x"), "only")  # only ohne Zeichnung
+    n = len(calls)
+    same, d = vision.apply(case, "auto")  # Spec vorhanden → Zeichnung nicht nötig
+    assert same is case and d is None and len(calls) == n
+    drawing_only, d = vision.apply(Case("c", img.parent, spec_text="", images=[img]), "auto")
+    assert d == DESC and "Outer lens" in drawing_only.spec_text and len(calls) == n + 1
