@@ -83,7 +83,9 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
   sauberes Arbeitsverzeichnis. **Hashes aus git lesen (`git rev-parse --short HEAD`, Ausgabe von pull-first),
   nie erfinden oder schätzen.**
 - Ergebnis eintragen: `[run]`-Logeintrag + Zeile in experiments/LEDGER.md + Belegdatei unter experiments/runs/<ID>/
-  (über den main-Worktree). Neue Bestmarke: zusätzlich Scoreboard in docs/STATUS.md und
+  (über den main-Worktree; `.venv/bin/python -m certreq eval <abgabe> --record <ID>` legt den Beleg ab).
+  Loggst du den Lauf aus einem anderen Checkout als dem gemessenen (z. B. im main-Worktree), gib den gemessenen Stand
+  an: `"$MAIN/scripts/log" --commit <branch>@<hash> "[run] ..."`. Das Skript prüft, dass der Commit existiert und gepusht ist. Neue Bestmarke: zusätzlich Scoreboard in docs/STATUS.md und
   `scripts/tag-best <wert>` (Tag `best-<branch>-<wert>`, damit man jederzeit zurück kann).
 - **Entscheidungen nur anhand echter Messungen** (score_local.py, Plattform-Score), nie anhand von Simulation,
   Schätzung oder Bauchgefühl. **Jede Änderung einzeln gegen die aktuelle Bestmarke messen**, nicht mehrere auf einmal.
@@ -127,7 +129,7 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 | `scripts/setup <vorname>` | einmal pro Rechner: Branch, main-Worktree, Paket + PDFs, Oberordner-CLAUDE.md |
 | `scripts/session-start` | STATUS (origin/main) + neueste LOG-Einträge aller Branches + Git-Zustand |
 | `scripts/sync` | holen (rebase, bei lokalen Merge-Commits merge), main mitmergen, Secret-Scan, pushen |
-| `scripts/log "[typ] titel" "detail" …` | Eintrag an docs/LOG.md anhängen (Datum, Autor, Rechner, Stand) |
+| `scripts/log [--commit b@h] "[typ] titel" "detail" …` | Eintrag an docs/LOG.md anhängen (Datum, Autor, Rechner, Stand bzw. gemessener Stand) |
 | `scripts/claim add/done/list` | Claims in docs/STATUS.md auf main pflegen, sofort gepusht |
 | `scripts/main-wt` | Pfad des main-Checkouts für geteilte Dateien |
 | `scripts/pull-first` | vor Läufen: Teamstand holen, Commit melden, Exit 1 wenn der Lauf nicht zählt |

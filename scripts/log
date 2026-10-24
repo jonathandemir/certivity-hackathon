@@ -2,6 +2,8 @@
 # Hängt einen Eintrag an docs/LOG.md an (nur anhängen, nie editieren).
 #
 #   scripts/log "[typ] titel" ["detail" ...]
+#   scripts/log --commit <branch>@<hash> "[run] titel" ...   Messung lief auf einem anderen Stand als diesem
+#                                                            Checkout (z. B. Eintrag aus dem main-Worktree)
 #
 # Typen: [change] [run] [finding] [decision] [blocker] [handoff]
 # Kopfzeile: Datum, [typ] titel, Autor @ Rechner, Stand als <branch>@<kurzhash> (aus git gelesen).
@@ -12,7 +14,12 @@
 TYPES="change run finding decision blocker handoff"
 LOG_FILE="$REPO_ROOT/docs/LOG.md"
 
-[ $# -ge 1 ] || die "Nutzung: scripts/log \"[typ] titel\" [\"detail\" ...]   Typen: $TYPES"
+measured=""
+if [ "${1:-}" = "--commit" ]; then
+  [ $# -ge 2 ] || die "--commit braucht <branch>@<hash>"
+  measured=$2; shift 2
+fi
+[ $# -ge 1 ] || die "Nutzung: scripts/log [--commit <branch>@<hash>] \"[typ] titel\" [\"detail\" ...]   Typen: $TYPES"
 head_arg=$1; shift
 
 typ=$(printf '%s' "$head_arg" | sed -n 's/^\[\([a-z]*\)\].*/\1/p')
@@ -30,7 +37,17 @@ lokal=$(dirty_tracked docs/LOG.md)
 neu=$(untracked_files)
 [ -n "$lokal$neu" ] && stand="$stand +lokale Änderungen"
 
-if [ "$typ" = run ]; then
+if [ -n "$measured" ]; then
+  # Gemessener Stand wird geprüft, nicht geglaubt: Commit muss existieren und auf origin liegen.
+  case "$measured" in *@*) ;; *) die "--commit erwartet <branch>@<hash>, bekam \"$measured\"" ;; esac
+  hash=${measured##*@}
+  git rev-parse -q --verify "$hash^{commit}" >/dev/null || die "Commit $hash existiert nicht (Hash aus git lesen, nie erfinden)."
+  stand="gemessen auf $measured"
+  if [ -z "$(git branch -r --contains "$hash" 2>/dev/null)" ]; then
+    warn "$measured liegt auf keinem origin-Branch: erst dort scripts/sync, sonst kann niemand den Stand nachvollziehen."
+    stand="$stand (ungepusht)"
+  fi
+elif [ "$typ" = run ]; then
   if [ -n "$lokal" ]; then
     warn "[run] auf einem Stand mit uncommitteten Änderungen: das Ergebnis ist nicht reproduzierbar. Erst committen, scripts/pull-first, dann messen."
   fi

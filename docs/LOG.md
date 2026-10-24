@@ -53,3 +53,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 13:29:06 +0200 | [decision] AP1-Gerüst jetzt nach main | Jonathan @ MacBook-Pro-von-Jonathan | main@9c48f4f +lokale Änderungen
 - certreq/ + tests/ auf main gemergt (Merge-Commit), damit alle Branches dieselbe Basis für AP2–AP7 haben; sync merged main automatisch in jeden Branch
 - Die finale beste Version wird trotzdem vor der Deadline nach main gemergt (PLAN So 07:30)
+
+### 2026-10-24 13:31:32 +0200 | [change] scripts/log --commit <branch>@<hash> für [run]-Einträge aus anderem Checkout | Jonathan @ MacBook-Pro-von-Jonathan | main@40fd760 +lokale Änderungen
+- Problem (gesehen bei E001/E002): [run] aus dem main-Worktree geloggt → Kopf zeigte main@9c48f4f +lokale Änderungen (ungepusht) und zwei falsche Warnungen, obwohl auf sauberem, gepushtem jonathan@29c0d0b gemessen wurde. Die Details dieser Einträge nennen den richtigen Stand.
+- Jetzt: --commit setzt 'gemessen auf <branch>@<hash>', prüft Existenz (sonst Abbruch) und ob gepusht (sonst Warnung + '(ungepusht)')
+- AGENTS.md §5/§9 ergänzt
+- Geprüft: Sandbox-Suite um 9 Prüfungen erweitert, 143/143 auf macOS (bash 3.2) und Debian (bash 5.2, mawk)
