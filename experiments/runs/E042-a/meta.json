@@ -1,0 +1,188 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision only --out out/E042-a.json",
+ "git": {
+  "commit": "main@b414dcc",
+  "full_hash": "b414dccf5ef72895bd092b9d9fb3da6a991b43ef",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R10"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The annotated rear-position, stop and reversing functions fall within R148 and require compliance of the assembled lamp with the applicable optical, colour, performance and marking requirements."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The separate passive retro-reflector is a retro-reflective device covered by R150, with its class and compliance to be established for the intended application."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The electrically powered LED board brings the lamp's electrical/electronic assembly within the applicable electromagnetic-compatibility requirements, subject to R10's subassembly classification provisions."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the host vehicle is category M, N or O, R48 governs the lamp functions' and retro-reflector's positioning, visibility, orientation and applicable electrical connections."
+  },
+  {
+   "regulation": "UN R53",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the host vehicle is category L3, R53 is the applicable installation regulation for the covered rear lighting and retro-reflective devices instead of R48."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If fitted to an M1 vehicle, the exposed lens, housing and attachment features must satisfy the applicable external-projection requirements at their installed location."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): R128 applies to the light sources only if the LED implementation uses a standardised source category covered by its Annex 1, rather than merely an integral LED board assessed with the lamp under R148."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): For an M1 vehicle assessed under R42, the rear lamp and its mounting contribute to meeting the requirements for continued operation and visibility of lighting and signalling devices after low-speed impact tests."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear-position and stop-lamp provisions are consolidated into selected UN R148, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into selected UN R148, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into selected UN R150, so it is not selected separately."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "Its scope expressly excludes glazing for lighting and light-signalling devices, including this lamp's outer lens."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "The specification describes rear signalling and reversing functions, not the headlamps, front fog lamps, cornering lamps or adaptive front-lighting systems covered by R149."
+  }
+ ],
+ "vision_mode": "only",
+ "drawing": {
+  "product": "Exploded view of a vehicle rear combination lamp with an LED light-source board, reflector optics, and a separate retro-reflector.",
+  "vehicle_location": "Rear exterior of the vehicle; exact mounting position and left- or right-hand side are not shown.",
+  "parts": [
+   {
+    "name": "Outer lens",
+    "function": "Covers and protects the lamp optics while transmitting emitted and retro-reflected light.",
+    "technology": "Light-transmitting lens, likely molded plastic; labeled red.",
+    "evidence": "Frontmost elongated, rounded panel with a peripheral rim, transparency strokes, and a small outlined rectangular region."
+   },
+   {
+    "name": "Retro-reflector",
+    "function": "Returns incident external light toward its source without requiring electrical illumination.",
+    "technology": "Passive retro-reflective optical insert; precise prism structure and material are not resolved.",
+    "evidence": "Separate small rectangular plate with parallel internal lines, labeled 'Retro-reflector,' aligned with the rectangular region in the outer lens."
+   },
+   {
+    "name": "Seal / gasket",
+    "function": "Seals the interface between the outer lens and the lamp body against water ingress.",
+    "technology": "Continuous perimeter sealing element, likely elastomeric.",
+    "evidence": "Thin, open-center outline matching the lamp perimeter, positioned behind the outer lens and labeled 'Seal / gasket.'"
+   },
+   {
+    "name": "Reflector",
+    "function": "Collects and redirects source light into the lamp's output pattern.",
+    "technology": "Multi-cell optical reflector; substrate and reflective coating are unspecified.",
+    "evidence": "Contoured intermediate panel containing rows of oval optical cells, an upper row of smaller circular features, a narrow upper channel, and separate rectangular regions."
+   },
+   {
+    "name": "LED modules on PCB",
+    "function": "Generate light for the lamp.",
+    "technology": "LED array mounted on a printed circuit board.",
+    "evidence": "Separate elongated board behind the reflector with repeated rows of small square packages, additional rectangular component or contact features, and a larger outlined feature at one end."
+   },
+   {
+    "name": "Housing",
+    "function": "Supports and encloses the optical and electronic components and provides attachment locations.",
+    "technology": "Tray-like housing, likely molded plastic; material is not specified.",
+    "evidence": "Rearmost shell has a recessed interior, raised perimeter flange, visible depth, and three circular attachment features."
+   },
+   {
+    "name": "Fasteners / clips",
+    "function": "Secure the assembly or attach it to supporting structure.",
+    "technology": "Three screw-like mechanical fasteners; material and exact fastening type are unspecified.",
+    "evidence": "Three detached headed shanks are drawn near dashed assembly lines beside and below the housing."
+   }
+  ],
+  "uncertainties": [
+   "The vehicle body interface, exact mounting position, and handedness are not shown.",
+   "The annotations mention rear-position, stop, and reversing functions, but the drawing does not unambiguously assign each function to a particular optical region or LED group.",
+   "Lens color is identified by text rather than visible color; separate clear or differently colored regions cannot be established.",
+   "Exact materials, reflector coatings, LED specifications, circuit details, electrical connectors, and wiring are not shown.",
+   "The retro-reflector's detailed optical structure and attachment method are not resolved.",
+   "The annotation performance statements cannot be verified from the drawing alone."
+  ]
+ },
+ "drawing_regions": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 49,
+  "paragraphs": 569,
+  "kept": 141,
+  "dropped": 428,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 51,
+   "cached": 0,
+   "prompt_tokens": 151660,
+   "completion_tokens": 37766
+  }
+ },
+ "n_requirements": 235,
+ "seconds": 119.1,
+ "created_at": "2026-10-24T19:57:35+02:00",
+ "run_id": "E042-a",
+ "note": "nur neue beschriftete Zeichnung (--vision only), gpt, Richter gpt lenient",
+ "submission_sha256": "58907b1c749fc69a05cd8f1a88e2bb175a75d405a980865d1c614fbc5d5f38af",
+ "recorded_at": "2026-10-24T19:59:50+02:00"
+}

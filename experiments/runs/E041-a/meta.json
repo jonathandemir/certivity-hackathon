@@ -1,0 +1,209 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision on --out out/E041-a.json",
+ "git": {
+  "commit": "main@b414dcc",
+  "full_hash": "b414dccf5ef72895bd092b9d9fb3da6a991b43ef",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The integrated rear position, stop and reversing lamps fall within its consolidated scope and must meet the applicable photometric, colour, construction and marking requirements."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated passive retro-reflector must meet the applicable retro-reflective performance, colour, durability and marking requirements."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation on an M1 passenger car must satisfy the applicable number, positioning, orientation, geometric visibility and electrical-operation requirements for the lamps and retro-reflector."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The electrically operated LED/PCB assembly falls within the electromagnetic-compatibility framework for vehicle electrical/electronic subassemblies, with applicable emissions and immunity requirements."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The exposed lens, housing and mounting interfaces must respect applicable external-projection requirements when fitted to the M1 vehicle."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "The rear lamp's design and integration contribute to meeting the requirement that lighting and signalling devices remain operational and visible after the prescribed low-speed protective-device impacts."
+  },
+  {
+   "regulation": "UN R13H",
+   "role": "rejected",
+   "reason": "verworfen (nur Fahrzeugebene): The integrated stop lamp requires a vehicle-side braking interface consistent with the regulation's stop-lamp signal-generation requirements, which concern the braking system rather than lamp photometric approval."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): This applies conditionally if the assembly uses standardised LED light sources covered by Annex 1, rather than only lamp-specific LED modules assessed under UN R148."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear position and stop-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into UN R150, which is selected instead."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "Its scope expressly excludes glazing for lighting and light-signalling devices, so the PMMA outer lens is not safety glazing under this regulation."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "The specified assembly has no headlamp, front fog-lamp, cornering-lamp or adaptive front-lighting function; its reversing lamp is covered by UN R148."
+  }
+ ],
+ "vision_mode": "on",
+ "drawing": {
+  "product": "Exploded view of a rear lamp assembly combining signalling lights, an outer lens, and a passive retro-reflector.",
+  "vehicle_location": "Exterior rear of a vehicle. The drawing does not establish the vehicle side or exact body mounting position.",
+  "parts": [
+   {
+    "name": "Outer lens",
+    "function": "Covers the optical assembly and transmits outgoing light.",
+    "technology": "Light-transmitting molded cover, likely optical plastic; annotated as red.",
+    "evidence": "The foremost component is a tapered, rounded cover with a perimeter lip, transparency-style diagonal lines, and a small outlined region near one end. It is explicitly labeled 'Outer lens'."
+   },
+   {
+    "name": "Retro-reflector",
+    "function": "Provides passive conspicuity by returning incident light toward its source.",
+    "technology": "Patterned retro-reflective optical insert; the precise prism geometry and material are not shown.",
+    "evidence": "A small, separately drawn rectangular insert with repeated vertical divisions is labeled 'Retro-reflector' and aligned with the small outlined region of the outer lens."
+   },
+   {
+    "name": "Seal / gasket",
+    "function": "Seals the joint around the lamp perimeter against water ingress.",
+    "technology": "Continuous compliant perimeter seal; exact elastomer is unspecified.",
+    "evidence": "A separate open-center frame follows the outer lens contour between the lens and internal optical assembly and is labeled 'Seal / gasket'."
+   },
+   {
+    "name": "Reflector / optical carrier",
+    "function": "Shapes and directs light from the sources toward the outer lens.",
+    "technology": "Multi-cell optical component, likely molded with reflective surfaces; coating and substrate are not established.",
+    "evidence": "The labeled reflector panel contains rows of oval optical cavities, an upper row of circular features, a long narrow upper section, and distinct rectangular sections at the right."
+   },
+   {
+    "name": "LED modules on PCB",
+    "function": "Generate light for the lamp's active signalling functions.",
+    "technology": "LED array mounted on a printed circuit board.",
+    "evidence": "A separate elongated board behind the reflector carries repeated small square packages, additional rectangular features, and a larger outlined feature near its right end. It is explicitly labeled 'LED modules on PCB'."
+   },
+   {
+    "name": "Rear position lamp",
+    "function": "Signals the vehicle's presence from the rear.",
+    "technology": "LED-based lighting using the source board and associated reflector optics.",
+    "evidence": "The reflector annotation identifies a rear position lamp function. Multiple optical cells and the LED board are shown, but the exact cells assigned to this function are not delineated."
+   },
+   {
+    "name": "Stop lamp",
+    "function": "Provides braking indication.",
+    "technology": "LED-based signalling.",
+    "evidence": "The LED-board annotation explicitly identifies the stop lamp function; no separate stop-lamp subassembly is isolated."
+   },
+   {
+    "name": "Reversing lamp",
+    "function": "Provides rearward illumination and indication during reversing.",
+    "technology": "Integrated lighting section; its specific source and optical arrangement are not separately identified.",
+    "evidence": "The drawing explicitly mentions the reversing lamp, and distinct right-hand optical and board regions are visible, although their assignment to reversing is not established."
+   },
+   {
+    "name": "Housing",
+    "function": "Supports and encloses the internal components and provides assembly attachment points.",
+    "technology": "Tray-like housing, likely molded plastic; exact material is unspecified.",
+    "evidence": "The rear component has a recessed interior, raised perimeter flange, sidewall depth, and several circular attachment features. It is labeled 'Housing'."
+   },
+   {
+    "name": "Fasteners / clips",
+    "function": "Secure the assembly components and maintain their relative alignment.",
+    "technology": "Three separate screw-like fasteners; material and thread details are not shown.",
+    "evidence": "Three headed, shank-like items are drawn outside the housing along assembly lines, with a 'Fasteners / clips' callout."
+   }
+  ],
+  "uncertainties": [
+   "Exact dimensions, vehicle fitment, mounting side, and body attachment interfaces are not supplied.",
+   "The allocation of individual LEDs and optical cells to rear position, stop, and reversing functions cannot be determined.",
+   "The small outlined lens region may serve a separate optical function, but its color and relationship to the reversing lamp are not established.",
+   "Exact polymers, reflector coatings, gasket composition, and fastener materials cannot be confirmed from the drawing.",
+   "Electrical connectors, wiring, driver circuitry, thermal provisions, and venting are not visibly detailed.",
+   "The annotated optical and durability performance cannot be verified from this exploded drawing."
+  ]
+ },
+ "drawing_regions": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 66,
+  "paragraphs": 760,
+  "kept": 207,
+  "dropped": 553,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 68,
+   "cached": 0,
+   "prompt_tokens": 213412,
+   "completion_tokens": 50605
+  }
+ },
+ "n_requirements": 334,
+ "seconds": 148.7,
+ "created_at": "2026-10-24T19:58:04+02:00",
+ "run_id": "E041-a",
+ "note": "Spec + neue beschriftete Zeichnung (--vision on), gpt, Richter gpt lenient",
+ "submission_sha256": "ffec2331ffe9887f8d3a9a911eeb3a3825aac57318139b1fbcd1b2fbba821895",
+ "recorded_at": "2026-10-24T19:59:09+02:00"
+}
