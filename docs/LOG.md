@@ -340,3 +340,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 16:31:26 +0200 | [change] scripts/log: Zeitstempel immer Berliner Zeit | Jonathan @ MacBook-Pro-von-Jonathan | main@87ffc6c +lokale Änderungen
 - Anlass: UTC-Einträge von VM/Cloud wurden im Sessionstart falsch sortiert
 - selftest 143/143 auf macOS und Debian (neue Prüfung mit TZ=UTC)
+
+### 2026-10-24 14:31:44 +0000 | [change] AP4: Zusatzregeln für den LLM-Prompt hinter Schaltern (--extract …,lists,tables,exempt,tests,modes) | Homsianer @ vm | main@2be1f20 +lokale Änderungen
+- llmextract.RULES aus der Fehleranalyse E020-a: lists = eine Aufzählung im Satz bzw. derselbe Grenzwert über benachbarte Bereiche bleibt eine Anforderung; tables = Tabellen mit Alternativen als eine Anforderung mit Tabellenverweis, Pflichtzeilen je Zeile mit allen Spalten; exempt = 'deemed to comply'/'need not be tested' behalten; tests = Prüfparameter (Frequenz, Modulation, Pegel, Dauer, Temperatur, Aufprallgeschwindigkeit) behalten, Prüfaufbau nicht; modes = Absätze nur für Betriebsarten/Varianten, die die Spec nicht hat, verwerfen. Beispiele allgemein formuliert, keine Gold-Texte
+- Standard unverändert (modal,llm ohne Regeln): Prompt bytegleich zu v2 (Test), gecachte Antworten bleiben gültig. Regeln ohne llm → Fehler. Reihenfolge der Regeln im Prompt fest. meta.json llm.rules nennt die aktiven Regeln
+- Geprüft: pytest 65/65 (2 neue, ohne Netz). Ungemessen (kein Key in dieser Session): Messplan im [handoff]

@@ -6,6 +6,10 @@ eigenständige shall-Sätze, eine Pflicht je Satz; leer = gilt nicht für dieses
 Fehlt ein Absatz in der Antwort, bleibt sein Rohtext (kein stiller Recall-Verlust); `stats` zählt das.
 
 Das Beispiel im Prompt ist selbst geschrieben (andere Regelung), nicht aus dem Dev-Gold, damit die Dev-Messung ehrlich bleibt.
+
+Zusatzregeln (RULES) aus der Fehleranalyse von E020-a (LOG [finding] 2026-10-24): einzeln per `--extract` schaltbar
+(lists, tables, exempt, tests, modes), damit jede für sich gemessen werden kann. Ohne Regel ist der Prompt bytegleich
+zu v2, gecachte Antworten (E020-a) bleiben gültig. Die Beispiele in den Regeln sind allgemein formuliert, keine Gold-Texte.
 """
 from __future__ import annotations
 
@@ -54,6 +58,42 @@ Answer as JSON matching the schema: one entry per paragraph ref, in order; "note
 when "requirements" is empty, otherwise "".
 """
 
+# Reihenfolge fest (nicht die der Kommandozeile), damit gleiche Regelmengen denselben Prompt und Cache-Schlüssel ergeben.
+RULES = {
+    "lists": "Apart from the splits above (including obligations with their own verb, as in the mirror example), one "
+             "sentence gives one requirement. A list inside a sentence (conditions, "
+             "alternatives, examples or environmental factors such as \"rain, snow, fog or dust\") and the same limit "
+             "stated over adjacent ranges of one quantity (e.g. two frequency bands, or 12 V and 24 V systems) stay in "
+             "ONE requirement.",
+    "tables": "Table cells follow the paragraph text. If the rows of a table are alternatives the manufacturer may "
+              "choose from (e.g. alternative test methods), give one requirement that refers to the table by its "
+              "number. If every row is mandatory (e.g. each test pulse or each test point), give one requirement per "
+              "row that carries every column of that row (all limits and classes, for every variant the row lists).",
+    "exempt": "Exemptions and presumptions of conformity (\"shall be deemed to comply with ...\", \"need not be "
+              "tested ...\") are requirements too: keep each as one requirement with its condition.",
+    "tests": "Test parameters that define the stress or conditions under which the component must perform or be "
+             "verified (frequency range and steps, modulation, test level, duration, temperature, impact speed) are "
+             "requirements. The physical arrangement of the test set-up (placement of the sample, cables, ground "
+             "plane, measuring equipment) is not.",
+    "modes": "Also return an empty list when a paragraph only applies to an operating mode, configuration or device "
+             "variant that the specification does not have (e.g. a charging mode coupled to the power grid for a "
+             "component without a charging function).",
+}
+ANSWER_MARK = "Answer as JSON matching the schema"
+
+
+def system_prompt(rules: tuple[str, ...] = ()) -> str:
+    """v2-Prompt, optional mit Zusatzregeln vor der Antwortanweisung."""
+    unknown = set(rules) - set(RULES)
+    if unknown:
+        raise ValueError(f"Unbekannte Regeln {sorted(unknown)}, erlaubt: {tuple(RULES)}")
+    if not rules:
+        return SYSTEM
+    extra = "Additional rules:\n" + "".join(f"- {RULES[r]}\n" for r in RULES if r in rules) + "\n"
+    i = SYSTEM.index(ANSWER_MARK)
+    return SYSTEM[:i] + extra + SYSTEM[i:]
+
+
 SCHEMA = {
     "type": "object",
     "properties": {"paragraphs": {"type": "array", "items": {
@@ -93,14 +133,17 @@ def _user_prompt(spec_text: str, batch: list[tuple[Regulation, Paragraph]]) -> s
 
 
 def llm_requirements(cands: list[tuple[Regulation, Paragraph]], spec_text: str, workers: int = 8,
-                     stats: dict | None = None) -> list[Requirement]:
+                     stats: dict | None = None, rules: tuple[str, ...] = ()) -> list[Requirement]:
     from .llm import ask_many  # erst hier: Tests und B0-Läufe brauchen weder openai noch Key
 
+    system = system_prompt(rules)
     batches = _batches(cands)
-    answers = ask_many([dict(system=SYSTEM, user=_user_prompt(spec_text, b), schema=SCHEMA, name="requirements")
+    answers = ask_many([dict(system=system, user=_user_prompt(spec_text, b), schema=SCHEMA, name="requirements")
                         for b in batches], workers=workers)
     stats = stats if stats is not None else {}
     stats.update(batches=len(batches), paragraphs=len(cands), kept=0, dropped=0, missing=0)
+    if rules:
+        stats["rules"] = [r for r in RULES if r in rules]
     reqs: list[Requirement] = []
     for batch, answer in zip(batches, answers):
         by_ref = {e["ref"]: e for e in answer.get("paragraphs", []) if isinstance(e, dict)}

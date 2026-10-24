@@ -42,3 +42,27 @@ def test_answers_map_to_paragraphs_with_fallback(monkeypatch):
 def test_schema_is_strict():
     item = llmextract.SCHEMA["properties"]["paragraphs"]["items"]
     assert item["additionalProperties"] is False and set(item["required"]) == set(item["properties"])
+
+
+def test_rules_extend_prompt_only_when_chosen(monkeypatch):
+    assert llmextract.system_prompt() is llmextract.SYSTEM  # v2 bytegleich → Cache von E020-a bleibt gültig
+    both = llmextract.system_prompt(("modes", "lists"))
+    assert both == llmextract.system_prompt(("lists", "modes"))  # Reihenfolge fest
+    assert both.index(llmextract.RULES["lists"]) < both.index(llmextract.RULES["modes"]) < both.index(llmextract.ANSWER_MARK)
+    assert llmextract.RULES["tables"] not in both
+    import pytest
+    with pytest.raises(ValueError):
+        llmextract.system_prompt(("bogus",))
+    seen = []
+    monkeypatch.setattr(llm, "ask_many", lambda requests, workers=8: seen.extend(requests) or [{"paragraphs": []}])
+    stats = {}
+    llmextract.llm_requirements([(_reg("UN R1"), _p("1.1"))], "# spec", stats=stats, rules=("exempt",))
+    assert llmextract.RULES["exempt"] in seen[0]["system"] and stats["rules"] == ["exempt"]
+
+
+def test_rules_need_llm():
+    import pytest
+    from certreq.extract import OPTIONS, extract_requirements
+    assert set(llmextract.RULES) <= set(OPTIONS)
+    with pytest.raises(ValueError, match="nur zusammen mit llm"):
+        extract_requirements([], options=("modal", "lists"))

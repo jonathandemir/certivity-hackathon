@@ -16,6 +16,10 @@ Optionen:
   llm    das LLM liest jeden Kandidat-Absatz mit Gliederungspfad und Bauteil-Spec und gibt die einzelnen Pflichten
          als shall-Sätze zurück, leer = nicht anwendbar (certreq/llmextract.py). Ersetzt split; Kandidaten wie sonst
          (Filter, shall bzw. modal).
+  lists, tables, exempt, tests, modes
+         Zusatzregeln für den LLM-Prompt (nur mit llm, llmextract.RULES): Aufzählungen im Satz zusammen lassen,
+         Tabellen mit Alternativen vs. Pflichtzeilen, Ausnahmen behalten, Prüfparameter behalten, fremde
+         Betriebsarten verwerfen. Einzeln messbar; Standard ohne Regeln (= E020-a).
 """
 from __future__ import annotations
 
@@ -23,10 +27,11 @@ import re
 
 from .pdf import Paragraph, parse_pdf
 from .regindex import Regulation
+from .llmextract import RULES
 from .relevance import relevant
 from .submission import Requirement
 
-OPTIONS = ("modal", "split", "llm")
+OPTIONS = ("modal", "split", "llm", *RULES)
 SHALL_RE = re.compile(r"\bshall\b", re.IGNORECASE)
 MODAL_RE = re.compile(r"\b(shall|must|may|permitted|allowed|required|mandatory|prohibited)\b", re.IGNORECASE)
 ITEM_RE = re.compile(r"(?:^|(?<=\s))\(([a-z])\)\s+")
@@ -58,6 +63,9 @@ def extract_requirements(regs: list[Regulation], spec_text: str = "", filters: t
     unknown = set(options) - set(OPTIONS)
     if unknown:
         raise ValueError(f"Unbekannte Optionen {sorted(unknown)}, erlaubt: {OPTIONS}")
+    rules = tuple(o for o in options if o in RULES)
+    if rules and "llm" not in options:
+        raise ValueError(f"Regeln {rules} wirken nur zusammen mit llm (--extract modal,llm,{','.join(rules)})")
     obligation = MODAL_RE if "modal" in options else SHALL_RE
     cands: list[tuple[Regulation, Paragraph]] = []
     for reg in regs:
@@ -70,7 +78,7 @@ def extract_requirements(regs: list[Regulation], spec_text: str = "", filters: t
             cands.extend((reg, para) for para, ok in zip(paras, keep) if ok and obligation.search(para.text))
     if "llm" in options:
         from .llmextract import llm_requirements
-        return llm_requirements(cands, spec_text, stats=stats)
+        return llm_requirements(cands, spec_text, stats=stats, rules=rules)
     reqs: list[Requirement] = []
     for reg, para in cands:
         texts = split_items(para.body) if "split" in options else [para.text]
