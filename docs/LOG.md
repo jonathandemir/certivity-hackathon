@@ -574,3 +574,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 20:29:05 +0200 | [finding] Claude-Kosten je Lauf (gemessene Tokens × Listenpreis) | Jonathan @ MacBook-Pro-von-Jonathan | main@05d3a23 +lokale Änderungen
 - Opus 5.5 $4/$20 je Mio.: Held-out-Lauf ≈ $3.6, Dev-Lauf ≈ $2.5, nur Zeichnung ≈ $3.7, R175 ≈ $0.4, Claude-Richter dev ≈ $2.2, Fable-Fallback ≈ $9. Sonntag ≈ $8–13, mit Reserve ≈ $25; eine Regel komplett messen ≈ $10.
 - Tokens aus meta.json (E040-a, E044-a, out/bumper, X-R175-C-rep) und AP10-K3-c; Preise aus der Anthropic-Modelltabelle. In PLAN Sonntagsablauf.
+
+### 2026-10-24 20:35:00 +0200 | [finding] F2-Schwelle: Streichen lohnt nur unter q* = F2/5 ≈ 15 % Trefferchance | Jonathan @ MacBook-Pro-von-Jonathan | main@82bcda0 +lokale Änderungen
+- F2 = 5TP/(4G+N). E040-a: 197 ohne Treffer (36 im Gold-Absatz, 93 Gold-Seite anderer Absatz, 68 ohne Gold), 23 fehlend alle mit Kandidat (15 R48: optionale Leuchten, Ausnahmen, Toleranz). Erklärt die gescheiterten Precision-Regeln; ein Treffer ≈ +0.0045, Streuung ±0.02 ≈ 4 Treffer.
+- Auswertung out/E040-a.judge.json (lokal), LEARNINGS.

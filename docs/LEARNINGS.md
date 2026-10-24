@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · F2 = 5·Treffer / (4·Gold + Ausgaben): Streichen lohnt nur unter q* = F2/5 ≈ 15 % Trefferchance.** Herleitung:
+  F2 = 5TP/(5TP+4FN+FP) und 5TP+4FN+FP = 4G+N. Eine Ausgabe mit Trefferwahrscheinlichkeit q verbessert F2 genau dann, wenn
+  q > TP/(4G+N) = F2/5. Beleg E040-a (gpt-Richter): G 190, N 364, TP 167 → F2 0.743, q* 0.149. Die 197 Ausgaben ohne Treffer:
+  36 im Gold-Absatz (feiner zerlegt als das Gold), 93 auf Gold-Seiten in anderen Absätzen, 68 in Absätzen ohne Gold (R26 18).
+  Die 23 fehlenden Gold-Anforderungen haben alle einen Kandidaten; 15 davon R48 (optionale Leuchten, gekürzte Ausnahmen,
+  ±3°-Toleranz). Konsequenz: Precision-Regeln scheitern, weil sie Ausgaben mit q > 15 % mitstreichen (vehicle, procedure,
+  duties). Eine Regel lohnt nur, wenn sie fast nur Nulltreffer entfernt oder Treffer hinzufügt; jeder Treffer = +5/(4G+N)
+  ≈ +0.0045 F2, die Streuung je Lauf (±0.02) entspricht ~4 Treffern. **Für den Stoßfänger plausibel?** Die Formel gilt
+  allgemein; die restlichen Dev-Lücken (R48 optionale Heckleuchten) sind heckleuchten-spezifisch.
 - **2026-10-24 · Nur mit Zeichnung braucht die Auswahl eine abgeleitete Fahrzeugklasse.** Beleg: E042-a → E043-a (neue
   Dev-Zeichnung, gpt, Richter lenient): ohne Klasse verwirft `--select llm2` R48 als Annahme („If the host vehicle is category
   M, N or O …“), F2 0.608; mit `--infer-category` (Vision-Modell leitet M1 aus Produktart und Bauform ab) 4/4 Regelungen,
