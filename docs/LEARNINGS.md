@@ -5,6 +5,16 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Rechner im Team laufen in verschiedenen Zeitzonen.** Beleg: LOG-Einträge von Homsianer (VM) und Amiad
+  (Cloud) mit +0000, Jonathan mit +0200 → session-start sortierte 16:22 vor 15:00. Konsequenz: `scripts/log` schreibt
+  immer `TZ=Europe/Berlin` (selftest prüft das mit TZ=UTC); ältere +0000-Einträge bleiben leicht falsch einsortiert.
+  Linux braucht dafür `tzdata` (auf normalen VMs vorhanden).
+- **2026-10-24 · Precision-Verlust kommt vor allem aus Absätzen, die die Musterlösung gar nicht nimmt.** Beleg:
+  experiments/runs/E020-a/analyse.json (Richter lenient): 207 Treffer-lose = 139 aus Nicht-Gold-Absätzen, 54 aus
+  Gold-Absätzen (39 rechnerisch überzählig), 14 aus Extra-Regelungen. In R48 lässt das Gold „Presence"-Absätze
+  (Ausrüstungspflicht des Fahrzeugs), nicht vorhandene Varianten (S3/S4, bewegliche/versenkbare Leuchten,
+  asymmetrische Fahrzeuge, Anhänger) und Verwaltung weg. **Für den Stoßfänger plausibel?** Ja als Prinzip
+  (Anwendbarkeit auf das Bauteil), nicht als Liste von Absatznummern. Fehlende 37: R10 17, R48 11, R150 5, R148 4.
 - **2026-10-24 · GTRs haben einen unverbindlichen Teil I, der wie Regelungstext aussieht.** Beleg: UN GTR 9 base (131 S.): „I. Statement of technical rationale and justification" S. 1–70 mit eigener Nummerierung 1., 2. … (13 doppelte Absatzlabels mit Teil II), „II. Text of the Regulation" ab S. 71; mit `--filters` admin/cop/parts/esa stammen 38 von 214 modal-Kandidaten aus Teil I (Jonathans Robustheitslauf zitierte S. 4/15/18). Konsequenz: pdf.py markiert Teil I im Kontext, Filter `rationale` wirft ihn raus (in `--filters all`). **Für den Stoßfänger plausibel?** Ja, genau dort: GTR 9 (Fußgängerschutz) betrifft die Fahrzeugfront.
 - **2026-10-24 · Plattform-Eichung: Seiten und Regelungen lokal exakt, Anforderungen lokal mit `--judge lenient`.**
   Beleg: E020-a-P, E008-a-P, AP10-K2 (experiments/runs/*/platform.json): Seiten- und Regelungswerte von score_local

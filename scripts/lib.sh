@@ -26,8 +26,10 @@ note() { printf '%s\n' "$*" >&2; }
 
 me()        { git config user.name 2>/dev/null || echo "${USER:-unbekannt}"; }
 host()      { uname -n | cut -d. -f1; }
-now()       { date '+%Y-%m-%d %H:%M:%S %z'; }
-now_short() { date '+%Y-%m-%d %H:%M'; }
+# Alle Zeitstempel in Berliner Zeit (Event in München), egal wie der Rechner steht: sonst sortiert session-start
+# UTC-Einträge (VMs, Cloud-Agenten) falsch ein. Die Zeitumstellung So 03:00 → 02:00 übernimmt die tz-Datenbank.
+now()       { TZ=Europe/Berlin date '+%Y-%m-%d %H:%M:%S %z'; }
+now_short() { TZ=Europe/Berlin date '+%Y-%m-%d %H:%M'; }
 
 current_branch() { git symbolic-ref --short -q HEAD; }
 short_head()     { git rev-parse --short HEAD 2>/dev/null; }

@@ -331,3 +331,12 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Kandidaten: R10 15 von 15, R48 34 von 35 Gold-Absätzen sind nach --filters all + modal Kandidaten (R48 6.14.5 ohne Pflichtwort, 2 Gold). Fehlend je Regelung: R10 18 (12 mit freier eigener Ausgabe im selben Absatz, 6 Absatz ohne Ausgabe), R48 16 (10/3/3 bereits anderweitig zugeordnet), R148 9, R150 6. Frei (FP) 219 von 360, davon R48 §5 'General specifications' 45 von 55
 - Muster: (1) Aufzählung im selben Satz zerlegt: R48 5.26.1 (7 Umweltbedingungen → 7), 5.9.2 (3), R10 6.5.2.1/6.6.2.1 (Grenzwert über zwei Frequenzbänder in einem Satz → 2; Gold 1). (2) Tabellen: R10 6.8.2.1 Tabelle mit alternativen Prüfmethoden → 14 Zeilen-Anforderungen, Gold verweist auf die Tabelle (2); R10 6.9.1 Pflicht-Prüfpulse je Zeile wie Gold, aber Spalte 'nicht immunitätsrelevant' fehlt (8 strict-Fehlgriffe). (3) Ausnahmen 'shall be deemed to comply' (R10 6.10.1, 6.10.5) verworfen. (4) Prüfparameter (Annex 9 3.1 Frequenzbereich/Modulation, 4 Gold) verworfen, Prüfaufbau ('ESA in normal operation mode', 4 FP) behalten. (5) REESS-Lademodus-Abschnitte (R10 7.x, Annex 21/22) für eine Leuchte ohne Ladefunktion behalten
 - Beleg: lokale Auswertung von experiments/runs/E020-a/score.json (matches) gegen expected.json; Gold-Texte nur lokal, nicht committet. Plattform zählt mehr Treffer (154 vs 141 strict), Muster (1)/(2) kosten dort vor allem Precision
+### 2026-10-24 16:31:26 +0200 | [finding] Fehleranalyse E020-a: wo die Punkte liegen | Jonathan @ MacBook-Pro-von-Jonathan | main@87ffc6c +lokale Änderungen
+- 207 Treffer-lose: 139 aus Absätzen, die das Gold nicht nimmt (R48 General specs 60, R48 Individual 15, R148 14, R150 Prüfungen 20, R10 Prüfverfahren ~20), 54 in Gold-Absätzen (39 überzählig), 14 aus R26/R42
+- Gold lässt in R48 'Presence'-Absätze, nicht vorhandene Varianten (S3/S4, beweglich, versenkbar, asymmetrisch, Anhänger) und Verwaltung weg → Prinzip Anwendbarkeit je Absatz (wie llm2)
+- 37 Fehlende: R10 17, R48 11, R150 5, R148 4; 13 ohne jede Extraktion aus dem Gold-Absatz
+- Priorisierte Liste in docs/PLAN.md 'Verbesserungen nach Punkten', Beleg experiments/runs/E020-a/analyse.json
+
+### 2026-10-24 16:31:26 +0200 | [change] scripts/log: Zeitstempel immer Berliner Zeit | Jonathan @ MacBook-Pro-von-Jonathan | main@87ffc6c +lokale Änderungen
+- Anlass: UTC-Einträge von VM/Cloud wurden im Sessionstart falsch sortiert
+- selftest 143/143 auf macOS und Debian (neue Prüfung mit TZ=UTC)

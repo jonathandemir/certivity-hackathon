@@ -56,6 +56,24 @@ Alle arbeiten direkt auf main (AGENTS.md §4); die Dateigrenzen unten ersetzen d
 - A/B → C: Die Demo liest nur `out/<fall>.json` + `.meta.json` (Format steht, E001 ist ein Beispiel). A liefert dazu die Begründung je Regelung in `.meta.json`.
 - C nutzt für das Sub-Goal `certreq.pdf.parse_pdf` auf alter und neuer Version (Absätze mit Seite).
 
+## Verbesserungen nach Punkten (Stand 16:35, aus Plattform-Eichung und Fehleranalyse E020-a)
+
+Hauptscore dev auf der Plattform: F2 0.687 (P 0.428, R 0.811). 207 von 360 Anforderungen ohne Treffer, 37 von 190
+Gold-Pflichten fehlen (experiments/runs/E020-a/analyse.json). Messung lokal mit `eval --judge lenient` (= Plattform
+±1 Treffer) und `--judge strict` (Untergrenze); jede Änderung einzeln, Streuung ±0.02 beachten.
+
+| Prio | Wer | Was | Beleg / erwarteter Effekt |
+|---|---|---|---|
+| 1 | B | **Anwendbarkeit je Absatz** wie `--select llm2`, eine Ebene tiefer: verwerfen, was nur das Fahrzeug ausrüstet („Presence: mandatory on vehicles …"), Varianten, die die Spec nicht hat (S3/S4-Bremsleuchte, bewegliche/versenkbare Leuchten, asymmetrische Fahrzeuge, Anhänger-Dreiecke), reine Verwaltung, reine Prüfabläufe | 139 Treffer-lose aus Nicht-Gold-Absätzen (R48 General specs 60, R48 Individual 15, R148 14, R150 Prüfungen 20, R10 Prüfverfahren ~20). Ohne Trefferverlust: Precision 0.43 → ~0.69, F2 → ~0.78 (Obergrenze) |
+| 2 | B | **Überzerlegung/Dubletten**: Varianten derselben Pflicht nicht einzeln ausgeben (z. B. R148 3.3.3.4 dreimal „marking of rated voltage …") | 39 überzählige Anforderungen in Gold-Absätzen; F2 ~+0.02 |
+| 3 | B | **Recall R10 (EMV)**: Prüfpegel je Puls/Stufe als Einzelpflichten (R10 6.9.1 = 10 Gold-Anforderungen) | 17 der 37 Fehlenden sind R10 |
+| 4 | B | **Fehlende ohne jede Extraktion** prüfen (Filter oder LLM verwirft Gold-Absatz, z. B. R48 5.18, 6.14.5) | 13 der 37 Fehlenden |
+| 5 | A | Sonntag: **R127 vs GTR 9** und **R26/R42** per Upload-Paar entscheiden (mit/ohne), nicht vorher raten | dev: R26/R42 kosten 14 Treffer-lose (~0.01 F2) |
+| 6 | C | **Sub-Goal**: Recall der `added` (13/17), Change accuracy 0.889; lokale Messung der Change accuracy fehlt; Held-out-Sub-Goal ist eine andere Regelung | Plattform E003-am-P: Recall 0.792, Precision 0.760 |
+| 7 | C | **Demo-Pflicht R3 prüfen**: Spec **oder** nur Zeichnung → Anforderungen ohne Handgriffe; jede Anforderung verlinkt auf ihre PDF-Seite; Auswahl-Begründungen (`.meta.json` `selection`) zeigen; neuer Fall dauert ~4 min → Held-out-Ergebnis vorab rechnen, Live-Demo aus Cache | Jury: Demo 20 % |
+| 8 | alle | **Pitch-Belege**: Richter gegen Plattform geeicht (±1 Treffer), 20+ gemessene Versuche im Ledger, Schwächen offen (Streuung ±0.02, Zeichnung allein 0.42, EMV-Recall) | Pitch 10 % + Impact 15 % |
+| 9 | A | **R4 vorbereiten**: Repo wird abgegeben → vor dem Öffnen prüfen, dass keine Paketdaten in der Historie sind; Basisfragen + Demo-Link | Pflicht R4 |
+
 ## Zeitplan (Vorschlag, vom Team zu bestätigen; Sonntag = MEZ nach Zeitumstellung)
 
 | Wann | Was |

@@ -35,12 +35,12 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 ## Nächste Schritte
 
-1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
-   Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
-2. **Alle:** LLM-Zugang steht (`certreq/llm.py`, OpenAI). Einmal `scripts/setup` (installiert `openai`), Key in `.env.local` im eigenen Checkout (von Jonathan; nie ins Repo, nie in den Chat), Check: `.venv/bin/python -m certreq.llm`.
-3. **Erledigt: Plattform-Eichung** (E020-a-P, E008-a-P, E003-am-P, AP10-K2). Dateien: `.venv/bin/python -m certreq.upload E020-a E008-a E003-am`
-   → `out/upload/`. Hochladen: E020-a + E008-a (Hauptziel, dev-rear-lamp), E003-am (Sub-Goal, subgoal-dev). Angezeigte
-   Plattformwerte an A geben → Eichung lokaler Richter (strict 0.629 / 0.060, lenient B0 0.095) und Sub-Goal-Näherung (0.826).
+1. **Alle: priorisierte Verbesserungsliste in docs/PLAN.md „Verbesserungen nach Punkten"** (Plattform-Eichung + Fehleranalyse E020-a).
+   Messen mit `eval --judge lenient` (= Plattform ±1 Treffer) und `--judge strict` (Untergrenze).
+2. **Erledigt (A):** Team BarelyLegal registriert (team-12), alle drei im Repo; LLM-Zugang (`certreq/llm.py`); Plattform-Eichung
+   (E020-a-P F2 0.687, E008-a-P, E003-am-P, AP10-K2). Upload-Dateien: `.venv/bin/python -m certreq.upload <IDs>` → `out/upload/`.
+3. **A als Nächstes:** Bitte von C umsetzen (Bildregion je Bauteil aus `vision.py` in `.meta.json`), Sonntag-Ablauf vorbereiten
+   (R127/GTR 9 und R26/R42 per Upload-Paar entscheiden), R4 vorbereiten (Historie vor dem Öffnen des Repos prüfen).
 4. **B (Homsianer):** erledigt: `run` ohne Schalter = E020-a. Als Nächstes: R10 (EMV-Prüfpegel als Einzelpflichten) und R48. Jede AP4-Änderung mit `eval --judge strict` messen.
    **C (Demo):** `demo/server.py` MODES angepasst (abgesprochen über Homsianer): „best" = Standard von `run` (jetzt `--select llm2`), „fast" = `--select b0 --filters none --extract none` (sonst bräuchte fast nach der Umstellung einen Key). Bitte demo/README.md Zeile „Prüfungen" nachziehen.
    **C (Sub-Goal):** `certreq/subgoal.py` nutzt noch `team-unregistered`; bitte `from .submission import TEAM_ID` (team-12) als Standard nehmen.
@@ -52,8 +52,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    Gold nimmt, ist unbekannt (beide behalten, F2 gewichtet Recall).
    **B:** erledigt: GTR-Teil I (Begründung) fällt mit Filter `rationale` weg (in `--filters all`, also Standard); GTR 9: 214 → 176
    Kandidaten, keiner mehr vor S. 71. Dev unverändert (nur GTR 9 betroffen).
-6. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
-   „Rechner" unter Team eintragen, dann erstes Paket per `scripts/claim add` übernehmen (Reihenfolge: docs/PLAN.md).
 
 ## Entscheidungen
 

@@ -1,0 +1,91 @@
+{
+ "stand": "E020-a (main@fd0820a), Richter lenient",
+ "unmatched_ours": {
+  "c) Absatz nicht im Gold (Relevanz: hätte nicht extrahiert werden sollen)": 139,
+  "b) Absatz im Gold, aber unsere Anforderung trifft nicht (Zerlegung/Formulierung/Dublette)": 54,
+  "a) Regelung nicht im Gold (Auswahl-Extra)": 14
+ },
+ "relevance_by_section": [
+  [
+   "UN R48",
+   "General specifications",
+   60
+  ],
+  [
+   "UN R48",
+   "Individual specifications",
+   15
+  ],
+  [
+   "UN R148",
+   "General technical requirements",
+   14
+  ],
+  [
+   "UN R150",
+   "Environmental Testing",
+   14
+  ],
+  [
+   "UN R150",
+   "Chemical testing",
+   6
+  ],
+  [
+   "UN R10",
+   "",
+   6
+  ],
+  [
+   "UN R10",
+   "Method of testing for immunity of electrical/electronic sub ",
+   6
+  ],
+  [
+   "UN R148",
+   "Administrative provisions",
+   5
+  ],
+  [
+   "UN R10",
+   "Method(s) of testing for immunity of electrical/electronic s",
+   4
+  ],
+  [
+   "UN R148",
+   "Standard light distributions",
+   3
+  ],
+  [
+   "UN R150",
+   "Administrative provisions",
+   2
+  ],
+  [
+   "UN R10",
+   "Additional specifications in the configuration \"REESS chargi",
+   2
+  ],
+  [
+   "UN R10",
+   "Method of measurement of radiated broadband electromagnetic ",
+   1
+  ],
+  [
+   "UN R10",
+   "Method of measurement of radiated narrowband electromagnetic",
+   1
+  ]
+ ],
+ "overcount_in_gold_paragraphs": 39,
+ "missed_expected": {
+  "ii) wir haben Anforderungen aus dem Absatz, aber keine trifft": 24,
+  "i) wir haben aus diesem Absatz nichts": 13
+ },
+ "missed_by_regulation": {
+  "UN R150": 5,
+  "UN R48": 11,
+  "UN R10": 17,
+  "UN R148": 4
+ }
+}

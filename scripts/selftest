@@ -178,6 +178,9 @@ code_commit "$M1" n q.py; HQ=$(git -C "$M1" rev-parse --short HEAD)
 run "$M1" scripts/log --commit "main@$HQ" "[run] ungepusht"; rc 0 "log --commit ungepusht"; has "keinem origin-Branch" "warnt bei ungepushtem Messstand"
 git -C "$M1" checkout -q -- docs/LOG.md; git -C "$M1" reset -q --hard origin/main
 
+title "Zeitstempel immer Berliner Zeit (auch auf UTC-Rechnern)"
+OUT=$(cd "$M1" && TZ=UTC bash -c '. scripts/lib.sh; now'); DESC="TZ=UTC ergibt trotzdem Berliner Offset"; yes_ sh -c "printf '%s' '$OUT' | grep -qE ' \\+0[12]00$'"
+
 title "Experiment-Branch (Ausnahme)"
 git -C "$M3" switch -q -c exp-ben
 echo "zusatz" >> "$M3/docs/PLAN.md"; git -C "$M3" commit -qam "plan auf branch (falsch)"
