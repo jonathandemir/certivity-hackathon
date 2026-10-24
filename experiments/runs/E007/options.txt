@@ -1,0 +1,12 @@
+# Stand main@8357f66 (Code sauber): PYTHONPATH=. .venv/bin/python experiments/runs/E007/measure_options.py shall shall+modal shall+split shall+modal+split
+# alle Zeilen mit --filters all. Anf.-Obergrenze = je Gold-Absatz min(unsere, Gold-Anzahl); KEIN Plattformwert
+== gold-regs
+  shall                      n=  564  Seiten F2 0.773 (R 1.000) | Absätze P 0.169 R 0.798 F2 0.458 | Anf.-Obergrenze P 0.168 R 0.500 F2 0.359
+  shall+modal                n=  665  Seiten F2 0.759 (R 1.000) | Absätze P 0.177 R 0.975 F2 0.512 | Anf.-Obergrenze P 0.174 R 0.611 F2 0.407
+  shall+split                n=  635  Seiten F2 0.773 (R 1.000) | Absätze P 0.169 R 0.798 F2 0.458 | Anf.-Obergrenze P 0.169 R 0.563 F2 0.384
+  shall+modal+split          n=  750  Seiten F2 0.759 (R 1.000) | Absätze P 0.177 R 0.975 F2 0.512 | Anf.-Obergrenze P 0.173 R 0.684 F2 0.430
+== auswahl-B0
+  shall                      n= 2341  Seiten F2 0.348 (R 0.849) | Absätze P 0.035 R 0.681 F2 0.145 | Anf.-Obergrenze P 0.035 R 0.426 F2 0.131
+  shall+modal                n= 2614  Seiten F2 0.339 (R 0.849) | Absätze P 0.039 R 0.849 F2 0.166 | Anf.-Obergrenze P 0.039 R 0.532 F2 0.150
+  shall+split                n= 2663  Seiten F2 0.348 (R 0.849) | Absätze P 0.035 R 0.681 F2 0.145 | Anf.-Obergrenze P 0.034 R 0.479 F2 0.133
+  shall+modal+split          n= 2966  Seiten F2 0.339 (R 0.849) | Absätze P 0.039 R 0.849 F2 0.166 | Anf.-Obergrenze P 0.038 R 0.595 F2 0.152

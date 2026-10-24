@@ -149,3 +149,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - modal: auch Absätze mit must/may/(not) permitted/allowed/required/mandatory/prohibited (im Dev-Gold 35 von 190 Anforderungen ohne shall). split: Aufzählungen (a)(b)(c) je Punkt eine Anforderung mit Einleitungssatz (R150 5.1.1 → 3), Verweise wie 'paragraphs 3.3.3.5. (a) and (b)' bleiben ganz; Text aus Paragraph.body (ohne Überschrift). Satzweises Zerlegen geprüft und verworfen (Obergrenze 0.411 statt 0.407, Precision fällt). meta.json hält 'extract' fest
 - Vormessung (offiziell folgt): Obergrenze Anforderungsebene = je Gold-Absatz min(unsere, Gold-Anzahl), unterstellt Treffer im richtigen Absatz, KEIN Plattformwert. Mit Gold-Regelungen + --filters all: ohne 0.359, modal 0.407, split 0.384, beide 0.430; Seiten-F2 modal 0.773→0.759 (zusätzliche Nicht-Gold-Seiten), split unverändert
 - Geprüft: pytest 35/35, Ausgabe mit --filters all --extract all besteht validate.py
+
+### 2026-10-24 14:33:34 +0200 | [run] E007 --filters all --extract modal,split | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8357f66
+- vs E006: Seiten-F2 0.348→0.339 (P 0.103→0.100, R 0.849 gleich), Regelungen gleich; 2966 Anforderungen
+- Gegen expected.json, keine Plattform: Absatz-F2 0.145→0.166; Obergrenze Anforderungsebene (je Gold-Absatz min(unsere, Gold-Anzahl)) F2 0.131→0.152, R 0.426→0.595; mit Gold-Regelungen 0.359→0.430. Einzeln in experiments/runs/E007/options.txt: modal kostet Seiten-F2 (−0.009 bzw. −0.014), split ist auf Seiten neutral
+- Keine neue Bestmarke. Konflikt Seiten vs Anforderungen löst nur eine Anforderungs-Messung (AP10 oder Plattform-Upload): Kandidat für den ersten Richter-Lauf
