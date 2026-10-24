@@ -402,3 +402,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 17:57:34 +0200 | [run] E030-hs-c/E031-hs-c: Regeln vehicle und procedure (Claude-Reihe) | Homsianer @ vm | gemessen auf main@870cd16
 - Referenz E024-hs-c 0.721 (161/356). +vehicle: 0.698 (152/329; R48 40→34) → verworfen (LEARNINGS). +procedure: 0.729 (154/296; P 0.452→0.520, R 0.847→0.810; R10 29→24) → innerhalb der Streuung, bleibt hinter Schalter
 - Standard bleibt E022-hs/E024-hs-c (5 Regeln). Belege experiments/runs/E030-hs-c, E031-hs-c
+
+### 2026-10-24 17:57:53 +0200 | [change] STATUS/LEARNINGS: Stand B nach Claude-Reihe, Hinweis R4 (Key in der Historie) | Homsianer @ vm | main@6391022 +lokale Änderungen
+- LEARNINGS: modes und tables tragen den Regel-Gewinn (Beleg E025–E029-hs-c), Stoßfänger-Plausibilität. STATUS: B-Stand, nächste Schritte, Hinweis an A: Anthropic-Key in d3d3b7b/a87a74f, vor R4 widerrufen bzw. Historie bereinigen

@@ -5,6 +5,7 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Prompt-Regeln modes und tables tragen den Gewinn der Zusatzregeln, in beiden Modellen.** Beleg: Bündel (lists, tables, exempt, tests, modes) gpt E021-hs→E022-hs lenient 0.704→0.743, Claude E023-hs-c→E024-hs-c strict 0.697→0.721; je eine weggelassen (E025–E029-hs-c, main@8c201e1): ohne modes 0.695, ohne tables 0.690 (R10 29→22), ohne lists 0.709, ohne tests 0.719, ohne exempt 0.722. Konsequenz: Standard von `run` seit 2026-10-24 mit allen fünf. **Für den Stoßfänger plausibel?** Ja: tables betrifft R10-Prüfpegel (Sensoren/Elektronik im Stoßfänger), modes verwirft Betriebsarten, die die Spec nicht hat; beide ohne Leuchten-Bezug formuliert.
 - **2026-10-24 · Rechner im Team laufen in verschiedenen Zeitzonen.** Beleg: LOG-Einträge von Homsianer (VM) und Amiad
   (Cloud) mit +0000, Jonathan mit +0200 → session-start sortierte 16:22 vor 15:00. Konsequenz: `scripts/log` schreibt
   immer `TZ=Europe/Berlin` (selftest prüft das mit TZ=UTC); ältere +0000-Einträge bleiben leicht falsch einsortiert.
