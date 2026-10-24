@@ -5,6 +5,13 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Opus 5.5 extrahiert auch außerhalb des Dev-Falls besser als gpt-6.1-sol.** Beleg: Plattform dev
+  E024-hs-c 0.762 vs E022-hs 0.725; R175-Prüfstein mit gleichem gpt-Richter X-R175-C/C-rep 0.657/0.660 vs gpt
+  X-R175-B/B-rep 0.578/0.597 (+0.07, ~10 Treffer, stabil über 2 Läufe); Fable 5.1 dazwischen (0.621, X-R175-F).
+  Auswahl-Test X-SEL-llm2-c: Opus 9 statt 11 Fehlauswahlen, aber anderes Muster (nimmt R94/R137 für Crash-Bauteile).
+  Konsequenz: Held-out mit `CERTREQ_PROVIDER=anthropic` (claude-opus-5-5) rechnen; Messungen weiter mit gpt-Richter
+  (Provider nur für den Lauf setzen, nie in .env.local). **Für den Stoßfänger plausibel?** Ja, der Vorsprung hält auf einer
+  fremden, prüflastigen Regelung; Opus wählt dort zusätzlich R94 → Upload-Variante ohne R94 vorbereiten.
 - **2026-10-24 · Die Regelungsauswahl generalisiert im Recall; Fehler entstehen über „Lage am Fahrzeug“.** Beleg:
   X-SEL-llm2 / X-SEL-llm (10 synthetische Bauteile, Lösungen vorab aus den Geltungsbereichen festgelegt, main@d044959).
   llm2: 20/20 sichere Regelungen, keine Zusammenlegungs- oder Klassenfalle (R19/R123 → R149, R3/R104 → R150, R131 nur
