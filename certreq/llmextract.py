@@ -8,7 +8,8 @@ Fehlt ein Absatz in der Antwort, bleibt sein Rohtext (kein stiller Recall-Verlus
 Das Beispiel im Prompt ist selbst geschrieben (andere Regelung), nicht aus dem Dev-Gold, damit die Dev-Messung ehrlich bleibt.
 
 Zusatzregeln (RULES) aus der Fehleranalyse von E020-a (LOG [finding] 2026-10-24): einzeln per `--extract` schaltbar
-(lists, tables, exempt, tests, modes), damit jede für sich gemessen werden kann. Ohne Regel ist der Prompt bytegleich
+(lists, tables, exempt, tests, modes; dazu vehicle, procedure aus der Analyse von E024-hs-c), damit jede für sich
+gemessen werden kann. Ohne Regel ist der Prompt bytegleich
 zu v2, gecachte Antworten (E020-a) bleiben gültig. Die Beispiele in den Regeln sind allgemein formuliert, keine Gold-Texte.
 """
 from __future__ import annotations
@@ -78,6 +79,16 @@ RULES = {
     "modes": "Also return an empty list when a paragraph only applies to an operating mode, configuration or device "
              "variant that the specification does not have (e.g. a charging mode coupled to the power grid for a "
              "component without a charging function).",
+    "vehicle": "Also return an empty list for obligations that only concern the vehicle or its other equipment and that "
+               "this component does not influence: whether a device is mandatory or optional on a vehicle category, how "
+               "many devices a vehicle carries, tell-tales, switches or notices inside the vehicle, and installation "
+               "variants the specification does not mention (e.g. mounting on movable or concealed parts). A requirement "
+               "worded for the vehicle still applies when this component forms or carries what it regulates (e.g. the "
+               "external surface, a mounting height or position).",
+    "procedure": "Instructions on how the Technical Service or test laboratory carries out a test (which standard or "
+                 "method to follow, set-up, sequence of steps, sample handling, measuring intervals, test methods the "
+                 "manufacturer may choose among) are not requirements: leave them out. Keep what the component must "
+                 "withstand or achieve in the test (severity levels, exposure durations, pass or fail criteria).",
 }
 ANSWER_MARK = "Answer as JSON matching the schema"
 

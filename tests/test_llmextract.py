@@ -66,3 +66,12 @@ def test_rules_need_llm():
     assert set(llmextract.RULES) <= set(OPTIONS)
     with pytest.raises(ValueError, match="nur zusammen mit llm"):
         extract_requirements([], options=("modal", "lists"))
+
+
+def test_neue_regeln_lassen_den_standard_prompt_unveraendert():
+    """vehicle/procedure stehen hinter den fünf Standardregeln: deren Prompt (und Cache von E024-hs-c) bleibt gleich."""
+    five = ("lists", "tables", "exempt", "tests", "modes")
+    assert list(llmextract.RULES)[:5] == list(five)
+    prompt = llmextract.system_prompt(five)
+    assert llmextract.RULES["vehicle"] not in prompt and llmextract.RULES["procedure"] not in prompt
+    assert llmextract.RULES["vehicle"] in llmextract.system_prompt(five + ("vehicle",))

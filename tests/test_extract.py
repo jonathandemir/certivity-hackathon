@@ -158,6 +158,5 @@ def test_run_defaults_are_the_measured_best(monkeypatch):
     monkeypatch.setattr(cli, "cmd_run", lambda args: seen.update(vars(args)) or 0)
     assert cli.main(["run", "some-case"]) == 0
     assert (seen["select"], cli._parse_filters(seen["filters"])) == ("llm2", cli.FILTERS)
-    from certreq.llmextract import RULES
-    assert cli._parse_list(seen["extract"], cli.OPTIONS, "x") == ("modal", "llm", *RULES)
+    assert cli._parse_list(seen["extract"], cli.OPTIONS, "x") == ("modal", "llm", "lists", "tables", "exempt", "tests", "modes")
     assert cli._parse_list("none", cli.OPTIONS, "x") == () and cli._parse_filters("none") == ()
