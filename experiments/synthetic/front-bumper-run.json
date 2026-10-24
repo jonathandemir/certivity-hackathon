@@ -1,0 +1,116 @@
+{
+ "zweck": "Robustheit/Plausibilität, keine Messung (keine Musterlösung)",
+ "stand": "main@ff9e843",
+ "laufzeit_s": 231,
+ "llm_aufrufe_neu": 146,
+ "tokens_neu": {
+  "prompt": 355000,
+  "antwort": 80000
+ },
+ "auswahl": [
+  {
+   "regulation": "UN R42",
+   "role": "component",
+   "reason": "The bumper beam, fascia and energy absorber provide the front protective-device function whose low-speed collision behaviour is regulated for M1 vehicles."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The exposed fascia, grille, fog-lamp bezels, sensor faces, towing-eye cover and registration-plate holder must satisfy the external-projection requirements applicable to M1 vehicles."
+  },
+  {
+   "regulation": "UN R127",
+   "role": "cross-cutting",
+   "reason": "The bumper forms the pedestrian lower-leg contact zone, making its geometry, stiffness and energy absorption relevant to the M1 vehicle's pedestrian-impact performance."
+  },
+  {
+   "regulation": "UN GTR 9",
+   "role": "cross-cutting",
+   "reason": "The specified pedestrian-protection function directly engages the GTR's bumper leg-impact requirements, subject to implementation through the applicable approval framework."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "component",
+   "reason": "The integrated LED front fog lamps fall within the consolidated road-illumination regulation, including its applicable photometric and plastic-lens requirements."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation of the front fog lamps in the M1 bumper must meet requirements for positioning, orientation, geometric visibility and electrical operation."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "component",
+   "reason": "If the LED fog lamps use standardized LED light sources covered by Annex 1, those sources require compliance with this regulation; integral LED modules are instead assessed under the lamp regulation."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED lamp electronics and ultrasonic and radar sensing equipment engage electromagnetic-compatibility requirements at electronic-subassembly and vehicle-integration levels, as applicable."
+  },
+  {
+   "regulation": "UN R94",
+   "role": "cross-cutting",
+   "reason": "The bumper beam, absorber and attachments influence frontal crash load transfer and must remain compatible with vehicle-level frontal-collision requirements for M1 vehicles within the regulation's mass scope."
+  },
+  {
+   "regulation": "UN R137",
+   "role": "cross-cutting",
+   "reason": "The front bumper's structural and energy-absorbing characteristics affect the crash pulse underlying frontal-impact occupant-protection compliance for M1 vehicles within the regulation's mass scope."
+  },
+  {
+   "regulation": "UN R152",
+   "role": "installation",
+   "reason": "If the front radar supplies AEBS, its bumper mounting, alignment and surrounding fascia must preserve the detection performance needed for the M1 vehicle's emergency-braking approval."
+  },
+  {
+   "regulation": "UN R155",
+   "role": "cross-cutting",
+   "reason": "The integrated electronic driver-assistance sensors and their interfaces must be addressed in the M1 vehicle's cybersecurity risk assessment and applicable protective measures."
+  },
+  {
+   "regulation": "UN R19",
+   "role": "rejected",
+   "reason": "Front fog lamps are relevant, but UN R149 expressly consolidates UN R19 and is selected instead."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "The polycarbonate fog-lamp lenses are glazing for lighting devices, which the stated scope expressly excludes."
+  },
+  {
+   "regulation": "UN R148",
+   "role": "rejected",
+   "reason": "The specification contains front fog lamps, not light-signalling functions covered by this regulation, and a front registration-plate holder is not a rear-registration-plate illuminating lamp."
+  },
+  {
+   "regulation": "UN R131",
+   "role": "rejected",
+   "reason": "Its AEBS scope covers heavier vehicle categories rather than the specified M1 passenger car; UN R152 is the relevant regulation if the radar serves AEBS."
+  },
+  {
+   "regulation": "UN R156",
+   "role": "rejected",
+   "reason": "The specification does not establish software-update capability in the sensors or their integration, so electronic equipment alone does not establish this regulation's applicability."
+  }
+ ],
+ "anforderungen_je_regelung": {
+  "UN R42": 17,
+  "UN R26": 22,
+  "UN R127": 20,
+  "UN GTR 9": 36,
+  "UN R149": 83,
+  "UN R48": 78,
+  "UN R128": 32,
+  "UN R10": 58,
+  "UN R155": 23
+ },
+ "gesamt": 369,
+ "validate": "OK",
+ "befunde": [
+  "Kern plausibel: R42, R26, R127, R149 (statt R19, konsolidiert), R48, R10",
+  "GTR 9: 36 Anforderungen, davon Seiten 4/15/18 aus dem Begründungsteil (verbindlicher Text erst ab S. 71 'II. Text of the Regulation')",
+  "Bedingte Auswahl ('If ...'): R128, R152; Fahrzeugebene: R94, R137, R155. R94/R137/R152 liefern 0 Anforderungen, R155 23 und R128 32 (vermutlich Rauschen)",
+  "R127 und GTR 9 überschneiden sich inhaltlich (Beinaufprall)"
+ ]
+}

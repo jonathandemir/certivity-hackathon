@@ -64,7 +64,7 @@ Alle arbeiten direkt auf main (AGENTS.md §4); die Dateigrenzen unten ersetzen d
 | Sa ab ~16:00 | A: AP2/AP10, B: AP3/AP4, C: AP6/AP7 parallel; jede Änderung einzeln gegen die Bestmarke messen; Bestmarken taggen |
 | Sa abends | Demo-Grundgerüst (AP6) läuft auf dev |
 | So 07:30 | **Code-Freeze Hauptpipeline:** Standard-Einstellungen = beste gemessene Variante, Stand als `best-main-…` getaggt; danach nur noch Fixes |
-| So 08:00 | Held-out holen: `scripts/setup` (zieht das Paket nach und lädt neue PDFs; `scripts/session-start` meldet neue Commits bei Certivity mit „ACHTUNG"). Zusätzlich Ankündigung vor Ort prüfen (Brief: zweites Zip). Dann Lauf von main, `certreq eval`, **sofort erster Upload als Sicherung** |
+| So 08:00 | Held-out holen: `scripts/setup` (zieht das Paket nach und lädt neue PDFs; `scripts/session-start` meldet neue Commits bei Certivity mit „ACHTUNG"). Zusätzlich Ankündigung vor Ort prüfen (Brief: zweites Zip). Dann Lauf von main (neuer Fall: ~4 min, ~0,5 M Tokens, gemessen am synthetischen Stoßfänger), `certreq eval` (nur Validierung), **sofort erster Upload als Sicherung** |
 | So 08:00–12:30 | Nur einzeln gemessene Änderungen; jede hochgeladene Datei + Plattform-Score in experiments/runs/ |
 | So 12:30 | Finale Auswahl der besten Datei (Entscheidung in STATUS) |
 | So 12:45 | **Letzter Upload = beste Datei** (der letzte valide zählt). Danach nichts mehr hochladen |

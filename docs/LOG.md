@@ -257,3 +257,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 15:41:06 +0200 | [change] load_case ignoriert README-Dateien; synthetische Stoßfänger-Spec | Jonathan @ MacBook-Pro-von-Jonathan | main@88fee6d +lokale Änderungen
 - Fund: load_case las jede .md/.txt im Fall-Ordner als Spezifikation; eine README im Held-out-Ordner wäre als Spec ans LLM gegangen. Jetzt übersprungen (Test test_case_ignoriert_readme)
 - experiments/synthetic/front-bumper/spec.md: selbst geschriebene M1-Frontstoßfänger-Spec im Aufbau der Dev-Spec (Fascia, Träger, Absorber, Nebelscheinwerfer LED, Parksensoren, Radarhalter, Kennzeichenhalter), nur für Robustheit/Laufzeit, keine Musterlösung
+
+### 2026-10-24 15:46:17 +0200 | [finding] Robustheit: Pipeline am synthetischen Frontstoßfänger | Jonathan @ MacBook-Pro-von-Jonathan | main@ff9e843 +lokale Änderungen
+- läuft fehlerfrei, validate ok, 231 s und ~435k Tokens für einen neuen Fall (146 LLM-Aufrufe) → Sonntag: erster Upload ~10 min nach Release realistisch
+- Auswahl (12): Kern plausibel R42, R26, R127, R149 (R19 als konsolidiert verworfen), R48, R10; schwach: bedingte Picks R128/R152, Fahrzeugebene R94/R137/R155 (R155 23, R128 32 Anforderungen)
+- GTR 9: Extraktion zitiert den Begründungsteil (S. 4/15/18); verbindlicher Text erst ab S. 71 → Aufgabe für B in STATUS
+- Beleg experiments/synthetic/front-bumper-run.json (Zusammenfassung, keine Messung)

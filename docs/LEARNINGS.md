@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Robustheit an einem anderen Bauteil (synthetischer Frontstoßfänger, keine Messung).** Beleg:
+  experiments/synthetic/front-bumper-run.json (main@ff9e843): läuft fehlerfrei, validate.py ok, 231 s und ~435k Tokens
+  für einen neuen Fall (146 LLM-Aufrufe). Auswahl-Kern plausibel (R42, R26, R127, R149 statt R19, R48, R10).
+  Schwächen, die der Leuchten-Fall nicht zeigen konnte: (1) **GTR 9 hat 70 Seiten Begründung vor dem verbindlichen
+  Text** (ab S. 71 „II. Text of the Regulation"); die Extraktion zitiert auch S. 4/15/18 daraus. (2) Die Auswahl nimmt
+  bedingte Kandidaten („If the radar supplies AEBS …": R128, R152) und Regelungen der Fahrzeugebene (R94, R137, R155);
+  R155 liefert 23, R128 32 Anforderungen, vermutlich Rauschen. (3) R127 und GTR 9 überschneiden sich (Beinaufprall).
+- **2026-10-24 · Fall-Ordner können Anleitungstexte enthalten.** Beleg: `load_case` las jede .md/.txt als Spec; eine
+  README im Held-out-Ordner wäre ans LLM gegangen. Konsequenz: README* wird übersprungen (main@ff9e843, Test).
 - **2026-10-24 · Die LLM-Pipeline streut um etwa ±0.02 Anforderungs-F2 je Lauf.** Beleg: E019-a = E016-a identisch
   ohne Cache: 0.621 → 0.602, Auswahl gleich, Recall je Regelung schwankt (R10 14↔19). Konsequenz: Unterschiede unter
   ~0.03 aus Einzelläufen nicht als Verbesserung werten; bei knappen Entscheidungen 2–3 Läufe ohne Cache vergleichen.
