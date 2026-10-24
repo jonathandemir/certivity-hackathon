@@ -23,6 +23,7 @@ Weitere Mitglieder: Zeile ergänzen (über den main-Worktree), Branch kommt von 
 
 | Wer | Branch | Was | Dateien | Seit |
 |---|---|---|---|---|
+| Jonathan | jonathan | scripts/log: --commit für [run]-Einträge | scripts/log, AGENTS.md | 2026-10-24 13:29 |
 
 ## Nächste Schritte
 
