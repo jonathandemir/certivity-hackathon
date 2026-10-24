@@ -619,3 +619,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 21:26:04 +0200 | [change] Pitch-Folien (AP9) als PDF im Repo | Amiad @ claude | main@6aa7984
 - docs/pitch/BarelyLegal-Pitch.pdf: 5 Folien (Zeitungs-Aufmacher Tesla-Rückruf, EU R155/Macan, NHTSA 31 Mio, heute per Hand, Lösung mit Werkbank-Screenshot). Quellen in den Fußzeilen. *.pdf ist gitignored (Paketschutz), daher bewusst mit git add -f. Offen: Demo-Übergang, Score mit Schwächen, Sub-Goal, Impact, Schluss.
 - Seiten per pymupdf gelesen (5 Seiten, Texte geprüft)
+
+### 2026-10-24 21:28:14 +0200 | [decision] Keine weiteren bezahlten Kosten-/Prompt-Tests vor dem Held-out (Credits Homsianer knapp) | Homsianer @ vm | main@3019e31 +lokale Änderungen
+- Abgesprochen mit Jonathan (über Homsianer). Rechnung aus belegten Läufen (Opus 5.5 Listenpreis): Held-out-großer Lauf ~4.1 $ (synthetischer Stoßfänger 529k/98k Tokens), dev-Lauf ~2.4 $, Richter dev ~2.2 $, R175-Lauf ~0.4 $. Prompt-Caching (experiments/costexp --cache) spart ~0.8 $ je Lauf, die Messung kostet ~2.5–3 $ → lohnt bei 2–3 Sonntagsläufen nicht; Ausgabe/Denken (~2 $ je Lauf) wäre nur über effort low zu senken, mit Qualitätsrisiko
+- Offene Kandidaten bleiben ungemessen hinter Schalter (testcond, procedure2) bzw. im Werkzeug (costexp). Korrektur experiments/costexp/README.md: --regs ohne R42 (Claude-Auswahl von E024-hs-c hatte kein R42). Sonntag: Credits für 2 Held-out-Läufe (~8 $) + Sub-Goal einplanen; prüfen, ob Jonathans Opus-Lauf denselben Key nutzt wie der zu sperrende alte

@@ -24,7 +24,7 @@ Je Lauf ~2–3 $ plus Richter. IDs: nächste freie Nummer im LEDGER, Suffix `-hs
 ```bash
 scripts/pull-first
 export CERTREQ_PROVIDER=anthropic CERTREQ_LLM_CACHE=0
-R='UN R148,UN R150,UN R48,UN R10,UN R26,UN R42'   # Claude-Auswahl wie E024-hs-c, isoliert die Extraktion
+R='UN R148,UN R150,UN R48,UN R10,UN R26'   # Claude-Auswahl von E024-hs-c (ohne R42, siehe dessen meta.json), isoliert die Extraktion
 C=vendor/industrial-ai-hackathon/cases/dev-rear-lamp
 
 # 0. Trockenlauf (kostenlos)
@@ -45,3 +45,7 @@ Ausgabe 20 $/M, Cache-Lesen 0.20 $/M, Cache-Schreiben 5 $/M.
 Übernahme: Variante ist ≥ Referenz minus Streuung (Mittel aus 2 Läufen) und billiger → als Schalter in
 `certreq/llm_anthropic.py` bzw. `certreq/llmextract.py`, LEDGER-Zeile, `[decision]`. `--cache` darf ohne
 F2-Gewinn rein, wenn Kosten sinken und F2 in der Streuung bleibt.
+
+## Stand 2026-10-24 21:30: nicht gemessen
+
+Entscheidung Homsianer (Credits knapp, Pipeline eingefroren): keine bezahlten Kosten-Läufe. Rechnung mit belegten Läufen (Listenpreis Opus 5.5): Held-out-großer Lauf ≈ 4.1 $ (synthetischer Stoßfänger 529k Eingabe / 98k Ausgabe), dev ≈ 2.4 $. `--cache` spart davon ~0.8 $ je Lauf (System-Prompt ~41 % der Eingabe), eine Messung kostet ~2.5–3 $; bei 2–3 Läufen am Sonntag lohnt sich das nicht. Ausgabe/Denken ist der größere Posten (~2 $ je Lauf); `--effort low` wäre der Hebel, aber mit Qualitätsrisiko und nur mit 2 Messläufen zu bewerten.
