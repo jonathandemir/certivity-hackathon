@@ -627,3 +627,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 21:28:33 +0200 | [decision] Kein Code-Freeze: nur A (Jonathan) pausiert | Jonathan @ MacBook-Pro-von-Jonathan | main@52a6ba3 +lokale Änderungen
 - Korrektur zu meinem [handoff] von 21:18 ('Pipeline eingefroren') und zum Tag best-main-sa-abend-opus: Das galt nur für A. Alle anderen arbeiten normal weiter (neue Ansätze hinter Schalter, Standard nur nach Messung umstellen). Auch Sonntag kein Code-Freeze: J taggt um 07:30 den Stand für den Held-out-Lauf; wer danach den Standard von run ändert, sagt es J vor dem Lauf.
 - Geändert: STATUS Punkt 0, PLAN (Zeitplan, Sonntagsablauf), AGENTS.md §4. Entscheidung Jonathan.
+
+### 2026-10-24 21:32:03 +0200 | [run] Plattform: X-GRAND-1-Varianten E045-a 0.705, E046-a 0.751, E047-a 0.743 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@359aa91
+- ohne modes 0.705 (163/190), modes+procedure2+testcond 0.751 (168), ohne modes+procedure2+testcond 0.743 (169). Opus-Standard auf der Plattform 0.762/0.721/0.743 (Mittel 0.742).
+- Keine Variante über der Streuung (~0.765) → Standard bleibt; ohne modes bleibt Upload-Paar-Kandidat für den Held-out (R175 sprach dafür, dev dagegen). Ledger E045-a-P..E047-a-P.
