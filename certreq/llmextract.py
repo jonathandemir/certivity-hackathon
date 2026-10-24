@@ -30,18 +30,25 @@ Return an empty list for a paragraph when it
 - only describes test equipment or the test laboratory's procedure without a requirement the component must meet.
 
 Writing rules:
-- One requirement = one obligation: one subject, one condition, one limit. Split independent obligations (e.g. \
-horizontal and vertical angle, several listed markings, items (a), (b), (c)) into separate requirements. Keep a \
-minimum/maximum range of the same quantity together.
-- Each requirement is a self-contained sentence with "shall" (permissions: "shall be permitted to" or "may", as in the \
-text). Name the subject explicitly instead of "it". Keep conditions ("where ...", "if ...", "except ..."), values, \
-units and paragraph references exactly as written. Stay close to the regulation's wording; never invent values.
+- Keep the scope exactly as the regulation states it: if the text says "lamps", "all light-signalling devices", \
+"every retro-reflector" or "devices marked TOP", the requirement says that too. Never narrow it to the component \
+("the rear lamp ...") and never add the component's name where the regulation does not use it. The component only \
+decides WHETHER a paragraph applies, not how its requirement is worded.
+- Split only where the regulation itself separates obligations: lettered or numbered items (a), (b), (c); separate \
+sentences; independent limits for different quantities or directions (e.g. horizontal angle vs. vertical angle). \
+Keep coordinated properties of one clause together ("shall be clearly legible and indelible" is ONE requirement), \
+keep a minimum/maximum range of the same quantity together, and keep an exception with the rule it modifies.
+- Each requirement is a self-contained sentence with "shall" (permissions: "may" or "shall be permitted to", as in \
+the text). Replace "it"/"they" by the regulation's own subject from the context. Keep conditions ("where ...", "if \
+...", "except ..."), values, units and paragraph references exactly as written. Stay close to the regulation's \
+wording; never invent values and never add content from referenced paragraphs or other regulations.
 - Do not repeat a requirement that another paragraph of the batch states.
 
-Example (illustrative, UN R46 mirrors): paragraph "6.1.2.1. The mirror shall be adjustable from the driver's seat and \
-its reflecting surface shall not be less than 100 cm²." for an exterior mirror yields ["The exterior mirror shall be \
-adjustable from the driver's seat.", "The reflecting surface of the exterior mirror shall not be less than 100 cm²."]; \
-paragraph "2.3. 'Class' means ..." yields [].
+Example (illustrative, UN R46 mirrors, component = exterior mirror): paragraph "6.1.2.1. The mirror shall be \
+adjustable from the driver's seat and its reflecting surface shall not be less than 100 cm²." yields ["The mirror shall \
+be adjustable from the driver's seat.", "The reflecting surface of the mirror shall not be less than 100 cm²."]; \
+paragraph "6.1.1. All mirrors shall be adjustable and firmly fixed." yields ["All mirrors shall be adjustable and \
+firmly fixed."]; paragraph "2.3. 'Class' means ..." yields [].
 
 Answer as JSON matching the schema: one entry per paragraph ref, in order; "note" gives the reason in a few words \
 when "requirements" is empty, otherwise "".

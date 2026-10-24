@@ -194,3 +194,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Anforderungsebene (lokaler Richter strict, gpt-6.1-sol): P 0.129 R 0.421 F2 0.290 (80/190 getroffen, 618 eingereicht) vs E011-a modal,split F2 0.098 (P 0.025 R 0.384) und B0 0.060. Seiten 0.714, Regelungen 0.556 wie E008
 - Engpässe: 32 von 190 Gold-Anforderungen sind UN R10, die B0-Auswahl wählt R10 nicht (AP2); Precision: 618 statt ~190, u. a. alte Leuchten-Regelungen R3/R7/R23/R128 (AP2) und Überzerlegung (6.10.5.1 → 5 statt 3)
 - Neue Bestmarke Anforderungsebene, Tag best-main-reqf2-0.290. Vorschlag: Standard auf --filters all --extract modal,llm umstellen (Entscheidung Jonathan, wegen E001-Upload)
+
+### 2026-10-24 15:00:02 +0200 | [change] AP4: LLM-Prompt übernimmt den Geltungsbereich der Regelung, zerlegt nur an echten Grenzen | Jonathan @ MacBook-Pro-von-Jonathan | main@6c9dad3 +lokale Änderungen
+- Richter-Bericht E013 (lokal): häufigster Fehlgriff war verengter Geltungsbereich ('the rear lamp …' statt 'lamps'/'all light-signalling devices'/'devices marked TOP'), zweithäufigster Überzerlegung ('clearly legible and indelible' → 2 statt 1). Neue Schreibregeln: Geltungsbereich wörtlich, das Bauteil entscheidet nur OB ein Absatz gilt; trennen nur an (a)(b)(c), eigenständigen Sätzen, unabhängigen Grenzwerten; koordinierte Eigenschaften, Min/Max und Ausnahme+Regel zusammen; nichts aus Verweisen ergänzen. Beispiel im Prompt angepasst (weiter selbst geschrieben, R46)
+- Vormessung mit Gold-Regelungen (Diagnose, nicht hochladbar), Richter strict: Anforderungen P 0.200→0.407, R 0.442→0.742, F2 0.356→0.637; Seiten 0.943→0.946. Die Regeln beschreiben den Stil der Referenz, nicht die Heckleuchte
+- Geprüft: pytest tests/test_llmextract.py 3/3; offizielle Messung folgt
