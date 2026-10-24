@@ -5,6 +5,12 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Auswahl mit strukturierter Begründung statt Bitte im Prompt filtert Spekulatives zuverlässig.**
+  Beleg: E020-a (main@fd0820a): Modell gibt je Regelung `stated_in_spec` und `requirement_locus` an, Code verwirft
+  Annahmen und reine Fahrzeugebene. Dev: R13H/R128 raus, Regelungen 0.870→0.909, Anforderungen 0.621→0.629 bei
+  gleichem Recall (ohne Streuung, weil die Extraktion der übrigen Regelungen aus dem Cache identisch ist); 3/3 Läufe
+  gleich. Stoßfänger (synthetisch) 2/2: genau der plausible Kern bleibt (R42, R127, GTR 9, R26, R149, R48, R10).
+  **Für den Stoßfänger plausibel?** Ja, dort wirkt es stärker als beim Leuchten-Fall.
 - **2026-10-24 · Robustheit an einem anderen Bauteil (synthetischer Frontstoßfänger, keine Messung).** Beleg:
   experiments/synthetic/front-bumper-run.json (main@ff9e843): läuft fehlerfrei, validate.py ok, 231 s und ~435k Tokens
   für einen neuen Fall (146 LLM-Aufrufe). Auswahl-Kern plausibel (R42, R26, R127, R149 statt R19, R48, R10).

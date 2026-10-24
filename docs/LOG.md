@@ -277,3 +277,11 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Stand: demo/run <fall> erzeugt die Demo end-to-end; demo/dist/index.html öffnen. Alles in demo/README.md.
 - Nächster Schritt C: Begründungen je Regelung (.meta.json selection) in Szene 1 zeigen; Pitch AP9 vorbereiten; Demo auf echter GPU prüfen.
 - Fallen: demo/dist/ nie committen (Paketdaten). Nach Änderungen an demo/app neu bauen und dist/index.html nach demo/web/ kopieren, sonst zeigt prepare.py die alte App. data.js beim Pipeline-Lauf ~30 MB (max. 150 Seiten).
+### 2026-10-24 15:52:23 +0200 | [run] E020-a: --select llm2 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@fd0820a
+- Regelungen P 0.667 R 1.000 F2 0.909; Seiten 0.936; Anforderungen P 0.392 R 0.742 F2 0.629 (141/190, 360 eingereicht)
+- vs E016-a 0.621: nur die 16 R13H-Anforderungen fehlen, Extraktion sonst identisch (Cache) → Unterschied ohne Streuung
+- Auswahl 3× (dev) bzw. 2× (Stoßfänger) ohne Cache identisch; Tag best-main-reqf2-0.629; Beleg experiments/runs/E020-a
+
+### 2026-10-24 15:52:23 +0200 | [decision] --select llm2 ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@fd0820a +lokale Änderungen
+- besser auf dev (alle Ebenen, gleicher Recall) und am synthetischen Stoßfänger plausibler (6 spekulative Regelungen raus, darunter R155 mit 23 und R128 mit 32 Anforderungen)
+- llm bleibt per --select llm verfügbar

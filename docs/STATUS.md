@@ -6,7 +6,7 @@ Historie steht in docs/LOG.md.
 ## Stand
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
-Bestmarke (zulässig, alle Ebenen): **E016-a** = `--select llm --filters all --extract modal,llm` (Tag `best-main-reqf2-0.621`): Anforderungen F2 **0.621** (P 0.375, R 0.742; lokaler Richter strict), Seiten 0.920, Regelungen 0.870. Vorher E014 (B0-Auswahl) 0.491, E012 0.290, B0 0.060. Mit Gold-Regelungen (Diagnose E015) 0.637 → die Auswahl ist praktisch ausgereizt. `--select llm` ist seit E016-a Standard; Filter/Extraktion stehen noch per Schalter.
+Bestmarke (zulässig, alle Ebenen): **E020-a** = `--select llm2 --filters all --extract modal,llm` (Tag `best-main-reqf2-0.629`): Anforderungen F2 **0.629** (P 0.392, R 0.742; lokaler Richter strict), Seiten 0.936, Regelungen 0.909. Vorher E016-a (`--select llm`) 0.621, E014 (B0-Auswahl) 0.491, B0 0.060. `--select llm2` ist seit E020-a Standard (verwirft Annahmen und reine Fahrzeugebene, am synthetischen Stoßfänger: R94/R137/R128/R152/R155/R156 raus); Filter/Extraktion stehen noch per Schalter.
 Streuung (E019-a): identische Konfiguration ohne Cache 0.602 statt 0.621 → Unterschiede < ~0.03 sind nicht belastbar. AP5 (Zeichnung) fertig: `--vision auto` liest die Zeichnung, wenn keine Spec vorliegt (nur Zeichnung: F2 0.417, E017-a).
 Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
@@ -48,7 +48,8 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    **C:** Demo v2 steht (demo/README.md): `demo/run <fall-ordner>` = `certreq run` + `demo/prepare.py`, dann `demo/dist/index.html` öffnen, ohne Node/Server. Läuft für jeden Fall (Spec und/oder Zeichnung), am Dev-Fall 189/190 Anforderungen auf der PDF-Seite markiert. Nächstes C: `selection`-Begründungen in Szene 1, Pitch (AP9).
    **A (Bitte):** Falls `vision.py` je Bauteil eine Bildregion (bbox in Pixeln der Zeichnung) liefern kann, in `.meta.json` ablegen; dann verknüpft die Demo Zeichnungsteile mit Spec-Bauteilen.
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
-   Vorschlag A: Auswahl ohne bedingte Kandidaten („If …") und ohne reine Fahrzeugebene; am Dev-Fall messen (Streuung beachten).
+   AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das
+   Gold nimmt, ist unbekannt (beide behalten, F2 gewichtet Recall).
    **B:** Bei GTRs nur den verbindlichen Teil „II. Text of the Regulation" extrahieren (GTR 9: ab S. 71; S. 1–70 sind
    Begründung). Betrifft den Held-out sehr wahrscheinlich, falls GTR 9 gewählt wird.
 6. **Homsianer (B), Amiad (C):** Repo klonen, `scripts/setup` (stellt auf main, holt Paket + PDFs, legt .venv an),
@@ -73,7 +74,7 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 
 | Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
 |---|---|---|---|---|---|---|---|---|---|
-| dev-rear-lamp | Regelungen | 0.571 | 1.000 | 0.870 | main@39b1077 (`--select llm --filters all --extract modal,llm`) | best-main-reqf2-0.621 | score_local | E016-a | 2026-10-24 15:15 |
-| dev-rear-lamp | Seiten | 0.697 | 1.000 | 0.920 | main@39b1077 (dto.) | best-main-reqf2-0.621 | score_local | E016-a | 2026-10-24 15:15 |
-| dev-rear-lamp | Anforderungen | 0.375 | 0.742 | 0.621 | main@39b1077 (dto.) | best-main-reqf2-0.621 | lokaler Richter strict (gpt-6.1-sol) | E016-a | 2026-10-24 15:15 |
+| dev-rear-lamp | Regelungen | 0.667 | 1.000 | 0.909 | main@fd0820a (`--select llm2 --filters all --extract modal,llm`) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
+| dev-rear-lamp | Seiten | 0.746 | 1.000 | 0.936 | main@fd0820a (dto.) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
+| dev-rear-lamp | Anforderungen | 0.392 | 0.742 | 0.629 | main@fd0820a (dto.) | best-main-reqf2-0.629 | lokaler Richter strict (gpt-6.1-sol) | E020-a | 2026-10-24 16:05 |
 | dev-rear-lamp | Anforderungen | – | – | – | – | – | Plattform (offen, E001-Upload) | – | – |

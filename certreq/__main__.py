@@ -96,7 +96,7 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
     r.add_argument("--vision", choices=["auto", "off", "on", "only"], default="auto", help="Explosionszeichnung lesen (AP5): auto = nur wenn keine Spec da ist (Standard), on = Beschreibung an die Spec anhängen, only = nur die Zeichnung, off = nie")
-    r.add_argument("--select", choices=["b0", "llm", "llm2"], default="llm", help="Regelungsauswahl (AP2): llm = Steckbriefe + LLM (Standard seit E016-a), llm2 = ohne Annahmen und reine Fahrzeugebene (AP2b), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")
+    r.add_argument("--select", choices=["b0", "llm", "llm2"], default="llm2", help="Regelungsauswahl (AP2): llm2 = Steckbriefe + LLM ohne Annahmen und reine Fahrzeugebene (Standard seit E020-a), llm = ohne diesen Filter (E016-a), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")
     r.add_argument("--filters", help=f"Relevanzfilter (AP4), kommagetrennt aus {', '.join(FILTERS)}, oder all/none. "
                    "Standard: none (B0)")
     r.add_argument("--extract", help=f"Extraktionsoptionen (AP4), kommagetrennt aus {', '.join(OPTIONS)}, oder all/none. "
