@@ -25,7 +25,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 | Wer | Rechner | Was | Dateien | Seit |
 |---|---|---|---|---|
-| Amiad | claude | AP6 Demo-Gerüst (HTML, Links auf PDF-Seite) | demo/ | 2026-10-24 12:05 |
 
 ## Nächste Schritte
 
