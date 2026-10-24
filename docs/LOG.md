@@ -170,3 +170,17 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Neu certreq/llmextract.py: Kandidat-Absätze (nach --filters, shall bzw. modal) in Batches ≤12 Absätze/9000 Zeichen je Regelung an gpt-6.1-sol (certreq/llm.py, Cache), mit Gliederungspfad, Seite und Bauteil-Spec. Antwort je Absatz: eigenständige shall-Sätze, eine Pflicht je Satz, leer = gilt nicht für das Bauteil/keine Pflicht (Definition, Verwaltung, andere Geräte/Klassen, reiner Prüfaufbau). Fehlende Antwort → Rohtext bleibt. Prompt-Beispiel selbst geschrieben (R46-Spiegel), nichts aus dem Dev-Gold. run schreibt meta.json 'llm' (Modell, Batches, behalten/verworfen, Verbrauch)
 - Vormessung (offiziell folgt), --filters all, gegen expected.json: B0-Auswahl Seiten-F2 0.348→0.714 (modal+llm), Obergrenze Anforderungsebene 0.131→0.493 (kein Plattformwert); mit Gold-Regelungen Seiten 0.773→0.943, Obergrenze 0.430→0.691. shall+llm: 0.680 bzw. 0.909. Kosten: 227 Aufrufe für B0-Auswahl, ~7,5 min ungecacht mit 8 parallel
 - Geprüft: pytest 45/45 (neu tests/test_llmextract.py, ohne Netz), Lauf aus Cache bytegleich zur Vormessung
+### 2026-10-24 14:52:13 +0200 | [run] AP10-K Kalibrierung des lokalen Richters | Jonathan @ MacBook-Pro-von-Jonathan | main@66d51fc +lokale Änderungen
+- Selbsttest expected gegen sich selbst: strict und lenient je 190/190
+- Gegenprobe ohne identisches Gegenstück: strict 5 Treffer (alle Duplikate in der Referenz), lenient 14 (10 nach 1:1 → 5,3 % falscher Recall) → strict als Standard
+- Beleg experiments/runs/AP10-kalibrierung/summary.json (nur IDs)
+
+### 2026-10-24 14:52:13 +0200 | [run] E008-a bis E011-a: Anforderungsebene lokal gemessen | Jonathan @ MacBook-Pro-von-Jonathan | main@66d51fc +lokale Änderungen
+- Stand main@66d51fc (pull-first: zählt), Richter gpt-6.1-sol
+- B0 strict F2 0.060 (P 0.015 R 0.279), B0 lenient 0.095, --filters all 0.084, --filters all --extract modal,split 0.098 (P 0.025 R 0.384) = Bestmarke Anforderungsebene
+- Fehlende bei E011-a: 32 wegen fehlender UN R10 (AP2), 85 trotz Kandidaten (Absätze statt Einzelpflichten); Precision ist der Engpass
+- Belege experiments/runs/E008-a..E011-a (ohne Gold-Texte geprüft)
+
+### 2026-10-24 14:53:23 +0200 | [change] scripts/log: [run] prüft nur Code, nicht docs/ und experiments/ | Jonathan @ MacBook-Pro-von-Jonathan | main@66d51fc +lokale Änderungen
+- Anlass: die beiden [run]-Einträge eben warnten fälschlich vor uncommitteten Änderungen (nur STATUS/LEDGER/Belege waren offen); Hash main@66d51fc darin ist korrekt
+- Geprüft: scripts/selftest 142/142 auf macOS und Debian (4 neue Prüfungen)

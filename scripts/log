@@ -48,6 +48,10 @@ if [ -n "$measured" ]; then
     stand="$stand (ungepusht)"
   fi
 elif [ "$typ" = run ]; then
+  # Für Messungen zählt nur Code: Doku- und Ergebnisdateien entstehen typischerweise erst nach dem Lauf.
+  lokal=$(git status --porcelain -- . ':(exclude)docs' ':(exclude)experiments')
+  stand="$branch@$(short_head || echo 'ohne-commit')"
+  [ -n "$lokal" ] && stand="$stand +lokale Änderungen"
   if [ -n "$lokal" ]; then
     warn "[run] auf einem Stand mit uncommitteten Änderungen: das Ergebnis ist nicht reproduzierbar. Erst committen, scripts/pull-first, dann messen."
   fi

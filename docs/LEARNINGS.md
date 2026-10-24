@@ -5,6 +5,16 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Der lokale Richter (AP10) ist im strikten Modus verlässlich.** Beleg: AP10-K (main@66d51fc,
+  experiments/runs/AP10-kalibrierung/): Selbsttest 190/190; Gegenprobe ohne identisches Gegenstück 0 echte Fehlurteile
+  (strict) bzw. 5,3 % falscher Recall (lenient). Konsequenz: `eval --judge strict` als Messgröße für AP4/AP2; Eichung
+  gegen den Plattformwert des E001-Uploads steht aus.
+- **2026-10-24 · Seiten-F2 und Anforderungs-F2 können gegenläufig sein.** Beleg: E011-a vs E010-a: modal+split senkt
+  Seiten-F2 (0.348→0.339), hebt aber Anforderungs-F2 (0.084→0.098, Recall 52→73). Konsequenz: Entscheidungen über die
+  Extraktion nach der Anforderungsebene treffen (Hauptscore), Seiten nur als Nebenmaß.
+- **2026-10-24 · Auf der Anforderungsebene ist Precision der Engpass.** Beleg: E011-a P 0.025 bei 2966 Anforderungen
+  (Referenz 190); selbst perfekter Recall ergäbe F2 ≈ 0.11. Konsequenz: AP4 muss die Menge um Faktor ~10 senken
+  (Relevanz je Absatz per LLM, Zerlegung nur relevanter Absätze).
 - **2026-10-24 · Relevanzfilter entlang der Gliederung hebt die Precision ohne Recall-Verlust.** Beleg: E006
   (main@3e979ed, experiments/runs/E006/filters.txt): `--filters all` Seiten-F2 0.272→0.348 (B0-Auswahl) bzw.
   0.565→0.773 mit Gold-Regelungen, Seiten-Recall unverändert, kein Gold-Absatz von B0 geht verloren (Test

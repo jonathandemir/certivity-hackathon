@@ -163,6 +163,11 @@ title "log [run] und --commit"
 code_commit "$M1" h t.py
 run "$M1" scripts/log "[run] Testlauf" "F2 0.1"; rc 0 "log [run]"; has "ungepushten Commit" "warnt bei ungepushtem Stand"
 git -C "$M1" add docs/LOG.md && git -C "$M1" commit -qm "run log" && (cd "$M1" && scripts/sync >/dev/null 2>&1)
+echo "notiz" >> "$M1/docs/PLAN.md"; mkdir -p "$M1/experiments/runs/X"; echo "{}" > "$M1/experiments/runs/X/score.json"
+run "$M1" scripts/log "[run] nach dem Lauf Doku geschrieben"; rc 0 "log [run] mit Doku-/Ergebnisänderungen"; hasnt "WARNUNG" "keine Warnung für Doku/Ergebnisse"
+DESC="kein +lokale Änderungen bei [run]"; yes_ sh -c "tail -n 1 '$M1/docs/LOG.md' | grep -q 'main@[0-9a-f]*\$'"
+echo "x" >> "$M1/x.py"; run "$M1" scripts/log "[run] mit Code-Änderung"; has "uncommitteten Änderungen" "warnt bei Code-Änderung"
+git -C "$M1" checkout -q -- x.py docs/PLAN.md docs/LOG.md; rm -rf "$M1/experiments/runs/X"
 H=$(git -C "$M1" rev-parse --short HEAD); (cd "$M2" && scripts/sync >/dev/null 2>&1); echo dirt >> "$M2/docs/PLAN.md"
 run "$M2" scripts/log --commit "main@$H" "[run] von anderem Stand geloggt" "F2 0.2"; rc 0 "log --commit"; hasnt "WARNUNG" "keine falsche Warnung"
 DESC="Kopf nennt gemessenen Stand";       yes_ grep -q "gemessen auf main@$H\$" "$M2/docs/LOG.md"

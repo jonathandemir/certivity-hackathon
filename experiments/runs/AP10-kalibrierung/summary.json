@@ -1,0 +1,110 @@
+{
+ "zweck": "Kalibrierung des lokalen Richters (certreq/judge.py) auf dev-rear-lamp, Stand main@66d51fc, Modell gpt-6.1-sol",
+ "selbsttest": {
+  "beschreibung": "expected.json gegen sich selbst",
+  "strict": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "matched": 190
+  },
+  "lenient": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "matched": 190
+  }
+ },
+ "gegenprobe": {
+  "beschreibung": "je erwarteter Anforderung ohne ihr identisches Gegenstück; jeder Treffer ist ein Fehlurteil oder ein Duplikat in der Referenz",
+  "strict": {
+   "llm_treffer": 5,
+   "paare": [
+    [
+     "G-0026",
+     "G-0029"
+    ],
+    [
+     "G-0029",
+     "G-0026"
+    ],
+    [
+     "G-0052",
+     "G-0053"
+    ],
+    [
+     "G-0053",
+     "G-0052"
+    ],
+    [
+     "G-0084",
+     "G-0085"
+    ]
+   ],
+   "nach_1zu1": 5,
+   "falscher_recall": 0.026
+  },
+  "lenient": {
+   "llm_treffer": 14,
+   "paare": [
+    [
+     "G-0005",
+     "G-0006"
+    ],
+    [
+     "G-0006",
+     "G-0002"
+    ],
+    [
+     "G-0012",
+     "G-0013"
+    ],
+    [
+     "G-0026",
+     "G-0029"
+    ],
+    [
+     "G-0029",
+     "G-0026"
+    ],
+    [
+     "G-0052",
+     "G-0053"
+    ],
+    [
+     "G-0053",
+     "G-0052"
+    ],
+    [
+     "G-0084",
+     "G-0085"
+    ],
+    [
+     "G-0169",
+     "G-0184"
+    ],
+    [
+     "G-0170",
+     "G-0184"
+    ],
+    [
+     "G-0172",
+     "G-0185"
+    ],
+    [
+     "G-0173",
+     "G-0185"
+    ],
+    [
+     "G-0177",
+     "G-0185"
+    ],
+    [
+     "G-0178",
+     "G-0184"
+    ]
+   ],
+   "nach_1zu1": 10,
+   "falscher_recall": 0.053
+  },
+  "befund": "strict: alle 5 Treffer sind Duplikate in der Referenz (gleiche Pflicht einmal mit Tabellenverweis, einmal mit Tabellenwerten; R48 6.4.7.1 doppelt formuliert) → praktisch keine Fehlurteile. lenient: zusätzlich echte Fehlurteile (z. B. Handelsname ≈ Prüfzeichen lesbar)."
+ }
+}
