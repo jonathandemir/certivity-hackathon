@@ -1,0 +1,14 @@
+{
+ "submission": "experiments/runs/E020-a/submission.json.gz (gpt-6.1-sol-Ausgabe, main@fd0820a)",
+ "judge_model": "claude-opus-5-5",
+ "measured_on": "main@9886bfe",
+ "requirement_level": {
+  "platform":       {"matched": 154, "precision": 0.428, "recall": 0.811, "f2": 0.687},
+  "gpt_lenient":    {"matched": 153, "f2": 0.683, "source": "AP10-K2"},
+  "gpt_strict":     {"matched": 141, "f2": 0.629, "source": "E020-a"},
+  "claude_lenient": {"matched": 165, "precision": 0.458, "recall": 0.868, "f2": 0.737},
+  "claude_strict":  {"matched": 152, "precision": 0.422, "recall": 0.800, "f2": 0.679}
+ },
+ "usage_per_judge_run": {"calls": 190, "prompt_tokens": 441883, "completion_tokens": 22433},
+ "schluss": "Claude strict liegt 2 Treffer unter der Plattform, Claude lenient 11 darüber: in der Claude-Reihe ist strict die Plattform-Prognose"
+}
