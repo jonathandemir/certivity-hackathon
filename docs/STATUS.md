@@ -34,6 +34,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Homsianer | vm | AP3-Rest + AP4 (Übernahme von Jonathan): Parser, Relevanzfilter, LLM-Extraktion, GTR Teil II, R10 | certreq/pdf.py, certreq/extract.py, certreq/relevance.py, certreq/llmextract.py, tests/test_extract.py, tests/test_llmextract.py, tests/test_outline.py | 2026-10-24 14:16 |
 | Homsianer | vm | Anthropic-Zugang hinter Schalter CERTREQ_PROVIDER=anthropic (Standard bleibt OpenAI; Homsianer hat nur Anthropic-Key) | certreq/llm_anthropic.py (neu), certreq/llm.py (nur Anbieter-Schalter in model_name/_call/_check), certreq/judge.py (nur config.model), requirements.txt (+anthropic), tests/test_llm.py | 2026-10-24 17:04 |
 | Jonathan | MacBook-Pro-von-Jonathan | Überanpassungs-Test: Extraktion auf R175 gegen requirements_old (zweite Certivity-Liste) | experiments/synthetic/acpe/, experiments/runs/X-R175-*, experiments/LEDGER.md, docs/LEARNINGS.md | 2026-10-24 18:31 |
+| Amiad | claude | AP7 Sub-Goal: added ohne shall, 1:1-Abgleich, Zerlegung, Gegenprobe | certreq/subgoal.py, tests/test_subgoal.py | 2026-10-24 18:34 |
 
 ## Nächste Schritte
 
