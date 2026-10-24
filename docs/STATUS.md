@@ -11,7 +11,7 @@ Streuung (E019-a): identische Konfiguration ohne Cache 0.602 statt 0.621 → Unt
 Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
-Team-ID der Certivity-Plattform: noch nicht registriert.
+Teamname: **BarelyLegal**. Team-ID der Certivity-Plattform: noch offen (wird nach der Registrierung auf hackathon.certivity.io angezeigt, Format laut Paket `team-NN`).
 
 ## Team
 

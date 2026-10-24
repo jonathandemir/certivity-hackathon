@@ -290,3 +290,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - nimmt experiments/runs/<ID>/submission.json.gz unverändert, setzt nur die echte team_id, schreibt out/upload/<ID>-<case>.json, validiert mit dem offiziellen validate.py (Sub-Goal mit requirements_old.json); zeigt die lokalen Werte zum Vergleich
 - Probelauf mit team-TEST: E020-a, E008-a, E003-am alle gültig; Tests 2 neu, gesamt 57 grün
 - Zweck: Plattformwert ↔ lokaler Richter 1:1 vergleichbar; Sonntag: beste Held-out-Datei zuletzt exakt erneut hochladen
+
+### 2026-10-24 16:03:38 +0200 | [change] Teamname BarelyLegal in STATUS | Jonathan @ MacBook-Pro-von-Jonathan | main@4342e4f +lokale Änderungen
+- Team-ID noch offen: erscheint nach der Registrierung auf der Plattform (Format laut expected.json/README team-NN); Upload-Dateien entstehen danach mit certreq.upload
