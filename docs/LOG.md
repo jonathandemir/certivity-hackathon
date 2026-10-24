@@ -139,3 +139,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 14:29:39 +0200 | [run] E006 Relevanzfilter-Feinschliff, --filters all | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@3e979ed
 - vs E004: Seiten P 0.101→0.103, R 0.849 gleich, F2 0.342→0.348; Regelungen gleich (F2 0.405); 2341 Anforderungen
 - Mit Gold-Regelungen (Diagnose, filters.txt): Seiten-F2 0.773 bei R 1.000, Absatz-Ebene F2 0.458 (eigene Messung gegen expected.json). Tag best-main-pagef2-0.348. Beleg experiments/runs/E006/
+
+### 2026-10-24 14:32:13 +0200 | [decision] LLM-Modell: gpt-6.1-sol für alles | Jonathan @ MacBook-Pro-von-Jonathan | main@49c80eb +lokale Änderungen
+- Vorgabe Jonathan. certreq/llm.py: DEFAULT_MODEL und STRONG_MODEL = gpt-6.1-sol (Override CERTREQ_MODEL bzw. model=)
+- Live-Test: Structured Output ok, fachlich richtige Antwort (UN R148), ~2,5–3 s pro kurzem Aufruf; reasoning_effort nur low/medium/high/xhigh
+- Kein datierter Snapshot verfügbar (nur Alias): jede gecachte Antwort speichert das Modell; Fallback für Massenaufrufe bei Tempo-/Kostenproblemen: gpt-5.4-mini-2026-03-17

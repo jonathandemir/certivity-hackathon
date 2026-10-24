@@ -9,8 +9,9 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   `~/projects/certivity` arbeitete uncommittet an `certreq/pdf.py`/`extract.py`, während diese Session pushen wollte;
   `scripts/sync` verweigert zu Recht bei fremden uncommitteten Dateien. Konsequenz: eine Session = ein Klon
   (AGENTS.md §4); diese Session arbeitet seitdem in `~/projects/certivity-a`.
-- **2026-10-24 · OpenAI `reasoning_effort` kennt bei gpt-5.4-mini kein „minimal".** Beleg: HTTP 400 „Supported values
-  are: 'none', 'low', 'medium', 'high', and 'xhigh'" beim ersten Live-Check. Konsequenz: in `certreq/llm.py` dokumentiert.
+- **2026-10-24 · `reasoning_effort`-Werte hängen vom Modell ab.** Beleg: HTTP 400 im Live-Test: gpt-5.4-mini kennt
+  none/low/medium/high/xhigh (kein „minimal"), gpt-6.1-sol nur low/medium/high/xhigh. gpt-6.1-sol: ~3 s pro kurzem Aufruf
+  (gpt-5.4-mini: <1 s). Konsequenz: `effort` nur mit gültigem Wert setzen; Massenaufrufe über `ask_many` parallelisieren.
 - **2026-10-24 · Mit den richtigen Regelungen findet schon die naive shall-Extraktion alle 53 Gold-Seiten.**
   Beleg: E002 (jonathan@29c0d0b, experiments/runs/E002): Seiten-Recall 1.000, Precision 0.206, 1214 statt 190
   Anforderungen. Konsequenz: Auswahl (AP2) ist der größte Hebel; danach Relevanzfilter/Zerlegung (AP4) für Precision.

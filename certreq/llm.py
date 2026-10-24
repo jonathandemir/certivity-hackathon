@@ -25,9 +25,10 @@ from pathlib import Path
 
 from . import paths
 
-# Feste Snapshots statt Aliasen, damit sich Messungen nicht ändern, wenn OpenAI einen Alias umhängt.
-DEFAULT_MODEL = "gpt-5.4-mini-2026-03-17"  # Massenaufrufe (z. B. Relevanz je Absatz); Override: CERTREQ_MODEL
-STRONG_MODEL = "gpt-5.5-2026-04-23"  # schwere Einzelentscheidungen (Auswahl, Richter): ask_json(..., model=STRONG_MODEL)
+# Team-Entscheidung 2026-10-24: gpt-6.1-sol für alles. Es gibt davon keinen datierten Snapshot; jede gecachte Antwort
+# speichert das Modell. Günstige Alternative für Massenaufrufe, falls Tempo/Kosten drücken: "gpt-5.4-mini-2026-03-17".
+DEFAULT_MODEL = "gpt-6.1-sol"  # Override: CERTREQ_MODEL oder ask_json(..., model=...)
+STRONG_MODEL = "gpt-6.1-sol"  # schwere Einzelentscheidungen (Auswahl, Richter)
 CACHE_DIR = paths.OUT_DIR / "cache" / "llm"
 _usage = {"calls": 0, "cached": 0, "prompt_tokens": 0, "completion_tokens": 0}
 _lock = threading.Lock()
@@ -85,7 +86,8 @@ def _call(model: str, messages: list[dict], response_format: dict, effort: str |
 
 def ask_json(system: str, user: str, schema: dict | None = None, name: str = "antwort", model: str | None = None,
              effort: str | None = None) -> dict:
-    """effort: Denkaufwand ("none", "low", "medium", "high", "xhigh" bei gpt-5.4/5.5); None = Modell-Standard."""
+    """effort: Denkaufwand, erlaubte Werte je Modell (gpt-6.1-sol: low/medium/high/xhigh; gpt-5.4-mini zusätzlich none);
+    None = Modell-Standard."""
     model = model_name(model)
     messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
     response_format = ({"type": "json_schema", "json_schema": {"name": name, "schema": schema, "strict": True}}
@@ -141,7 +143,7 @@ def _check() -> int:
     schema = {"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"], "additionalProperties": False}
     t0 = time.time()
     os.environ["CERTREQ_LLM_CACHE"] = "0"
-    answer = ask_json("Antworte als JSON.", "Gib ok=true zurück.", schema, name="check", effort="none")
+    answer = ask_json("Antworte als JSON.", "Gib ok=true zurück.", schema, name="check")
     print(f"Testaufruf mit {chosen}: {answer} in {time.time() - t0:.1f} s, Verbrauch {usage()}")
     return 0 if answer.get("ok") is True else 1
 
