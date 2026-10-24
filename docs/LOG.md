@@ -357,3 +357,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - E021-hs (aktueller main, Parser-Fix + rationale): Anforderungen lenient 0.704 (157/190), strict 0.650; Seiten 0.950; R10 19/32
 - E022-hs (+ lists,tables,exempt,tests,modes): lenient 0.743 (P 0.478 R 0.863, 164/190), strict 0.671; R10 29/32, R48 45→41; Seiten 0.927
 - Schluss: Regeln helfen mehr als die Streuung; nächster Schritt laut Plan Regeln einzeln messen (R48-Verlust), dann Standard. Tag best-main-reqf2lenient-0.743; Belege experiments/runs/E021-hs, E022-hs
+
+### 2026-10-24 16:57:43 +0200 | [blocker] API-Key war in .env auf main committet (d3d3b7b, a87a74f), Datei entfernt | Homsianer @ vm | main@a87a74f +lokale Änderungen
+- Homsianer hat über GitHub eine .env mit einem Anthropic-Key (sk-ant…, zuerst als OPENAI_API_KEY, dann ANTHROPIC_API_KEY) auf main angelegt. Datei jetzt aus dem Repo gelöscht; die Historie behält den Key (kein Force-Push nach AGENTS.md §3) → der Key gilt als offengelegt und muss in der Anthropic-Konsole widerrufen werden
+- Keys nur über die Umgebungseinstellungen der Session (Network secrets/Umgebungsvariable) oder lokal in .env.local (gitignored), nie über GitHub. Die Pipeline nutzt OpenAI (OPENAI_API_KEY), ein Anthropic-Key funktioniert mit certreq/llm.py nicht
