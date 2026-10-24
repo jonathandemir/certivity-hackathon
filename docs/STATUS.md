@@ -31,7 +31,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Jonathan | MacBook-Pro-von-Jonathan | AP4 LLM-Extraktion je Absatz (Relevanz + Zerlegung) | certreq/llmextract.py, tests/test_llmextract.py, certreq/extract.py | 2026-10-24 14:42 |
 | Jonathan | MacBook-Pro-von-Jonathan | Upload-Vorbereitung (certreq/upload.py) + Plattform-Eichung | certreq/upload.py, tests/test_upload.py | 2026-10-24 15:56 |
 | Jonathan | MacBook-Pro-von-Jonathan | Upload dev: E020-a + E008-a (Hauptziel), E003-am (Sub-Goal) – Plattform-Eichung | Plattform team-12 | 2026-10-24 16:10 |
-| Amiad | claude | AP6 Werkbank: lokaler Server + Produkt-UI | demo/, tests/test_server.py | 2026-10-24 14:12 |
 
 ## Nächste Schritte
 
