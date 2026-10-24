@@ -133,6 +133,7 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Verworfen, nicht erneut versuchen
 
+- **Weitere Prompt-Regeln für Einzelmuster (`optional`, `complete`, auch `vehicle`).** Beleg: E035-hs-c 0.692, E036-hs-c 0.684 vs Standard-Mittel 0.718 (E024/E033-hs-c, Streuung ~0.007; main@9542611): die gezielten Gold-Pflichten werden trotz Regel nicht getroffen ('optional' 3/9, 'except' 11/17 wie vorher), die Regel verschiebt aber andere Ausgaben. Konsequenz: die fünf Standardregeln sind der gemessene Endstand der Prompt-Arbeit; weitere Hebel eher über Auswahl (A) oder Plattform-Uploads.
 - **Fahrzeugausrüstung per Prompt-Regel verwerfen (`--extract …,vehicle`).** Beleg: E030-hs-c vs E024-hs-c (Claude-Reihe, main@870cd16): F2 strict 0.721→0.698, R48-Recall 40→34/56: das Modell verwirft mit der Regel auch Installationspflichten der Leuchte (Lage, Sichtbarkeit), obwohl die Regel sie ausdrücklich ausnimmt. Für den Stoßfänger noch riskanter (R26/R127 sind fahrzeugseitig formuliert). Stattdessen: Precision über Prüfabläufe (`procedure`, E031-hs-c: P 0.45→0.52 bei −7 Treffern) oder über Dubletten (PLAN Prio 2) holen.
 - **Anforderungen satzweise zerlegen (ein Pflichtsatz = eine Anforderung).** Beleg: Vormessung auf dem Arbeitsstand
   vor main@006d141 (LOG-Eintrag „[change] AP4: Extraktionsoptionen --extract"): Obergrenze Anforderungsebene 0.411

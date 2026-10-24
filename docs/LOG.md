@@ -448,3 +448,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:24:06 +0200 | [change] AP4: Prompt-Regeln optional und complete hinter Schaltern (Recall R48) | Homsianer @ vm | main@7431c6f +lokale Änderungen
 - Fehleranalyse E024/E033-hs-c (beide Läufe): 24 Gold-Pflichten fehlen in beiden, 13 davon R48, fast alle mit eigener Ausgabe im Absatz. Muster: 6 von 9 Gold-Pflichten mit 'optional' fehlen (R48 6.7.4.2.1, 6.10.4.2, 6.10.5.1: Pflichten für optional verbaute Leuchten werden verworfen), 5 von 17 mit 'except/however' (Ausnahme gekürzt, R48 6.7.5, 6.10.7)
 - optional: Pflichten für den Einbau als optionales/zusätzliches Gerät gelten auch für das Bauteil; complete: Ausnahmen, Alternativen, Bedingungen vollständig übernehmen. Standard-Prompt unverändert (hinter den fünf). Geprüft: pytest grün. Messung: E035-hs-c (+optional), E036-hs-c (+complete) gegen Standard (Mittel 0.718)
+
+### 2026-10-24 18:29:52 +0200 | [run] E035-hs-c/E036-hs-c: Regeln optional und complete verworfen | Homsianer @ vm | gemessen auf main@9542611
+- Standard-Mittel 0.718 (E024/E033-hs-c). +optional: 0.692 (158/381), gezielte 'optional'-Gold weiter 3/9. +complete: 0.684 (152/351), 'except'-Gold weiter 11/17. Beide verworfen (LEARNINGS)
+- Budget von 5 Läufen (Homsianer) aufgebraucht: E032–E036-hs-c. Ergebnis: Standard bleibt E022-hs; Prompt-Arbeit ausgereizt
