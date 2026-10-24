@@ -1,5 +1,7 @@
 # Demo (AP6, Amiad / C)
 
+Nach außen (Werkbank, Präsentation, Pitch) treten wir als **BarelyLegal** auf (Teamname). Pipeline, Paket und CLI heißen weiter `certreq`; das bitte nicht umbenennen.
+
 ## Werkbank (das Produkt)
 
     demo/werkbank                 # = .venv/bin/python demo/server.py, öffnet http://127.0.0.1:8765

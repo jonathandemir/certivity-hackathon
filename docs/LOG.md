@@ -430,3 +430,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:12:58 +0200 | [run] Plattform: Claude-Extraktion E024-hs-c F2 0.762, gpt E022-hs 0.725 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8c201e1
 - Upload-Paar team-12, dev-rear-lamp. E024-hs-c (Claude, alle Regeln): P 0.478 R 0.895 F2 0.762 (170/190) = neue Plattform-Bestmarke, Tag best-main-platf2-0.762 auf main@8c201e1. E022-hs (gpt, main@72dbeab): P 0.466 R 0.842 F2 0.725 (160/190). Claude +0.037, über der Streuung.
 - Seiten/Regelungen = score_local. Prognose gpt lenient: E024-hs-c exakt (170), E022-hs +4 Treffer zu hoch. Claude strict unterschätzt Claude-Ausgaben um 9. Belege experiments/runs/E022-hs/ und E024-hs-c/platform.json, Ledger E022-hs-P/E024-hs-c-P.
+### 2026-10-24 18:12:41 +0200 | [change] Branding: Werkbank, Präsentation und Pitch zeigen BarelyLegal | Amiad @ claude | main@cbb146a +lokale Änderungen
+- Marke im Kopf der Werkbank und der 3D-Präsentation, Seitentitel, Server-Ausgabe, Pitch-Folien (Lösungsfolie, Cover-Fußzeile, neuer Werkbank-Screenshot). Pipeline/Paket/CLI heißen weiter certreq (Hinweis in demo/README.md); window.CERTREQ und Team-ID team-12 unverändert.
+- pytest; Builds neu (demo/web/*.html), Kopfzeile per Screenshot geprüft

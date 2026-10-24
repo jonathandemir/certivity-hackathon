@@ -88,7 +88,7 @@ export default function Werkbank() {
   return (
     <div className="wb">
       <header className="wb-hdr">
-        <div className="brand"><span className="brand-dot" />certreq<span className="brand-sub">Werkbank</span></div>
+        <div className="brand"><span className="brand-dot" />BarelyLegal<span className="brand-sub">Werkbank</span></div>
         <div className="run-pill-wrap">
           <button className="run-pill" onClick={() => setSwitcher((s) => !s)} disabled={!state}>
             <span className="rp-case">{run?.case.title || runMeta?.case || 'Kein Lauf'}</span>

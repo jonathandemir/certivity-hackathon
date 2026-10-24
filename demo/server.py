@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""certreq Werkbank: lokaler Server für das Produkt (AP6). Nur Standardbibliothek + pymupdf.
+"""BarelyLegal Werkbank: lokaler Server für das Produkt (AP6). Nur Standardbibliothek + pymupdf.
 
     .venv/bin/python demo/server.py            # öffnet http://127.0.0.1:8765 im Browser
     .venv/bin/python demo/server.py --port 9000 --no-browser
@@ -476,7 +476,7 @@ def run_subgoal(folder: str, force: bool = False) -> dict:
 
 # ---------------------------------------------------------------- HTTP
 class Handler(BaseHTTPRequestHandler):
-    server_version = "certreq-werkbank"
+    server_version = "barelylegal-werkbank"
 
     def log_message(self, fmt, *args):  # ruhig, nur Fehler
         if args and str(args[1]).startswith(("4", "5")):
@@ -586,7 +586,7 @@ def main() -> int:
     paths.require_package()
     srv = ThreadingHTTPServer((a.host, a.port), Handler)
     url = f"http://{a.host}:{a.port}/"
-    print(f"certreq Werkbank läuft: {url}  (Strg+C beendet)")
+    print(f"BarelyLegal Werkbank läuft: {url}  (Strg+C beendet)")
     if not a.no_browser:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()
     try:

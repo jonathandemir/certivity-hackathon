@@ -124,7 +124,7 @@ function Header({ act, setAct, onRun, t }) {
   const running = t > 0 && t < 1
   return (
     <header className="hdr">
-      <div className="brand"><span className="brand-dot" />certreq</div>
+      <div className="brand"><span className="brand-dot" />BarelyLegal</div>
       <nav className="tabs">
         {ACT_NAMES.map((n, i) => (
           <button key={n} className={`tab ${act === i ? 'on' : ''}`} onClick={() => setAct(i)}>
