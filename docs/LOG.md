@@ -393,3 +393,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Analyse E024-hs-c (Claude, Standard): 195 freie von 356, davon 158 aus Absätzen ohne Gold-Anforderung (R48 §5/§6 Fahrzeugausrüstung wie 'mandatory on motor vehicles', Anzahl, Kontrollleuchten, bewegliche Teile; R150 Annex 6/7 und R10 Annex 7–9 Prüfabläufe 'the test shall be performed according to ISO …', 'the device shall be rotated …'), 37 in Gold-Absätzen (Zerlegung/Formulierung)
 - vehicle: reine Fahrzeugausrüstung verwerfen, aber Fahrzeug-Formulierungen behalten, wenn das Bauteil die geregelte Fläche/Höhe/Lage bildet (R26-Außenfläche beim Stoßfänger). procedure: Anweisungen an Technischen Dienst/Labor (Norm, Aufbau, Ablauf, Probenhandhabung, Messintervalle, wählbare Prüfmethoden) weglassen, Prüfschärfe, Expositionsdauer und Bestehenskriterien behalten. Beide in RULES hinter den fünf Standardregeln → Standard-Prompt bytegleich (geprüft), Cache von E024-hs-c gültig
 - Geprüft: pytest 69/69 (1 neu). Messung folgt: E030-hs-c (+vehicle), E031-hs-c (+procedure) gegen E024-hs-c
+### 2026-10-24 17:53:10 +0200 | [run] E030-a/E031-a + Kreuzbewertung Claude vs gpt | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@937c0fa
+- E030-a (E022-hs identisch ohne Cache): 0.736 vs 0.743 → Streuung ~0.01, alle Regeln gpt ≈ 0.74
+- E031-a (ohne modes, gpt): 0.705 → modes hilft netto (R48 +2, aber 74 Treffer-lose mehr); bestätigt Homsianers Claude-Leave-one-out
+- Kreuz (gpt-Richter lenient auf Claude-Ausgaben): E023-hs-c 0.725 vs gpt 0.704, E024-hs-c 0.762 vs gpt 0.743/0.736 → Claude ~+0.02
+- Empfehlung: alle 5 Regeln Standard (B); Modellwahl per Upload-Paar E022-hs/E024-hs-c

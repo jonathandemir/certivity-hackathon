@@ -1,0 +1,130 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --extract modal,llm,lists,tables,exempt,tests,modes --out out/E030-a.json",
+ "git": {
+  "commit": "main@937c0fa",
+  "full_hash": "937c0fa3a89060b4e1b83ab607315a1037e0aa4c",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The rear-position, stop and reversing lamps require photometric, emitted-colour, marking and applicable construction compliance under this consolidated light-signalling regulation."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated PMMA prism retro-reflector must satisfy the applicable retro-reflective performance, colour, durability and marking requirements of this consolidated regulation."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation on an M1 passenger car must meet the applicable requirements for lamp and reflector number, positioning, orientation, geometric visibility and electrical operation."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The electrically operated LED assembly must meet applicable electromagnetic-compatibility requirements, including emissions and immunity relevant to its signalling functions."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The accessible exterior surfaces and edges of the lamp lens and housing must comply with the applicable external-projection requirements for M1 vehicles."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "The rear lamp's design and integration must preserve the required lighting and signalling operation and visibility following the prescribed low-speed rear-impact tests."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): Separate LED light-source requirements apply if the lamp uses standardized LED sources listed in Annex 1, but the specified PCB modules do not establish that condition."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear-position and stop-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into UN R150, which is selected instead."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "Its scope expressly excludes glazing for lighting and light-signalling devices, so the PMMA outer lens is not safety glazing under this regulation."
+  },
+  {
+   "regulation": "UN R13H",
+   "role": "rejected",
+   "reason": "Its stop-lamp-related provisions govern generation of the braking signal by the braking system, which this lamp is not specified to perform; lamp operation and electrical installation are addressed by UN R148 and UN R48."
+  }
+ ],
+ "vision_mode": "auto",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 65,
+  "paragraphs": 753,
+  "kept": 209,
+  "dropped": 544,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 66,
+   "cached": 0,
+   "prompt_tokens": 176061,
+   "completion_tokens": 50554
+  }
+ },
+ "n_requirements": 334,
+ "seconds": 162.6,
+ "created_at": "2026-10-24T17:51:15+02:00",
+ "run_id": "E030-a",
+ "note": "Wiederholung E022-hs-Konfiguration ohne LLM-Cache (Streuung), gpt-Reihe, Richter lenient",
+ "submission_sha256": "c0a6fb153a368125e127130641954194f167f1ad6740ed108f2b4c17144ee693",
+ "recorded_at": "2026-10-24T17:52:36+02:00"
+}
