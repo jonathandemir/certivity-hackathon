@@ -29,7 +29,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 |---|---|---|---|---|
 | Jonathan | MacBook-Pro-von-Jonathan | AP3-Rest Gliederung + AP4 Relevanzfilter (B vorgezogen, Übergabe an Omar) | certreq/pdf.py, certreq/extract.py, tests/test_extract.py | 2026-10-24 14:10 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP4 LLM-Extraktion je Absatz (Relevanz + Zerlegung) | certreq/llmextract.py, tests/test_llmextract.py, certreq/extract.py | 2026-10-24 14:42 |
-| Jonathan | MacBook-Pro-von-Jonathan | AP5 Vision: Explosionszeichnung → Teile + Funktionen | certreq/vision.py, tests/test_vision.py, certreq/llm.py (Bild-Eingabe), run-Teil von certreq/__main__.py | 2026-10-24 15:22 |
 
 ## Nächste Schritte
 
