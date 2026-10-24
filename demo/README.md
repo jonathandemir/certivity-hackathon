@@ -9,7 +9,7 @@ Lokaler Server (`demo/server.py`, nur Standardbibliothek + pymupdf, bindet an 12
 
 | Ansicht | Was |
 |---|---|
-| Prüfungen | Spec und/oder Zeichnung ablegen → Fall in `out/cases/`, Prüfung starten (`certreq run` als Unterprozess, Ergebnis in `out/runs/<id>/`). Modus „Bestmarke" = `--select llm --filters all --extract modal,llm` (braucht `.env.local`), „Schnell" = `--select b0`. Liste aller Läufe: eigene, Messungen aus `experiments/runs/`, ältere `out/<fall>.json`. |
+| Prüfungen | Spec und/oder Zeichnung ablegen → Fall in `out/cases/`, Prüfung starten (`certreq run` als Unterprozess, Ergebnis in `out/runs/<id>/`). Modus „Bestmarke" = `certreq run` ohne Schalter, also immer der gemessene Standard (derzeit E022-hs; braucht einen LLM-Key in `.env.local`), „Schnell" = B0 ohne KI (`--select b0 --filters none --extract none`). Liste aller Läufe: eigene, Messungen aus `experiments/runs/`, ältere `out/<fall>.json`. |
 | Anforderungen | Regelungs-Rad als Filter, Bauteile, Status; Liste (virtuell, auch 3600+); Beleg rechts mit live gerenderter PDF-Seite (Cache `out/cache/pages/`), markiertem Absatz und rotem Belegfaden Zeile → Stelle. Review: J/K blättern, A bestätigen, X verwerfen, U offen, N Notiz (gespeichert in `out/runs/<id>/review.json` bzw. `out/reviews/<id>.json`). Export: Abgabe-JSON ohne Verworfene, CSV mit Status/Notiz. |
 | Auswahl | Alle 56 Regelungen auf einem Kreis, gewählte nach Rolle (Bauteil/Anbau/Querschnitt), verworfene mit Grund; Begründungen aus `.meta.json` `selection`. |
 | Vergleich | Sub-Goal (AP7): alte → neue Fassung, Wort-Diff je Anforderung, lokale Bewertung gegen `expected.json` (Cache `out/subgoal/`). |

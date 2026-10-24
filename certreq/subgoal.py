@@ -23,6 +23,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 from .pdf import Paragraph, parse_pdf
+from .submission import TEAM_ID
 
 SHALL_RE = re.compile(r"\bshall\b", re.IGNORECASE)
 HEADER_RE = re.compile(r"^(UN [^,|]+?), version (\S+) \| page \d+ of \d+", re.M)
@@ -31,7 +32,6 @@ SPLIT_RE = re.compile(r"(?<=[.;:])\s+(?=[A-Z(])|\s+(?=\([a-z]\)\s)|\s+(?=\([ivx]
 TOKEN_RE = re.compile(r"[a-z0-9]+(?:\.[0-9]+)*|[^\sa-z0-9]", re.I)
 MODIFIED_MIN = 0.55  # darunter gilt ein alter Satz als ersatzlos weg
 MAX_TEXT = 2000
-PLACEHOLDER_TEAM = "team-unregistered"
 # Übergangs-/Verwaltungsbestimmungen sind keine Ingenieuranforderungen (Absatz über Vertragsparteien u. Ä.)
 ADMIN_RE = re.compile(r"Contracting Part|shall not refuse|shall (?:not )?be obliged to accept|granting approvals|"
                       r"national or regional type", re.I)
@@ -254,7 +254,7 @@ def format_eval(res: dict) -> str:
 def cmd_run(a: argparse.Namespace) -> int:
     folder = Path(a.folder)
     reqs = json.loads((folder / "requirements_old.json").read_text(encoding="utf-8"))
-    team = a.team_id or os.environ.get("CERTIVITY_TEAM_ID") or PLACEHOLDER_TEAM
+    team = a.team_id or os.environ.get("CERTIVITY_TEAM_ID") or TEAM_ID
     sub = compare(folder / "old.pdf", folder / "new.pdf", reqs, team, f"subgoal-{folder.name}")
     from . import paths
     out = Path(a.out) if a.out else paths.OUT_DIR / f"{sub['case_id']}.json"

@@ -415,3 +415,11 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Stand: Standard run = E022-hs (--extract modal,llm,lists,tables,exempt,tests,modes), gemessen mit gpt (E022-hs) und Claude (E024-hs-c), einzeln E025–E029-hs-c. Neu hinter Schalter: CERTREQ_PROVIDER=anthropic (Claude-Richter strict ≈ Plattform, AP10-K3-c), Regel procedure (neutral, E031-hs-c). Verworfen: vehicle (E030-hs-c)
 - Nächster Schritt B: Plattform-Upload von E022-hs abwarten (A); danach Precision ohne Recall-Verlust: Prüfabläufe gezielter (procedure kostet R10-Recall 29→24), Dubletten in Gold-Absätzen (~0.01, unter der Streuung → nur gebündelt messen). Mehrfachläufe pro Konfiguration, wenn Unterschiede < 0.02
 - Fallen: Claude-Zahlen nur innerhalb der Claude-Reihe vergleichen; Sonntag läuft der Held-out mit Jonathans OpenAI-Key (Standard-Anbieter). Key in .env.local dieses Containers stammt aus der Git-Historie und muss widerrufen werden (dann neuer Key in die Umgebungseinstellungen, CERTREQ_PROVIDER=anthropic dazu). Kind-Session session_01TAMPQSzxgNB1uKmh1tggMC wartet untätig
+
+### 2026-10-24 18:06:46 +0200 | [change] C-Nachzug: Sub-Goal team-12, Werkbank-Key-Check, README-Modi | Amiad @ claude | main@e16c04c +lokale Änderungen
+- certreq/subgoal.py nimmt TEAM_ID aus certreq/submission.py als Standard (statt team-unregistered); demo/server.py: llm_available erkennt auch LLM_API_KEY/ANTHROPIC_API_KEY/.env, Werkbank-Vergleich nutzt TEAM_ID; demo/README.md Zeile Prüfungen: Bestmarke = certreq run ohne Schalter (E022-hs), Schnell = b0 ohne KI.
+- pytest 69 passed
+
+### 2026-10-24 18:06:47 +0200 | [handoff] AP9 Pitch: Zeitungs-Folien 1–5 als Entwurf | Amiad @ claude | main@e16c04c +lokale Änderungen
+- Story = Fahrzeug-Fälle, Tabloid 'THE FINE PRINT': (1) Tesla-Rückruf 2.193.869 Autos, Warnleuchten-Buchstaben <3,2 mm (NHTSA, Feb 2024); (2) EU UN R155 ab Juli 2024: Macan (87.355 Auslieferungen 2023), 718, VW up!, T6.1 vom EU-Markt; (3) NHTSA 2025: 997 Rückrufe, 31,3 Mio Einheiten, 270 Compliance-Rückrufe; (4) heute per Hand 56/4/190; (5) Lösung mit Werkbank-Screenshot. Privates claude.ai-Artifact bei Amiad (Teilen über Share-Menü). Offen: Demo-Übergang, Messung/Score mit Schwächen, Sub-Goal, Impact, Schluss; Pitch-Länge klären.
+- Quellen je Folie im Fußtext und in den Sprechernotizen

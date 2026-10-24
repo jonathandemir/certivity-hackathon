@@ -80,7 +80,9 @@ def slug(s: str) -> str:
 
 
 def llm_available() -> bool:
-    return bool(os.environ.get("OPENAI_API_KEY")) or (REPO / ".env.local").exists()
+    """Grob: ein Key in der Umgebung oder eine .env(.local) im Repo (certreq.llm liest dieselben Quellen)."""
+    keys = ("OPENAI_API_KEY", "LLM_API_KEY", "ANTHROPIC_API_KEY")
+    return any(os.environ.get(k) for k in keys) or any((REPO / f).exists() for f in (".env.local", ".env"))
 
 
 _gz_cache: dict[Path, tuple[float, object]] = {}
@@ -458,7 +460,8 @@ def run_subgoal(folder: str, force: bool = False) -> dict:
     res = None if force else read_json(cache)
     if not res:
         reqs = json.loads((d / "requirements_old.json").read_text(encoding="utf-8"))
-        sub = subgoal.compare(d / "old.pdf", d / "new.pdf", reqs, os.environ.get("CERTIVITY_TEAM_ID", "team-unregistered"),
+        from certreq.submission import TEAM_ID
+        sub = subgoal.compare(d / "old.pdf", d / "new.pdf", reqs, os.environ.get("CERTIVITY_TEAM_ID", TEAM_ID),
                               f"subgoal-{folder}")
         reg_new, ver_new = subgoal.pdf_header(d / "new.pdf")
         reg_old, ver_old = subgoal.pdf_header(d / "old.pdf")
