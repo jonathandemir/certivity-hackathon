@@ -23,8 +23,8 @@ def load_case(folder: str | Path) -> Case:
         raise SystemExit(f"Fall-Ordner nicht gefunden: {folder}")
     texts, images = [], []
     for p in sorted(folder.iterdir()):
-        if p.name in IGNORED or not p.is_file():
-            continue
+        if p.name in IGNORED or not p.is_file() or p.stem.lower().startswith("readme"):
+            continue  # README o. Ä. im Fall-Ordner ist Anleitung, keine Spezifikation
         if p.suffix.lower() in TEXT_SUFFIXES:
             texts.append(p.read_text(encoding="utf-8"))
         elif p.suffix.lower() in IMAGE_SUFFIXES:

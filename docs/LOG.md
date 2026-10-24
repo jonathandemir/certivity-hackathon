@@ -253,3 +253,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 15:38:28 +0200 | [decision] --vision auto ist Standard | Jonathan @ MacBook-Pro-von-Jonathan | main@19423b2 +lokale Änderungen
 - mit Spec: Zeichnung ignoriert (E016-a; E018-a ohne Gewinn); ohne Spec: nur Zeichnung (E017-a, F2 0.417) → Demo läuft mit reinem Zeichnungsordner ohne Schalter (geprüft)
 - Sonntag: bei dünner Held-out-Spec --vision on per Upload testen
+
+### 2026-10-24 15:41:06 +0200 | [change] load_case ignoriert README-Dateien; synthetische Stoßfänger-Spec | Jonathan @ MacBook-Pro-von-Jonathan | main@88fee6d +lokale Änderungen
+- Fund: load_case las jede .md/.txt im Fall-Ordner als Spezifikation; eine README im Held-out-Ordner wäre als Spec ans LLM gegangen. Jetzt übersprungen (Test test_case_ignoriert_readme)
+- experiments/synthetic/front-bumper/spec.md: selbst geschriebene M1-Frontstoßfänger-Spec im Aufbau der Dev-Spec (Fascia, Träger, Absorber, Nebelscheinwerfer LED, Parksensoren, Radarhalter, Kennzeichenhalter), nur für Robustheit/Laufzeit, keine Musterlösung

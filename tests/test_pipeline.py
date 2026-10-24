@@ -89,3 +89,10 @@ def test_written_submission_passes_validate_py(tmp_path):
     ok, _ = validate(write_submission(bad, tmp_path / "bad.json"))
     assert not ok
     assert json.loads((tmp_path / "s.json").read_text())["team_id"] == "team-x"
+
+
+def test_case_ignoriert_readme(tmp_path):
+    (tmp_path / "spec.md").write_text("# spec: Thing\nPart A", encoding="utf-8")
+    (tmp_path / "README.md").write_text("Instructions for participants", encoding="utf-8")
+    case = load_case(tmp_path)
+    assert "Part A" in case.spec_text and "Instructions" not in case.spec_text
