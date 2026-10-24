@@ -65,3 +65,14 @@ def test_gtr_rationale_part_is_marked_and_filtered():
     keep = relevant(paras, ("rationale",))
     assert not any(k for p, k in zip(paras, keep) if p in part1)
     assert all(k for p, k in zip(paras, keep) if p not in part1)
+
+
+@needs_package
+def test_main_text_appendices_get_own_labels():
+    """UN R10 Appendix 1–8 (S. 28–44) sind kein Haupttext: eigene Labels, keine Kollision mit „1. Scope", Seiten stimmen."""
+    paras = parse_pdf(load_index()["UN R10"].base.pdfs[0])
+    by = {p.label: p for p in paras}
+    assert by["1"].title == "Scope" and by["1"].page == 1
+    assert by["Appendix 1 23"].text.startswith("ISO 16750") and by["Appendix 1 23"].end_page == 29  # vorher bis S. 35
+    assert by["Appendix 8 2"].context[0].startswith("Artificial networks (AN)")
+    assert not [p for p in paras if not p.label.startswith(("Annex", "Appendix")) and p.page > 28]

@@ -2,8 +2,10 @@
 
 Die PDFs sind von Certivity gerendert: Kopfzeile „UN R148, version 1.6.0 | page 14 of 48", jeder Absatz beginnt
 mit seiner Nummer („4.8.1.7. Text"). Absatzlabels folgen der Schreibweise der Referenz: „4.8.1.7",
-„Annex 9 3.1", „Annex 4 Part 1 1.2". Appendices werden als „Annex 4 Appendix 1 2.1" gelabelt (Format der Referenz
-dafür unbekannt; Seite zählt ohnehin, wenn das Label nicht passt).
+„Annex 9 3.1", „Annex 4 Part 1 1.2". Appendices werden als „Annex 4 Appendix 1 2.1" gelabelt, Anhänge zum Haupttext
+(vor Annex 1, z. B. UN R10 Appendix 1–8) als „Appendix 1 23" (Format der Referenz dafür unbekannt; Seite zählt
+ohnehin, wenn das Label nicht passt). Ohne diese Erkennung liefen sie als Haupttext weiter: Labels kollidierten
+mit „1. Scope", und R10 „23." reichte über S. 29–35.
 
 Gliederung (AP3): Überschriften sind typografisch nicht abgesetzt (alles TimesNewRoman 10.5), sie werden am Text
 erkannt: kurze Zeile ohne Verb und Doppelpunkt, danach Absatzende oder ein neuer Satz („6.10.1. Presence" /
@@ -31,6 +33,10 @@ PARA_NODOT_RE = re.compile(r"^(\d{1,2}(?:\.\d{1,2}){1,7})\s+([A-Z(][A-Za-z(]\S*.
 UNITS = {"Hz", "MHz", "GHz", "Nm", "Pa", "MPa", "Cd", "Lx", "Ah", "Wh", "VA"}
 # Anhang-Überschrift: "Annex 10 Method(s) ...", "Annex 4 - Appendix 1", "Annex 2A Information ...", "Annex 3"
 ANNEX_RE = re.compile(r"^Annex\s+(\d{1,2})([A-Z]?)(?:\s*[-–]\s*Appendix\s+(\d{1,2}))?(?:\s+[A-Z(\"].*)?$")
+# Anhang zum Haupttext (vor Annex 1): „Appendix 6 Electrical/electronic sub-assembly (ESA) - Broadband …" (UN R10 S. 28–35).
+# Nur der Reihe nach ab 1 und mit großgeschriebenem Titel; Verweise („Appendix 1 of Annex 4", „Appendix 8, paragraph 3.",
+# „Appendix 3 may be …") und Tabellenzellen („Appendix 2") fallen raus.
+MAIN_APPENDIX_RE = re.compile(r"^Appendix\s+(\d{1,2})(?![\d,.])\s*[-–:]?\s*([A-Z].*)$")
 PART_RE = re.compile(r"^Part\s+(\d{1,2})\s*[-–:]\s*(\S.*)$")
 ANNEX_TITLE_RE = re.compile(r"^Annex\s+\d{1,2}[A-Z]?(?:\s*[-–]\s*Appendix\s+\d{1,2})?\s*(.*)$")
 # Eine Überschrift enthält kein Verb; diese Wörter kommen in Sätzen vor, in Überschriften der Regelungen nicht.
@@ -68,7 +74,7 @@ class Paragraph:
 
 def _context_label(annex: str | None, appendix: str | None, part: str | None) -> str:
     if annex is None:
-        return ""
+        return f"Appendix {appendix} " if appendix else ""  # Anhang zum Haupttext
     label = f"Annex {annex}"
     if appendix:
         label += f" Appendix {appendix}"
@@ -165,6 +171,11 @@ def parse_pdf(path: str | Path) -> tuple[Paragraph, ...]:
                     annex_no = int(m.group(1))
                     annex, appendix, part = m.group(1) + m.group(2), m.group(3), None
                     cur = None
+                    continue
+                m = MAIN_APPENDIX_RE.match(line)
+                if m and annex is None and int(m.group(1)) == int(appendix or 0) + 1:
+                    appendix, cur, open_title = m.group(1), None, "annex"
+                    titles = {"annex": [m.group(2)], "part": []}
                     continue
                 m = PART_RE.match(line)
                 if m and annex is not None:
