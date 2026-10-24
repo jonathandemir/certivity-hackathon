@@ -8,7 +8,7 @@ Fehlt ein Absatz in der Antwort, bleibt sein Rohtext (kein stiller Recall-Verlus
 Das Beispiel im Prompt ist selbst geschrieben (andere Regelung), nicht aus dem Dev-Gold, damit die Dev-Messung ehrlich bleibt.
 
 Zusatzregeln (RULES) aus der Fehleranalyse von E020-a (LOG [finding] 2026-10-24): einzeln per `--extract` schaltbar
-(lists, tables, exempt, tests, modes; dazu vehicle, procedure, procedure2 aus der Analyse von E024-hs-c), damit jede für sich
+(lists, tables, exempt, tests, modes; dazu vehicle, procedure, procedure2, optional, complete aus der Analyse von E024-hs-c), damit jede für sich
 gemessen werden kann. Ohne Regel ist der Prompt bytegleich
 zu v2, gecachte Antworten (E020-a) bleiben gültig. Die Beispiele in den Regeln sind allgemein formuliert, keine Gold-Texte.
 """
@@ -97,6 +97,13 @@ RULES = {
                   "named method or standard where the regulation states it (\"the ESA shall be tested according to ISO "
                   "7637-2 as described in Annex 10\"), and keep what the component must withstand or achieve in the test "
                   "(severity levels, exposure durations, pass or fail criteria).",
+    # Fehleranalyse E024/E033-hs-c: 6 von 9 Gold-Pflichten mit „optional" fehlen (R48 6.10.4.2 „Where optional rear
+    # position lamps are installed …"), 5 von 17 mit „except/however" (Ausnahme gekürzt, z. B. R48 6.7.5, 6.10.7)
+    "optional": "Requirements that apply when a device is fitted as an optional or additional device of its type "
+                "(\"where optional devices are installed ...\", \"an optional device mounted above ...\") concern this "
+                "component too, because it may be installed in that role: keep them, with their condition.",
+    "complete": "Carry every exception, alternative and condition that belongs to a requirement into it completely, "
+                "including all lettered cases and conditions in parentheses; do not shorten or drop them.",
 }
 ANSWER_MARK = "Answer as JSON matching the schema"
 
