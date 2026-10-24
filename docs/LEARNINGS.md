@@ -5,6 +5,15 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Plattform-Eichung: Seiten und Regelungen lokal exakt, Anforderungen lokal mit `--judge lenient`.**
+  Beleg: E020-a-P, E008-a-P, AP10-K2 (experiments/runs/*/platform.json): Seiten- und Regelungswerte von score_local
+  stimmen auf 3 Stellen mit der Plattform überein. Anforderungen Plattform 154 Treffer (F2 0.687) vs lokal lenient 153
+  (0.683) bzw. strict 141 (0.629); bei der Absatz-Baseline Plattform 62 vs lenient 84 / strict 53. Größeres Seitenfenster
+  ändert nichts. Konsequenz: für Pipeline-Ausgaben (Einzelpflichten) ist `--judge lenient` die Plattform-Prognose,
+  strict die konservative Untergrenze; Rangfolgen stimmen bei beiden. Die Plattform wertet eine Anforderung mit der
+  erwarteten Pflicht plus etwas Zusatz als Treffer, ganze Absätze mit vielen Pflichten aber nur selten.
+- **2026-10-24 · Sub-Goal-Näherung (Amiad) liegt nah an der Plattform.** Beleg: E003-am-P: Plattform Flag-Recall 0.792,
+  Precision 0.760, Change accuracy 0.889 vs lokal 0.833/0.800. Konsequenz: lokale Näherung brauchbar, 1 Treffer optimistisch.
 - **2026-10-24 · Auswahl mit strukturierter Begründung statt Bitte im Prompt filtert Spekulatives zuverlässig.**
   Beleg: E020-a (main@fd0820a): Modell gibt je Regelung `stated_in_spec` und `requirement_locus` an, Code verwirft
   Annahmen und reine Fahrzeugebene. Dev: R13H/R128 raus, Regelungen 0.870→0.909, Anforderungen 0.621→0.629 bei

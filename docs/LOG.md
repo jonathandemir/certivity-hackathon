@@ -307,3 +307,13 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - certreq/__main__.py: Standard --filters all, --extract modal,llm; none schaltet weiter auf B0. Begründung: E020-a/E016-a/E014 auf allen drei Ebenen besser (Anforderungen 0.629 vs B0 0.060, modal,split 0.098); STATUS-Schritte 4/5 waren B's Entscheidung
 - demo/server.py MODES (abgesprochen über Homsianer, Claim): best = [] (Standard = Bestmarke, damit jetzt auch --select llm2 statt llm), fast = --select b0 --filters none --extract none, sonst bräuchte der Fallback ohne Key nach der Umstellung einen Key
 - Geprüft: pytest 61/61 (neu test_run_defaults_are_the_measured_best); fast-Modus ohne Key 1,9 s, 3642 Anforderungen, bytegleich zu E008-a; run ohne Schalter ohne Key bricht mit klarer Meldung ab. Keine neue Messung nötig: Standard = Konfiguration von E020-a (meta.json command)
+
+### 2026-10-24 16:22:47 +0200 | [run] Plattform-Uploads Worked example (team-12) | Jonathan @ MacBook-Pro-von-Jonathan | main@62c5bf4 +lokale Änderungen
+- E020-a: Anforderungen P 0.428 R 0.811 F2 0.687 (154/190); Seiten P 0.746 R 1.000, Regelungen P 0.667 R 1.000 = lokal exakt
+- E008-a (B0): Anforderungen P 0.017 R 0.326 F2 0.070 (62/190); Seiten/Regelungen = lokal
+- E003-am (Sub-Goal): Flag-Recall 0.792, Flag-Precision 0.760, Change accuracy 0.889
+- Belege experiments/runs/{E020-a,E008-a,E003-am}/platform.json
+
+### 2026-10-24 16:22:47 +0200 | [finding] Lokaler Richter gegen Plattform geeicht (AP10-K2) | Jonathan @ MacBook-Pro-von-Jonathan | main@62c5bf4 +lokale Änderungen
+- lenient sagt die Plattform für Pipeline-Ausgaben vorher (E020-a 153 vs 154 Treffer, F2 0.683 vs 0.687), strict ist Untergrenze (141); bei Absätzen überschätzt lenient (B0 84 vs 62). Seitenfenster ±3 ändert nichts
+- Konsequenz: Messungen mit --judge lenient als Plattform-Prognose, strict zusätzlich als Untergrenze; Seiten/Regelungen lokal = Plattform

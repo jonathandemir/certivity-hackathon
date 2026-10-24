@@ -1,0 +1,22 @@
+{
+ "zweck": "Lokaler Richter gegen Plattform-Score (Worked example dev-rear-lamp), Stand Richter main@6e951e6 + window-Parameter",
+ "plattform_treffer": {
+  "E020-a": 154,
+  "E008-a": 62
+ },
+ "lokal": {
+  "strict_w1": {
+   "E020-a": 141,
+   "E008-a": 53
+  },
+  "strict_w3": {
+   "E020-a": 141,
+   "E008-a": 53
+  },
+  "lenient_w1": {
+   "E020-a": 153,
+   "E008-a": 84
+  }
+ },
+ "befund": "Seitenfenster egal. lenient trifft die Plattform für Pipeline-Ausgaben mit Einzelpflichten (E020-a: 153 vs 154, F2 0.683 vs 0.687), überschätzt aber bei ganzen Absätzen (B0: 84 vs 62). strict ist eine konservative Untergrenze (−13 bzw. −9 Treffer)."
+}

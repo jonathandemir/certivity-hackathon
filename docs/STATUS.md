@@ -7,6 +7,7 @@ Historie steht in docs/LOG.md.
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
 Bestmarke (zulässig, alle Ebenen): **E020-a** = `--select llm2 --filters all --extract modal,llm` (Tag `best-main-reqf2-0.629`): Anforderungen F2 **0.629** (P 0.392, R 0.742; lokaler Richter strict), Seiten 0.936, Regelungen 0.909. Vorher E016-a (`--select llm`) 0.621, E014 (B0-Auswahl) 0.491, B0 0.060. `--select llm2` ist seit E020-a Standard (verwirft Annahmen und reine Fahrzeugebene, am synthetischen Stoßfänger: R94/R137/R128/R152/R155/R156 raus). Das ist jetzt auch der Standard von `run` ohne Schalter: `--filters all --extract modal,llm`; B0 = `--select b0 --filters none --extract none`.
+**Plattform (Dev-Leaderboard): Anforderungen F2 0.687** (P 0.428, R 0.811) für E020-a; Seiten und Regelungen identisch mit lokal. Lokale Prognose der Anforderungsebene: `eval --judge lenient` (153 statt 154 Treffer), strict = Untergrenze (AP10-K2).
 Streuung (E019-a): identische Konfiguration ohne Cache 0.602 statt 0.621 → Unterschiede < ~0.03 sind nicht belastbar. AP5 (Zeichnung) fertig: `--vision auto` liest die Zeichnung, wenn keine Spec vorliegt (nur Zeichnung: F2 0.417, E017-a).
 Anforderungs-Engpässe (E016-a): Recall je Regelung R10 14/32, R48 40/56, R150 33/39, R148 54/63; 376 eingereicht (Referenz 190), davon 30 aus den Extra-Regelungen R26/R13H/R42 (beim Stoßfänger vermutlich richtig, daher bewusst behalten).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
@@ -38,7 +39,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 1. **Jonathan (A):** Team auf https://hackathon.certivity.io/ registrieren, Team-ID oben eintragen (Passwort nicht ins Repo);
    Homsianer und Amiad als Collaborators ins GitHub-Repo einladen (GitHub-Namen nötig).
 2. **Alle:** LLM-Zugang steht (`certreq/llm.py`, OpenAI). Einmal `scripts/setup` (installiert `openai`), Key in `.env.local` im eigenen Checkout (von Jonathan; nie ins Repo, nie in den Chat), Check: `.venv/bin/python -m certreq.llm`.
-3. **Jonathan (A): Plattform-Eichung** (wichtigster offener Punkt). Dateien: `.venv/bin/python -m certreq.upload E020-a E008-a E003-am`
+3. **Erledigt: Plattform-Eichung** (E020-a-P, E008-a-P, E003-am-P, AP10-K2). Dateien: `.venv/bin/python -m certreq.upload E020-a E008-a E003-am`
    → `out/upload/`. Hochladen: E020-a + E008-a (Hauptziel, dev-rear-lamp), E003-am (Sub-Goal, subgoal-dev). Angezeigte
    Plattformwerte an A geben → Eichung lokaler Richter (strict 0.629 / 0.060, lenient B0 0.095) und Sub-Goal-Näherung (0.826).
 4. **B (Homsianer):** erledigt: `run` ohne Schalter = E020-a. Als Nächstes: GTR nur Teil II, dann R10 (EMV-Prüfpegel als Einzelpflichten) und R48. Jede AP4-Änderung mit `eval --judge strict` messen.
@@ -78,4 +79,5 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 | dev-rear-lamp | Regelungen | 0.667 | 1.000 | 0.909 | main@fd0820a (`--select llm2 --filters all --extract modal,llm`) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
 | dev-rear-lamp | Seiten | 0.746 | 1.000 | 0.936 | main@fd0820a (dto.) | best-main-reqf2-0.629 | score_local | E020-a | 2026-10-24 16:05 |
 | dev-rear-lamp | Anforderungen | 0.392 | 0.742 | 0.629 | main@fd0820a (dto.) | best-main-reqf2-0.629 | lokaler Richter strict (gpt-6.1-sol) | E020-a | 2026-10-24 16:05 |
-| dev-rear-lamp | Anforderungen | – | – | – | – | – | Plattform (offen, E001-Upload) | – | – |
+| dev-rear-lamp | Anforderungen | **0.428** | **0.811** | **0.687** | main@fd0820a (E020-a, team-12) | best-main-reqf2-0.629 | **Plattform** (Upload 16:15) | E020-a-P | 2026-10-24 16:15 |
+| subgoal-dev | Flags | 0.760 | 0.792 | – | main@bc77252 (E003-am) | – | **Plattform** (Change accuracy 0.889) | E003-am-P | 2026-10-24 16:18 |

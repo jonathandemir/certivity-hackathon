@@ -1,0 +1,26 @@
+{
+ "uploaded": "2026-10-24 16:17:07 CEST",
+ "scored": "2026-10-24 16:17:50 CEST",
+ "n": 3642,
+ "size_kb": 1777.5,
+ "team_id": "team-12",
+ "requirements": {
+  "precision": 0.017,
+  "recall": 0.326,
+  "f1": 0.032,
+  "f2": 0.07
+ },
+ "pages": {
+  "precision": 0.073,
+  "recall": 0.849,
+  "f1": 0.135,
+  "f2": 0.2716
+ },
+ "regulations": {
+  "precision": 0.143,
+  "recall": 0.75,
+  "f1": 0.24,
+  "f2": 0.4056
+ },
+ "quelle": "hackathon.certivity.io, Worked example, Werte wie angezeigt (gerundet auf 0,1 %)"
+}
