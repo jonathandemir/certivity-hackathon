@@ -1,0 +1,180 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision only --infer-category --out out/E043-a.json",
+ "git": {
+  "commit": "main@769a655",
+  "full_hash": "769a655e4cf1d43612da8bae756fe5e48abd04d9",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The rear combination lamp's annotated rear-position and stop functions, and any confirmed reversing function, require the applicable light-signalling performance, colour, construction and marking requirements under this consolidated regulation."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The separate passive retro-reflective insert must meet the applicable retro-reflector requirements under this regulation, which consolidates UN R3."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "For either the suggested M1 or N1 application, installation of the rear lamps and retro-reflector must satisfy applicable positioning, orientation, geometric visibility and electrical-connection requirements."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED PCB and associated electronics bring the lamp assembly within the electromagnetic-compatibility assessment applicable to vehicle electrical/electronic subassemblies."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the suggested M1 application is confirmed, the accessible exterior lens and housing must satisfy applicable external-projection, edge and curvature requirements."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the suggested M1 application is confirmed, the requirement for lighting and signalling devices to remain operational and visible after prescribed low-speed impacts makes the rear lamp's robustness and mounting relevant."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Rear-position and stop lamps are relevant functions, but UN R148 consolidates UN R7 and is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "A reversing function is annotated but not optically confirmed; if present, its component requirements are covered by the selected consolidated UN R148 rather than UN R23."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "The separate retro-reflector is relevant, but UN R150 consolidates UN R3 and is selected instead."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "Discrete LEDs mounted on a PCB do not establish use of an Annex 1 standardised LED light-source category; UN R128 would apply only if such a source were specified."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "The outer lens is glazing for a lighting or light-signalling device, which is expressly excluded from this regulation's scope."
+  }
+ ],
+ "vision_mode": "only",
+ "infer_category": true,
+ "drawing": {
+  "product": "Exploded view of an elongated rear combination lamp incorporating an LED light source, reflector optics and a separate retro-reflector.",
+  "vehicle_location": "Rear exterior of the vehicle, likely near a rear corner. The drawing does not establish left- or right-hand installation.",
+  "parts": [
+   {
+    "name": "Outer lens",
+    "function": "Covers and protects the internal optical components while transmitting lamp light.",
+    "technology": "Light-transmitting lens, likely molded plastic; identified as red in the drawing.",
+    "evidence": "The foremost component is a broad, tapered cover with a perimeter lip and a small outlined rectangular region."
+   },
+   {
+    "name": "Retro-reflector",
+    "function": "Returns externally incident light toward its source for passive visibility.",
+    "technology": "Separate patterned retro-reflective insert; exact prism geometry and material are not shown.",
+    "evidence": "A small rectangular plate with parallel internal lines is shown behind the outer lens and explicitly labeled."
+   },
+   {
+    "name": "Seal / gasket",
+    "function": "Seals the lens-to-housing interface against water and contamination.",
+    "technology": "Continuous perimeter gasket, likely an elastomer.",
+    "evidence": "A thin, open-centered frame follows the outer lens profile between the cover and internal assembly."
+   },
+   {
+    "name": "Reflector / internal optical carrier",
+    "function": "Directs and distributes light from the LED board into distinct illuminated regions.",
+    "technology": "Formed optical carrier with an array of reflector cells and additional partitioned optical areas; material and reflective finish are unspecified.",
+    "evidence": "The central insert contains rows of oval recesses, an upper row of circular features, a central rectangular region and a smaller gridded end region."
+   },
+   {
+    "name": "LED modules on PCB",
+    "function": "Generate light for the lamp functions.",
+    "technology": "Multiple discrete LED packages on a printed circuit board, with additional electronic component footprints.",
+    "evidence": "A separate elongated board carries repeated square devices arranged in rows, along with smaller rectangular components and a larger outlined end feature."
+   },
+   {
+    "name": "Housing",
+    "function": "Supports and encloses the optical and electronic parts and provides attachment interfaces.",
+    "technology": "Shallow molded enclosure, likely plastic.",
+    "evidence": "The rearmost large component is a tray-like shell with a raised perimeter rim, visible depth and several circular attachment features."
+   },
+   {
+    "name": "Fasteners / clips",
+    "function": "Secure the assembly and maintain its position.",
+    "technology": "Three illustrated screw-like fasteners; their material is not specified.",
+    "evidence": "Separate slender shanks with rounded, slotted-looking heads are positioned along dashed assembly lines near the housing."
+   }
+  ],
+  "uncertainties": [
+   "Dimensions, mounting height, vehicle attachment details and installation side are not provided.",
+   "The annotations reference rear-position, stop and reversing functions, but the individual optical regions are not unambiguously assigned to those functions.",
+   "A separate clear reversing-light window or dedicated reversing-light source cannot be confidently identified.",
+   "Exact lens, housing, gasket and reflector materials, LED specifications, electrical connections and thermal-management provisions are not shown.",
+   "The annotated performance statements are not demonstrated by the exploded drawing."
+  ],
+  "vehicle_category": "Inferred: M1 passenger car is most likely, based on the elongated, tapered styling and integrated multi-region rear-lamp construction. N1 light commercial vehicle use is also possible; the drawing alone does not establish the category."
+ },
+ "drawing_regions": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 89,
+  "paragraphs": 1038,
+  "kept": 195,
+  "dropped": 843,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 0,
+   "cached": 91,
+   "prompt_tokens": 0,
+   "completion_tokens": 0
+  }
+ },
+ "n_requirements": 311,
+ "seconds": 1.8,
+ "created_at": "2026-10-24T20:04:12+02:00",
+ "run_id": "E043-a",
+ "note": "nur neue Zeichnung + --infer-category, gpt, Richter gpt lenient",
+ "submission_sha256": "10b83336c9747a3460bbf99d05a0c501a9f93c52e2e8e8a63239dc7e2fd568f8",
+ "recorded_at": "2026-10-24T20:05:09+02:00"
+}

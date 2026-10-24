@@ -100,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="Fall-Ordner → Abgabe-JSON (+ .meta.json)")
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
-    r.add_argument("--infer-category", action="store_true", help="nur Zeichnung (--vision only/auto ohne Spec): Fahrzeugklasse aus der Zeichnung ableiten (E043-a)")
+    r.add_argument("--infer-category", action=argparse.BooleanOptionalAction, default=True, help="nur Zeichnung (--vision only bzw. auto ohne Spec): Fahrzeugklasse aus der Zeichnung ableiten; Standard seit E043-a (0.608 → 0.691), --no-infer-category = E042-a")
     r.add_argument("--regions", action="store_true", help="Bildregion je Teil der Zeichnung in .meta.json (drawing_regions, für die Demo; ändert die Abgabe nicht)")
     r.add_argument("--vision", choices=["auto", "off", "on", "only"], default="auto", help="Explosionszeichnung lesen (AP5): auto = nur wenn keine Spec da ist (Standard), on = Beschreibung an die Spec anhängen, only = nur die Zeichnung, off = nie")
     r.add_argument("--select", choices=["b0", "llm", "llm2"], default="llm2", help="Regelungsauswahl (AP2): llm2 = Steckbriefe + LLM ohne Annahmen und reine Fahrzeugebene (Standard seit E020-a), llm = ohne diesen Filter (E016-a), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")

@@ -80,6 +80,10 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
    `prepare.parse_spec`). Ändert die Abgabe nicht; ein Aufruf mehr (~20 s). Ohne Lauf: `python -m certreq.vision regions <fall>
    --out r.json --draw kontrolle.png`. Dev-Zeichnung geprüft: alle 7 Teile richtig umrandet (gpt trennt die 3 Schrauben, Opus
    fasst sie zusammen). `note` (Beschriftungstext) bleibt lokal: `eval --record` entfernt ihn (Lizenz).
+   **A → alle (nur Zeichnung, Sa abends):** Certivity hat die Dev-Zeichnung ersetzt (Paket 3bb9bbd, `scripts/setup` holt sie):
+   Teile mit Anforderungshinweisen beschriftet. Nur Zeichnung jetzt F2 0.691 (E043-a, 4/4 Regelungen) dank `--infer-category`
+   (Standard, wirkt nur ohne Spec); vorher R48 als Annahme verworfen (E042-a 0.608). Mit Spec bringt die Zeichnung nichts (E041-a).
+   Für die Demo (C): der Pfad „nur Zeichnung“ läuft mit dem Standard von `run` ohne Zusatzschalter.
    **A/B → C (Werkbank):** erledigt: `certreq run` ohne Schalter = E022-hs (`--extract modal,llm,lists,tables,exempt,tests,modes`). `demo/server.py` „best" = `[]` folgt dem Standard automatisch (seit Homsianers MODES-Änderung, also jetzt auch `--select llm2` statt `llm`); „fast" bleibt B0 ohne Key. Neue Felder: `.meta.json` llm.rules (aktive Regeln), llm.usage.fallbacks (nur Anthropic).
    **A:** AP5 erledigt. Robustheit am synthetischen Stoßfänger geprüft (LEARNINGS): läuft, 4 min/neuer Fall. Nächster
    AP2b erledigt (E020-a, `--select llm2` Standard). Offenes Risiko Auswahl: R127 und GTR 9 überschneiden sich; welches das

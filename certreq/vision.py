@@ -156,7 +156,8 @@ def draw_regions(case: Case, reg: dict, out: Path) -> Path:
 
 def apply(case: Case, mode: str = "auto", infer_category: bool = False) -> tuple[Case, dict | None]:
     """Gibt den (ggf. ergänzten) Fall und die Zeichnungsbeschreibung (für .meta.json) zurück.
-    auto: mit Spec wie off (E016-a; Zeichnung brachte zusätzlich nichts, E018-a), ohne Spec wie only (E017-a)."""
+    auto: mit Spec wie off (Zeichnung brachte zusätzlich nichts: E018-a, mit der neuen beschrifteten Zeichnung E041-a),
+    ohne Spec wie only (E042-a 0.608; mit infer_category E043-a 0.691, CLI-Standard)."""
     if mode not in MODES:
         raise SystemExit(f"Unbekannter Vision-Modus {mode!r}, erlaubt: {MODES}")
     if mode == "auto":

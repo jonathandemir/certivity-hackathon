@@ -554,3 +554,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 20:01:41 +0200 | [change] certreq.arena: selbstständige Verbesserungsschleife mit Tune/Holdout | Amiad @ claude | main@64f6857 +lokale Änderungen
 - python -m certreq.arena select|subgoal [--rounds N] [--resume]: Ein Trainer-LLM sieht nur Tune-Fehler und schlägt je Runde EINE allgemeine Änderung vor (select: Zusatzregeln für den Auswahl-Prompt; subgoal: modified_min/refine/Zusatzregeln). Gemessen auf tune (selection-suite + real-parts/tune + dev-rear-lamp) und holdout (real-parts/holdout, Trainer sieht ihn nie); übernommen nur bei besserem Tune, Warnung bei Holdout-Rückgang, Empfehlung = beste Fassung ohne Holdout-Verlust (out/arena/<spur>/best-*.txt). Vorschläge mit Marken/Teilenummern werden verworfen. Ändert keinen Code; Übernahme ins Pipeline-Standard nur per Team-Entscheid + Ledger.
 - pytest grün (3 neue Tests ohne LLM)
+
+### 2026-10-24 20:05:44 +0200 | [run] Neue Dev-Zeichnung: Spec+Zeichnung 0.727, nur Zeichnung 0.608 → 0.691 mit --infer-category | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@769a655
+- E041-a (--vision on): 0.727 vs Standard 0.74 → kein Gewinn. E042-a (--vision only): 0.608, R48 fehlt (llm2 verwirft als Annahme, Klasse unbekannt). E043-a (+ --infer-category): 0.691, Regelungen 4/4, Seiten 0.930. --infer-category ist jetzt Standard (nur ohne Spec wirksam).
+- Richter gpt lenient. Ledger E041-a/E042-a/E043-a, LEARNINGS, STATUS. Neue Zeichnung: Paket-Commit 3bb9bbd (scripts/setup).
