@@ -189,3 +189,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - vs E006: Regelungen F2 0.405→0.556 (P 0.143→0.273, 11 statt 21 zitiert, R 0.750 gleich); Seiten F2 0.348→0.714 (P 0.103→0.437, R 0.849 gleich); 618 statt 2341 Anforderungen; LLM: 227 Batches, 2614 Kandidaten, 327 behalten, 2287 verworfen, 0 ohne Antwort
 - Gegen expected.json (keine Plattform): Absatz-F2 0.145→0.599, Obergrenze Anforderungsebene 0.131→0.493. Varianten in experiments/runs/E008/options.txt (shall+llm Seiten 0.680). Falsch zitiert bleiben R3, R7, R23, R128 (alte Leuchten-Regelungen): Auswahl AP2
 - Neue Bestmarke hinter Schalter, Tag best-main-pagef2-0.714. Reproduzierbar mit dem LLM-Cache auf Jonathans Rechner (out/cache/llm); auf anderem Rechner neue Antworten → neu messen
+
+### 2026-10-24 14:55:50 +0200 | [run] E012 Richter strict auf --filters all --extract modal,llm | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@bd16d85
+- Anforderungsebene (lokaler Richter strict, gpt-6.1-sol): P 0.129 R 0.421 F2 0.290 (80/190 getroffen, 618 eingereicht) vs E011-a modal,split F2 0.098 (P 0.025 R 0.384) und B0 0.060. Seiten 0.714, Regelungen 0.556 wie E008
+- Engpässe: 32 von 190 Gold-Anforderungen sind UN R10, die B0-Auswahl wählt R10 nicht (AP2); Precision: 618 statt ~190, u. a. alte Leuchten-Regelungen R3/R7/R23/R128 (AP2) und Überzerlegung (6.10.5.1 → 5 statt 3)
+- Neue Bestmarke Anforderungsebene, Tag best-main-reqf2-0.290. Vorschlag: Standard auf --filters all --extract modal,llm umstellen (Entscheidung Jonathan, wegen E001-Upload)

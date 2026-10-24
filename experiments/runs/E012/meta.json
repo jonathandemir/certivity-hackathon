@@ -1,0 +1,67 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --filters all --extract modal,llm --out out/E012.json",
+ "git": {
+  "commit": "main@bd16d85",
+  "full_hash": "bd16d85c55a748624d776627c32c7c61c10ccf6d",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R128",
+  "UN R48",
+  "UN R53",
+  "UN R7",
+  "UN R13H",
+  "UN R148",
+  "UN R152",
+  "UN R23",
+  "UN R37",
+  "UN R38",
+  "UN R104",
+  "UN R123",
+  "UN R131",
+  "UN R149",
+  "UN R150",
+  "UN R161",
+  "UN R19",
+  "UN R26",
+  "UN R3",
+  "UN R32",
+  "UN R42"
+ ],
+ "forced": false,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa"
+ ],
+ "extract": [
+  "modal",
+  "llm"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 227,
+  "paragraphs": 2614,
+  "kept": 327,
+  "dropped": 2287,
+  "missing": 0,
+  "usage": {
+   "calls": 0,
+   "cached": 227,
+   "prompt_tokens": 0,
+   "completion_tokens": 0
+  }
+ },
+ "n_requirements": 618,
+ "seconds": 1.5,
+ "created_at": "2026-10-24T14:54:34+02:00",
+ "run_id": "E012",
+ "note": "Richter strict auf --filters all --extract modal,llm (= E008) vs E011-a",
+ "submission_sha256": "621c9c8e7d2f9f00e853d13652d712eba676ee53ebb5bde15a914567a6ea1b66",
+ "recorded_at": "2026-10-24T14:55:29+02:00"
+}
