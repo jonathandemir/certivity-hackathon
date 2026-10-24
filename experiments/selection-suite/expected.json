@@ -1,0 +1,65 @@
+{
+ "about": "Vorab festgelegte Lösungen für den Auswahl-Test (Stufe 1). Geschrieben von Jonathan/Claude aus den Geltungsbereichen der base-PDFs (select.brief), bevor das Modell die Specs gesehen hat. sure = gilt laut Geltungsbereich sicher (fehlt sie: Recall-Fehler); unsure = vertretbar beides (zählt weder als Treffer noch als Fehler); alles andere = Fehlauswahl. traps = bekannte Fallen, nur zur Auswertung. R10 gilt als sure, wenn die Spec Elektronik enthält (Geltungsbereich: Fahrzeuge und elektrische/elektronische Unterbaugruppen; Beleg Dev-Gold: R10 bei LED-Elektronik).",
+ "components": {
+  "front-fog-lamp": {
+   "sure": ["UN R149", "UN R48", "UN R10"],
+   "unsure": [],
+   "traps": ["UN R19", "UN R128", "UN R148", "UN R123", "UN R37"],
+   "basis": "R149 combines Nos. 19, 98, 112, 113, 119, 123 (Introduction) → R19 ersetzt; R48 Anbau; R10 LED-Treiber. R128 nur für austauschbare LED-Lichtquellen, hier fest verlötet."
+  },
+  "rear-bumper": {
+   "sure": ["UN R42", "UN R150", "UN R48", "UN R10"],
+   "unsure": ["UN R26", "UN R32"],
+   "traps": ["UN R3", "UN R104", "UN R127", "UN GTR 9", "UN R148"],
+   "basis": "R42 front and rear protective devices M1; R150 combines Nos. 3, 27, 69, 70, 104 → Rückstrahler; R48 Anbau Rückstrahler; R10 Parksensoren. R26 (Außenkanten) und R32 (Heckaufprall Fahrzeug) offen. R127/GTR 9 nur Front."
+  },
+  "aebs-radar": {
+   "sure": ["UN R152", "UN R10"],
+   "unsure": ["UN R155", "UN R156", "UN R13H"],
+   "traps": ["UN R131", "UN R157", "UN R171", "UN R175"],
+   "basis": "R152 AEBS M1/N1; R131 nur M2, M3, N2, N3; R10 Elektronik. Cybersecurity/Software-Update/Bremsanlage auf Fahrzeugebene offen."
+  },
+  "alarm-system": {
+   "sure": ["UN R163", "UN R10"],
+   "unsure": ["UN R116"],
+   "traps": ["UN R161", "UN R162"],
+   "basis": "R163 Vehicle Alarm Systems (any category); R116 Part II VAS M1/N1 (älter, parallel) offen; Wegfahrsperre ausdrücklich nicht Teil der Spec."
+  },
+  "windscreen": {
+   "sure": ["UN R43"],
+   "unsure": ["UN R127", "UN GTR 9"],
+   "traps": ["UN R10", "UN R48", "UN R26"],
+   "basis": "R43 safety glazing (windscreens) und deren Einbau; keine Elektrik. Fußgängerschutz-Kopfaufprall im Scheibenbereich offen."
+  },
+  "seatbelt-reminder": {
+   "sure": ["UN R174", "UN R10"],
+   "unsure": [],
+   "traps": ["UN R94", "UN R137", "UN R114"],
+   "basis": "R174 safety-belt reminders (split from R16); R10 Sensoren/Steuergerät; Crash-Regelungen sind Fahrzeugebene."
+  },
+  "airbag-module": {
+   "sure": ["UN R114"],
+   "unsure": ["UN R10", "UN R79"],
+   "traps": ["UN R94", "UN R137", "UN R174"],
+   "basis": "R114 airbag modules for replacement airbag systems + replacement steering wheels M1/N1. R10 (Zünder) und R79 (Lenkrad als Lenkungsteil) offen."
+  },
+  "eps-steering": {
+   "sure": ["UN R79", "UN R10"],
+   "unsure": ["UN R155", "UN R156"],
+   "traps": ["UN R171", "UN R157", "UN R13H", "UN R89"],
+   "basis": "R79 steering equipment M, N, O; R10 ECU/Motor. Keine automatisierten Funktionen (ALKS/DCAS)."
+  },
+  "motorcycle-silencer": {
+   "sure": ["UN R92"],
+   "unsure": ["UN R40"],
+   "traps": ["UN R51", "UN R103", "UN R53"],
+   "basis": "R92 non-original replacement exhaust silencing systems L1–L5; R51 nur M/N; R103 Ersatz-Abgasreinigung M1/N1; R40 (Emissionen Krafträder) offen."
+  },
+  "contour-marking": {
+   "sure": ["UN R150", "UN R48"],
+   "unsure": [],
+   "traps": ["UN R104", "UN R3"],
+   "basis": "R150 combines Nos. 3, 27, 69, 70, 104 → Konturmarkierung (Retro-reflective Marking Materials); R48 Anbau der Konturmarkierung an O-Fahrzeugen."
+  }
+ }
+}
