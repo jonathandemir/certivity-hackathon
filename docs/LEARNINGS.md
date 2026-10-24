@@ -9,8 +9,11 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   (main@c1d0d1d). `subgoal/dev/old.pdf` ist byte-gleich mit `UN_R175_base.pdf`; `requirements_old.json` sind 94
   Anforderungen von Certivity im Gold-Stil auf einer Regelung, die wir fürs Hauptziel nie benutzt haben. Mit vorgegebener
   Regelung (`--regs "UN R175"`, synthetische Spec `experiments/synthetic/acpe/`) und gpt-Richter: Abschnitte 5–6 lenient
-  0.60 ohne, 0.58 mit den 5 Prompt-Regeln (dev: +0.04 mit). Konsequenz: (1) Der Regel-Gewinn überträgt sich nicht
-  nachweisbar; Held-out-Score eher deutlich unter dev 0.76 erwarten. (2) Jede Änderung an Extraktion/Filtern zusätzlich auf
+  0.60 ohne, 0.59 mit den 5 Prompt-Regeln (je 2 Läufe; dev: +0.04 mit). Leave-one-out auf R175 (X-R175-B-no-*): lists,
+  exempt und tests helfen auch hier (je ohne −0.03), tables neutral, **modes kostet ~5 Treffer** (ohne: 0.630). Das Bündel
+  wirkte nur neutral, weil modes die anderen aufhebt. Konsequenz: (1) Formulierungs-/Zerlegungsregeln übertragen sich,
+  Anwendbarkeitsregeln (modes, Filter) sind auf R175 nicht fair messbar (Referenz = ganze Regelung) und am Held-out ein
+  Risiko, wenn die Spec Varianten nicht nennt → Upload-Paar mit/ohne modes. Held-out-Score eher unter dev 0.76 erwarten. (2) Jede Änderung an Extraktion/Filtern zusätzlich auf
   R175 messen (Befehle: LOG [run] X-R175); nur übernehmen, wenn sie dort nicht verliert. (3) Vorsicht beim Vergleich der
   absoluten Werte: die Liste deckt die ganze Regelung ab (auch Varianten wie kraftbasierte Auslösung und
   Verwaltungsabschnitte 3/4/7/8), das Hauptziel-Gold ist bauteilbezogen. **Für den Stoßfänger plausibel?** Ja, als
