@@ -74,7 +74,7 @@ Mindestens alle 30 Minuten und immer vor dem Aufhören pushen. Fertig mit einer 
 - **Branches nur ausnahmsweise** für ein riskantes Experiment, das länger als eine Stunde nicht lauffähig ist.
   Dann kurzlebig, `scripts/sync` funktioniert dort auch (merged main konfliktfrei mit); geteilte Dateien weiter auf
   main ändern (`scripts/main-wt` gibt den Pfad eines main-Checkouts). Danach zügig nach main mergen und löschen.
-- **Gute Stände sichern:** `scripts/tag-best <wert>` (Tag `best-main-<wert>`); Sonntag gilt der Freeze aus docs/PLAN.md.
+- **Gute Stände sichern:** `scripts/tag-best <wert>` (Tag `best-main-<wert>`); Sonntag läuft der Held-out auf einem getaggten Stand (docs/PLAN.md „Sonntagsablauf“); einen Code-Freeze für alle gibt es nicht.
 
 ## 5. Ergebnisse, Läufe, Experimente
 

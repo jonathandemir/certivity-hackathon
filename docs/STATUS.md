@@ -38,7 +38,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 
 ## Nächste Schritte
 
-0. **Übergaben für den Abend (A, Sa 24.10. ~19:45), Freeze So 07:30.** Hintergrund: Opus ist auf dev im Mittel gleich gpt (0.740, ±0.02),
+0. **Übergaben für den Abend (A, Sa 24.10. ~19:45). Kein Code-Freeze: nur A (Jonathan) pausiert, alle anderen arbeiten normal weiter.** Hintergrund: Opus ist auf dev im Mittel gleich gpt (0.740, ±0.02),
    außerhalb von dev klar besser (R175 +0.07); Sub-Goal auf dev ausgereizt (24/24, Change accuracy 1.000).
    **B (Homsianer) erledigt 20:05:** `duties` und `testcond` gebaut und gemessen (Claude-Richter strict, je 2 Läufe; Ledger X-R175-C-cj, X-R175-hs-duties/testcond, E041/E042-hs-c). `duties`: R175 0.642 → 0.623 → verworfen. `testcond`: R175 0.638 (Prüfbedingungen 6–7 → 9–10/13), dev 0.707 vs 0.718 → nicht Standard, hinter Schalter. **Vorschlag an A (Weg A):** am Held-out ein Upload-Paar H001 vs H00x mit `--extract modal,llm,lists,tables,exempt,tests,modes,testcond` (neuer Lauf), falls R127/GTR 9 gewählt sind – dort sind Prüfbedingungen der Kern. Standard bleibt E022-hs. Der Auftrag lautete:
    **B (Homsianer): zwei neue Prompt-Regeln für den Held-out, je hinter Schalter in `llmextract.RULES`.**
