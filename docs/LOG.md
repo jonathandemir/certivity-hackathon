@@ -426,3 +426,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 18:11:49 +0200 | [change] AP4: Prompt-Regel procedure2 hinter Schalter (procedure ohne R10-Verlust) | Homsianer @ vm | main@ee6302c +lokale Änderungen
 - Vergleich E031-hs-c vs E024-hs-c: 12 Treffer verloren, 5 gewonnen; systematisch verloren nur die Haupttext-Pflicht 'the ESA shall be tested by the method(s) according to ISO … as described in Annex …' (R10 6.7.1, 6.8.2.1, 6.9.1), Rest Streuung. procedure2 behält diese Pflicht ausdrücklich, lässt Labor-/TD-Anweisungen weiter weg
 - Standard-Prompt unverändert (procedure2 steht hinter den fünf Standardregeln). Geprüft: pytest grün. Messplan: E032-hs-c (+procedure2), E033-hs-c (Standard wiederholt, Streuung), E034-hs-c (+procedure2 wiederholt)
+
+### 2026-10-24 18:12:58 +0200 | [run] Plattform: Claude-Extraktion E024-hs-c F2 0.762, gpt E022-hs 0.725 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@8c201e1
+- Upload-Paar team-12, dev-rear-lamp. E024-hs-c (Claude, alle Regeln): P 0.478 R 0.895 F2 0.762 (170/190) = neue Plattform-Bestmarke, Tag best-main-platf2-0.762 auf main@8c201e1. E022-hs (gpt, main@72dbeab): P 0.466 R 0.842 F2 0.725 (160/190). Claude +0.037, über der Streuung.
+- Seiten/Regelungen = score_local. Prognose gpt lenient: E024-hs-c exakt (170), E022-hs +4 Treffer zu hoch. Claude strict unterschätzt Claude-Ausgaben um 9. Belege experiments/runs/E022-hs/ und E024-hs-c/platform.json, Ledger E022-hs-P/E024-hs-c-P.
