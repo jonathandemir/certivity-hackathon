@@ -184,3 +184,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 14:53:23 +0200 | [change] scripts/log: [run] prüft nur Code, nicht docs/ und experiments/ | Jonathan @ MacBook-Pro-von-Jonathan | main@66d51fc +lokale Änderungen
 - Anlass: die beiden [run]-Einträge eben warnten fälschlich vor uncommitteten Änderungen (nur STATUS/LEDGER/Belege waren offen); Hash main@66d51fc darin ist korrekt
 - Geprüft: scripts/selftest 142/142 auf macOS und Debian (4 neue Prüfungen)
+
+### 2026-10-24 14:53:32 +0200 | [run] E008 --filters all --extract modal,llm (gpt-6.1-sol) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@dc1350a
+- vs E006: Regelungen F2 0.405→0.556 (P 0.143→0.273, 11 statt 21 zitiert, R 0.750 gleich); Seiten F2 0.348→0.714 (P 0.103→0.437, R 0.849 gleich); 618 statt 2341 Anforderungen; LLM: 227 Batches, 2614 Kandidaten, 327 behalten, 2287 verworfen, 0 ohne Antwort
+- Gegen expected.json (keine Plattform): Absatz-F2 0.145→0.599, Obergrenze Anforderungsebene 0.131→0.493. Varianten in experiments/runs/E008/options.txt (shall+llm Seiten 0.680). Falsch zitiert bleiben R3, R7, R23, R128 (alte Leuchten-Regelungen): Auswahl AP2
+- Neue Bestmarke hinter Schalter, Tag best-main-pagef2-0.714. Reproduzierbar mit dem LLM-Cache auf Jonathans Rechner (out/cache/llm); auf anderem Rechner neue Antworten → neu messen

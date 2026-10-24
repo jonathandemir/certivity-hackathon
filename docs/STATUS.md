@@ -6,7 +6,7 @@ Historie steht in docs/LOG.md.
 ## Stand
 
 AP1 steht: Pipeline-Gerüst `certreq` (run/eval) mit Baseline B0, Bewertungsschleife mit Belegen.
-Bestmarke Seiten (zulässig): E006 (`--filters all`), Seiten-F2 0.348 lokal. **Anforderungsebene (Hauptscore) jetzt lokal messbar** (AP10-Richter, `eval --judge strict`): Bestmarke E011-a `--filters all --extract modal,split` F2 0.098 (P 0.025, R 0.384); B0 0.060. Standard ohne Schalter ist weiter B0.
+Bestmarke Seiten/Regelungen (zulässig): E008 (`--filters all --extract modal,llm`: Relevanzfilter + LLM-Extraktion je Absatz), Seiten-F2 0.714, Regelungs-F2 0.556 lokal (mit Gold-Regelungen Seiten 0.943). **Anforderungsebene (Hauptscore) jetzt lokal messbar** (AP10-Richter, `eval --judge strict`): Bestmarke E011-a `--filters all --extract modal,split` F2 0.098 (P 0.025, R 0.384); B0 0.060. E008 auf Anforderungsebene noch ungemessen. Standard ohne Schalter ist weiter B0.
 Anforderungs-Engpässe (E011-a): 32 von 190 fehlen, weil UN R10 nicht gewählt ist (AP2); 85 trotz Kandidaten (Absätze statt Einzelpflichten, AP4); Precision 0.025 (2966 statt ~190 Anforderungen).
 Diagnose E002: Mit den richtigen Regelungen findet B0 alle 53 Gold-Seiten → größter Hebel ist die Auswahl (AP2),
 danach Precision der Extraktion (AP4: 1214 statt ~190 Anforderungen).
@@ -64,7 +64,7 @@ Nur echte Messungen auf einem gepushten, sauberen Commit. F2 = 5·P·R/(4·P+R).
 
 | Fall | Ebene | P | R | F2 | Commit (branch@hash) | Tag | Quelle | Beleg | Wann |
 |---|---|---|---|---|---|---|---|---|---|
-| dev-rear-lamp | Regelungen | 0.143 | 0.750 | 0.405 | jonathan@29c0d0b | best-jonathan-pagef2-0.272 | score_local | E001 | 2026-10-24 13:27 |
-| dev-rear-lamp | Seiten | 0.103 | 0.849 | 0.348 | main@3e979ed (`--filters all`) | best-main-pagef2-0.348 | score_local | E006 | 2026-10-24 14:41 |
+| dev-rear-lamp | Regelungen | 0.273 | 0.750 | 0.556 | main@dc1350a (`--filters all --extract modal,llm`) | best-main-pagef2-0.714 | score_local | E008 | 2026-10-24 14:53 |
+| dev-rear-lamp | Seiten | 0.437 | 0.849 | 0.714 | main@dc1350a (`--filters all --extract modal,llm`) | best-main-pagef2-0.714 | score_local | E008 | 2026-10-24 14:53 |
 | dev-rear-lamp | Anforderungen | 0.025 | 0.384 | 0.098 | main@66d51fc (`--filters all --extract modal,split`) | – | lokaler Richter strict (gpt-6.1-sol) | E011-a | 2026-10-24 15:00 |
 | dev-rear-lamp | Anforderungen | – | – | – | – | – | Plattform (offen, E001-Upload) | – | – |
