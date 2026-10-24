@@ -635,3 +635,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 21:37:54 +0200 | [change] scripts/heldout-auto: Held-out So 08:00 automatisch rechnen | Jonathan @ MacBook-Pro-von-Jonathan | main@f5ac02d +lokale Änderungen
 - Zieht ab 08:00 bis 10:00 minütlich das Paket nach, bis ein neuer Fall unter cases/ liegt (auch Zip von Hand nach vendor/), lädt PDFs, pull-first, drei Opus-Läufe parallel (H001 Standard + --regions, H002 ohne Cache, H003 ohne modes), Fable-Fallback, eval --record, Varianten aus H001 (ohne R94, R127/GTR 9 allein), Sub-Goal HSG1, Upload-Dateien, Commit + Log + sync, SUMMARY.md + macOS-Mitteilung. Lädt nichts hoch. Nur am 25.10. (sonst --force); --test probt am Dev-Fall ohne Commit.
 - bash -n ok; Probe --test folgt; Start per LaunchAgent (nicht im Repo).
+
+### 2026-10-24 21:39:11 +0200 | [change] Held-out-Automatik eingerichtet (launchd So 25.10. 08:00) | Jonathan @ MacBook-Pro-von-Jonathan | main@6d09c43 +lokale Änderungen
+- LaunchAgent com.barelylegal.certivity-heldout (nur auf Jonathans Mac, nicht im Repo) startet scripts/heldout-auto in certivity-a; caffeinate hält den Mac bis So 10:30 wach (am Netzteil, Deckel offen lassen). PLAN Sonntagsablauf: Automatik-Absatz, reservierte IDs H001–H003, H001-*, HSG1.
+- Probe --test in launchd-Umgebung am Dev-Fall: alle 4 Upload-Dateien gültig, 17 s (Cache), Belege wieder entfernt; launchctl kickstart heute: Datumssperre greift, Exit 0.

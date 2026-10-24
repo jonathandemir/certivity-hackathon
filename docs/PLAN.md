@@ -93,6 +93,13 @@ Zeiten MEZ: in der Nacht springt die Uhr 03:00 → 02:00. Stand Sa 24.10. abends
 **Homsianer** Bereitschaft für Pipeline-Fehler und weitere Verbesserungen (Standard wie immer nur nach Messung umstellen, vor dem Held-out-Lauf J Bescheid geben), **Amiad** Sub-Goal-Held-out + Demo
 mit dem Held-out-Ergebnis. Held-out-Eingaben nie ins Repo (Lizenz), nur eigene Ausgaben und Scores.
 
+**Automatik (eingerichtet Sa 21:40):** Jonathans Mac startet So 08:00 per launchd `scripts/heldout-auto` im Checkout
+`certivity-a`: zieht das Paket nach, bis der Fall da ist (bis 10:00, auch Zip von Hand nach `vendor/`), rechnet H001
+(Standard + Bildregionen), H002 (zweiter Wurf), H003 (ohne modes), Varianten aus H001, Sub-Goal HSG1, baut die
+Upload-Dateien, committet die Belege und meldet sich per Mitteilung; Übersicht `out/heldout-auto/SUMMARY.md`. Die IDs
+H001–H003, H001-*, HSG1 sind dafür reserviert; bitte nicht parallel dieselben Läufe starten. Hochladen bleibt bei J.
+Die Zeilen 08:00–08:20 unten erledigt die Automatik; von Hand nur, wenn sie scheitert.
+
 | Wann | Wer | Schritt | Befehl / Kriterium |
 |---|---|---|---|
 | 07:30 | J | Stand für den Held-out-Lauf taggen (kein Freeze für andere; wer danach den Standard von `run` ändert, sagt es J vor dem Lauf) | `scripts/sync`, `scripts/tag-best heldout-so` |
