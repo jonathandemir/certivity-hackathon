@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BarelyLegal – Slide 6: Ready for a pilot</title>
+<!-- Folie 6 (Impact), gleiches Raster wie Folie 4. Rendern: docs/pitch/render-slide.sh (Chrome headless, 3840x2160). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f3f2ee; --ink: #0d0d0f; --red: #ff3b30; --card: #ffffff; --label: #2c2c2e; --muted: #808085; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; background: var(--bg); overflow: hidden; }
+  body { position: relative; font-family: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  h1 { position: absolute; left: 128px; top: 122px; font-family: "Anton", "Impact", sans-serif; font-weight: 400;
+       font-size: 180px; line-height: 1; letter-spacing: -1px; text-transform: uppercase; }
+  .cards { position: absolute; left: 128px; top: 448px; width: 1664px; display: grid;
+           grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .card { background: var(--card); border-radius: 26px; height: 268px; padding: 40px 40px 0; }
+  .card.dark { background: var(--ink); }
+  .num { font-family: "Anton", "Impact", sans-serif; font-size: 136px; line-height: 1; color: var(--ink); }
+  .dark .num { color: var(--red); }
+  .lbl { margin-top: 22px; font-size: 34px; font-weight: 500; color: var(--label); }
+  .dark .lbl { color: #e8e8ea; }
+  .line { position: absolute; left: 128px; top: 868px; font-size: 44px; font-weight: 700; letter-spacing: -0.3px; }
+  .src { position: absolute; left: 128px; top: 982px; font-size: 24px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <h1>Ready for a pilot.</h1>
+  <div class="cards">
+    <div class="card"><div class="num">$3.60</div><div class="lbl">and 2 min per component</div></div>
+    <div class="card"><div class="num">100%</div><div class="lbl">cite page and paragraph</div></div>
+    <div class="card dark"><div class="num">24/24</div><div class="lbl">regulation changes caught</div></div>
+  </div>
+  <div class="line">Measure before you trust it: our judge predicts your score within 4 of 190.</div>
+  <div class="src">Measured on the challenge cases: Opus 5.5 on a front-bumper test spec (list price) · judge vs. platform, 5 uploads · regulation-change example</div>
+</body>
+</html>
