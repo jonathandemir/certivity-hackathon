@@ -26,6 +26,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Wer | Rechner | Was | Dateien | Seit |
 |---|---|---|---|---|
 | Jonathan | MacBook-Pro-von-Jonathan | AP3-Rest Gliederung + AP4 Relevanzfilter (B vorgezogen, Übergabe an Omar) | certreq/pdf.py, certreq/extract.py, tests/test_extract.py | 2026-10-24 14:10 |
+| Jonathan | MacBook-Pro-von-Jonathan | CLI-Schalter --filters (AP4), klein | certreq/__main__.py | 2026-10-24 14:23 |
 
 ## Nächste Schritte
 
