@@ -30,7 +30,6 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Jonathan | MacBook-Pro-von-Jonathan | AP3-Rest Gliederung + AP4 Relevanzfilter (B vorgezogen, Übergabe an Omar) | certreq/pdf.py, certreq/extract.py, tests/test_extract.py | 2026-10-24 14:10 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP4 LLM-Extraktion je Absatz (Relevanz + Zerlegung) | certreq/llmextract.py, tests/test_llmextract.py, certreq/extract.py | 2026-10-24 14:42 |
 | Jonathan | MacBook-Pro-von-Jonathan | AP2b Auswahl ohne Annahmen und reine Fahrzeugebene (--select llm2) | certreq/select.py, tests/test_select.py, --select in certreq/__main__.py | 2026-10-24 15:48 |
-| Amiad | claude | AP6 Demo v2: 3D-App für jeden Fall + prepare.py | demo/, tests/test_prepare.py | 2026-10-24 13:49 |
 
 ## Nächste Schritte
 
