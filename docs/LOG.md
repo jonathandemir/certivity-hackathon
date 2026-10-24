@@ -606,3 +606,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Stand: Standard = E022-hs-Konfiguration, Held-out mit CERTREQ_PROVIDER=anthropic (Opus 5.5). Dev-Plattform best 0.762 (E024-hs-c), Opus-Mittel 0.742; Sub-Goal 24/24 (E038-am, Change accuracy 1.0). Heute zusätzlich: Prüfsteine R175/Auswahl-Test/Smoke, --infer-category (nur Zeichnung 0.69), Bildregionen (--regions), certreq.variants, export-snapshot (R4), Pitch-Belege (Artifact), Jev getestet und verworfen (X-JEV-1/2).
 - Nächster Schritt: So 07:30 Freeze, 08:00 Held-out nach PLAN 'Sonntagsablauf' (zwei Opus-Läufe, Upload-Paare per certreq.variants, letzter Upload = beste Datei 12:30).
 - Fallen: kein gpt mehr (Guthaben), Richter = Claude strict; Zeitumstellung 03:00→02:00; Homsianers alter Anthropic-Key steht in der Git-Historie (sperren); R4 nur über scripts/export-snapshot.
+
+### 2026-10-24 21:19:20 +0200 | [change] Tag best-main-sa-abend-opus auf main@b750e02 | Jonathan @ MacBook-Pro-von-Jonathan | main@b750e02
+- Eingefrorener Abendstand: Standard = E024-hs-c-Konfiguration (llm2, filters all, modal,llm,lists,tables,exempt,tests,modes), Held-out mit CERTREQ_PROVIDER=anthropic; zusätzlich --infer-category, --regions, certreq.variants, scripts/export-snapshot. Plattform-Bestmarke bleibt Tag best-main-platf2-0.762 (main@8c201e1, Abgabe experiments/runs/E024-hs-c/).
+- pytest 94 grün; Zurück: git checkout best-main-sa-abend-opus.
