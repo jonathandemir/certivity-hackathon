@@ -499,3 +499,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:22:30 +0200 | [finding] Opus auf dev im Mittel gleich gpt; Vorsprung nur außerhalb von dev belegt | Jonathan @ MacBook-Pro-von-Jonathan | main@a06f550 +lokale Änderungen
 - Gleicher gpt-Richter lenient: Opus E024-hs-c 0.762, E033-hs-c 0.732, E039-a 0.726, E040-a 0.743 (Mittel 0.740); gpt E022-hs 0.743, E030-a 0.736 (Mittel 0.740). Das Plattform-Paar 0.762 vs 0.725 war zum Teil Glück. Bleibt: R175 +0.07 stabil, Auswahl-Test besser. Entscheidung Opus bleibt (fremde Regelung = besserer Stellvertreter), Begründung in STATUS korrigiert; Sonntag Weg A: zwei Opus-Läufe als zwei Würfe.
 - Ledger E039-a, E040-a, X-E033-hs-c; LEARNINGS korrigiert; PLAN Sonntagsablauf Weg A Punkt 5.
+
+### 2026-10-24 19:30:09 +0200 | [run] Plattform: Opus-Generalprobe E039-a 0.721, Wiederholung E040-a 0.743 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@a06f550
+- E039-a (main@b731327): P 0.435 R 0.863 F2 0.721 (164/190), lokal 0.726 (165). E040-a: P 0.459 R 0.879 F2 0.743 (167/190), lokal 0.743 (167). Opus auf der Plattform 0.762/0.721/0.743, Mittel 0.742; Streuung ±0.02 bestätigt.
+- Lokaler gpt-Richter lenient sagt die Plattform bei 5 Pipeline-Uploads auf −1/+4/0/+1/0 Treffer voraus. Sonntag: Upload-Unterschiede < ~0.02 bei Opus-Neuläufen sind Zufall; Varianten aus demselben Lauf (certreq.variants) sind davon frei. Ledger E039-a-P/E040-a-P.

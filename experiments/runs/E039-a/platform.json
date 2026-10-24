@@ -1,0 +1,27 @@
+{
+ "uploaded": "2026-10-24 19:27:25 CEST",
+ "scored": "2026-10-24 19:27:55 CEST",
+ "n": 377,
+ "size_kb": 131.5,
+ "requirements": {
+  "precision": 0.435,
+  "recall": 0.863,
+  "f1": 0.578,
+  "f2": 0.721
+ },
+ "pages": {
+  "precision": 0.712,
+  "recall": 0.981,
+  "f1": 0.825,
+  "f2": 0.9121
+ },
+ "regulations": {
+  "precision": 0.8,
+  "recall": 1.0,
+  "f1": 0.889,
+  "f2": 0.9524
+ },
+ "team_id": "team-12",
+ "quelle": "hackathon.certivity.io, Worked example (Screenshot Jonathan), Werte wie angezeigt",
+ "treffer_plattform": 164
+}
