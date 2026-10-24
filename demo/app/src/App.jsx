@@ -4,8 +4,9 @@ import SceneRaw from './Scene.jsx'
 import { loadImage, segmentDrawing, textCards } from './segment.js'
 import {
   CASE, RUN, REGS, REQS, ACTIVE, PARTS, partById, partCounts, regColor, PAGES_TOTAL, LOG, HERO_REQ, DEFAULT_PART,
-  pageOf, hitsOf, activationT, RUN_ID, EMBED,
+  pageOf, hitsOf, activationT, RUN_ID, EMBED, IS_LAMP,
 } from './data.js'
+import { LAMP_SEGS } from './RearLamp.jsx'
 
 const Scene = memo(SceneRaw)
 const RUN_MS = 7000
@@ -39,6 +40,7 @@ function useSegments() {
   useEffect(() => {
     let dead = false
     ;(async () => {
+      if (IS_LAMP) { if (!dead) setSegs(LAMP_SEGS); return }
       let s = []
       if (CASE.drawing?.src) {
         try { s = segmentDrawing(await loadImage(CASE.drawing.src)) } catch (e) { console.warn('Zeichnung nicht lesbar', e) }
@@ -64,6 +66,7 @@ export default function App() {
   const { progress, t, start } = useRun()
   const anchorOut = useRef({})
   const segs = useSegments()
+  const [sketch, setSketch] = useState(true) // Heckleuchte, Akt Zeichnung: Strichzeichnung des 3D-Modells oder Render
 
   useEffect(() => { const id = setTimeout(start, 600); return () => clearTimeout(id) }, [start])
 
@@ -101,12 +104,12 @@ export default function App() {
 
   return (
     <>
-      <Scene act={act} progress={progress} segs={segs} hovered={hovered} setHovered={setHovered} picked={picked} onPick={onPick} anchorOut={anchorOut} />
+      <Scene act={act} progress={progress} segs={segs} hovered={hovered} setHovered={setHovered} picked={picked} onPick={onPick} anchorOut={anchorOut} sketch={sketch} />
       <Header act={act} setAct={setAct} onRun={() => { setAct(0); start() }} t={t} />
       <div className="track" style={{ transform: `translate3d(${-act * 100}vw,0,0)` }}>
         <section className="panel"><ActRun t={t} /></section>
         <section className="panel">
-          <ActDrawing part={part} setPart={setPart} segs={segs} hovered={hovered} setHovered={setHovered} picked={picked} onPick={onPick}
+          <ActDrawing sketch={sketch} setSketch={setSketch} part={part} setPart={setPart} segs={segs} hovered={hovered} setHovered={setHovered} picked={picked} onPick={onPick}
             openReq={openReq} anchorOut={anchorOut} active={act === 1} />
         </section>
         <section className="panel">{req ? <ActEvidence req={req} active={act === 2} anchorOut={anchorOut} /> : <Empty />}</section>
@@ -135,10 +138,10 @@ function Header({ act, setAct, onRun, t }) {
         ))}
       </nav>
       <div className="hdr-r">
-        <span className="case-chip">{CASE.id}{CASE.category ? <><i>·</i>{CASE.category.split(/[ —–-]/)[0]}</> : null}</span>
-        <button className={`run ${running ? 'live' : ''}`} onClick={onRun}>
+        {!EMBED && <span className="case-chip">{CASE.id}{CASE.category ? <><i>·</i>{CASE.category.split(/[ —–-]/)[0]}</> : null}</span>}
+        <button className={`run ${running ? 'live' : ''}`} onClick={onRun} title="Spielt den aufgezeichneten Lauf noch einmal ab">
           <span className="run-dot" />
-          {running ? `Prüft ${Math.round(t * 100)} %` : 'Erneut prüfen'}
+          {running ? `Ablauf ${Math.round(t * 100)} %` : 'Ablauf zeigen'}
         </button>
       </div>
     </header>
@@ -283,7 +286,7 @@ function Callouts({ segs, picked, hovered, setHovered, onPick, anchorOut, active
 }
 
 const PAGE = 80
-function ActDrawing({ part, setPart, segs, hovered, setHovered, picked, onPick, openReq, anchorOut, active }) {
+function ActDrawing({ sketch, setSketch, part, setPart, segs, hovered, setHovered, picked, onPick, openReq, anchorOut, active }) {
   const p = partById[part]
   const pc = partCounts[part]
   const list = useMemo(() => REQS.filter((r) => r.part === part), [part])
@@ -292,7 +295,13 @@ function ActDrawing({ part, setPart, segs, hovered, setHovered, picked, onPick, 
   return (
     <div className="draw-wrap">
       <div className="draw-left">
-        <div className="eyebrow">{CASE.drawing ? 'Explosionszeichnung, automatisch in Teile zerlegt' : 'Bauteile aus der Spezifikation'}</div>
+        <div className="eyebrow">{IS_LAMP ? '3D-Modell, Maß für Maß nach der Explosionszeichnung' : CASE.drawing ? 'Explosionszeichnung, automatisch in Teile zerlegt' : 'Bauteile aus der Spezifikation'}</div>
+        {IS_LAMP && (
+          <div className="mini-seg">
+            <button className={sketch ? 'on' : ''} onClick={() => setSketch(true)}>Technische Skizze</button>
+            <button className={!sketch ? 'on' : ''} onClick={() => setSketch(false)}>3D-Render</button>
+          </div>
+        )}
       </div>
       <Callouts segs={segs} picked={picked} hovered={hovered} setHovered={setHovered} onPick={onPick} anchorOut={anchorOut} active={active} />
       <div className="draw-right">

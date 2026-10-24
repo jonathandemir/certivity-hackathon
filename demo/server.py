@@ -150,7 +150,8 @@ def case_dir(case_id: str) -> Path | None:
         d = base / case_id
         if ID_RE.match(case_id) and d.is_dir():
             return d
-    return None
+    hit = product_dirs().get(case_id) if ID_RE.match(case_id or "") else None
+    return hit[0] if hit else None
 
 
 def create_case(body: dict) -> dict:
@@ -170,6 +171,161 @@ def create_case(body: dict) -> dict:
         ext = ext if ext in {".png", ".jpg", ".jpeg", ".webp"} else ".png"
         (d / f"exploded_view{ext}").write_bytes(base64.b64decode(image["b64"].split(",")[-1]))
     return {"id": cid}
+
+
+# ---------------------------------------------------------------- Produkte
+# Ein Eintrag je Produkt, egal wie oft es gerechnet wurde: Certivity-Fälle, selbst recherchierte echte Teile,
+# eigene Testfälle und Uploads. Gezeigt wird nur das beste Ergebnis (Plattform-F2 > lokaler F2 > Auswahl-F2 > jüngster Lauf).
+EXP = REPO / "experiments"
+PRODUCT_SOURCES = (  # (Ordner mit Produkt-Unterordnern, Gruppe); frühere gewinnen bei gleichem Namen
+    (EXP / "real-parts" / "tune", "recherche"),
+    (EXP / "real-parts" / "holdout", "recherche"),
+    (EXP / "synthetic", "testfall"),
+    (EXP / "selection-suite", "testfall"),
+    (EXP / "guard-cases", "testfall"),
+)
+GROUPS = {"certivity": "Certivity-Aufgabe", "recherche": "Echte Teile (recherchiert)", "testfall": "Eigene Testfälle", "upload": "Eigene Uploads"}
+
+
+def _spec_file(d: Path) -> Path | None:
+    return next((p for p in sorted(d.iterdir()) if p.is_file() and p.suffix.lower() in {".md", ".txt"}
+                 and not p.stem.lower().startswith("readme")), None)
+
+
+def _img_file(d: Path) -> Path | None:
+    return next((p for p in sorted(d.iterdir()) if p.is_file() and p.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}), None)
+
+
+def product_dirs() -> dict[str, tuple[Path, str]]:
+    out: dict[str, tuple[Path, str]] = {}
+    bases = [(paths.CASES_DIR, "certivity"), *PRODUCT_SOURCES, (UPLOADS, "upload")]
+    for base, grp in bases:
+        if not base.is_dir():
+            continue
+        for d in sorted(base.iterdir()):
+            if d.is_dir() and d.name not in out and ID_RE.match(d.name) and (_spec_file(d) or _img_file(d)):
+                out[d.name] = (d, grp)
+    return out
+
+
+def _f2(hits: int, missing: int, wrong: int) -> float | None:
+    if hits + missing + wrong == 0:
+        return None
+    p = hits / (hits + wrong) if hits + wrong else 0.0
+    r = hits / (hits + missing) if hits + missing else 1.0
+    return round(5 * p * r / (4 * p + r), 3) if p + r else 0.0
+
+
+def _gold() -> dict[str, dict]:
+    """Musterlösung der Regelungsauswahl je Produkt (sure/unsure/traps, Beleg, Quelle)."""
+    gold: dict[str, dict] = {}
+    for base, _ in PRODUCT_SOURCES:
+        for c, g in ((read_json(base / "expected.json", {}) or {}).get("components") or {}).items():
+            gold.setdefault(c, g)
+    return gold
+
+
+def _selections() -> dict[str, dict]:
+    """Bestes gespeichertes Auswahl-Ergebnis je Produkt aus den Auswahl-Tests (experiments/runs)."""
+    best: dict[str, dict] = {}
+    if not EXPERIMENTS.is_dir():
+        return best
+    for ed in sorted(EXPERIMENTS.iterdir()):
+        for f in (ed / "meta.json", ed / "selection-suite.json"):
+            data = read_json(f, {}) or {}
+            comps = data.get("components") if isinstance(data, dict) else None
+            if not isinstance(comps, dict):
+                continue
+            for c, r in comps.items():
+                if not isinstance(r, dict) or "selected" not in r:
+                    continue
+                f2 = _f2(len(r.get("hits", [])), len(r.get("missing", [])), len(r.get("wrong", [])))
+                cand = {**r, "run": ed.name, "f2": f2, "model": data.get("model"), "mode": data.get("mode")}
+                cur = best.get(c)
+                if cur is None or (f2 or 0) > (cur["f2"] or 0) or ((f2 or 0) == (cur["f2"] or 0) and ed.name > cur["run"]):
+                    best[c] = cand
+    # Frontstoßfänger-Probelauf (ohne Musterlösung, Auswahl gegen die Schutzfall-Lösung gewertet)
+    fb = read_json(EXP / "synthetic" / "front-bumper-run.json", {}) or {}
+    if fb.get("auswahl") and "front-bumper" not in best:
+        sel = [a["regulation"] for a in fb["auswahl"] if a.get("role") != "rejected"]
+        g = _gold().get("front-bumper") or {}
+        sure, unsure = set(g.get("sure", [])), set(g.get("unsure", []))
+        hits = [r for r in sel if r in sure]
+        wrong = [r for r in sel if r not in sure and r not in unsure] if g else []
+        missing = sorted(sure - set(sel))
+        best["front-bumper"] = {"selected": sel, "hits": hits, "missing": missing, "wrong": wrong, "traps_taken": [],
+                                "explain": fb["auswahl"], "run": "front-bumper-run", "f2": _f2(len(hits), len(missing), len(wrong)) if g else None}
+    return best
+
+
+def _run_score(r: dict) -> tuple[int, float, str, str | None]:
+    """(Rang, Wert, Anzeige, Quelle) eines fertigen Laufs; höherer Rang gewinnt."""
+    ed = EXPERIMENTS / r["id"]
+    plat = read_json(ed / "platform.json", {}) if r.get("kind") == "messung" else {}
+    f2 = ((plat or {}).get("requirements") or {}).get("f2")
+    if f2 is not None:
+        return 3, f2, f"{f2:.3f}", "Plattform-F2"
+    sc = read_json(ed / "score.json", {}) if r.get("kind") == "messung" else {}
+    f2 = (((sc or {}).get("levels") or {}).get("requirement_level") or {}).get("f2")
+    if f2 is not None:
+        return 2, f2, f"{f2:.3f}", "lokaler F2"
+    return 1, 0.0, "", None
+
+
+def list_products(runs: list[dict] | None = None) -> list[dict]:
+    runs = runs if runs is not None else list_runs()
+    sels, gold = _selections(), _gold()
+    by_case: dict[str, list[dict]] = {}
+    for r in runs:
+        if r.get("case"):
+            by_case.setdefault(r["case"], []).append(r)
+    out = []
+    for pid, (d, grp) in product_dirs().items():
+        sp, img = _spec_file(d), _img_file(d)
+        title = prepare.parse_spec(sp.read_text(encoding="utf-8"))["title"] if sp else ""
+        item = {"id": pid, "group": grp, "groupLabel": GROUPS[grp], "title": title or pid, "hasDrawing": bool(img),
+                "hasGold": pid in gold or (d / "expected.json").exists(), "best": None, "running": None}
+        mine = by_case.get(pid, [])
+        live = [r for r in mine if r.get("state") == "running"]
+        if live:
+            item["running"] = {k: live[0].get(k) for k in ("id", "elapsed", "typical", "mode")}
+        done = [r for r in mine if r.get("state") == "done" and r.get("n")]
+        if done:
+            ranked = sorted(done, key=lambda r: (_run_score(r)[:2], r.get("started") or ""), reverse=True)
+            top = ranked[0]
+            rank, val, txt, src = _run_score(top)
+            item["best"] = {"kind": "run", "runId": top["id"], "n": top.get("n"), "regs": top.get("regs"),
+                            "score": txt or None, "scoreLabel": src, "started": top.get("started"), "of": len(done)}
+        elif pid in sels:
+            s = sels[pid]
+            item["best"] = {"kind": "auswahl", "runId": s["run"], "regs": len(s["selected"]), "score": f"{s['f2']:.2f}" if s.get("f2") is not None else None,
+                            "scoreLabel": "Auswahl-F2" if s.get("f2") is not None else None, "selected": s["selected"]}
+        out.append(item)
+    order = {"certivity": 0, "upload": 1, "recherche": 2, "testfall": 3}
+    out.sort(key=lambda p: (order[p["group"]], p["best"] is None, p["title"].lower()))
+    return out
+
+
+def product_detail(pid: str) -> dict:
+    hit = product_dirs().get(pid)
+    if not hit:
+        raise FileNotFoundError(pid)
+    d, grp = hit
+    sp = _spec_file(d)
+    g = _gold().get(pid)
+    s = _selections().get(pid)
+    index = load_index()
+    title = lambda reg: getattr(index.get(reg), "title", "") if index.get(reg) else ""  # noqa: E731
+    sel = []
+    if s:
+        why = {e.get("regulation"): e for e in s.get("explain") or []}
+        for reg in s["selected"]:
+            st = "hit" if reg in s.get("hits", []) else "wrong" if reg in s.get("wrong", []) else "ok"
+            sel.append({"reg": reg, "title": title(reg), "status": st, "role": (why.get(reg) or {}).get("role"), "reason": (why.get(reg) or {}).get("reason")})
+        for reg in s.get("missing", []):
+            sel.append({"reg": reg, "title": title(reg), "status": "missing", "role": None, "reason": None})
+    return {"id": pid, "group": grp, "groupLabel": GROUPS[grp], "spec": sp.read_text(encoding="utf-8") if sp else "",
+            "gold": g, "selection": sel, "selRun": s and s["run"], "selF2": s and s.get("f2"), "selModel": s and s.get("model")}
 
 
 # ---------------------------------------------------------------- Läufe
@@ -563,10 +719,13 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send(200, presentation_js(rid).encode("utf-8"), "application/javascript; charset=utf-8")
             return self._send(200, (WEB / "index.html").read_bytes(), "text/html; charset=utf-8")
         if path == "/api/state":
-            return self._json({"cases": list_cases(), "runs": list_runs(), "subgoals": list_subgoals(),
+            runs = list_runs()
+            return self._json({"cases": list_cases(), "runs": runs, "products": list_products(runs), "subgoals": list_subgoals(),
                                "llm": llm_available(), "modes": list(MODES), "typical": TYPICAL_SECONDS})
         if path == "/api/run":
             return self._json(run_payload(q["id"]))
+        if path == "/api/product":
+            return self._json(product_detail(q["id"]))
         if path == "/api/status":
             return self._json(run_status(q["id"]))
         if path == "/api/hits":

@@ -4,13 +4,18 @@ import { ContactShadows, Environment, Lightformer, Html } from '@react-three/dre
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import DrawingObject from './Drawing.jsx'
-import { REGS, ACTIVE, regAngle, activationT, regColor, SWEEP0, SWEEP1 } from './data.js'
+import RearLamp from './RearLamp.jsx'
+import { REGS, ACTIVE, regAngle, activationT, regColor, SWEEP0, SWEEP1, IS_LAMP } from './data.js'
 
 const damp = THREE.MathUtils.damp
 export const LITE = new URLSearchParams(location.search).has('lite')
 
 // Bühnenzustand je Akt: Lage des Objekts und Explosionsgrad
-const ACTS = [
+const ACTS = IS_LAMP ? [
+  { pos: [2.3, 0.0, 0], rot: [0.06, -0.38, 0], s: 0.82, ex: 0.1, orbit: 1 },
+  { pos: [-3.0, -0.2, 0], rot: [0.2, -0.82, 0.02], s: 0.66, ex: 1, orbit: 0 },
+  { pos: [-4.25, -1.9, 0], rot: [0.18, -0.6, 0.02], s: 0.32, ex: 0.5, orbit: 0 },
+] : [
   { pos: [2.0, 0.0, 0], rot: [0.06, -0.38, 0], s: 1, ex: 0.1, orbit: 1 },
   { pos: [-2.3, -0.3, 0], rot: [0.2, -0.82, 0.02], s: 0.95, ex: 1, orbit: 0 },
   { pos: [-4.25, -1.9, 0], rot: [0.18, -0.6, 0.02], s: 0.42, ex: 0.5, orbit: 0 },
@@ -129,7 +134,7 @@ function AnchorProbe({ anchors, out }) {
   return null
 }
 
-export default function Scene({ act, progress, segs, hovered, setHovered, picked, onPick, anchorOut }) {
+export default function Scene({ act, progress, segs, hovered, setHovered, picked, onPick, anchorOut, sketch }) {
   const anchors = useRef({})
   return (
     <Canvas
@@ -152,7 +157,10 @@ export default function Scene({ act, progress, segs, hovered, setHovered, picked
         </group>
       </Environment>
       <Rig act={act}>
-        <DrawingObject
+        {IS_LAMP ? (
+          <RearLamp explodeTarget={ACTS[act].ex} sketchMode={act === 1 && sketch} hovered={act === 1 ? hovered : null}
+            selected={act === 1 ? picked : null} interactive={act === 1} onHover={setHovered} onPick={onPick} anchors={anchors} />
+        ) : <DrawingObject
           segs={segs}
           explodeTarget={ACTS[act].ex}
           hovered={act === 1 ? hovered : null}
@@ -161,7 +169,7 @@ export default function Scene({ act, progress, segs, hovered, setHovered, picked
           onHover={setHovered}
           onPick={onPick}
           anchors={anchors}
-        />
+        />}
         <Orbit act={act} progress={progress} />
       </Rig>
       <AnchorProbe anchors={anchors} out={anchorOut} />

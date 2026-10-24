@@ -61,16 +61,15 @@ export function wordDiff(a, b) {
 
 export function readHash() {
   const p = new URLSearchParams(location.hash.slice(1))
-  return { view: p.get('v') || 'pruefungen', run: p.get('run') || '', req: p.get('req') || '' }
+  return { view: p.get('v') || 'ueberblick', product: p.get('p') || '', req: p.get('req') || '' }
 }
 export function writeHash(h) {
   const p = new URLSearchParams()
+  if (h.product) p.set('p', h.product)
   if (h.view) p.set('v', h.view)
-  if (h.run) p.set('run', h.run)
   if (h.req) p.set('req', h.req)
   const s = '#' + p.toString()
   if (location.hash !== s) history.replaceState(null, '', s)
 }
 
-export const KIND = { lauf: 'Lauf', messung: 'Messung', ausgabe: 'Ausgabe' }
 export const ROLE = { component: 'Bauteil', installation: 'Anbau', 'cross-cutting': 'Querschnitt', rejected: 'verworfen' }

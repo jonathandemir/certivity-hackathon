@@ -10,6 +10,8 @@ const D = (typeof window !== 'undefined' && window.CERTREQ) || EMPTY
 export const CASE = D.case
 export const RUN = D.run || {}
 export const RUN_ID = D.runId || ''
+// Heckleuchte des Worked Example: eigenes 3D-Modell nach der Explosionszeichnung (RearLamp.jsx)
+export const IS_LAMP = (D.case?.id || '') === 'dev-rear-lamp'
 // In der Werkbank eingebettet (Ansicht „Überblick“): eigene Kopfzeile schlanker, Belege springen in die Werkbank
 export const EMBED = typeof location !== 'undefined' && new URLSearchParams(location.search).has('embed')
 export const REGS = D.regs
