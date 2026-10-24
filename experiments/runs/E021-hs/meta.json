@@ -1,0 +1,123 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --out out/E021-hs.json",
+ "git": {
+  "commit": "main@72dbeab",
+  "full_hash": "72dbeab88059d7517b9e49c462f20e54af07fc60",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The combined rear position, stop and reversing lamps must meet the consolidated light-signalling requirements, including photometry, emitted colour through the outer lens, marking and applicable durability tests."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated molded-prism retro-reflector must satisfy the applicable retro-reflector class requirements for optical performance, colour, marking and durability."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation on an M1 passenger car must satisfy the applicable requirements for lamp and reflector number, position, orientation, geometric visibility and electrical operation."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The LED-on-PCB implementation brings the lamp electronics and their vehicle integration within the applicable electromagnetic-compatibility requirements."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The exposed lens, housing and any accessible fixings form part of an M1 vehicle's exterior and must satisfy applicable external-projection and edge-shape requirements."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "The specified rear lighting must retain the required operation and visibility following the prescribed low-speed protective-device impact tests, making lamp design and placement relevant to vehicle compliance."
+  },
+  {
+   "regulation": "UN R13H",
+   "role": "rejected",
+   "reason": "verworfen (nur Fahrzeugebene): The stop-lamp function depends on the braking-system signal whose generation is regulated by UN R13H, although these requirements concern the supplying braking system rather than the lamp's optical performance."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the LED implementation uses a standardized LED light-source category listed in Annex 1, that source must meet UN R128 requirements, but integral PCB LED modules alone do not establish this applicability."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear-position and stop-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into UN R150, which is selected instead."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "The scope expressly excludes glazing for lighting and light-signalling devices, so the PMMA outer lens is not safety glazing under this regulation."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "The specified reversing lamp falls under UN R148; no headlamp, front fog lamp, cornering lamp or other UN R149 road-illumination function is specified."
+  }
+ ],
+ "vision_mode": "auto",
+ "drawing": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 65,
+  "paragraphs": 753,
+  "kept": 204,
+  "dropped": 549,
+  "missing": 0,
+  "usage": {
+   "calls": 11,
+   "cached": 55,
+   "prompt_tokens": 28457,
+   "completion_tokens": 5420
+  }
+ },
+ "n_requirements": 355,
+ "seconds": 18.6,
+ "created_at": "2026-10-24T16:38:44+02:00",
+ "run_id": "E021-hs",
+ "note": "Messplan Homsianer: Referenz aktueller main (Parser-Fix Appendices, Filter rationale), Richter lenient (= Plattform-Prognose)",
+ "submission_sha256": "883bc1e47fbda84c8804e853ddaa165daa6394f4c20205a17bdd27fd3400bb42",
+ "recorded_at": "2026-10-24T16:40:22+02:00"
+}

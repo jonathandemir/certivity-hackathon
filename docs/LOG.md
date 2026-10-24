@@ -353,3 +353,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-24 16:42:16 +0200 | [decision] Werkbank folgt der Pipeline-Standardkonfiguration | Amiad @ claude | main@72dbeab +lokale Änderungen
 - Bitte an A/B in STATUS: beste Konfiguration als Standard von certreq run setzen und melden; dann ruft die Werkbank certreq run ohne Schalter auf. Bis dahin fest E016-a-Schalter in demo/server.py MODES.
+### 2026-10-24 16:43:07 +0200 | [run] E021-hs/E022-hs: Homsianers Messplan ausgeführt (mit LLM-Key) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@72dbeab
+- E021-hs (aktueller main, Parser-Fix + rationale): Anforderungen lenient 0.704 (157/190), strict 0.650; Seiten 0.950; R10 19/32
+- E022-hs (+ lists,tables,exempt,tests,modes): lenient 0.743 (P 0.478 R 0.863, 164/190), strict 0.671; R10 29/32, R48 45→41; Seiten 0.927
+- Schluss: Regeln helfen mehr als die Streuung; nächster Schritt laut Plan Regeln einzeln messen (R48-Verlust), dann Standard. Tag best-main-reqf2lenient-0.743; Belege experiments/runs/E021-hs, E022-hs
