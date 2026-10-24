@@ -113,3 +113,9 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 14:26:10 +0200 | [run] E005 Diagnose: Gold-Regelungen + --filters all | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@60fef43
 - vs E002: Seiten P 0.206→0.379, R 1.000→1.000, F2 0.565→0.753; 632 statt 1214 Anforderungen, 140 statt 257 zitierte Seiten. Gold-Wissen, nicht hochladen
 - Rest: Gold hat 119 Absätze/190 Anforderungen, wir 632 Absätze. Absatz-Recall bleibt 0.798, weil 37 Gold-Anforderungen aus Absätzen ohne 'shall' stammen (must, 'may … only', Listen wie R48 6.10.2 'Number Two'). Beleg experiments/runs/E005/
+### 2026-10-24 14:26:27 +0200 | [change] certreq/llm.py: gemeinsamer LLM-Zugang (OpenAI) | Jonathan @ MacBook-Pro-von-Jonathan | main@0812aec +lokale Änderungen
+- ask_json(system, user, schema) → dict als Structured Output (strict), ask_many parallel mit fester Reihenfolge, usage() für die Lauf-Metadaten
+- Key aus OPENAI_API_KEY oder LLM_API_KEY, gelesen aus Umgebung, .env oder .env.local (gitignored); Vorlage .env.example
+- Modelle als feste Snapshots: DEFAULT_MODEL gpt-5.4-mini-2026-03-17 (Massenaufrufe), STRONG_MODEL gpt-5.5-2026-04-23 (Auswahl, Richter); Override CERTREQ_MODEL bzw. model=; effort none/low/medium/high/xhigh (minimal gibt 400)
+- Cache out/cache/llm/<sha256>.json über Modell+Prompt+Schema+effort: Wiederholungen kosten nichts und sind reproduzierbar
+- Geprüft: 8 neue Tests ohne Netz (24/24 grün), Live-Check beider Modelle ok (python -m certreq.llm)
