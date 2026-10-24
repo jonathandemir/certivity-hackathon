@@ -208,3 +208,12 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - vs E012: Anforderungen P 0.129→0.238, R 0.421→0.668 (127/190), F2 0.290→0.491; Seiten 0.714→0.717; Regelungen 0.556 gleich; 533 Anforderungen
 - Rest-Recall: UN R10 fehlt in der B0-Auswahl (32 Gold-Anforderungen, AP2); Rest-Precision u. a. alte Leuchten-Regelungen R3/R7/R23/R128 (AP2). Tag best-main-reqf2-0.491. Beleg experiments/runs/E014/
 - Vorschlag an Jonathan: Standard auf --filters all --extract modal,llm umstellen (bessere Messung auf allen drei Ebenen); Kosten ungecacht ~7 min für 227 Aufrufe
+
+### 2026-10-24 15:04:40 +0200 | [run] E015 Diagnose Prompt v2 mit Gold-Regelungen, Richter strict | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@0b7af93
+- vs E013: Anforderungen P 0.200→0.407, R 0.442→0.742 (141/190), F2 0.356→0.637; Seiten 0.946; Recall je Regelung R10 14/32, R148 54/63, R150 33/39, R48 40/56
+- Gold-Wissen, nicht hochladen. Beleg experiments/runs/E015/
+
+### 2026-10-24 15:04:40 +0200 | [handoff] B-Arbeit Stand 15:10, Übergabe an Omar | Jonathan @ MacBook-Pro-von-Jonathan | main@0b7af93 +lokale Änderungen
+- Stand: Bestmarke E014 = run --filters all --extract modal,llm: Anforderungen 0.491 (Richter strict), Seiten 0.717, Regelungen 0.556; Diagnose mit Gold-Regelungen E015: Anforderungen 0.637. Code B: certreq/pdf.py (Gliederung), relevance.py (Regelfilter), extract.py (Optionen), llmextract.py (LLM je Absatz, Prompt v2). Standard ohne Schalter bleibt B0, Umstellung schlägt B vor, entscheidet Jonathan
+- Nächster Schritt B: (1) R10 bei perfekter Auswahl nur 14/32: Prüfpegel/Prüfbedingungen als Einzelpflichten (R10 6.9.1 hat 10 Gold-Anforderungen), Fehlgriffe in out/E015.judge.json lesen (lokal, enthält Gold-Texte, nie committen). (2) R48 40/56. (3) Tabellen. Jede Prompt-Änderung zuerst mit --regs Gold + eval --judge strict messen (~2 min), dann offiziell mit B0-Auswahl
+- Fallen: LLM-Antworten liegen im Cache out/cache/llm auf Jonathans Rechner; auf Omars Rechner erzeugt derselbe Commit neue Antworten (Kosten ~7 min, Werte können leicht abweichen) → dort neu messen. Prompt-Beispiel nie aus dem Dev-Gold nehmen (verfälscht die Messung). Claims 'AP3-Rest …' und 'AP4 LLM-Extraktion …' stehen auf Jonathan: Omar per scripts/claim übernehmen

@@ -5,6 +5,17 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-24 · Die LLM-Extraktion muss den Geltungsbereich wörtlich aus der Regelung übernehmen.** Beleg: E013 →
+  E015 (Gold-Regelungen, Richter strict): Prompt v1 („name the subject explicitly" + Bauteil-Spec) schrieb „the rear
+  lamp shall …", wo die Regelung „lamps" / „all light-signalling devices" sagt, und zerlegte „clearly legible and
+  indelible" in zwei; Anforderungs-F2 0.356. Prompt v2 (Geltungsbereich wörtlich, Bauteil entscheidet nur ob ein Absatz
+  gilt, trennen nur an (a)(b)(c)/Sätzen/unabhängigen Grenzwerten): 0.637; mit B0-Auswahl E012 0.290 → E014 0.491.
+  Konsequenz: Umformulieren ja (shall-Satz, Subjekt statt „it"), Verengen nie. Gilt für jedes Bauteil, auch den Stoßfänger.
+- **2026-10-24 · Ein LLM je Absatz schlägt alle Regelfilter um Längen.** Beleg: E008 vs E006 (gleiche Kandidaten
+  `--filters all`): Seiten-F2 0.348→0.714, Regelungs-F2 0.405→0.556 (in unpassenden Regelungen findet es nichts),
+  Anforderungen (Richter strict) E011-a 0.098 → E012 0.290. Konsequenz: Regelfilter bleiben als billige Vorauswahl
+  (2614 statt 3642 Kandidaten), die Entscheidung trifft das LLM.
+
 - **2026-10-24 · Der lokale Richter (AP10) ist im strikten Modus verlässlich.** Beleg: AP10-K (main@66d51fc,
   experiments/runs/AP10-kalibrierung/): Selbsttest 190/190; Gegenprobe ohne identisches Gegenstück 0 echte Fehlurteile
   (strict) bzw. 5,3 % falscher Recall (lenient). Konsequenz: `eval --judge strict` als Messgröße für AP4/AP2; Eichung
