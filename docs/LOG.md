@@ -507,3 +507,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:33:06 +0200 | [run] Plattform Sub-Goal: E037-am 24/24 (acc 0.957), E038-am 24/24 (acc 1.000) | Jonathan @ MacBook-Pro-von-Jonathan | main@4bc5348
 - E037-am: Flag-Recall 1.000, Flag-Precision 0.923 (26 Meldungen), Change accuracy 0.957. E038-am (--refine llm): 1.000 / 0.889 (27) / 1.000. Vorher E003-am 0.792 / 0.760 / 0.889.
 - Empfehlung Held-out: E038-Variante (Jury wertet Recall + Richtigkeit der Änderung; Unterschied etwa 1 Änderung). Ledger E037-am-P/E038-am-P, Scoreboard, STATUS Zeile C.
+
+### 2026-10-24 19:38:58 +0200 | [change] experiments/real-parts: 10 echte Bauteile mit belegter Genehmigung | Amiad @ claude | main@6b4b3b7 +lokale Änderungen
+- Hella-Leuchten (Nebel R80, SlimLine Nebel+Abbiege, ECO18 Rückfahr, EuroLED Blinker, Schlusslicht+Rückstrahler, Rückstrahler 60 mm, LED-Scheinwerfer 1EF 328 550-231), Akrapovič-Auspuff KTM 1290 Super Duke R (E26 92R-001097), Stako-LPG-Tank (E20-67R-010424), Tesla Model 3 Alarm/Wegfahrsperre (E9*116R…). sure = laut Quelle genehmigt (alte Nummern R3/R7/R19/R23 → R148/R149/R150 per deren Einleitung), Specs nur aus der Quelle, ohne Regelungsnummern; URL + wörtliches Zitat je Bauteil in expected.json. Format wie selection-suite (certreq.suite).
+- Quellen per Abruf geprüft (24.10.); keine Angabe ohne Quelle
