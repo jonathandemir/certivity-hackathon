@@ -13,6 +13,8 @@ Regeln, einzeln schaltbar (`filters`), damit jede einzeln gegen die Bestmarke ge
          nur die, deren Name ein Teil oder eine Funktion aus der Spezifikation enthält. Greift nur, wenn mindestens
          ein Geschwister passt und mindestens drei denselben Gerätebegriff tragen (sonst ist es keine Aufzählung).
          Allgemeine Geschwister („General …", „Other requirements", „Exceptions") gelten für alle und bleiben.
+         Zweite Form einer Aufzählung: mindestens drei Geschwister mit gleichem Titelanfang wie der Treffer
+         (R150 5.1–5.3 „Technical requirements concerning retro-reflectors / marking materials / triangles").
   esa    Wo Geschwister nach Fahrzeug und Bauteil getrennt sind (R10 6.2 „… from vehicles" / 6.5 „… by ESAs", auch
          Anhänge), bleiben die Bauteil-Abschnitte: Eingabe ist immer ein Bauteil, nie ein ganzes Fahrzeug.
 
@@ -32,7 +34,7 @@ ADMIN_RE = re.compile(
     r"type approval procedures|granting of type approval|notice of approval|modifications?\b|amendment or extension|"
     r"penalties\b|production definitively discontinued|names and addresses|transitional provisions|communication\b|"
     r"information document|arrangements? of approval mark|examples of approval mark)", re.I)
-COP_RE = re.compile(r"^(conformity of production|minimum requirements for (conformity|verification of conformity|sampling))",
+COP_RE = re.compile(r"^((control of )?conformity of production|minimum requirements for (conformity|verification of conformity|sampling))",
                     re.I)
 TOLERANCE_RE = re.compile(r"\bdeviat\w*\b.{0,80}?\b(\d+ ?per ?cent|\d+ ?%)", re.I)
 ESA_RE = re.compile(r"\b(ESAs?|sub-?\s?assembl\w*|components?)\b", re.I)
@@ -116,6 +118,12 @@ def _dropped_sections(paras: tuple[Paragraph, ...], filters: tuple[str, ...], te
             nouns = Counter(w for _, t in members for w in set(_words(t)))
             if heads and any(nouns[h] >= 3 for h in heads):
                 dropped.update(lab for lab, t in members if matched[lab] is None and not GENERIC_RE.match(t))
+                continue
+            for lab, t in members:  # parallele Abschnitte: gleicher Titelanfang wie ein Treffer
+                prefix = _words(t)[:3]
+                parallel = [x for x, u in members if _words(u)[:3] == prefix]
+                if matched[lab] and len(prefix) == 3 and len(parallel) >= 3:
+                    dropped.update(x for x in parallel if matched[x] is None)
     return dropped
 
 

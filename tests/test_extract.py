@@ -112,3 +112,14 @@ def test_parts_and_esa_on_real_outline():
     assert not keep["6.2.1"] and keep["6.5.1"] and keep["6.9.1"]
     assert not any(k for lab, k in keep.items() if lab.startswith("Annex 4 "))  # Fahrzeugmessung
     assert keep["Annex 9 3.1"]  # ESA-Prüfung
+
+
+def test_parts_parallel_sections_with_same_title_opening():
+    paras = (_p("5", "Specific technical requirements"),
+             _p("5.1", "Technical requirements concerning retro-reflectors of the Classes IA and IB"), _p("5.1.1"),
+             _p("5.2", "Technical requirements concerning marking materials and plates"), _p("5.2.1"),
+             _p("5.3", "Technical requirements concerning advance warning triangles"), _p("5.3.1"),
+             _p("5.4", "Colour"), _p("5.4.1"))
+    keep = dict(zip([p.label for p in paras], relevant(paras, ("parts",), SPEC)))
+    assert keep["5.1.1"] and keep["5.4.1"]  # Treffer und nicht-paralleles Geschwister bleiben
+    assert not keep["5.2.1"] and not keep["5.3.1"]

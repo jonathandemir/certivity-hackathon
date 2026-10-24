@@ -130,3 +130,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - AGENTS §4: mehrere Agenten auf einem Rechner → je ein eigener Klon; Anlass: zweite Session uncommittet in ~/projects/certivity, sync dort blockiert; diese Session arbeitet jetzt in ~/projects/certivity-a
 - STATUS: LLM-Entscheidung (OpenAI, Modelle, .env.local) eingetragen; LEARNINGS: 2 Einträge mit Beleg
 - Geprüft: scripts/selftest 138/138 auf macOS (bash 3.2) und Debian (bash 5.2, mawk), inkl. simuliertem Held-out-Push bei Certivity
+
+### 2026-10-24 14:29:13 +0200 | [change] AP4: cop erkennt 'Control of conformity of production', parts erkennt parallele Abschnitte | Jonathan @ MacBook-Pro-von-Jonathan | main@3f2f666 +lokale Änderungen
+- cop: COP_RE auch 'Control of conformity of production' (R48-Anhang). parts: zweite Aufzählungsform, ≥3 Geschwister mit gleichem Titelanfang (3 Wörter) wie ein Treffer, z. B. R150 5.1–5.3 'Technical requirements concerning retro-reflectors / marking materials / advance warning triangles' → 5.2/5.3 fallen weg; nur die parallelen Geschwister, andere bleiben
+- Vormessung je Änderung (Arbeitsstand, offizielle Messung folgt): cop-Erweiterung allein Seiten-F2 gold-Regelungen 0.753→0.757, B0-Auswahl 0.342→0.344; parallele Abschnitte zusätzlich 0.757→0.773 bzw. 0.344→0.348; Seiten-Recall jeweils unverändert (1.000 bzw. 0.849)
+- Geprüft: pytest 33/33 (neu test_parts_parallel_sections_with_same_title_opening)
