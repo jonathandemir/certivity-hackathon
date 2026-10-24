@@ -503,3 +503,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-24 19:30:09 +0200 | [run] Plattform: Opus-Generalprobe E039-a 0.721, Wiederholung E040-a 0.743 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@a06f550
 - E039-a (main@b731327): P 0.435 R 0.863 F2 0.721 (164/190), lokal 0.726 (165). E040-a: P 0.459 R 0.879 F2 0.743 (167/190), lokal 0.743 (167). Opus auf der Plattform 0.762/0.721/0.743, Mittel 0.742; Streuung ±0.02 bestätigt.
 - Lokaler gpt-Richter lenient sagt die Plattform bei 5 Pipeline-Uploads auf −1/+4/0/+1/0 Treffer voraus. Sonntag: Upload-Unterschiede < ~0.02 bei Opus-Neuläufen sind Zufall; Varianten aus demselben Lauf (certreq.variants) sind davon frei. Ledger E039-a-P/E040-a-P.
+
+### 2026-10-24 19:33:06 +0200 | [run] Plattform Sub-Goal: E037-am 24/24 (acc 0.957), E038-am 24/24 (acc 1.000) | Jonathan @ MacBook-Pro-von-Jonathan | main@4bc5348
+- E037-am: Flag-Recall 1.000, Flag-Precision 0.923 (26 Meldungen), Change accuracy 0.957. E038-am (--refine llm): 1.000 / 0.889 (27) / 1.000. Vorher E003-am 0.792 / 0.760 / 0.889.
+- Empfehlung Held-out: E038-Variante (Jury wertet Recall + Richtigkeit der Änderung; Unterschied etwa 1 Änderung). Ledger E037-am-P/E038-am-P, Scoreboard, STATUS Zeile C.

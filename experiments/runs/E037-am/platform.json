@@ -1,0 +1,14 @@
+{
+ "uploaded": "2026-10-24 19:30:33 CEST",
+ "scored": "2026-10-24 19:30:53 CEST",
+ "n_changes": 26,
+ "size_kb": 17.5,
+ "flag_recall": 1.0,
+ "flag_precision": 0.923,
+ "change_accuracy": 0.957,
+ "team_id": "team-12",
+ "case_id": "subgoal-dev",
+ "quelle": "hackathon.certivity.io, Worked example: regulation change (Screenshot Jonathan), Werte wie angezeigt",
+ "flags_getroffen": 24,
+ "flags_falsch": 2
+}
