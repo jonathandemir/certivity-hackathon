@@ -1,0 +1,27 @@
+{
+ "case_id": "dev-rear-lamp",
+ "n_requirements": 358,
+ "valid": true,
+ "validate_output": "OK: E046-a.json is valid (358 requirements).",
+ "expected": "/Users/jonathandemir/projects/certivity-a/vendor/industrial-ai-hackathon/cases/dev-rear-lamp/expected.json",
+ "levels": {
+  "regulation_level": {
+   "precision": 0.8,
+   "recall": 1.0,
+   "f1": 0.888888888888889,
+   "n_submitted": 5,
+   "n_expected": 4,
+   "n_matched": 4,
+   "f2": 0.9524
+  },
+  "page_level": {
+   "precision": 0.7428571428571429,
+   "recall": 0.9811320754716981,
+   "f1": 0.8455284552845528,
+   "n_submitted": 70,
+   "n_expected": 53,
+   "n_matched": 52,
+   "f2": 0.922
+  }
+ }
+}
