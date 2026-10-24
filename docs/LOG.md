@@ -239,3 +239,8 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - vision.describe: Produkt, Lage am Fahrzeug, Teile mit Funktion/Technik/Bildbeleg, Unsicherheiten; nennt bewusst keine Regelungen. on = an Spec anhängen, only = nur Zeichnung (Demo R3); Standard off bis gemessen
 - Vorprüfung dev (Patentzeichnung ohne Beschriftung): nur Zeichnung → 'Außenleuchte, vermutlich Heck-Kombinationsleuchte', Lichtscheibe, LED-artige Felder, Funktionen offen; mit Spec → Rückfahrleuchte zugeordnet; Rückstrahler in beiden Fällen nicht erkennbar und als unsicher markiert
 - Tests: 2 neue (Bild im Aufruf + Cache, Modi), gesamt 50 grün
+
+### 2026-10-24 15:33:57 +0200 | [run] E017-a/E018-a: Explosionszeichnung (AP5) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@fa3816e
+- nur Zeichnung (--vision only): Anforderungen F2 0.417 (P 0.205 R 0.563), Regelungen 0.682, Seiten 0.654; R150 0/39, weil der Rückstrahler auf der Patentzeichnung nicht erkennbar ist, R53 falsch gewählt (Fahrzeugklasse fehlt im Bild)
+- Spec + Zeichnung (--vision on): Anforderungen 0.605 vs 0.621 nur Spec → kein Gewinn
+- Belege experiments/runs/E017-a, E018-a

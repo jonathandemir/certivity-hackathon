@@ -1,0 +1,185 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision on --filters all --extract modal,llm --out out/E018-a.json",
+ "git": {
+  "commit": "main@fa3816e",
+  "full_hash": "fa3816eab83efc31f174c2590d6e6c638f1fe03b",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R148",
+  "UN R150",
+  "UN R48",
+  "UN R10",
+  "UN R26",
+  "UN R13H",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The specified rear-position, stop and reversing lamps fall within this consolidated regulation, including requirements for their photometric performance and emitted colours through the outer lens."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "component",
+   "reason": "The integrated passive retro-reflector must meet the applicable retro-reflective-device requirements, notwithstanding uncertainty about its location in the drawing."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation on the M1 vehicle must satisfy the applicable positioning, orientation, geometric visibility and electrical-connection requirements for the rear-position, stop and reversing lamps and retro-reflector."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The specified LED modules on PCBs form an electrical/electronic lamp assembly whose emissions and immunity must satisfy the applicable electromagnetic-compatibility provisions."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "The exterior rear lens, housing and perimeter rim must satisfy applicable M1 external-projection requirements for exposed contours in their installed position."
+  },
+  {
+   "regulation": "UN R13H",
+   "role": "cross-cutting",
+   "reason": "Integration of the stop-lamp function must accommodate the braking-system requirements governing generation of the signal that illuminates the stop lamps."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "The rear lamp's placement and protection must allow the lighting and signalling devices to remain operational and visible following the prescribed low-speed rear-impact test."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Its rear-position and stop-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R23",
+   "role": "rejected",
+   "reason": "Its reversing-lamp provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R3",
+   "role": "rejected",
+   "reason": "Its retro-reflector provisions are consolidated into UN R150, which is selected instead."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "PCB-mounted LED modules are not identified as standardized Annex 1 LED light sources, so LED technology alone does not establish applicability of separate UN R128 source approval."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "The scope explicitly excludes glazing for lighting and light-signalling devices, including this lamp's outer lens."
+  }
+ ],
+ "vision_mode": "on",
+ "drawing": {
+  "product": "Rear lamp assembly, shown with internal optical features exposed in the upper view and an outer lens in the lower view.",
+  "vehicle_location": "Exterior rear of the vehicle. The drawing does not establish the vehicle side or exact mounting position.",
+  "parts": [
+   {
+    "name": "Housing and perimeter rim",
+    "function": "Supports and encloses the lamp's optical units and provides the perimeter interface for the outer lens.",
+    "technology": "Likely molded plastic housing; exact material is not identifiable.",
+    "evidence": "Both views have a matching broad, asymmetric outline with a rounded upper edge, sloping left end, and nested perimeter borders."
+   },
+   {
+    "name": "Outer lens",
+    "function": "Covers the internal units and transmits their light.",
+    "technology": "Transparent molded lens; polymer type and tint are not shown.",
+    "evidence": "The lower view shows a continuous cover with diagonal reflection strokes and an outline matching the exposed assembly above."
+   },
+   {
+    "name": "Upper row of eight light-source cells",
+    "function": "Provides one of the rear signalling light outputs, potentially rear position or stop lighting.",
+    "technology": "Likely discrete LED sources in individual optical cells; source technology is not conclusive.",
+    "evidence": "Eight repeated upright rectangular compartments each contain a small circular feature near the lower portion."
+   },
+   {
+    "name": "Three-row optical array",
+    "function": "Collects and distributes light for rear signalling, potentially rear position or stop lighting.",
+    "technology": "Twenty-four cup-shaped reflector or lens elements; reflective coating and source construction are not established.",
+    "evidence": "Below the upper source row are three horizontal rows of eight oval, bowl-like elements with radial and transverse surface lines."
+   },
+   {
+    "name": "Internal carrier and separating ribs",
+    "function": "Locates the repeated optical elements and separates adjacent rows and compartments.",
+    "technology": "Likely molded structural carrier or bezel.",
+    "evidence": "Horizontal rails separate the optical rows, while vertical walls divide the upper cells and border the array."
+   },
+   {
+    "name": "Central rectangular panel",
+    "function": "Forms a separate optical or trim region; its specific function cannot be assigned.",
+    "technology": "Flat panel or insert of undetermined material.",
+    "evidence": "A plain upright rectangle with a stepped border lies immediately to the right of the repeated optical array."
+   },
+   {
+    "name": "Elongated upper insert",
+    "function": "Provides a separate optical or trim region; it could be the retro-reflector, but that identification is uncertain.",
+    "technology": "Molded insert; no retro-reflective prism structure is resolved.",
+    "evidence": "A long, narrow, separately outlined feature runs across the upper interior, with a tapered left end and rounded right end."
+   },
+   {
+    "name": "Right-hand lamp compartment",
+    "function": "Likely provides reversing illumination through the corresponding localized lens region.",
+    "technology": "Reflector-type optical cavity with a circular source or source opening; bulb versus LED cannot be determined.",
+    "evidence": "The upper view shows an isolated rounded-rectangular cavity with a gridded curved upper surface, a circular feature at its top, and a broad lower reflector surface."
+   },
+   {
+    "name": "Ribbed lens window",
+    "function": "Transmits and shapes light from the right-hand compartment.",
+    "technology": "Vertically fluted molded optical region, either integral with the outer lens or a separate insert.",
+    "evidence": "The lower view contains a rounded-rectangular window with parallel vertical lines, aligned with the right-hand internal compartment."
+   }
+  ],
+  "uncertainties": [
+   "The drawing does not establish which repeated optical group performs rear position lighting and which performs stop lighting, or whether they share functions.",
+   "The specified retro-reflector cannot be positively located: no unmistakable prism pattern is shown.",
+   "The right-hand compartment is consistent with a reversing lamp, but no labels or colors confirm that assignment.",
+   "Lens colors, exact materials, reflective finishes, dimensions, and light-source technologies cannot be determined from the line drawing.",
+   "No circuit boards, wiring, connectors, seals, fasteners, or vehicle mounting brackets are visibly detailed.",
+   "The two views appear to show the same assembly without and with its outer lens, but the drawing provides no explicit assembly labels."
+  ]
+ },
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa"
+ ],
+ "extract": [
+  "modal",
+  "llm"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 97,
+  "paragraphs": 1120,
+  "kept": 217,
+  "dropped": 903,
+  "missing": 0,
+  "usage": {
+   "calls": 98,
+   "cached": 1,
+   "prompt_tokens": 280546,
+   "completion_tokens": 62516
+  }
+ },
+ "n_requirements": 381,
+ "seconds": 166.5,
+ "created_at": "2026-10-24T15:31:13+02:00",
+ "run_id": "E018-a",
+ "note": "AP5: --vision on (Spec + Zeichnung) + --select llm --filters all --extract modal,llm",
+ "submission_sha256": "2f1c7ec1602f20a3db6513942ff99b4446169161951a39c78e69d0b603ba43f0",
+ "recorded_at": "2026-10-24T15:33:22+02:00"
+}

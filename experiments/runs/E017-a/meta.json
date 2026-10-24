@@ -1,0 +1,179 @@
+{
+ "case_id": "dev-rear-lamp",
+ "command": "python -m certreq run vendor/industrial-ai-hackathon/cases/dev-rear-lamp --vision only --filters all --extract modal,llm --out out/E017-a.json",
+ "git": {
+  "commit": "main@fa3816e",
+  "full_hash": "fa3816eab83efc31f174c2590d6e6c638f1fe03b",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-unregistered",
+ "selected": [
+  "UN R148",
+  "UN R48",
+  "UN R53",
+  "UN R10",
+  "UN R26",
+  "UN R42"
+ ],
+ "forced": false,
+ "select_mode": "llm",
+ "selection": [
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The likely rear combination lamp falls under the consolidated light-signalling requirements for whichever position, stop, indicator, reversing or rear-fog functions are confirmed, replacing separate selection of UN R6, R7, R23 and R38."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "If the unspecified host vehicle is category M, N or O, this regulation governs the assembly's installation, including positioning, geometric visibility, orientation and electrical operation for its confirmed lighting functions."
+  },
+  {
+   "regulation": "UN R53",
+   "role": "installation",
+   "reason": "If the unspecified host vehicle is category L3, this regulation governs the lamp's installation instead of UN R48."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The electrically operated lamp must be considered in vehicle EMC compliance, with any LED drivers or other electronic circuitry assessed against the applicable component requirements if present."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "cross-cutting",
+   "reason": "If installed on an M1 vehicle, the exposed housing, perimeter rim and outer cover must satisfy the applicable external-projection requirements."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "cross-cutting",
+   "reason": "For an M1 installation, the likely rear lamp's integration must preserve the lighting and signalling operation and visibility required following the prescribed low-speed impact tests."
+  },
+  {
+   "regulation": "UN R128",
+   "role": "rejected",
+   "reason": "Plausible LED technology does not establish the presence of an Annex 1 standardized LED light source, and integral LED arrays are not automatically subject to separate approval under this regulation."
+  },
+  {
+   "regulation": "UN R150",
+   "role": "rejected",
+   "reason": "The drawing identifies light-distributing reflector-like cells but no confirmed passive retro-reflector, so a retro-reflective function cannot be inferred."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "No headlamp, front-fog, cornering or adaptive road-illumination function is identified; any reversing function belongs under UN R148."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "Its scope expressly excludes glazing for lighting and light-signalling devices, including this assembly's outer lens or cover."
+  },
+  {
+   "regulation": "UN R37",
+   "role": "rejected",
+   "reason": "No standardized filament source or covered LED replacement source is identified in the assembly."
+  }
+ ],
+ "vision_mode": "only",
+ "drawing": {
+  "product": "Vehicle exterior lamp assembly, shown with its internal optical layout exposed in the upper drawing and with an outer cover in the lower drawing.",
+  "vehicle_location": "Likely a rear combination-lamp installation. The vehicle mounting position and left/right side cannot be established from these isolated views.",
+  "parts": [
+   {
+    "name": "Outer housing and perimeter rim",
+    "function": "Encloses and supports the lamp components and defines the assembly's exterior outline.",
+    "technology": "Shaped housing, likely molded plastic; material is not specified.",
+    "evidence": "Both views show a broad, asymmetric enclosure with rounded upper corners, a curved lower edge, and a thick perimeter border."
+   },
+   {
+    "name": "Outer lens or cover",
+    "function": "Closes and protects the optical assembly while providing an exterior optical surface.",
+    "technology": "Likely a light-transmitting molded lens; its material, tint, and optical treatment are unspecified.",
+    "evidence": "The lower drawing shows a continuous smooth face within the perimeter rim, with diagonal surface-highlight lines replacing the exposed internal detail."
+   },
+   {
+    "name": "Upper row of eight circular optical elements",
+    "function": "Provides a row of individual light-emitting or light-directing positions.",
+    "technology": "Likely LED-based elements with individual lenses or reflector seats; source technology is not conclusively shown.",
+    "evidence": "Eight small circular features are arranged in separate upright rectangular compartments above the larger optical array."
+   },
+   {
+    "name": "Three-row optical array",
+    "function": "Collects and distributes light from multiple individual positions.",
+    "technology": "Twenty-four faceted reflector or lens cells, likely associated with an LED array.",
+    "evidence": "Three horizontal rows each contain eight oval, bowl-like elements with radial and transverse facet lines."
+   },
+   {
+    "name": "Array carrier and separating ribs",
+    "function": "Locates the repeated optical elements and separates their rows and upper compartments.",
+    "technology": "Formed structural carrier or bezel, likely molded plastic.",
+    "evidence": "A rectangular surround, horizontal rails, and vertical partitions frame the left-hand optical group."
+   },
+   {
+    "name": "Elongated upper optical section",
+    "function": "Provides a separate elongated optical or styling region.",
+    "technology": "Possible lens, light guide, or reflector insert; its construction is not resolved.",
+    "evidence": "A narrow, swept section with nested outlines extends above the main array toward the rounded right end."
+   },
+   {
+    "name": "Central rectangular inset",
+    "function": "Defines a separate compartment or insert beside the main array; its specific role is unclear.",
+    "technology": "Smooth-faced insert or recessed housing feature.",
+    "evidence": "A tall rectangular area with a stepped border lies immediately to the right of the repeated optical cells."
+   },
+   {
+    "name": "Right-hand optical chamber",
+    "function": "Provides a separate light-distribution region.",
+    "technology": "Faceted reflector-like cavity, potentially for a discrete light source; no definite bulb is depicted.",
+    "evidence": "The upper view contains a rounded rectangular recess with a gridded curved upper surface, a semicircular feature at its top, and a smooth lower cavity."
+   },
+   {
+    "name": "Ribbed right-hand lens section",
+    "function": "Locally redirects or diffuses light through the outer cover.",
+    "technology": "Vertically fluted lens region, potentially integral with the main cover.",
+    "evidence": "The lower view shows a rounded rectangular patch with parallel vertical ribs, aligned with the right-hand internal chamber."
+   }
+  ],
+  "uncertainties": [
+   "The drawing does not identify specific lighting functions, emitted colors, or operating modes.",
+   "LED technology is plausible for the repeated optical elements, but individual emitters, circuit boards, and electrical connections are not clearly shown.",
+   "The elongated upper section and central rectangular inset cannot be assigned definite optical functions.",
+   "The relationship between the two views appears to be exposed internals versus a covered assembly, but no assembly labels confirm this.",
+   "Mounting brackets, fasteners, seals, rear connectors, and vehicle attachment interfaces are not visible.",
+   "Exact materials, dimensions, lens transparency, and reflective coatings cannot be determined."
+  ]
+ },
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa"
+ ],
+ "extract": [
+  "modal",
+  "llm"
+ ],
+ "llm": {
+  "model": "gpt-6.1-sol",
+  "batches": 92,
+  "paragraphs": 1067,
+  "kept": 271,
+  "dropped": 796,
+  "missing": 0,
+  "usage": {
+   "calls": 93,
+   "cached": 1,
+   "prompt_tokens": 239960,
+   "completion_tokens": 72209
+  }
+ },
+ "n_requirements": 522,
+ "seconds": 212.4,
+ "created_at": "2026-10-24T15:28:26+02:00",
+ "run_id": "E017-a",
+ "note": "AP5: --vision only (nur Zeichnung, Demo R3) + --select llm --filters all --extract modal,llm",
+ "submission_sha256": "0f8d9e4310e432386888eb705f241a1c112b7f0211fb968fd813a48d6feb427e",
+ "recorded_at": "2026-10-24T15:32:20+02:00"
+}
