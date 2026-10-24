@@ -40,18 +40,36 @@ SCHEMA = {
 }
 
 
-def describe(case: Case, use_spec: bool = True) -> dict:
-    """Liest alle Bilder des Falls. use_spec=False: ohne den Spec-Text (reiner Zeichnungsfall)."""
+# Schalter --infer-category (E043-a): Ohne Spec steht die Fahrzeugklasse nirgends; --select llm2 verwirft dann die
+# Anbau-Regelung als Annahme (E042-a: R48 fehlt, 56 von 190 Gold-Anforderungen). Das Modell soll die Klasse aus Produktart
+# und Bauform ableiten und als Ableitung kennzeichnen.
+CATEGORY_RULE = """
+- the vehicle category this component is most likely made for (UNECE categories such as L3 motorcycle, M1 passenger
+  car, N1 light commercial vehicle, N3 heavy truck, O trailer), inferred from the product type, size and design shown;
+  give the category code and name and a short reason, and say that it is inferred."""
+
+
+def describe(case: Case, use_spec: bool = True, infer_category: bool = False) -> dict:
+    """Liest alle Bilder des Falls. use_spec=False: ohne den Spec-Text (reiner Zeichnungsfall).
+    infer_category: zusätzlich die wahrscheinliche Fahrzeugklasse (Feld vehicle_category)."""
     user = "Describe the drawing(s)."
     if use_spec and case.spec_text.strip():
         user += f"\n\nSpecification text for consistent naming:\n{case.spec_text.strip()}"
-    return llm.ask_json(SYSTEM, user, SCHEMA, name="drawing", model=llm.STRONG_MODEL, effort="medium",
+    system, schema = SYSTEM, SCHEMA
+    if infer_category:
+        system = SYSTEM.replace("\n- uncertainties:", CATEGORY_RULE + "\n- uncertainties:")
+        schema = {**SCHEMA, "required": SCHEMA["required"] + ["vehicle_category"],
+                  "properties": {**SCHEMA["properties"], "vehicle_category": {"type": "string"}}}
+    return llm.ask_json(system, user, schema, name="drawing", model=llm.STRONG_MODEL, effort="medium",
                         images=list(case.images))
 
 
 def render(desc: dict) -> str:
     lines = ["## From the drawing (read automatically)", f"Product: {desc['product']}",
-             f"Location on vehicle: {desc['vehicle_location']}", "Parts:"]
+             f"Location on vehicle: {desc['vehicle_location']}"]
+    if desc.get("vehicle_category"):
+        lines.append(f"Vehicle category (inferred from the drawing): {desc['vehicle_category']}")
+    lines.append("Parts:")
     lines += [f"- {p['name']}: {p['function']} ({p['technology']})" for p in desc["parts"]]
     if desc["uncertainties"]:
         lines.append("Uncertain from the drawing: " + "; ".join(desc["uncertainties"]))
@@ -136,7 +154,7 @@ def draw_regions(case: Case, reg: dict, out: Path) -> Path:
     return out
 
 
-def apply(case: Case, mode: str = "auto") -> tuple[Case, dict | None]:
+def apply(case: Case, mode: str = "auto", infer_category: bool = False) -> tuple[Case, dict | None]:
     """Gibt den (ggf. ergänzten) Fall und die Zeichnungsbeschreibung (für .meta.json) zurück.
     auto: mit Spec wie off (E016-a; Zeichnung brachte zusätzlich nichts, E018-a), ohne Spec wie only (E017-a)."""
     if mode not in MODES:
@@ -147,7 +165,7 @@ def apply(case: Case, mode: str = "auto") -> tuple[Case, dict | None]:
         if mode == "only" and not case.images:
             raise SystemExit(f"--vision only, aber keine Zeichnung in {case.folder}")
         return case, None
-    desc = describe(case, use_spec=(mode == "on"))
+    desc = describe(case, use_spec=(mode == "on"), infer_category=infer_category and mode == "only")
     text = render(desc)
     spec = text if mode == "only" or not case.spec_text.strip() else f"{case.spec_text.rstrip()}\n\n{text}"
     return replace(case, spec_text=spec), desc

@@ -84,3 +84,21 @@ def test_regions_rechnet_tausendstel_in_pixel_und_filtert(monkeypatch, tmp_path)
 
 def test_regions_ohne_zeichnung():
     assert vision.regions(Case("c", None, "spec", [])) is None
+
+
+def test_fahrzeugklasse_nur_mit_schalter_und_nur_ohne_spec(monkeypatch, tmp_path):
+    img = _png(tmp_path)
+    calls = []
+    def fake(system, user, schema, **kw):
+        calls.append(("vehicle_category" in schema["properties"], "vehicle category" in system))
+        return dict(DESC, vehicle_category="M1 passenger car (inferred)")
+    monkeypatch.setattr(vision.llm, "ask_json", fake)
+    case = Case("c", tmp_path, "", [img])
+    out, _ = vision.apply(case, "auto", infer_category=True)
+    assert calls[-1] == (True, True)
+    assert "Vehicle category (inferred from the drawing): M1" in out.spec_text
+    vision.apply(Case("c", tmp_path, "## Main Parts\n- Lens\n", [img]), "on", infer_category=True)
+    assert calls[-1] == (False, False)  # mit Spec unverändert
+    vision.apply(case, "auto")
+    assert calls[-1] == (False, False)  # ohne Schalter unverändert
+    assert "Vehicle category" not in vision.render(DESC)

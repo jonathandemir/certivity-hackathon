@@ -38,7 +38,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     t0 = time.time()
     case = load_case(args.case)
     drawing_regions = vision.regions(case) if args.regions else None  # nur für die Demo, ändert die Abgabe nicht
-    case, drawing = vision.apply(case, args.vision)
+    case, drawing = vision.apply(case, args.vision, infer_category=args.infer_category)
     forced = [r.strip() for r in args.regs.split(",")] if args.regs else None
     selection: list = []
     regs = select_regulations(case, forced, mode=args.select, explain=selection)
@@ -51,7 +51,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     out = Path(args.out) if args.out else paths.OUT_DIR / f"{case.case_id}.json"
     write_submission(data, out)
     meta = {"case_id": case.case_id, "command": " ".join([Path(sys.executable).name, "-m", "certreq", *sys.argv[1:]]),
-            "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced), "select_mode": args.select, "selection": selection, "vision_mode": args.vision, "drawing": drawing, "drawing_regions": drawing_regions,
+            "git": git_state(), "team_id": team_id, "selected": [r.name for r in regs], "forced": bool(forced), "select_mode": args.select, "selection": selection, "vision_mode": args.vision, "infer_category": args.infer_category, "drawing": drawing, "drawing_regions": drawing_regions,
             "filters": list(filters), "extract": list(options), **_llm_meta(options, llm_stats),
             "n_requirements": len(data["requirements"]), "seconds": round(time.time() - t0, 1),
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds")}
@@ -100,6 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="Fall-Ordner → Abgabe-JSON (+ .meta.json)")
     r.add_argument("case", help="Fall-Ordner, z. B. vendor/industrial-ai-hackathon/cases/dev-rear-lamp")
     r.add_argument("--regs", help="Regelungen vorgeben statt auswählen, kommagetrennt (Demo/Diagnose)")
+    r.add_argument("--infer-category", action="store_true", help="nur Zeichnung (--vision only/auto ohne Spec): Fahrzeugklasse aus der Zeichnung ableiten (E043-a)")
     r.add_argument("--regions", action="store_true", help="Bildregion je Teil der Zeichnung in .meta.json (drawing_regions, für die Demo; ändert die Abgabe nicht)")
     r.add_argument("--vision", choices=["auto", "off", "on", "only"], default="auto", help="Explosionszeichnung lesen (AP5): auto = nur wenn keine Spec da ist (Standard), on = Beschreibung an die Spec anhängen, only = nur die Zeichnung, off = nie")
     r.add_argument("--select", choices=["b0", "llm", "llm2"], default="llm2", help="Regelungsauswahl (AP2): llm2 = Steckbriefe + LLM ohne Annahmen und reine Fahrzeugebene (Standard seit E020-a), llm = ohne diesen Filter (E016-a), b0 = Titel-Wortüberlappung (Referenz E001); Begründungen in .meta.json")
