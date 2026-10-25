@@ -667,3 +667,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 08:16:14 +0100 | [change] Held-out: Variante H001-plusGTR9 (694) und sectionvariants --add | Homsianer @ vm | main@1ed177d +lokale Änderungen
 - certreq.sectionvariants --add 'LAUF=REGELUNG' hängt alle Anforderungen einer Regelung aus einem anderen abgelegten Lauf an (neue IDs, Regelung darf nicht schon in der Basis sein). H001-plusGTR9 = H001 + 46 GTR-9-Anforderungen aus H003 (Teil II, S. 85ff.)
 - Begründung: F2 = 5·TP/(4·Gold+Abgabe) → Hinzufügen lohnt ab Trefferchance ~F2/5; GTR 9 einzige GTR im Index, auf dev ungenutzt, R127 überführt sie. Vorschlag an A: Weg A Paar gegen H001, Weg B plusGTR9 als letzte Datei. Geprüft: pytest grün (Test neu), Upload-Datei validiert. Kein LLM-Aufruf
+
+### 2026-10-25 08:47:29 +0100 | [run] Held-out H001 auf der Plattform: F2 0.568, Regelungen 6/9 richtig, 1 fehlt | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
+- Anforderungen P 0.259 R 0.808 F2 0.568 (≈168/208); Seiten P 0.442 R 0.868; Regelungen P 0.667 R 0.857. Diagnose-Varianten ohne LLM: H001-noR48, H001-noR148, H001-noR26 (neu), dazu H001-noCrash, H001-noR100, H003-noGTR9, H001-plusGTR9 (Homsianer, gleicher Inhalt).
+- Weg A: je Upload eine Regelung weg/dazu; die Regelungsebene zeigt deterministisch, ob sie im Gold ist. Uploads team-weit 5/h: nur eine Person lädt hoch (Abstimmung Jonathan/Homsianer).
