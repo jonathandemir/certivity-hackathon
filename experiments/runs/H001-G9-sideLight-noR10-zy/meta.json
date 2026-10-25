@@ -1,0 +1,26 @@
+{
+ "run_id": "H001-G9-sideLight-noR10-zy",
+ "derived_from": "H001-G9-sideLight-noR10",
+ "dropped_regulations": [
+  "UN R148=Standard light distributions > Standard light distribution (3)",
+  "UN R148=Testing procedures with respect to light sources > Additional test req (9)",
+  "UN R48=General specifications > Concealable lamps (1)",
+  "UN R48=General specifications > Number of lamps (1)"
+ ],
+ "requirements": 416,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R148": 127,
+  "UN R48": 129,
+  "UN R100": 22,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@58b7f26",
+ "submission_sha256": "0f793942c8f6c4f123077572c0b76318cad49f10366bd1633022bae88db142fa",
+ "recorded_at": "2026-10-25T09:28:32+00:00"
+}

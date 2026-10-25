@@ -707,3 +707,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:27:56 +0100 | [change] Held-out: Dev-Nullabschnitte als Filter (sectionvariants --zero-yield), Variante H001-G9-sideLight-zy (462) | Homsianer @ vm | main@5657df9 +lokale Änderungen
 - Regel: Abschnitte (Regelung, Gliederungspfad Tiefe 2) mit ≥6 Ausgaben und 0 Treffern in den bewerteten Dev-Läufen E024/E033/E032/E034/E041/E042-hs-c weglassen, nur für Regelungen mit Dev-Treffern (R26 ist auf dev nicht im Gold, erste Fassung hatte deshalb fälschlich 7 R26-Anforderungen entfernt; korrigiert vor Ablage). Auf dem Bestwert H001-G9-noCrash-sideLight (0.700): −35 (R10-Anhänge 21, R148 12, R48 2)
 - Begründung F2 = 5·TP/(4·Gold+Abgabe): Anforderungen mit Trefferchance ~0 kosten nur; erwartet 0.700 → ≈0.719 bei gleichen Treffern. Dazu H001-G9-sideLight-noR10/-noR148 für Schritt 2. Geprüft: pytest grün (neuer Test), Upload-Dateien validiert. Keine Uploads durch Homsianer
+
+### 2026-10-25 10:28:55 +0100 | [change] Held-out: Kombinationen H001-G9-sideLight-noX-zy für alle 6 Kandidaten | Homsianer @ vm | main@58b7f26 +lokale Änderungen
+- Je Kandidat X ∈ {R127, R100, R26, R42, R10, R148}: Bestwert sideLight ohne X plus Dev-Nullfilter, validiert. Nach Jonathans Schritt 2 sofort hochladbar

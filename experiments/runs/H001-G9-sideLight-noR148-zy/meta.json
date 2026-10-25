@@ -1,0 +1,28 @@
+{
+ "run_id": "H001-G9-sideLight-noR148-zy",
+ "derived_from": "H001-G9-sideLight-noR148",
+ "dropped_regulations": [
+  "UN R10=Method of measurement of radiated broadband electromagnetic emissions  (5)",
+  "UN R10=Method of measurement of radiated narrowband electromagnetic emissions (4)",
+  "UN R10=Method(s) of testing for immunity of electrical/electronic sub-assembl (11)",
+  "UN R10=Method(s) of testing for immunity to and emission of transients of ele (1)",
+  "UN R48=General specifications > Concealable lamps (1)",
+  "UN R48=General specifications > Number of lamps (1)"
+ ],
+ "requirements": 335,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 46,
+  "UN R48": 129,
+  "UN R100": 22,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@58b7f26",
+ "submission_sha256": "2ca191eb74178d27cc8996964c557b1f6bf292a0527ecc910825f8d83255bc27",
+ "recorded_at": "2026-10-25T09:28:35+00:00"
+}
