@@ -1,0 +1,14 @@
+{
+ "uploaded": "2026-10-25 11:30:33 CET",
+ "scored": "2026-10-25 11:31:13 CET",
+ "n_changes": 159,
+ "size_kb": 87.2,
+ "team_id": "team-12",
+ "case_id": "subgoal-heldout",
+ "flag_recall": 0.922,
+ "flag_precision": 0.371,
+ "change_accuracy": 0.873,
+ "flags_getroffen": 59,
+ "erwartet": 64,
+ "quelle": "hackathon.certivity.io, Held-out regulation change (Screenshot Jonathan)"
+}
