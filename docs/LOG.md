@@ -756,3 +756,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:10:39 +0100 | [finding] Held-out: Absatz-Nullfilter aus dev (Leave-one-out 0.3 % Trefferverlust), Varianten -P | Homsianer @ vm | main@28a57d1 +lokale Änderungen
 - Absätze (Regelung+Label), die auf dev in 6 Claude-Läufen ≥4-mal ausgegeben und nie getroffen wurden (nur Regelungen mit dev-Treffern: R10/R48/R148). Leave-one-out (5 lernen, 1 prüfen): je Lauf ≈148 Anforderungen weg, 0.5 Treffer verloren. Held-out DRG: 47 weg (R148 23, R48 21, R10 3), keine ganze Seite. Erwartet 0.797 → ≈0.83 bei ≤2 verlorenen Treffern (Schwelle 7). Varianten -P für zy und alle D/R/G-Kombis. Gegenprobe Hinzufügen: Anforderungen anderer Läufe mit neuem Absatz auf Gold-Seiten treffen auf dev nur 5 % (16/325) → nicht hinzufügen
 - pytest grün (neuer Test depth 0); certreq.upload validiert alle 8 -P-Varianten
+
+### 2026-10-25 11:11:58 +0100 | [change] R4: Drehbuch fürs 2-min-Demo-Video | Homsianer @ vm | main@a756062 +lokale Änderungen
+- docs/pitch/video-script.md: 7 Abschnitte mit Werkbank-Ansicht und englischem Sprechertext (Motivation+Demo 0:00–1:15, Architektur+Zahlen 1:15–2:00), aus Cache aufnehmbar; STATUS-Aufgabe verweist darauf
+- Ansichten/Tasten gegen demo/README.md geprüft
