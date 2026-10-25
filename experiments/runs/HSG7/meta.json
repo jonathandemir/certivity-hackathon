@@ -1,0 +1,10 @@
+{
+ "run_id": "HSG7",
+ "case_id": "subgoal-heldout",
+ "changes": 155,
+ "derived_from": "HSG4",
+ "note": "HSG4 (alle 149 Einträge unverändert) + 6 modified aus einer LLM-Nachprüfung (Claude, CERTREQ_PROVIDER=anthropic) der 92 von HSG4 nicht markierten alten Anforderungen gegen ihren neuen Absatz. R-074: Ausnahme Armaturenbrett/Instrumententafel neu, 'engaged or reengaged' -> 'reengaged' (in HSG4 gar nicht erfasst). R-015, R-083, R-089, R-090, R-091: neuer Satz im selben Absatz schränkt die alte Pflicht ein (in HSG4 nur als added). Skripte: check_unflagged.py, build_hsg7.py (lesen das Paket aus vendor/, keine Paketdaten im Repo).",
+ "added_modified": ["R-015", "R-074", "R-083", "R-089", "R-090", "R-091"],
+ "sha256": "ea8ed96af73678c30e5c7aaf0d52e581b7518a02ab7f035cd0088fe4078e2a87",
+ "recorded_at": "2026-10-25T12:17:29+0100"
+}
