@@ -687,3 +687,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 09:26:43 +0100 | [run] Held-out Upload-Paare: GTR 9 im Gold, R94/R137 nicht, R48 im Gold, modes hilft | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
 - plusGTR9 0.603 (Regelungs-Recall 1.0), noCrash 0.585 (Regelungs-P 6/7), noR48 0.562 (R48 richtig), H003-noGTR9 0.548. Gold = GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100}; genau eine davon ist falsch.
 - Neue Basis H001-G9-noCrash (659, erwartet ≈0.617); Tests je eine Regelung weg: -noR127/-noR100/-noR26/-noR42 (Regelungs-P 100 % zeigt die falsche). Uploads team-weit 5/h, nächster frei ~09:46.
+
+### 2026-10-25 09:29:06 +0100 | [decision] Held-out-Roadmap ist erste Prio (STATUS ganz oben); Uploads nur Jonathan | Jonathan @ MacBook-Pro-von-Jonathan | main@3e8d23f +lokale Änderungen
+- Ergebnisse: GTR 9 im Gold, R94/R137 falsch, R48 richtig, modes bleibt. Plan: ~09:46 H001-G9-noCrash (Basis, ≈0.617), ab ~10:20 Einzeltests -noR127/-noR100/-noR26/-noR42 bis Regelungs-Precision 100 %, dann Leuchten-Varianten, 12:30 beste Datei zuletzt.
+- Homsianer: Leuchten-Varianten auf Basis H001-G9-noCrash neu ableiten, Upload-Claim entfernen. Amiad: Pitch/Demo mit Held-out-Zahlen. Alle: keine Uploads, keine neuen Läufe, Standard unverändert.
