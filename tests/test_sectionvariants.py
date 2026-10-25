@@ -44,3 +44,15 @@ def test_drop_zero_yield_only_hits_listed_paths():
     paths = lambda reg: {k: v[:2] for k, v in PATHS.items()}
     new, removed = sv.drop_zero_yield(_sub(), zero, paths_of=paths)
     assert [r["id"] for r in new["requirements"]] == ["R3", "R4", "R5"] and sum(removed.values()) == 2
+
+
+def test_drop_pages_removes_all_requirements_on_listed_pages():
+    sub = _sub()
+    sub["requirements"][1]["source"]["page"] = 3
+    assert sv.parse_pages(["UN R48=1-2, 5", "UN R10=7"]) == {"UN R48": {1, 2, 5}, "UN R10": {7}}
+    new, removed = sv.drop_pages(sub, sv.parse_pages(["UN R48=3"]))
+    assert [r["id"] for r in new["requirements"]] == ["R1", "R3", "R4", "R5"] and dict(removed) == {"UN R48 S.3": 1}
+    with pytest.raises(SystemExit):
+        sv.drop_pages(_sub(), sv.parse_pages(["UN R48=1-2"]))  # Seite 2 hat keine Anforderung
+    with pytest.raises(SystemExit):
+        sv.parse_pages(["UN R48=vierzig"])

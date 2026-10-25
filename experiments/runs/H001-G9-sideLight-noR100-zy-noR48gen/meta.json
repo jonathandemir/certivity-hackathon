@@ -1,0 +1,31 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-noR48gen",
+ "derived_from": "H001-G9-sideLight-noR100-zy",
+ "dropped_regulations": [
+  "UN R48 S.19 (12)",
+  "UN R48 S.20 (10)",
+  "UN R48 S.21 (9)",
+  "UN R48 S.22 (4)",
+  "UN R48 S.23 (10)",
+  "UN R48 S.26 (3)",
+  "UN R48 S.27 (6)",
+  "UN R48 S.28 (9)",
+  "UN R48 S.80 (1)"
+ ],
+ "requirements": 376,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 46,
+  "UN R148": 127,
+  "UN R48": 65,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@48aa906",
+ "submission_sha256": "153410dfa774eef509335f6534b7f331e56587f80839e5b52f892f3baa8d9280",
+ "recorded_at": "2026-10-25T10:03:15+00:00"
+}

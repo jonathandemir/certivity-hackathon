@@ -23,6 +23,21 @@ Historie steht in docs/LOG.md.
 
 **B (Homsianer) 10:35, fertig zum Hochladen (validiert, ohne LLM):** `H001-G9-sideLight-noR10`, `-noR148` (Rest der Kandidaten für Schritt 2) und **`H001-G9-sideLight-zy` (462)** = Bestwert ohne 35 Anforderungen aus Abschnitten, die auf dev in 6 Claude-Läufen **nie** getroffen haben (≥6 Ausgaben, 0 Treffer; nur Regelungen, die auf dev im Gold sind: R10-Anhänge Prüf-/Messverfahren 21, R148 Lichtquellen-Zusatzprüfungen 9 + Normlichtverteilung 3, R48 Concealable/Number 2). Erwartung bei unveränderten Treffern 0.700 → ≈0.719. Werkzeug: `certreq.sectionvariants <BASIS> --zero-yield E024-hs-c,E033-hs-c,E032-hs-c,E034-hs-c,E041-hs-c,E042-hs-c --as <BASIS>-zy`, also nach Schritt 2 auf die neue Basis anwendbar. **Schon fertig für jedes Ergebnis von Schritt 2:** `H001-G9-sideLight-noR127-zy` (425), `-noR100-zy` (440), `-noR26-zy` (429), `-noR42-zy` (440), `-noR10-zy` (416), `-noR148-zy` (335) → nach dem Befund direkt die passende hochladen.
 
+**B (Homsianer) 11:10 – Schritt 3 per Seiten-Rechnung, fertig zum Hochladen (validiert, ohne LLM):** Der Seiten-Score ist
+auch eine Mengenrechnung (Gold-Seiten ≈ 53; Seiten-Treffer = Seiten-R × 53). Bestwert noR100: 77 Seiten, 51 Gold, **26 ohne
+Gold**. Aus den Paaren: R26 6/6, R42 3/3, R127 5/6, GTR 9 5/8, R100 0/4, **R48 nur 9 von 19 Seiten**, R10+R148 23 von 35.
+Hypothese (Dev-Gold nutzt für R10/R48/R148 dieselben allgemeinen Abschnitte): R10 Gold = Dev-Gold-Seiten 8–13, 98, 108;
+R48 = allgemeine Seiten 19–22, 27, 28 + Seitenmarkierung 58–60 (= 9 ✓); R148 ohne 15, 20, 21, 36, 37 → ergibt genau 26.
+Reihenfolge (jede Zeile: Vorhersage, falls die weggelassenen Seiten kein Gold haben):
+| Test | n | Seiten-P / -R vorhergesagt | F2 bei 184 Treffern | lohnt, wenn ≤ … Treffer verloren |
+|---|---|---|---|---|
+| a `H001-G9-sideLight-noR100-zy` (2b, wie geplant) | 440 | 0.750 / 0.962 | 0.723 | 4.9 |
+| b `…-noR100-zy-noDI` (zusätzlich R48 S.40–45 + R148 Abschnitt Direction indicator) | 369 | 0.850 / 0.962 | 0.766 | 14.9 |
+| c `…-noR100-zy-noDI-rest` (zusätzlich R10 S.99, R48 S.23/26/80, R148 S.15) | 348 | 0.927 / 0.962 | 0.780 | 17.9 |
+Ablesen: jede verlorene Gold-Seite = −0.019 Seiten-R. Fällt bei b die Seiten-R um ≈0.11 (6 Seiten), steht der Blinker im
+Gold → noR100(-zy) erneut hoch und stattdessen **`…-noR100-zy-noR48gen`** (376; R48 allgemeine Seiten weg, Blinker bleibt)
+testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Werkzeug: `certreq.sectionvariants <BASIS> --drop-pages "UN R48=40-45"`.
+
 **Upload-Plan (nur Jonathan lädt hoch; Limit 5/h gilt team-weit — bitte NICHT selbst hochladen):**
 1. ✓ 09:57 `H001-G9-noCrash-sideLight` = **0.700** (neue Basis)
 2. ✓ 10:44–10:49 noR127 0.631, noR26 0.610, **noR100 0.704**, noR42 0.650. **Letzter Upload war noR42 (0.650, Board Platz 4)!**

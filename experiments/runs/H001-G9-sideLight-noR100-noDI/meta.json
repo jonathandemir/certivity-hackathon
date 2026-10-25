@@ -1,0 +1,29 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-noDI",
+ "derived_from": "H001-G9-sideLight-noR100",
+ "dropped_regulations": [
+  "UN R148=direction indicator lamps (24)",
+  "UN R48 S.40 (11)",
+  "UN R48 S.41 (2)",
+  "UN R48 S.42 (9)",
+  "UN R48 S.43 (9)",
+  "UN R48 S.44 (11)",
+  "UN R48 S.45 (5)"
+ ],
+ "requirements": 404,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 115,
+  "UN R48": 84,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@48aa906",
+ "submission_sha256": "3e7aaf6ba9123dcde8e266d65252fbcb3eb9b8fee59d4667ebae50c3ae022e14",
+ "recorded_at": "2026-10-25T10:03:13+00:00"
+}

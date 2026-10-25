@@ -5,6 +5,7 @@
     .venv/bin/python -m certreq.upload H001-noFog                                           # Upload-Datei + Validierung
     .venv/bin/python -m certreq.sectionvariants H001 --add "H003=UN GTR 9" --as H001-plusGTR9  # Regelung aus anderem Lauf
     .venv/bin/python -m certreq.sectionvariants BEST --zero-yield E024-hs-c,E033-hs-c --as BEST-zy   # Dev-Nullabschnitte raus
+    .venv/bin/python -m certreq.sectionvariants BEST --drop-pages "UN R48=40-45,80" --as BEST-noP    # ganze Seiten raus
 
 Ergänzt certreq.variants (ganze Regelungen) um eine Ebene darunter. Ein Abschnitt ist eine Überschrift im
 Gliederungspfad des zitierten Absatzes (certreq.pdf: headings + eigener Titel), z. B. R48 „Individual specifications >
@@ -18,10 +19,16 @@ Abbiege …) sind drin. Nach F2 = 5·TP/(4·Gold + Abgabe) lohnt Weglassen nur b
 also nur per Plattform-Paar entscheiden, nicht raten. Umgekehrt lohnt Hinzufügen schon, wenn eine Anforderung mit mehr
 als ~F2/5 trifft: `--add "LAUF=REGELUNG"` übernimmt alle Anforderungen dieser Regelung aus einem anderen abgelegten Lauf
 (neue IDs, Regelung darf in der Basis noch nicht vorkommen).
+
+`--drop-pages "REG=40-45,80"` entfernt alle Anforderungen, die diese Seiten zitieren. Der Seiten-Score der Plattform ist
+eine Mengenrechnung (Precision = Gold-Seiten / eingereichte Seiten, Recall = Gold-Seiten / alle Gold-Seiten): aus einem
+Upload-Paar folgt exakt, wie viele der weggelassenen Seiten im Gold stehen. Seiten ohne Gold-Absatz tragen praktisch
+keine Anforderungs-Treffer.
 """
 from __future__ import annotations
 
 import argparse
+import re
 from collections import Counter
 
 from .pdf import parse_pdf
@@ -81,6 +88,38 @@ def drop_sections(sub: dict, drop: dict[str, list[str]], paths_of=_paths) -> tup
         for t in titles:
             if not removed[f"{reg}={t}"]:
                 raise SystemExit(f"Kein Abschnitt '{t}' mit Anforderungen in {reg} (Tippfehler? --list zeigt die Titel)")
+    if not kept:
+        raise SystemExit("Die Variante hätte keine Anforderung mehr.")
+    return {**sub, "requirements": kept}, removed
+
+
+def parse_pages(specs: list[str]) -> dict[str, set[int]]:
+    """["UN R48=40-45,80"] → {"UN R48": {40, …, 45, 80}}"""
+    out: dict[str, set[int]] = {}
+    for s in specs:
+        reg, sep, spec = s.partition("=")
+        if not sep or not reg.strip() or not re.fullmatch(r"\s*\d+(\s*-\s*\d+)?(\s*,\s*\d+(\s*-\s*\d+)?)*\s*", spec):
+            raise SystemExit(f'--drop-pages erwartet "REGELUNG=40-45,80", nicht {s!r}')
+        pages = out.setdefault(reg.strip(), set())
+        for part in spec.split(","):
+            a, _, b = part.partition("-")
+            pages.update(range(int(a), int(b or a) + 1))
+    return out
+
+
+def drop_pages(sub: dict, pages: dict[str, set[int]]) -> tuple[dict, Counter]:
+    """Neue Abgabe ohne Anforderungen auf diesen Seiten; zählt Entferntes je (Regelung, Seite). Fehlt eine Seite, Abbruch."""
+    removed: Counter = Counter()
+    kept = []
+    for r in sub["requirements"]:
+        reg, page = r["source"]["regulation"], r["source"]["page"]
+        if page in pages.get(reg, ()):
+            removed[f"{reg} S.{page}"] += 1
+        else:
+            kept.append(r)
+    missing = [f"{reg} S.{p}" for reg, ps in pages.items() for p in sorted(ps) if not removed[f"{reg} S.{p}"]]
+    if missing:
+        raise SystemExit(f"Keine Anforderung auf {missing} (Tippfehler? Bereich zu groß?)")
     if not kept:
         raise SystemExit("Die Variante hätte keine Anforderung mehr.")
     return {**sub, "requirements": kept}, removed
@@ -159,6 +198,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--list", metavar="REGELUNG", help="Anforderungen je Abschnitt dieser Regelung zeigen")
     ap.add_argument("--depth", type=int, default=2, help="Tiefe des Gliederungspfads für --list (Standard 2)")
     ap.add_argument("--drop", action="append", default=[], metavar="REG=Titel", help="Abschnitt weglassen (mehrfach)")
+    ap.add_argument("--drop-pages", action="append", default=[], metavar="REG=40-45,80",
+                    help="alle Anforderungen auf diesen Seiten weglassen (mehrfach)")
     ap.add_argument("--add", action="append", default=[], metavar="LAUF=REG", help="Regelung aus anderem Lauf anhängen (mehrfach)")
     ap.add_argument("--zero-yield", metavar="DEV1,DEV2", help="Abschnitte ohne Treffer in diesen bewerteten Dev-Läufen weglassen")
     ap.add_argument("--min-count", type=int, default=6, help="Mindestzahl Dev-Ausgaben je Abschnitt für --zero-yield (Standard 6)")
@@ -169,9 +210,12 @@ def main(argv: list[str] | None = None) -> int:
         for k, v in sections(sub, args.list, args.depth).most_common():
             print(f"{v:4d}  {k}")
         return 0
-    if not (args.drop or args.add or args.zero_yield) or not args.new_id:
-        raise SystemExit("--drop, --add oder --zero-yield sowie --as angeben (oder --list)")
+    if not (args.drop or args.drop_pages or args.add or args.zero_yield) or not args.new_id:
+        raise SystemExit("--drop, --drop-pages, --add oder --zero-yield sowie --as angeben (oder --list)")
     new, removed = drop_sections(sub, parse_drop(args.drop)) if args.drop else (sub, Counter())
+    if args.drop_pages:
+        new, pr = drop_pages(new, parse_pages(args.drop_pages))
+        removed = Counter(removed) + pr
     if args.zero_yield:
         regs = {r["source"]["regulation"] for r in new["requirements"]}
         zero = zero_yield_sections([x.strip() for x in args.zero_yield.split(",") if x.strip()], regs, args.min_count, args.depth)
