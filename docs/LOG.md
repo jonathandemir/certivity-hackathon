@@ -691,3 +691,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 09:29:06 +0100 | [decision] Held-out-Roadmap ist erste Prio (STATUS ganz oben); Uploads nur Jonathan | Jonathan @ MacBook-Pro-von-Jonathan | main@3e8d23f +lokale Änderungen
 - Ergebnisse: GTR 9 im Gold, R94/R137 falsch, R48 richtig, modes bleibt. Plan: ~09:46 H001-G9-noCrash (Basis, ≈0.617), ab ~10:20 Einzeltests -noR127/-noR100/-noR26/-noR42 bis Regelungs-Precision 100 %, dann Leuchten-Varianten, 12:30 beste Datei zuletzt.
 - Homsianer: Leuchten-Varianten auf Basis H001-G9-noCrash neu ableiten, Upload-Claim entfernen. Amiad: Pitch/Demo mit Held-out-Zahlen. Alle: keine Uploads, keine neuen Läufe, Standard unverändert.
+
+### 2026-10-25 10:05:24 +0100 | [change] Held-out: Varianten H001-G9-noCrash-noR10 und -noR148 (alle sechs Kandidaten bereit) | Homsianer @ vm | main@41e660e +lokale Änderungen
+- Ergänzt Jonathans noR127/noR100/noR26/noR42 um noR10 und noR148 (certreq.variants, validiert), damit die Suche nach der letzten falschen Regelung vollständig ist. Vorschlag Reihenfolge: R127, R100, R148, dann R26/R42/R10
+- Keine Uploads durch Homsianer (Roadmap: nur Jonathan). Kein LLM-Aufruf
