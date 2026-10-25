@@ -28,3 +28,12 @@ def test_typos_and_bad_specs_fail():
         sv.drop_sections(_sub(), sv.parse_drop(["UN R99=Front fog lamp"]), paths_of=lambda reg: PATHS)
     with pytest.raises(SystemExit):
         sv.parse_drop(["UN R48 Front fog lamp"])
+
+
+def test_add_regulation_from_other_run_with_new_ids():
+    other = {"requirements": [{"id": "R-0001", "text": "g", "source": {"regulation": "UN GTR 9", "version": "0.3.0", "page": 85, "paragraph": "4.1"}}]}
+    new, added = sv.add_regulations(_sub(), ["H003=UN GTR 9"], load=lambda run: other)
+    ids = [r["id"] for r in new["requirements"]]
+    assert len(ids) == len(set(ids)) == 6 and new["requirements"][-1]["source"]["regulation"] == "UN GTR 9"
+    with pytest.raises(SystemExit):
+        sv.add_regulations(_sub(), ["H003=UN R48"], load=lambda run: other)  # schon in der Basis
