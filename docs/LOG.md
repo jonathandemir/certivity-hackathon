@@ -815,3 +815,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:17:34 +0100 | [change] Sub-Goal HSG7 = HSG4 + 6 modified aus LLM-Nachprüfung der unmarkierten alten Anforderungen | Jonathan @ MacBook-Pro-von-Jonathan | main@5bfa540 +lokale Änderungen
 - Claude prüft die 92 von HSG4 nicht markierten alten Anforderungen gegen ihren neuen Absatz. 6 geändert: R-074 (neue Ausnahme Armaturenbrett/Instrumententafel, in HSG4 gar nicht erfasst), R-015/R-083/R-089/R-090/R-091 (neuer einschränkender Satz im selben Absatz, in HSG4 nur als added). HSG7 enthält alle 149 HSG4-Einträge unverändert (155), kann also nur Treffer dazugewinnen. Datei: certivity-a/out/upload/HSG7-subgoal-heldout.json
 - validate.py --requirements-old: gültig (155); alle 6 Fälle von Hand gegen den PDF-Text gelesen; Obermenge von HSG4 per Skript geprüft
+
+### 2026-10-25 12:31:43 +0100 | [change] Sub-Goal HSG8 = HSG7 + 15 added aus LLM-Lückensuche je geändertem Absatz | Jonathan @ MacBook-Pro-von-Jonathan | main@b4d2266 +lokale Änderungen
+- Claude vergleicht jeden geänderten Absatz (121) alt/neu mit den vorhandenen HSG7-Einträgen und nennt fehlende neue Pflichten: 18 Funde, 15 aufgenommen (u. a. 5.5.4.2.6.5 Highway-like, 5.5.4.2.8.2 (d), Annex-4-Prüfbedingungen, 8 Berichtspunkte), 3 verworfen (Definitionen, Einleitung). Obermenge von HSG7/HSG4 (170). Datei: certivity-a/out/upload/HSG8-subgoal-heldout.json
+- validate.py --requirements-old gültig (170); Funde von Hand gegen Absatztext gelesen; Obermenge per Skript geprüft

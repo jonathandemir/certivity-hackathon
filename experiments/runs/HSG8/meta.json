@@ -1,0 +1,9 @@
+{
+ "run_id": "HSG8",
+ "case_id": "subgoal-heldout",
+ "changes": 170,
+ "derived_from": "HSG7",
+ "note": "HSG7 (alle 155 Einträge unverändert) + 15 added aus LLM-Lückensuche (Claude): je geändertem Absatz der neuen Fassung (121) alte Fassung, neue Fassung und vorhandene HSG7-Einträge; gefragt nach neuen Pflichten, die noch fehlen. 18 Funde, 3 verworfen (Definitionen 2.28.1, Einleitung 18). Aufgenommen: 5.5.4.2.6.5 (HOR-Zurückhalten auch auf Highway-like), 5.5.4.2.8.2 (d), Annex 4 4.2.5.2.17.1.3/.4 und 19.1.2 (Prüfbedingungen), Annex 3 3.5.6 (Audit inkl. 3.5.5), 8 Melde-/Berichtspunkte (Absätze 1, 2, 10; Tabelle am Anfang der neuen Fassung).",
+ "sha256": "dc53df998fe177f1903a0f547ee8dc20db02dec8cba6c8a95e30c156cae8af14",
+ "recorded_at": "2026-10-25T12:31:43+0100"
+}
