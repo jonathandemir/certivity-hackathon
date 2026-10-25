@@ -34,9 +34,10 @@ Reihenfolge (jede Zeile: Vorhersage, falls die weggelassenen Seiten kein Gold ha
 | a `H001-G9-sideLight-noR100-zy` (2b, wie geplant) | 440 | 0.750 / 0.962 | 0.723 | 4.9 |
 | b `…-noR100-zy-noDI` (zusätzlich R48 S.40–45 + R148 Abschnitt Direction indicator) | 369 | 0.850 / 0.962 | 0.766 | 14.9 |
 | c `…-noR100-zy-noDI-rest` (zusätzlich R10 S.99, R48 S.23/26/80, R148 S.15) | 348 | 0.927 / 0.962 | 0.780 | 17.9 |
+| d `…-noR100-zy-noDI-rest-noG9A1` (zusätzlich GTR 9 Annex 1 S.116–118, deployable systems; GTR 9 hat 3 Nicht-Gold-Seiten) | 335 | 0.981 / 0.962 | 0.788 | 19.7 |
 Ablesen: jede verlorene Gold-Seite = −0.019 Seiten-R. Fällt bei b die Seiten-R um ≈0.11 (6 Seiten), steht der Blinker im
 Gold → noR100(-zy) erneut hoch und stattdessen **`…-noR100-zy-noR48gen`** (376; R48 allgemeine Seiten weg, Blinker bleibt)
-testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Werkzeug: `certreq.sectionvariants <BASIS> --drop-pages "UN R48=40-45"`.
+testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Teilverlust bei b (1–5 Seiten) → getrennt: `…-zy-noDI48` (393, nur R48 S.40–45) bzw. `…-zy-noDI148` (416, nur R148-Blinker). Werkzeug: `certreq.sectionvariants <BASIS> --drop-pages "UN R48=40-45"`.
 
 **Upload-Plan (nur Jonathan lädt hoch; Limit 5/h gilt team-weit — bitte NICHT selbst hochladen):**
 1. ✓ 09:57 `H001-G9-noCrash-sideLight` = **0.700** (neue Basis)

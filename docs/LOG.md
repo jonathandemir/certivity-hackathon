@@ -741,3 +741,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:04:58 +0100 | [change] Technische Erklärung: aktuelle Held-out-Zahlen + Offenlegung der Variantenauswahl | Homsianer @ vm | main@b7fc574 +lokale Änderungen
 - Sub-Goal 0.906/0.870 (HSG2), Bumper 0.704 (Standard 0.568); beschreibt offen, dass Upload-Rückmeldung (Regelungs-/Seitenebene) zur Auswahl von Teilmengen der Pipeline-Ausgabe genutzt wurde, keine handgeschriebenen Anforderungen
 - Zahlen gegen experiments/LEDGER.md (HSG2-P, H001-P, noR100-P) geprüft
+
+### 2026-10-25 11:05:31 +0100 | [change] Held-out: Varianten d (GTR 9 Annex 1) und Teilvarianten für b | Homsianer @ vm | main@95e49ca +lokale Änderungen
+- -zy-noDI-rest-noG9A1 (335; GTR 9 S.116–118 weg, Hypothese: die 3 Nicht-Gold-Seiten von GTR 9 sind Annex 1 deployable), -zy-noDI48 (393), -zy-noDI148 (416) zum Auftrennen, falls b teilweise Gold-Seiten verliert
+- certreq.upload validiert alle drei; Vorhersagen in STATUS
