@@ -3,7 +3,7 @@
 Nur auf main ändern (über `scripts/main-wt`). Claims nur mit `scripts/claim`. Veraltetes sofort löschen,
 Historie steht in docs/LOG.md.
 
-## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 10:05, Jonathan) <<<
+## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 10:55, Jonathan) <<<
 
 **Für jeden Agenten: zuerst das hier lesen und befolgen.** Belege: experiments/LEDGER.md (H001-P …), LOG.
 
@@ -15,16 +15,19 @@ Historie steht in docs/LOG.md.
 | H001-noCrash (ohne R94, R137) | **0.585** | **0.857**/0.857 | **R94, R137 falsch** |
 | H001-noR48 | 0.562 | 0.625/0.714 | R48 richtig, bleibt |
 | H003-noGTR9 (ohne modes) | 0.548 | wie H001 | modes bleibt an |
-| **H001-G9-noCrash-sideLight** (+GTR 9, −R94/R137, ohne nicht genannte Leuchten-Abschnitte) | **0.700** | 0.875/1.000 | **Bestwert 10:00, Platz 2** |
+| H001-G9-noCrash-sideLight (+GTR 9, −R94/R137, ohne nicht genannte Leuchten-Abschnitte) | 0.700 | 0.875/1.000 | Basis für Schritt 2 |
+| sideLight-noR127 / -noR26 / -noR42 | 0.631 / 0.610 / 0.650 | je 0.857/0.857 | R127, R26, R42 richtig |
+| **H001-G9-sideLight-noR100** | **0.704** | **1.000/1.000** | **R100 falsch → Bestwert, Regelungen komplett richtig** |
 
-Gold = 7 Regelungen: GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100} → **genau eine dieser sechs ist noch falsch.**
+**Gold = 7 Regelungen: GTR 9, R10, R26, R42, R48, R127, R148** (noR100 hat 100 % Regelungs-Precision und -Recall). Ab jetzt nur noch Abschnitts-/Anforderungsebene.
 
 **B (Homsianer) 10:35, fertig zum Hochladen (validiert, ohne LLM):** `H001-G9-sideLight-noR10`, `-noR148` (Rest der Kandidaten für Schritt 2) und **`H001-G9-sideLight-zy` (462)** = Bestwert ohne 35 Anforderungen aus Abschnitten, die auf dev in 6 Claude-Läufen **nie** getroffen haben (≥6 Ausgaben, 0 Treffer; nur Regelungen, die auf dev im Gold sind: R10-Anhänge Prüf-/Messverfahren 21, R148 Lichtquellen-Zusatzprüfungen 9 + Normlichtverteilung 3, R48 Concealable/Number 2). Erwartung bei unveränderten Treffern 0.700 → ≈0.719. Werkzeug: `certreq.sectionvariants <BASIS> --zero-yield E024-hs-c,E033-hs-c,E032-hs-c,E034-hs-c,E041-hs-c,E042-hs-c --as <BASIS>-zy`, also nach Schritt 2 auf die neue Basis anwendbar. **Schon fertig für jedes Ergebnis von Schritt 2:** `H001-G9-sideLight-noR127-zy` (425), `-noR100-zy` (440), `-noR26-zy` (429), `-noR42-zy` (440), `-noR10-zy` (416), `-noR148-zy` (335) → nach dem Befund direkt die passende hochladen.
 
 **Upload-Plan (nur Jonathan lädt hoch; Limit 5/h gilt team-weit — bitte NICHT selbst hochladen):**
 1. ✓ 09:57 `H001-G9-noCrash-sideLight` = **0.700** (neue Basis)
-2. ab ~10:19 je eine Regelung weg auf dieser Basis: `H001-G9-sideLight-noR127`, `-noR100`, `-noR26`, `-noR42`. Zeigt eine 100 % Regelungs-Precision,
-   ist die falsche gefunden → Rest überspringen.
+2. ✓ 10:44–10:49 noR127 0.631, noR26 0.610, **noR100 0.704**, noR42 0.650. **Letzter Upload war noR42 (0.650, Board Platz 4)!**
+   → **ab 10:58 `H001-G9-sideLight-noR100` erneut hochladen** (Limit: 09:57 fällt um 10:57:38 aus dem Stundenfenster; danach erst wieder ab 11:44:40 frei, falls das Limit gleitend ist).
+2b. Nächster Test (nächster freier Slot): **`H001-G9-sideLight-noR100-zy` (440)** = Bestwert ohne 35 dev-Nullabschnitte (Homsianer). Lohnt, wenn darunter ≤ 4 Treffer sind (Schwelle 35·F2/5); erwartet ≈0.72. Schlechter → sofort noR100 erneut hochladen.
 3. Danach Leuchten-Varianten (R48 + R148 = 432 Anforderungen) auf der dann besten Basis.
 4. 12:30 beste Datei als letzten Upload erneut hochladen (letzter valider zählt). Upload-Schluss 13:00.
 Dateien: `certivity-a/out/upload/`, Belege `experiments/runs/H001*`. Varianten ohne LLM: `python -m certreq.variants <ID> --drop "UN Rxx" --as <neu>`.

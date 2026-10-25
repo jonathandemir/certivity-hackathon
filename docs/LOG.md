@@ -726,3 +726,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:35:48 +0100 | [run] Sub-Goal-Held-out HSG2: Recall 0.906, Change accuracy 0.870 → bleibt | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@dcc62ae
 - Gleiche Flags wie HSG1; der Plattform-Richter zählt mit den LLM-Texten 1 Änderung mehr (0.891 → 0.906), Accuracy 0.887 → 0.870 bei gleicher Zahl richtig beschriebener Änderungen. Rangliste nach Recall: Platz 2.
 - Kein Rückwechsel auf HSG1. Weitere Sub-Goal-Uploads nur bei klarer Recall-Verbesserung.
+
+### 2026-10-25 10:54:31 +0100 | [run] Held-out Schritt 2: R100 ist die falsche Regelung, noR100 = 0.704 (Regelungen 100 %) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@62216d6
+- Uploads 10:44–10:49 auf Basis sideLight (0.700, 186 Treffer, G≈208): noR127 0.631 (−23 Treffer), noR26 0.610 (−28), noR100 0.704 (Regelungen P/R 1.0/1.0, −2 Treffer bei −22 Ausgaben), noR42 0.650 (−16). Gold = GTR 9, R10, R26, R42, R48, R127, R148. Letzter Upload war noR42 → zählt mit 0.650 (Platz 4); noR100 muss erneut hoch (ab 10:58).
+- Screenshots Jonathan, platform.json je Lauf; Treffer aus P·N und R·G stimmen überein. Nächster Test: noR100-zy (440, Homsianer, validiert, Hash bde40e9a = Meta).

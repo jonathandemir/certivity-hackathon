@@ -1,0 +1,21 @@
+{
+ "uploaded": "2026-10-25 10:44:40 CET",
+ "n": 460,
+ "team_id": "team-12",
+ "requirements": {
+  "precision": 0.354,
+  "recall": 0.784,
+  "f1": 0.488,
+  "f2": 0.631
+ },
+ "pages": {
+  "precision": 0.613,
+  "recall": 0.868
+ },
+ "regulations": {
+  "precision": 0.857,
+  "recall": 0.857
+ },
+ "treffer_plattform": 163,
+ "quelle": "hackathon.certivity.io, Held-out (Screenshot Jonathan)"
+}
