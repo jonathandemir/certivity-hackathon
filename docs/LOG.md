@@ -807,3 +807,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:09:06 +0100 | [run] Held-out add = 0.803 (Bestwert); Test 2 auf -t2b korrigiert | Jonathan @ MacBook-Pro-von-Jonathan | main@6e9aafe
 - DRG-P-add: 181 Treffer (+2 aus 7 Zusätzen), Seiten 53/50 → R42 S.6 kein Gold. -t2b = add ohne R42 S.6 + 23 Pflichtsätze von Gold-Seiten (R42 S.7/8, R127 S.26/33/36, R26 S.4), 317. Lohnt ab ≈4 Treffern; bei 33 % Trefferquote wie in add ≈ +7 → ≈0.818. Plan: 12:45:03 t2b, 12:47:30 Bestwert (add, falls t2b schlechter).
 - Screenshot Jonathan; P·N = R·G = 181; validate.py 317 gültig
+
+### 2026-10-25 12:09:59 +0100 | [change] Held-out-Test 2 = -t2c (t2b + 7 GTR-9-Parallelstellen) | Jonathan @ MacBook-Pro-von-Jonathan | main@46e6a1f +lokale Änderungen
+- GTR 9 ist der Paralleltext zu R127: 6.1.2 Prüfgelände, 7.1.1/7.1.2 Zwei-Stunden-Regel, 7.1.1.3.1 freier Flug, 7.1.1.3.4 kein Bodenkontakt (Gegenstück zu R127 Annex 5 1.11 aus add), 7.1.1.6 Offset-Kompensation. In den 12:45-Test aufgenommen statt eines knappen dritten Tests um 12:47. 324 Anforderungen; lohnt ab ≈5 Treffern aus 30 Zusätzen (17 %), bei 30 % ≈ 0.822.
+- validate.py 324 gültig

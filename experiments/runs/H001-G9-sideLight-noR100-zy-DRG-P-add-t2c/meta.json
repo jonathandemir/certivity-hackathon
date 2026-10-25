@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-DRG-P-add-t2c",
+ "derived_from": "H001-G9-sideLight-noR100-zy-DRG-P-add-t2b",
+ "dropped_regulations": [
+  "(Zusatz) +7 GTR-9-Parallelstellen zu den R127-Zusätzen (6.1.2, 7.1.1, 7.1.1.3.1, 7.1.1.3.4, 7.1.1.6, 7.1.2)"
+ ],
+ "requirements": 324,
+ "per_regulation": {
+  "UN R127": 50,
+  "UN R42": 34,
+  "UN R26": 37,
+  "UN R10": 41,
+  "UN R148": 75,
+  "UN R48": 47,
+  "UN GTR 9": 40
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@46e6a1f",
+ "submission_sha256": "c7be298d2ad053fe32e1b8c522d93ae9323447d9fd2fc3606071cd6b919d1013",
+ "recorded_at": "2026-10-25T12:09:48+01:00"
+}
