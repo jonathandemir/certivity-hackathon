@@ -671,3 +671,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 08:47:29 +0100 | [run] Held-out H001 auf der Plattform: F2 0.568, Regelungen 6/9 richtig, 1 fehlt | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
 - Anforderungen P 0.259 R 0.808 F2 0.568 (≈168/208); Seiten P 0.442 R 0.868; Regelungen P 0.667 R 0.857. Diagnose-Varianten ohne LLM: H001-noR48, H001-noR148, H001-noR26 (neu), dazu H001-noCrash, H001-noR100, H003-noGTR9, H001-plusGTR9 (Homsianer, gleicher Inhalt).
 - Weg A: je Upload eine Regelung weg/dazu; die Regelungsebene zeigt deterministisch, ob sie im Gold ist. Uploads team-weit 5/h: nur eine Person lädt hoch (Abstimmung Jonathan/Homsianer).
+
+### 2026-10-25 08:49:04 +0100 | [run] Held-out Sub-Goal HSG1: Flag-Recall 0.891, Change accuracy 0.887 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
+- UN R171, 142 Änderungen, Flag-Precision 0.401 (≈57 von ≈64 erwarteten Änderungen getroffen).
+- Kein weiterer Sub-Goal-Upload geplant; nur ersetzen, wenn eine Variante beim Recall sicher besser ist (letzter Upload zählt).
