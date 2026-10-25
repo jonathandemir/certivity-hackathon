@@ -722,3 +722,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:33:59 +0100 | [run] R4-Probelauf: scripts/export-snapshot auf main@ca63345 bestanden (Homsianer, nichts gepusht) | Homsianer @ vm | main@ca63345
 - Abgabe-Kopie ohne Historie (1 Commit, 14 MB) in Homsianers Scratchpad: Schlüssel- und Lizenzprüfung bestanden (126 Paket-Texte, 11 Paketdateien, 0 Funde; 3 Hinweise = eigene Sub-Goal-Ausgaben, erlaubt). Keine .env-Dateien; 'sk-ant-' nur als Suchmuster in secret-scan und als Fake-Key in selftest
 - Für A: R4-Kopie ist startklar, nur Name/Sichtbarkeit des Ziel-Repos und Link fürs Formular entscheiden (vor 13:00)
+
+### 2026-10-25 10:35:48 +0100 | [run] Sub-Goal-Held-out HSG2: Recall 0.906, Change accuracy 0.870 → bleibt | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@dcc62ae
+- Gleiche Flags wie HSG1; der Plattform-Richter zählt mit den LLM-Texten 1 Änderung mehr (0.891 → 0.906), Accuracy 0.887 → 0.870 bei gleicher Zahl richtig beschriebener Änderungen. Rangliste nach Recall: Platz 2.
+- Kein Rückwechsel auf HSG1. Weitere Sub-Goal-Uploads nur bei klarer Recall-Verbesserung.
