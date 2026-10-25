@@ -3,7 +3,7 @@
 Nur auf main ändern (über `scripts/main-wt`). Claims nur mit `scripts/claim`. Veraltetes sofort löschen,
 Historie steht in docs/LOG.md.
 
-## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 09:30, Jonathan) <<<
+## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 10:05, Jonathan) <<<
 
 **Für jeden Agenten: zuerst das hier lesen und befolgen.** Belege: experiments/LEDGER.md (H001-P …), LOG.
 
@@ -15,12 +15,13 @@ Historie steht in docs/LOG.md.
 | H001-noCrash (ohne R94, R137) | **0.585** | **0.857**/0.857 | **R94, R137 falsch** |
 | H001-noR48 | 0.562 | 0.625/0.714 | R48 richtig, bleibt |
 | H003-noGTR9 (ohne modes) | 0.548 | wie H001 | modes bleibt an |
+| **H001-G9-noCrash-sideLight** (+GTR 9, −R94/R137, ohne nicht genannte Leuchten-Abschnitte) | **0.700** | 0.875/1.000 | **Bestwert 10:00, Platz 2** |
 
 Gold = 7 Regelungen: GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100} → **genau eine dieser sechs ist noch falsch.**
 
 **Upload-Plan (nur Jonathan lädt hoch; Limit 5/h gilt team-weit — bitte NICHT selbst hochladen):**
-1. ~09:46 `H001-G9-noCrash` = neue Basis (GTR 9 dazu, R94/R137 raus), erwartet ≈0.617
-2. ab ~10:20 je eine Regelung weg: `H001-G9-noCrash-noR127`, `-noR100`, `-noR26`, `-noR42`. Zeigt eine 100 % Regelungs-Precision,
+1. ✓ 09:57 `H001-G9-noCrash-sideLight` = **0.700** (neue Basis)
+2. ab ~10:19 je eine Regelung weg auf dieser Basis: `H001-G9-sideLight-noR127`, `-noR100`, `-noR26`, `-noR42`. Zeigt eine 100 % Regelungs-Precision,
    ist die falsche gefunden → Rest überspringen.
 3. Danach Leuchten-Varianten (R48 + R148 = 432 Anforderungen) auf der dann besten Basis.
 4. 12:30 beste Datei als letzten Upload erneut hochladen (letzter valider zählt). Upload-Schluss 13:00.
