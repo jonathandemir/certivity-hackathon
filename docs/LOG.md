@@ -822,3 +822,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:31:46 +0100 | [change] Abgabe: README-Abschnitt für die Jury (EN) und Formulartexte | Jonathan @ MacBook-Pro-von-Jonathan | main@2378e9d +lokale Änderungen
 - README: Was certreq tut, Plattform-Ergebnisse (Held-out F2 0.80, Sub-Goal-Recall 0.95, dev 0.76), Offenlegung wie der Held-out-Wert zustande kam (H001 0.568 ohne Handarbeit, danach Beschneiden nach Plattform-Rückmeldung), Start-Befehle. docs/pitch/submission-form.md: Name, Pitch, Technical Solution (aus Homsianers Text auf 800 Zeichen gekürzt), Tags, Links.
 - Zeichenzahlen per Skript geprüft (52/60, 135/140, 792/800)
+
+### 2026-10-25 12:33:18 +0100 | [change] R4: Abgabe-Repo jonathandemir/barelylegal-certivity angelegt (noch PRIVAT) | Jonathan @ MacBook-Pro-von-Jonathan | main@6680f0e
+- Aus scripts/export-snapshot (main@6680f0e, 1 Commit, Schlüssel- und Lizenzprüfung bestanden). Zusätzlich entfernt: experiments/runs/HSG3/HSG5/HSG6/submission.json.gz (enthielten 17 wörtlich aus requirements_old.json kopierte Texte; Meta und Plattformwerte bleiben). Öffentlich schalten erst nach Jonathans OK: gh repo edit jonathandemir/barelylegal-certivity --visibility public --accept-visibility-change-consequences. Vor 13:00 mit dem Endstand (README-Zahlen) noch einmal aktualisieren.
+- gh repo view: PRIVATE, Branch main; Suche nach Paket-Anforderungstexten in der Kopie
