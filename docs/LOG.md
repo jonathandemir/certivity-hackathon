@@ -654,3 +654,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 08:04:58 +0100 | [run] Held-out heldout-front-bumper automatisch gerechnet (scripts/heldout-auto) | Jonathan @ MacBook-Pro-von-Jonathan | main@ac66773
 - Abgelegt: H001 H002 H003 H001-noR94 HSG1. Upload-Dateien in out/upload/, Zusammenfassung out/heldout-auto/SUMMARY.md. Noch nicht hochgeladen.
 - Stand main@ac66773; Läufe mit CERTREQ_PROVIDER=anthropic
+
+### 2026-10-25 08:07:59 +0100 | [finding] Held-out automatisch gerechnet: 9 Regelungen, 648 Anforderungen; Varianten für Upload-Paare | Jonathan @ MacBook-Pro-von-Jonathan | main@c61c5dc +lokale Änderungen
+- H001/H002 (Opus) gleich: R127, R42, R26, R94, R137, R10, R148, R48, R100 (648/657 Anf.; R48 271, R148 161). H003 (ohne modes) wählt zusätzlich GTR 9 (Teil II, ab S. 85), 784 Anf. Verworfen u. a. R149/R152/R171/R156/R162 (Annahme), R155 (Fahrzeugebene), GTR 9 in H001 (in R127 überführt), R131 (Klasse). Sub-Goal HSG1: 142 Änderungen (21 modified, 4 removed, 117 added).
+- Zusätzliche Varianten ohne LLM: H003-noGTR9 (= H001-Auswahl, nur modes anders), H001-noR137, H001-noCrash (ohne R94+R137), H001-noR100; alle validiert in out/upload/.

@@ -1,0 +1,31 @@
+{
+ "run_id": "H003-noGTR9",
+ "derived_from": "H003",
+ "dropped_regulations": [
+  "UN GTR 9"
+ ],
+ "requirements": 738,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 24,
+  "UN R26": 36,
+  "UN R94": 21,
+  "UN R137": 16,
+  "UN R10": 109,
+  "UN R148": 161,
+  "UN R48": 306,
+  "UN R100": 28
+ },
+ "base_git": {
+  "commit": "main@ac66773",
+  "full_hash": "ac66773bff716bd683a928fe78efb1f7900a3215",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "base_command": "python -m certreq run /Users/jonathandemir/projects/certivity-a/vendor/industrial-ai-hackathon/cases/heldout-front-bumper --extract modal,llm,lists,tables,exempt,tests --out out/H003.json",
+ "base_llm_model": "claude-opus-5-5",
+ "derived_on": "main@c61c5dc",
+ "submission_sha256": "a9dcadfe5fd558e812a3207446207a05ba9289b76735e2555f319621a6271119",
+ "recorded_at": "2026-10-25T08:07:58+01:00"
+}
