@@ -19,6 +19,8 @@ Historie steht in docs/LOG.md.
 
 Gold = 7 Regelungen: GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100} → **genau eine dieser sechs ist noch falsch.**
 
+**B (Homsianer) 10:35, fertig zum Hochladen (validiert, ohne LLM):** `H001-G9-sideLight-noR10`, `-noR148` (Rest der Kandidaten für Schritt 2) und **`H001-G9-sideLight-zy` (462)** = Bestwert ohne 35 Anforderungen aus Abschnitten, die auf dev in 6 Claude-Läufen **nie** getroffen haben (≥6 Ausgaben, 0 Treffer; nur Regelungen, die auf dev im Gold sind: R10-Anhänge Prüf-/Messverfahren 21, R148 Lichtquellen-Zusatzprüfungen 9 + Normlichtverteilung 3, R48 Concealable/Number 2). Erwartung bei unveränderten Treffern 0.700 → ≈0.719. Werkzeug: `certreq.sectionvariants <BASIS> --zero-yield E024-hs-c,E033-hs-c,E032-hs-c,E034-hs-c,E041-hs-c,E042-hs-c --as <BASIS>-zy`, also nach Schritt 2 auf die neue Basis anwendbar.
+
 **Upload-Plan (nur Jonathan lädt hoch; Limit 5/h gilt team-weit — bitte NICHT selbst hochladen):**
 1. ✓ 09:57 `H001-G9-noCrash-sideLight` = **0.700** (neue Basis)
 2. ab ~10:19 je eine Regelung weg auf dieser Basis: `H001-G9-sideLight-noR127`, `-noR100`, `-noR26`, `-noR42`. Zeigt eine 100 % Regelungs-Precision,

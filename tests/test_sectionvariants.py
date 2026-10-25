@@ -37,3 +37,10 @@ def test_add_regulation_from_other_run_with_new_ids():
     assert len(ids) == len(set(ids)) == 6 and new["requirements"][-1]["source"]["regulation"] == "UN GTR 9"
     with pytest.raises(SystemExit):
         sv.add_regulations(_sub(), ["H003=UN R48"], load=lambda run: other)  # schon in der Basis
+
+
+def test_drop_zero_yield_only_hits_listed_paths():
+    zero = {("UN R48", ("Individual specifications", "Front fog lamp"))}
+    paths = lambda reg: {k: v[:2] for k, v in PATHS.items()}
+    new, removed = sv.drop_zero_yield(_sub(), zero, paths_of=paths)
+    assert [r["id"] for r in new["requirements"]] == ["R3", "R4", "R5"] and sum(removed.values()) == 2

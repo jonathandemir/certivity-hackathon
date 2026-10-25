@@ -4,6 +4,7 @@
     .venv/bin/python -m certreq.sectionvariants H001 --drop "UN R48=Front fog lamp" --as H001-noFog
     .venv/bin/python -m certreq.upload H001-noFog                                           # Upload-Datei + Validierung
     .venv/bin/python -m certreq.sectionvariants H001 --add "H003=UN GTR 9" --as H001-plusGTR9  # Regelung aus anderem Lauf
+    .venv/bin/python -m certreq.sectionvariants BEST --zero-yield E024-hs-c,E033-hs-c --as BEST-zy   # Dev-Nullabschnitte raus
 
 Ergänzt certreq.variants (ganze Regelungen) um eine Ebene darunter. Ein Abschnitt ist eine Überschrift im
 Gliederungspfad des zitierten Absatzes (certreq.pdf: headings + eigener Titel), z. B. R48 „Individual specifications >
@@ -111,6 +112,47 @@ def add_regulations(sub: dict, specs: list[str], load=load_run) -> tuple[dict, l
     return {**sub, "requirements": reqs}, added
 
 
+def zero_yield_sections(dev_runs: list[str], regs: set[str], min_count: int = 6, depth: int = 2, paths_of=_paths,
+                        load=load_run) -> set[tuple[str, tuple[str, ...]]]:
+    """Abschnitte (Regelung, Pfad bis depth), die in den bewerteten Dev-Läufen mindestens min_count Ausgaben, aber keinen
+    einzigen Treffer hatten (experiments/runs/<ID>/score.json judge.matches). Nach F2 = 5·TP/(4·Gold+Abgabe) kostet jede
+    Anforderung mit Trefferchance unter ~F2/5 Punkte; Trefferchance 0 aus 6+ Ausgaben ist der klarste Fall."""
+    import json
+    cnt: Counter = Counter()
+    hit: Counter = Counter()
+    for rid in dev_runs:
+        score = json.loads((RUNS / rid / "score.json").read_text(encoding="utf-8"))
+        matched = {ours for _, ours in score["judge"]["matches"]}
+        for r in load(rid)["requirements"]:
+            reg = r["source"]["regulation"]
+            if reg not in regs:
+                continue
+            key = (reg, paths_of(reg).get(r["source"].get("paragraph") or "", ())[:depth])
+            cnt[key] += 1
+            hit[key] += r["id"] in matched
+    reg_hits = Counter()
+    for (reg, _), h in hit.items():
+        reg_hits[reg] += h
+    # Nur Regelungen, die auf dev Treffer haben: ohne Treffer ist die Regelung dort nicht im Gold (z. B. R26 auf dev),
+    # dann sagt ein Nullabschnitt nichts über den Abschnitt.
+    return {k for k, n in cnt.items() if n >= min_count and hit[k] == 0 and reg_hits[k[0]] > 0}
+
+
+def drop_zero_yield(sub: dict, zero: set, depth: int = 2, paths_of=_paths) -> tuple[dict, Counter]:
+    regs = {reg for reg, _ in zero}
+    paths = {reg: paths_of(reg) for reg in regs}
+    removed: Counter = Counter()
+    kept = []
+    for r in sub["requirements"]:
+        reg = r["source"]["regulation"]
+        key = (reg, paths[reg].get(r["source"].get("paragraph") or "", ())[:depth]) if reg in regs else None
+        if key in zero:
+            removed[f"{reg}={' > '.join(key[1])[:70]}"] += 1
+        else:
+            kept.append(r)
+    return {**sub, "requirements": kept}, removed
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m certreq.sectionvariants", description=__doc__.splitlines()[0])
     ap.add_argument("run_id", help="abgelegter Lauf unter experiments/runs/, z. B. H001")
@@ -118,6 +160,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--depth", type=int, default=2, help="Tiefe des Gliederungspfads für --list (Standard 2)")
     ap.add_argument("--drop", action="append", default=[], metavar="REG=Titel", help="Abschnitt weglassen (mehrfach)")
     ap.add_argument("--add", action="append", default=[], metavar="LAUF=REG", help="Regelung aus anderem Lauf anhängen (mehrfach)")
+    ap.add_argument("--zero-yield", metavar="DEV1,DEV2", help="Abschnitte ohne Treffer in diesen bewerteten Dev-Läufen weglassen")
+    ap.add_argument("--min-count", type=int, default=6, help="Mindestzahl Dev-Ausgaben je Abschnitt für --zero-yield (Standard 6)")
     ap.add_argument("--as", dest="new_id", help="ID der Variante unter experiments/runs/")
     args = ap.parse_args(argv)
     sub = load_run(args.run_id)
@@ -125,9 +169,14 @@ def main(argv: list[str] | None = None) -> int:
         for k, v in sections(sub, args.list, args.depth).most_common():
             print(f"{v:4d}  {k}")
         return 0
-    if not (args.drop or args.add) or not args.new_id:
-        raise SystemExit("--drop und/oder --add sowie --as angeben (oder --list)")
-    new, removed = drop_sections(sub, parse_drop(args.drop)) if args.drop else (sub, {})
+    if not (args.drop or args.add or args.zero_yield) or not args.new_id:
+        raise SystemExit("--drop, --add oder --zero-yield sowie --as angeben (oder --list)")
+    new, removed = drop_sections(sub, parse_drop(args.drop)) if args.drop else (sub, Counter())
+    if args.zero_yield:
+        regs = {r["source"]["regulation"] for r in new["requirements"]}
+        zero = zero_yield_sections([x.strip() for x in args.zero_yield.split(",") if x.strip()], regs, args.min_count, args.depth)
+        new, zr = drop_zero_yield(new, zero, args.depth)
+        removed = Counter(removed) + zr
     new, added = add_regulations(new, args.add) if args.add else (new, [])
     dest = save_variant(args.run_id, args.new_id, new, [f"{k} ({v})" for k, v in removed.items()] + added, runs=RUNS)
     print(f"{dest}: {len(new['requirements'])} Anforderungen (vorher {len(sub['requirements'])}), entfernt {dict(removed)}, {added}")
