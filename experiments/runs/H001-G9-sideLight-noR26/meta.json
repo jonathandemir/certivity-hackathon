@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-G9-sideLight-noR26",
+ "derived_from": "H001-G9-noCrash-sideLight",
+ "dropped_regulations": [
+  "UN R26"
+ ],
+ "requirements": 464,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R10": 67,
+  "UN R148": 139,
+  "UN R48": 131,
+  "UN R100": 22,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@62216d6",
+ "submission_sha256": "d932047f671c752fcb7a7515db08785c47025ea687a25982170f12008d1f6af3",
+ "recorded_at": "2026-10-25T10:06:14+01:00"
+}

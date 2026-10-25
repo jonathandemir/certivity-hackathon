@@ -695,3 +695,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:05:24 +0100 | [change] Held-out: Varianten H001-G9-noCrash-noR10 und -noR148 (alle sechs Kandidaten bereit) | Homsianer @ vm | main@41e660e +lokale Änderungen
 - Ergänzt Jonathans noR127/noR100/noR26/noR42 um noR10 und noR148 (certreq.variants, validiert), damit die Suche nach der letzten falschen Regelung vollständig ist. Vorschlag Reihenfolge: R127, R100, R148, dann R26/R42/R10
 - Keine Uploads durch Homsianer (Roadmap: nur Jonathan). Kein LLM-Aufruf
+
+### 2026-10-25 10:06:14 +0100 | [run] Held-out sideLight: F2 0.700 (Platz 2) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
+- H001-G9-noCrash-sideLight (497): P 0.374 R 0.894, ≈186 Treffer; Regelungen 7/8 richtig, Recall 1.0. Die 162 weggelassenen R48/R148-Anforderungen hatten keinen Treffer.
+- Nächste Tests auf dieser Basis: -noR127/-noR100/-noR26/-noR42 (Regelungs-P 100 % zeigt die falsche); Pitch: 0.568 automatisch, danach Prüfung auf Regelungs-/Abschnittsebene.
