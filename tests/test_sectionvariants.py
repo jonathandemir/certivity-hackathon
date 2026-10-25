@@ -56,3 +56,17 @@ def test_drop_pages_removes_all_requirements_on_listed_pages():
         sv.drop_pages(_sub(), sv.parse_pages(["UN R48=1-2"]))  # Seite 2 hat keine Anforderung
     with pytest.raises(SystemExit):
         sv.parse_pages(["UN R48=vierzig"])
+
+
+def test_zero_yield_on_paragraph_level(tmp_path, monkeypatch):
+    import json
+    dev = {"requirements": [{"id": f"D{i}", "text": "t", "source": {"regulation": "UN R48", "version": "1", "page": 1,
+                                                                   "paragraph": lab}}
+                            for i, lab in enumerate(["6.1", "6.1", "6.1.2", "6.1.2"])]}
+    (tmp_path / "DEV").mkdir()
+    (tmp_path / "DEV" / "score.json").write_text(json.dumps({"judge": {"matches": [[0, "D2"]]}}))
+    monkeypatch.setattr(sv, "RUNS", tmp_path)
+    zero = sv.zero_yield_sections(["DEV"], {"UN R48"}, min_count=2, depth=0, load=lambda rid: dev)
+    assert zero == {("UN R48", ("¶", "6.1"))}  # 6.1.2 hat einen Treffer, R10 kommt auf dev nicht vor
+    new, removed = sv.drop_zero_yield(_sub(), zero, depth=0)
+    assert [r["id"] for r in new["requirements"]] == ["R2", "R3", "R4", "R5"] and sum(removed.values()) == 1

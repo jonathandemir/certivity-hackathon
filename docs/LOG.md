@@ -752,3 +752,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:07:34 +0100 | [change] LEARNINGS: Seiten-Score als Mengenrechnung | Homsianer @ vm | main@256adc2 +lokale Änderungen
 - Methode + Belege aus den Upload-Paaren (R127 5/6, R26 6/6, R42 3/3, R100 0/4, R48 9/37, H003 +18 Seiten ohne Gold)
 - Zahlen aus experiments/runs/*/platform.json nachgerechnet
+
+### 2026-10-25 11:10:39 +0100 | [finding] Held-out: Absatz-Nullfilter aus dev (Leave-one-out 0.3 % Trefferverlust), Varianten -P | Homsianer @ vm | main@28a57d1 +lokale Änderungen
+- Absätze (Regelung+Label), die auf dev in 6 Claude-Läufen ≥4-mal ausgegeben und nie getroffen wurden (nur Regelungen mit dev-Treffern: R10/R48/R148). Leave-one-out (5 lernen, 1 prüfen): je Lauf ≈148 Anforderungen weg, 0.5 Treffer verloren. Held-out DRG: 47 weg (R148 23, R48 21, R10 3), keine ganze Seite. Erwartet 0.797 → ≈0.83 bei ≤2 verlorenen Treffern (Schwelle 7). Varianten -P für zy und alle D/R/G-Kombis. Gegenprobe Hinzufügen: Anforderungen anderer Läufe mit neuem Absatz auf Gold-Seiten treffen auf dev nur 5 % (16/325) → nicht hinzufügen
+- pytest grün (neuer Test depth 0); certreq.upload validiert alle 8 -P-Varianten

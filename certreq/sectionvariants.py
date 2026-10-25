@@ -6,6 +6,7 @@
     .venv/bin/python -m certreq.sectionvariants H001 --add "H003=UN GTR 9" --as H001-plusGTR9  # Regelung aus anderem Lauf
     .venv/bin/python -m certreq.sectionvariants BEST --zero-yield E024-hs-c,E033-hs-c --as BEST-zy   # Dev-Nullabschnitte raus
     .venv/bin/python -m certreq.sectionvariants BEST --drop-pages "UN R48=40-45,80" --as BEST-noP    # ganze Seiten raus
+    .venv/bin/python -m certreq.sectionvariants BEST --zero-yield E024-hs-c,… --depth 0 --min-count 4 --as BEST-P  # Absätze
 
 Ergänzt certreq.variants (ganze Regelungen) um eine Ebene darunter. Ein Abschnitt ist eine Überschrift im
 Gliederungspfad des zitierten Absatzes (certreq.pdf: headings + eigener Titel), z. B. R48 „Individual specifications >
@@ -24,6 +25,9 @@ als ~F2/5 trifft: `--add "LAUF=REGELUNG"` übernimmt alle Anforderungen dieser R
 eine Mengenrechnung (Precision = Gold-Seiten / eingereichte Seiten, Recall = Gold-Seiten / alle Gold-Seiten): aus einem
 Upload-Paar folgt exakt, wie viele der weggelassenen Seiten im Gold stehen. Seiten ohne Gold-Absatz tragen praktisch
 keine Anforderungs-Treffer.
+
+`--zero-yield … --depth 0` arbeitet auf Absatzebene (Regelung, Absatzlabel) statt auf Abschnitten. Leave-one-out auf dev
+(6 Claude-Läufe, je 5 lernen, 1 prüfen, ≥ 4 Ausgaben, 0 Treffer): je Lauf ≈ 148 Anforderungen weg, 0.5 Treffer verloren.
 """
 from __future__ import annotations
 
@@ -151,6 +155,12 @@ def add_regulations(sub: dict, specs: list[str], load=load_run) -> tuple[dict, l
     return {**sub, "requirements": reqs}, added
 
 
+def _zy_key(r: dict, depth: int, paths_of) -> tuple:
+    """Schlüssel für --zero-yield: (Regelung, Gliederungspfad bis depth); depth 0 = (Regelung, Absatzlabel)."""
+    reg, label = r["source"]["regulation"], r["source"].get("paragraph") or ""
+    return (reg, ("¶", label)) if depth == 0 else (reg, paths_of(reg).get(label, ())[:depth])
+
+
 def zero_yield_sections(dev_runs: list[str], regs: set[str], min_count: int = 6, depth: int = 2, paths_of=_paths,
                         load=load_run) -> set[tuple[str, tuple[str, ...]]]:
     """Abschnitte (Regelung, Pfad bis depth), die in den bewerteten Dev-Läufen mindestens min_count Ausgaben, aber keinen
@@ -166,7 +176,7 @@ def zero_yield_sections(dev_runs: list[str], regs: set[str], min_count: int = 6,
             reg = r["source"]["regulation"]
             if reg not in regs:
                 continue
-            key = (reg, paths_of(reg).get(r["source"].get("paragraph") or "", ())[:depth])
+            key = _zy_key(r, depth, paths_of)
             cnt[key] += 1
             hit[key] += r["id"] in matched
     reg_hits = Counter()
@@ -179,12 +189,12 @@ def zero_yield_sections(dev_runs: list[str], regs: set[str], min_count: int = 6,
 
 def drop_zero_yield(sub: dict, zero: set, depth: int = 2, paths_of=_paths) -> tuple[dict, Counter]:
     regs = {reg for reg, _ in zero}
-    paths = {reg: paths_of(reg) for reg in regs}
+    paths = {reg: paths_of(reg) for reg in regs} if depth else {}
     removed: Counter = Counter()
     kept = []
     for r in sub["requirements"]:
         reg = r["source"]["regulation"]
-        key = (reg, paths[reg].get(r["source"].get("paragraph") or "", ())[:depth]) if reg in regs else None
+        key = _zy_key(r, depth, paths.get) if reg in regs else None
         if key in zero:
             removed[f"{reg}={' > '.join(key[1])[:70]}"] += 1
         else:
@@ -196,7 +206,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m certreq.sectionvariants", description=__doc__.splitlines()[0])
     ap.add_argument("run_id", help="abgelegter Lauf unter experiments/runs/, z. B. H001")
     ap.add_argument("--list", metavar="REGELUNG", help="Anforderungen je Abschnitt dieser Regelung zeigen")
-    ap.add_argument("--depth", type=int, default=2, help="Tiefe des Gliederungspfads für --list (Standard 2)")
+    ap.add_argument("--depth", type=int, default=2, help="Tiefe des Gliederungspfads für --list/--zero-yield (Standard 2; 0 = je Absatz)")
     ap.add_argument("--drop", action="append", default=[], metavar="REG=Titel", help="Abschnitt weglassen (mehrfach)")
     ap.add_argument("--drop-pages", action="append", default=[], metavar="REG=40-45,80",
                     help="alle Anforderungen auf diesen Seiten weglassen (mehrfach)")

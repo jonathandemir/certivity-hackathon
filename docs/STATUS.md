@@ -49,6 +49,12 @@ testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Teilverlust
    R10 S.99, R148 S.15), `-G` (427, GTR 9 Annex 1), Kombinationen `-DR`, `-DG`, `-RG`, `-DRG` (335; ≈0.797 falls nichts verloren).
 2c. Slots (gleitend 60 min): 11:44:40, 11:46:12, 11:47:40, 11:49:13, 12:04:35. Nacheinander D → R → G, jeweils auf dem besten Stand;
    eine Gruppe bleibt nur, wenn F2 steigt. Seiten-Recall bleibt 0.962 = keine Gold-Seite verloren.
+2d. **(B 11:10) Danach `-P` auf den dann besten Stand** (z. B. `…-zy-DRG-P`, 288): entfernt Anforderungen, deren Absatz
+   (Regelung + Label) auf dev in 6 Claude-Läufen ≥ 4-mal ausgegeben und **nie** getroffen wurde (nur R10/R48/R148; R26 ist auf
+   dev nicht im Gold und bleibt). **Leave-one-out auf dev:** je Lauf ≈148 weg, **0.5 Treffer** verloren (0.3 %). Auf DRG: 47 weg
+   (R148 23 allgemeine/Kennzeichnung, R48 21 allgemeine, R10 3), keine ganze Seite → nur der Anforderungswert zählt.
+   Erwartet **0.797 → ≈0.83**; lohnt, solange ≤ 7 Treffer verloren gehen. Für jede Kombi fertig: `…-zy-P`, `-D-P`, `-R-P`,
+   `-G-P`, `-DR-P`, `-DG-P`, `-RG-P`, `-DRG-P` (validiert, `out/upload/`). Werkzeug: `--zero-yield … --depth 0 --min-count 4`.
 3. Danach Leuchten-Varianten (R48 + R148 = 432 Anforderungen) auf der dann besten Basis.
 4. 12:30 beste Datei als letzten Upload erneut hochladen (letzter valider zählt). Upload-Schluss 13:00.
 Dateien: `certivity-a/out/upload/`, Belege `experiments/runs/H001*`. Varianten ohne LLM: `python -m certreq.variants <ID> --drop "UN Rxx" --as <neu>`.
