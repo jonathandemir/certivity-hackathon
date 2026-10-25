@@ -5,6 +5,14 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-25 · Auch der Seiten-Score der Plattform ist eine Mengenrechnung: ein Upload-Paar zeigt exakt, wie viele der
+  weggelassenen Seiten Gold-Seiten sind.** Seiten-Treffer = Seiten-R × Gold-Seiten (Held-out ≈ 53), eingereichte Seiten =
+  Treffer / Seiten-P. Beleg (experiments/runs/*/platform.json): noR127 −5 Gold-Seiten von 6, noR26 −6/6, noR42 −3/3,
+  noR100 −0/4, noR48 (auf H001) −9/37; H003-noGTR9 hat 18 Seiten mehr als H001 und gleich viele Seiten-Treffer (46) → keine
+  davon Gold. Die Anforderungs-Treffer folgen den Seiten: noR100 (0 Gold-Seiten) verlor ≤ 2 Treffer (Richterrauschen).
+  Konsequenz: Seiten ohne Gold gezielt per `certreq.sectionvariants --drop-pages` testen; ein Paar entscheidet mehrere
+  Seiten auf einmal (Zahl exakt, Zuordnung per Teilung).
+
 - **2026-10-24 · F2 = 5·Treffer / (4·Gold + Ausgaben): Streichen lohnt nur unter q* = F2/5 ≈ 15 % Trefferchance.** Herleitung:
   F2 = 5TP/(5TP+4FN+FP) und 5TP+4FN+FP = 4G+N. Eine Ausgabe mit Trefferwahrscheinlichkeit q verbessert F2 genau dann, wenn
   q > TP/(4G+N) = F2/5. Beleg E040-a (gpt-Richter): G 190, N 364, TP 167 → F2 0.743, q* 0.149. Die 197 Ausgaben ohne Treffer:
