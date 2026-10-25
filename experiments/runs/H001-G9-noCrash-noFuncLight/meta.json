@@ -1,0 +1,32 @@
+{
+ "run_id": "H001-G9-noCrash-noFuncLight",
+ "derived_from": "H001-G9-noCrash",
+ "dropped_regulations": [
+  "UN R48=dipped-beam headlamp (1)",
+  "UN R48=front fog lamp (23)",
+  "UN R48=cornering lamp (10)",
+  "UN R48=conspicuity markings (1)",
+  "UN R48=emergency stop signal (7)",
+  "UN R48=exterior courtesy lamp (14)",
+  "UN R48=rear-end collision alert signal (1)",
+  "UN R48=manoeuvring lamps (8)",
+  "UN R48=answer-back signal (10)"
+ ],
+ "requirements": 584,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 161,
+  "UN R48": 196,
+  "UN R100": 22,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@c1eaea2",
+ "submission_sha256": "605d68f21c774ce6741c377f599057d79b329c56f7c6dd628b5e84e71b5cee7f",
+ "recorded_at": "2026-10-25T09:39:05+01:00"
+}

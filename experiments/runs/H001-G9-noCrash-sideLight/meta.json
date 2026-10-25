@@ -1,0 +1,41 @@
+{
+ "run_id": "H001-G9-noCrash-sideLight",
+ "derived_from": "H001-G9-noCrash",
+ "dropped_regulations": [
+  "UN R148=front position lamps (3)",
+  "UN R148=parking lamps (4)",
+  "UN R148=daytime running lamps (6)",
+  "UN R148=heat resistance test (9)",
+  "UN R48=dipped-beam headlamp (1)",
+  "UN R48=front fog lamp (23)",
+  "UN R48=front position lamp (10)",
+  "UN R48=parking lamp (16)",
+  "UN R48=front retro-reflector (8)",
+  "UN R48=side retro-reflector (14)",
+  "UN R48=daytime running lamp (17)",
+  "UN R48=cornering lamp (10)",
+  "UN R48=conspicuity markings (1)",
+  "UN R48=emergency stop signal (7)",
+  "UN R48=exterior courtesy lamp (14)",
+  "UN R48=rear-end collision alert signal (1)",
+  "UN R48=manoeuvring lamps (8)",
+  "UN R48=answer-back signal (10)"
+ ],
+ "requirements": 497,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 139,
+  "UN R48": 131,
+  "UN R100": 22,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@c1eaea2",
+ "submission_sha256": "e9825d4105caf1d952a871952662e3b3b6cc3b57321ce500f903e03e7d855b4a",
+ "recorded_at": "2026-10-25T09:39:05+01:00"
+}
