@@ -799,3 +799,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:02:45 +0100 | [change] Held-out-Test 1 (12:05): zy-DRG-P-add = DRG-P + 7 Pflichten aus H002/H003 | Jonathan @ MacBook-Pro-von-Jonathan | main@3d83472 +lokale Änderungen
 - Neue Absätze in Regelungen mit hoher Trefferquote (R26 85 %, R42 73 %, R127 62 %): R26 6.8.1 (2), R42 6.1, Annex 3 2.2.1–2.2.3, R127 Annex 5 1.11. R42 S.6 ist eine bisher nie zitierte Seite (evtl. eine der 2 fehlenden Gold-Seiten). Lohnt ab 2 Treffern; Dev-Befund (5 % Treffer bei Zusätzen) gilt nur für R10/R48/R148. Plan: 12:45:03 Test 2, 12:47:30 endgültig bester Stand (A lädt hoch).
 - validate.py: 295 gültig; IDs eindeutig (Präfix Lauf)
+
+### 2026-10-25 12:04:27 +0100 | [change] Held-out-Test 2 vorbereitet (12:45): -t2 = +26 Pflichtsätze wörtlich von Gold-Seiten | Jonathan @ MacBook-Pro-von-Jonathan | main@e99174a +lokale Änderungen
+- R42 Annex 3 (Pendel-/Aufpralltest: 1, 2.1, 2.3.1/2.3.2/2.3.4, 2.5.1, 2.6.1–2.6.3, 3.6), R127 Annex 5 1.3/1.13/1.14/2.1–2.3 + Annex 3 2.1, R26 5.1/5.6. Begründung: Nachbarabsätze derselben Abschnitte treffen zu 62–85 % (R42 16/22, R127 23/37, R26 28/33). Weggelassen: Genehmigungszeichen, R127 Kopfaufprall/Annex 4 (Prüfkörpermaße), R26-Teile ohne Bezug (Räder, Dach, Fenster). Varianten auf DRG-P (314) und DRG-P-add (321).
+- validate.py: 314 und 321 gültig
