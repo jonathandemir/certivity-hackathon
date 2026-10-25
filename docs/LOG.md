@@ -774,3 +774,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:36:04 +0100 | [run] Sub-Goal-Held-out: HSG3 0.922, HSG4 0.953 (bester), HSG5 0.922 (= HSG3, Zusätze am Ende nicht gewertet) | Jonathan @ MacBook-Pro-von-Jonathan | main@34cfcac (ungepusht)
 - HSG3 (+17 Umnummerierungen): 59/64, Accuracy 0.873. HSG4 (+7 verworfene neue Sätze): 61/64, Accuracy 0.842. HSG5 (beides, HSG4-Zusätze auf Pos. 160–166): exakt die HSG3-Werte → Verdacht: lange Listen werden hinten abgeschnitten. HSG6 = gleiche 166, HSG4-Zusätze vorn, prüft das. Fällt HSG6 nicht besser aus: HSG4 erneut als letzter Upload.
 - Screenshots Jonathan; Recall·64 und Precision·N ergeben jeweils ganze Treffer (58, 59, 61, 59)
+
+### 2026-10-25 11:40:19 +0100 | [run] Sub-Goal HSG6 0.891: Richter schwankt ±2, HSG4 bleibt Endstand | Jonathan @ MacBook-Pro-von-Jonathan | main@0ac141e
+- HSG6 = exakt die 166 Einträge von HSG5, nur andere Reihenfolge: 57 statt 59 Treffer. Also keine Abschneidung, sondern Rauschen/Reihenfolge-Effekt des Plattform-Richters. Folgerung: Umnummerierungs-Flags (HSG3) weglassen, HSG4 (149, Recall 0.953, Precision 0.409) erneut hochladen (letzter Sub-Goal-Slot bis 12:30:33). Board 11:38: sudo 0.922, Coffee 0.906, OOS 0.891, wir (HSG6) 0.891.
+- Screenshot Jonathan; 57/64 = 0.891, 57/166 = 0.343
