@@ -784,3 +784,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 - Screenshots Jonathan; P·N = R·G (184, 182)
 ### 2026-10-25 11:51:06 +0100 | [change] UI auf Englisch | Amiad @ claude | main@1788e35 +lokale Änderungen
 - Dashboard (Werkbank) und 3D-Präsentation komplett englisch, Produktgruppen und Score-Labels im Server ebenfalls (für Video und Jury).
+
+### 2026-10-25 11:54:06 +0100 | [run] Held-out zy-DRG-P = 0.799 (Bestwert) | Jonathan @ MacBook-Pro-von-Jonathan | main@e2e5c85
+- Homsianers Absatz-Nullfilter auf zy-DRG: 288 Anforderungen, 179 Treffer, Seiten 52/50 Gold. Eine Gold-Seite unter GTR 9 S.116–118 (Gruppe G). Ob die −3 Treffer aus G oder P kommen, klärt der DRG-Screenshot. Nächster Slot 12:04:35.
+- Screenshot Jonathan; P·N = R·G = 179

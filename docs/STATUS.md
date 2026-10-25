@@ -3,7 +3,7 @@
 Nur auf main ändern (über `scripts/main-wt`). Claims nur mit `scripts/claim`. Veraltetes sofort löschen,
 Historie steht in docs/LOG.md.
 
-## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 11:15, Jonathan) <<<
+## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 11:55, Jonathan) <<<
 
 **Für jeden Agenten: zuerst das hier lesen und befolgen.** Belege: experiments/LEDGER.md (H001-P …), LOG.
 
@@ -18,7 +18,9 @@ Historie steht in docs/LOG.md.
 | H001-G9-noCrash-sideLight (+GTR 9, −R94/R137, ohne nicht genannte Leuchten-Abschnitte) | 0.700 | 0.875/1.000 | Basis für Schritt 2 |
 | sideLight-noR127 / -noR26 / -noR42 | 0.631 / 0.610 / 0.650 | je 0.857/0.857 | R127, R26, R42 richtig |
 | H001-G9-sideLight-noR100 | 0.704 | 1.000/1.000 | R100 falsch, Regelungen komplett richtig |
-| **H001-G9-sideLight-noR100-zy** (440) | **0.731** | 1.000/1.000 | **Bestwert 11:05**: 9 Fehlseiten weg, 0 Treffer verloren |
+| H001-G9-sideLight-noR100-zy (440) | 0.731 | 1.000/1.000 | 9 Fehlseiten weg, 0 Treffer verloren |
+| zy-D (369) / zy-DR (348) | 0.766 / 0.771 | 1.000/1.000 | keine Blinker im Gold; Seiten ohne dev-Gold raus |
+| **zy-DRG-P** (288, mit Homsianers Absatz-Nullfilter) | **0.799** | 1.000/1.000 | **Bestwert 11:53**; eine GTR-9-Annex-1-Seite war Gold |
 
 **Gold = 7 Regelungen: GTR 9, R10, R26, R42, R48, R127, R148** (noR100 hat 100 % Regelungs-Precision und -Recall). Ab jetzt nur noch Abschnitts-/Anforderungsebene.
 
