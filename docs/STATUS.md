@@ -36,7 +36,7 @@ Reihenfolge (jede Zeile: Vorhersage, falls die weggelassenen Seiten kein Gold ha
 | b `…-noR100-zy-noDI` (zusätzlich R48 S.40–45 + R148 Abschnitt Direction indicator) | 369 | 0.850 / 0.962 | 0.766 | 14.9 |
 | c `…-noR100-zy-noDI-rest` (zusätzlich R10 S.99, R48 S.23/26/80, R148 S.15) | 348 | 0.927 / 0.962 | 0.780 | 17.9 |
 | d `…-noR100-zy-noDI-rest-noG9A1` (zusätzlich GTR 9 Annex 1 S.116–118, deployable systems; GTR 9 hat 3 Nicht-Gold-Seiten) | 335 | 0.981 / 0.962 | 0.788 | 19.7 |
-Ablesen: jede verlorene Gold-Seite = −0.019 Seiten-R. Fällt bei b die Seiten-R um ≈0.11 (6 Seiten), steht der Blinker im
+**Zählprobe für D (B 11:35):** R10+R148 haben 23 Gold-Seiten; davon sind 21 auch auf dev Gold-Seiten (R10 8, R148 13; zy hat bestätigt, dass die übrigen R10/R148-Anhangseiten kein Gold haben) → genau 2 leuchtenspezifische Gold-Seiten = R148 S.22/23 (Seitenmarkierung). Mit Blinker (R148 S.20/21) wären es ≥ 4 → spricht stark für D. Ablesen: jede verlorene Gold-Seite = −0.019 Seiten-R. Fällt bei b die Seiten-R um ≈0.11 (6 Seiten), steht der Blinker im
 Gold → noR100(-zy) erneut hoch und stattdessen **`…-noR100-zy-noR48gen`** (376; R48 allgemeine Seiten weg, Blinker bleibt)
 testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Teilverlust bei b (1–5 Seiten) → getrennt: `…-zy-noDI48` (393, nur R48 S.40–45) bzw. `…-zy-noDI148` (416, nur R148-Blinker). Werkzeug: `certreq.sectionvariants <BASIS> --drop-pages "UN R48=40-45"`.
 
