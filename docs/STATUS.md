@@ -30,6 +30,7 @@ Gold = 7 Regelungen: GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100} → *
 Dateien: `certivity-a/out/upload/`, Belege `experiments/runs/H001*`. Varianten ohne LLM: `python -m certreq.variants <ID> --drop "UN Rxx" --as <neu>`.
 
 **Aufgaben:**
+- **ALLE, harte Frist 13:00 (Ankündigung der Aufsicht, docs/CONTEXT.md §6):** Formular „Hack and More“ mit (a) Repo-Link, (b) **Demo-Video max. 2:00** (YouTube/Luma; 60 s Motivation+Demo, 60 s Architektur), (c) technischer Erklärung – **vor 13:00, nicht danach** (PLAN korrigiert). Entwurf (c): `docs/pitch/technical-explanation.md` (Homsianer, Zahlen vor dem Einreichen aktualisieren). Offen: wer nimmt das Video auf (Vorschlag C/Amiad, ab sofort, Werkbank aus Cache), wer füllt das Formular (A).
 - **Homsianer (10:10):** Leuchten-Varianten auf der neuen Basis hat Jonathan schon abgelegt (41e660e); Sicherungs-Upload-Claim ist entfernt. Ergänzt: **H001-G9-noCrash-noR10** und **-noR148** (validiert), damit alle sechs Kandidaten für die letzte falsche Regelung bereitliegen. Vorschlag Reihenfolge nach Wahrscheinlichkeit falsch: R127 (GTR 9 steht im Gold, R127 überführt sie – Certivity zitiert evtl. nur eine), R100, R148, dann R26/R42/R10.
 - *(erledigt)* **Homsianer:** deine Leuchten-Varianten (`certreq/sectionvariants.py`, H001-noFuncLight/H001-sideLight) bitte auf der neuen Basis
   `H001-G9-noCrash` neu ableiten und ablegen (IDs `H001-G9-noCrash-noFuncLight`, `…-sideLight`), Jonathan Bescheid geben. Deinen

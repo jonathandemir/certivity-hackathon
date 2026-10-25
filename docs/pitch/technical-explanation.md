@@ -1,0 +1,41 @@
+# BarelyLegal – technical explanation (draft for the Hack and More form)
+
+Entwurf von Homsianer (B), 25.10.; Zahlen vor dem Einreichen gegen docs/STATUS.md prüfen (Held-out-Bestwert ändert sich
+bis 12:30). Englisch, weil das Formular englisch ist.
+
+---
+
+**What it does.** Given a component specification (Markdown) and/or an exploded-view drawing, our agent `certreq`
+returns the engineering requirements the part must meet under UN regulations, each with regulation, version, page and
+paragraph, plus the reasoning for every regulation it picked or rejected. A second mode compares two versions of a
+regulation and reports which existing requirements were modified, removed or added, and why.
+
+**Pipeline (Python, PyMuPDF, Claude Opus 5.5; gpt-6.1-sol as alternative provider).**
+1. *Read the input:* the spec is parsed into parts and functions; without a spec, a vision step reads the drawing.
+2. *Select regulations:* for each of the 56 regulations in the index we build a brief from its own PDF (title,
+   introduction, scope, which older regulations it consolidates). One LLM call selects regulations by role (component,
+   installation, cross-cutting), rejects assumptions not stated in the spec and vehicle-only regulations, and explains
+   every decision.
+3. *Parse the PDFs:* numbered paragraphs with page, outline path and annex/appendix context (GTR rationale parts and
+   appendices are recognised so citations stay correct).
+4. *Filter by structure:* administrative, conformity-of-production and vehicle-only sections and non-matching device
+   types are dropped before any LLM call.
+5. *Extract per paragraph:* batches of paragraphs go to the LLM with their section path; it returns one obligation per
+   requirement as a standalone "shall" sentence, keeping the regulation's scope and conditions. Five measured rules
+   steer granularity (lists, tables, exemptions, test parameters, operating modes).
+6. *Output + UI:* schema-valid JSON for the platform and a workbench where an engineer reviews each requirement next to
+   the highlighted PDF page.
+
+**How we measured.** Every change was measured on its own against the current best and logged (~100 ledger entries).
+We built a local LLM judge for the requirement level and calibrated it against platform uploads (within ±1–4 matches
+of 190), and used a second reference list (UN R175) plus ten synthetic parts with pre-registered answers to check that
+improvements are not over-fitted to the single worked example.
+
+**Results.** Worked example (rear lamp): requirement F2 0.762 on the platform (from 0.06 for the naive baseline).
+Regulation-change held-out: flag recall 0.891, change accuracy 0.887. Front-bumper held-out: F2 0.700 at the time of
+writing; for the held-out we used the platform's regulation-level feedback to choose between variants of our own
+pipeline output (adding GTR 9, dropping two crash regulations and unmentioned lamp types), not hand-written answers.
+
+**Known weaknesses.** Precision is the bottleneck (we over-report test-procedure and installation details); LLM runs
+vary by about ±0.02 F2; drawing-only input is weaker than a written spec; the selection still over-includes
+vehicle-level regulations for body parts.

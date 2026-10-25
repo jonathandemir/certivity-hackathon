@@ -83,7 +83,7 @@ Gold-Pflichten fehlen (experiments/runs/E020-a/analyse.json). Messung lokal mit 
 | Sa abends | Demo-Grundgerüst (AP6) läuft auf dev |
 | So 07:30–12:30 | **Held-out nach „Sonntagsablauf“ (unten)**: 07:30 Stand für den Lauf taggen (kein Code-Freeze), Lauf mit Opus 5.5 ab 08:00, Sicherungs-Upload, Upload-Paare, letzter Upload = beste Datei um 12:30 |
 | So 13:00 | Upload-Schluss |
-| So 13:00–14:30 | Demo- und Pitch-Freeze 14:30; R4 auf der Veranstalter-Plattform einreichen (Frist dort prüfen). Repo: `scripts/export-snapshot ../certivity-abgabe` (ohne Historie, geprüft), dann neues GitHub-Repo, Name/Sichtbarkeit entscheidet das Team |
+| So 13:00–14:30 | **Korrektur (Ankündigung): R4 muss VOR 13:00 im Formular „Hack and More“ sein** (Repo-Link, 2-min-Video, technische Erklärung; docs/CONTEXT.md §6), also bis ~12:30 fertig. Danach Demo- und Pitch-Freeze 14:30. Repo: `scripts/export-snapshot ../certivity-abgabe` (ohne Historie, geprüft), dann neues GitHub-Repo, Name/Sichtbarkeit entscheidet das Team |
 | So 15:00 | Pitch |
 
 ## Sonntagsablauf (Held-out)

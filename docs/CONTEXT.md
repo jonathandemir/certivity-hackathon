@@ -23,14 +23,14 @@ Team: Jonathan Demir (weitere Mitglieder tragen sich in docs/STATUS.md unter „
 | Sa 24.10. | Kickoff; Paket, PDFs und Worked Examples sind verfügbar |
 | **Nacht Sa→So** | **Zeitumstellung: So 03:00 MESZ → 02:00 MEZ.** Alle Sonntagszeiten sind MEZ. Wecker und Nachtläufe prüfen |
 | So 25.10. 08:00 | Held-out-Fall wird veröffentlicht (Frontstoßfänger `heldout-front-bumper` + Sub-Goal-Paar `subgoal-heldout`) |
-| So 25.10. 13:00 | **Upload-Schluss** auf der Certivity-Plattform |
+| So 25.10. 13:00 | **Harte Frist auf BEIDEN Plattformen:** letzter Upload auf Certivity **und** Formular „Hack and More“ (Repo-Link, 2-Minuten-Video, technische Erklärung). Späteres wird nicht angenommen (Ankündigung der Aufsicht, So ~23:00) |
 | So 25.10. 15:00 | Finalisten pitchen (Lösung, Demo, Beleg). Certivity wählt vorher ~4 Finalisten nach Score + Demo |
 
 Interne Freezes und Zeitplan: docs/PLAN.md.
 
-Widerspruch in den Quellen: Laut Brief kommt der Held-out-Fall als „second zip, link announced on screen", laut
-Paket-README per `git pull` im Paket-Repo. Sonntag 08:00 beides prüfen: `git -C vendor/industrial-ai-hackathon pull`
-und Ankündigung vor Ort. Danach `python tools/fetch_regulations.py` im Paket erneut ausführen.
+Held-out-Lieferung (geklärt): Die Ankündigung der Aufsicht sagt „Unzip the held-out package into the same folder, run
+`fetch_regulations.py` again“; tatsächlich kam der Fall So 07:41 auch als Commit im Paket-Repo (`6b52bd2`). Beides
+landet in `vendor/industrial-ai-hackathon/`.
 
 ## 3. Aufgabe
 
@@ -87,7 +87,10 @@ mehrere Pflichten in einer Anforderung (Recall fällt), falsche Version, keine l
 4. Dev-Fall: der beste Upload zählt für das Leaderboard. **Held-out: der LETZTE valide Upload zählt, nicht der beste.**
    Also nie zum Schluss eine schlechtere Datei hochladen; jede hochgeladene Datei und ihren Plattform-Score
    in `experiments/runs/` sichern, damit die beste zuletzt erneut hochgeladen werden kann.
-5. GitHub-Repo, Demo und Basisfragen auf der Plattform der Veranstalter einreichen (R4).
+5. **R4 über das Formular „Hack and More“, vor 13:00** (Ankündigung der Aufsicht): (a) Link zum GitHub-Repo,
+   (b) Link zu einem **Demo-Video von genau höchstens 2 Minuten** (YouTube oder Luma; Vorschlag der Aufsicht: 60 s
+   Motivation + Demo, 60 s Architektur und Technik; Aufnahme und Upload brauchen Vorlauf), (c) kurze technische Erklärung
+   (Entwurf: docs/pitch/technical-explanation.md). Das Video zeigt das Produkt in Aktion und wie es gebaut ist.
 
 ## 7. Daten und Lizenz
 

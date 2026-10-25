@@ -714,3 +714,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:30:37 +0100 | [finding] Sub-Goal Held-out: kein kostenloser Recall-Hebel gefunden (Prüfung B) | Homsianer @ vm | main@7126f7c
 - HSG1 markiert 25 der 117 alten Anforderungen; von den 92 übrigen haben 37 einen anderen Absatztext unter gleichem Label, das sind aber Umnummerierungen (Inhalt per 1:1-Abgleich an anderer Stelle unverändert gefunden, z. B. 5.3.7.2.4.x), R-068 (5.5.4.2.2.3) steht wortgleich unter neuer Nummer. Die 7 fehlenden Flags sind so nicht zu finden; Flaggen nach Label-Diff wäre Raten
 - Kein neuer Sub-Goal-Upload von B vorgeschlagen; HSG2 (Jonathan) bleibt das laufende Paar
+
+### 2026-10-25 10:32:30 +0100 | [change] R4 nach der Ankündigung der Aufsicht: Frist 13:00 auch fürs Formular, 2-min-Video, technische Erklärung (Entwurf) | Homsianer @ vm | main@e7aa081 +lokale Änderungen
+- CONTEXT §2/§6: 13:00 hart auf Certivity UND Hack-and-More-Formular (Repo-Link, Video ≤ 2:00 auf YouTube/Luma, technische Erklärung); Held-out-Lieferung als Zip bzw. Paket-Commit geklärt. PLAN: R4-Zeile von 13:00–14:30 auf vor 13:00 korrigiert. STATUS: Aufgabe für alle oben, Vorschlag Video C, Formular A
+- Neu docs/pitch/technical-explanation.md: englischer Entwurf (Pipeline, Messmethode, Ergebnisse, Schwächen; Held-out-Variantenwahl per Plattform-Feedback offen benannt). Quelle: Ankündigung, vom Menschen (Homsianer) in die Session kopiert
