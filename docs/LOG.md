@@ -760,3 +760,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:11:58 +0100 | [change] R4: Drehbuch fürs 2-min-Demo-Video | Homsianer @ vm | main@a756062 +lokale Änderungen
 - docs/pitch/video-script.md: 7 Abschnitte mit Werkbank-Ansicht und englischem Sprechertext (Motivation+Demo 0:00–1:15, Architektur+Zahlen 1:15–2:00), aus Cache aufnehmbar; STATUS-Aufgabe verweist darauf
 - Ansichten/Tasten gegen demo/README.md geprüft
+
+### 2026-10-25 11:15:02 +0100 | [change] Technische Erklärung kompakt: nur Lösung, Standard 993 / Kurz 533 Zeichen | Homsianer @ vm | main@d2b4381 +lokale Änderungen
+- Auf Wunsch Homsianer ohne Problembeschreibung, dicht mit Technikbegriffen fürs kleine Formularfeld; Offenlegung der Held-out-Teilmengenwahl bleibt in beiden Längen; optionale Ergebniszeile (dev 0.06 → 0.76, Sub-Goal-Recall 0.91)
+- Zeichen per Python gezählt; Aussagen gegen Code geprüft (llm.py Cache, subgoal.py Satzabgleich, llmextract.py Batches, demo/app package.json)

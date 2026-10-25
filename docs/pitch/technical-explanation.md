@@ -1,44 +1,17 @@
-# BarelyLegal – technical explanation (draft for the Hack and More form)
+# BarelyLegal – technical explanation (Formular „Hack and More“)
 
-Entwurf von Homsianer (B), 25.10.; Zahlen vor dem Einreichen gegen docs/STATUS.md prüfen (Held-out-Bestwert ändert sich
-bis 12:30). Englisch, weil das Formular englisch ist.
+Homsianer (B), 25.10. Nur die technische Lösung, keine Problembeschreibung (Wunsch Homsianer). Englisch wie das Formular.
+Passende Länge ins Feld kopieren. Die Zahlen in der optionalen Ergebniszeile sind fest (dev-Plattform, HSG2); den
+Bumper-Wert bewusst weggelassen, weil er bis 13:00 noch steigt.
 
----
+## Standard (993 Zeichen)
 
-**What it does.** Given a component specification (Markdown) and/or an exploded-view drawing, our agent `certreq`
-returns the engineering requirements the part must meet under UN regulations, each with regulation, version, page and
-paragraph, plus the reasoning for every regulation it picked or rejected. A second mode compares two versions of a
-regulation and reports which existing requirements were modified, removed or added, and why.
+Python agent certreq, provider-agnostic LLM layer (Claude Opus 5.5 / OpenAI): JSON-schema structured outputs, SHA-256 content-addressed response cache. Vision LLM reads exploded-view drawings (parts, functions, vehicle category). Regulation retrieval: one LLM call over auto-built briefs of all 56 UN regulations, role-based (component/installation/cross-cutting), rationale per decision. PyMuPDF parser → paragraph tree (page, outline path, annex context); structural pre-filters; batched per-paragraph extraction of atomic shall-obligations cited to regulation/version/page/paragraph, five ablation-tested prompt rules. Sub-goal: renumbering-robust PDF diff via global 1:1 sentence alignment + LLM-refined reasons. Eval: platform-calibrated LLM judge, F2-optimal pruning, leave-one-out zero-yield filters, 100+ ledgered ablations; held-out subset selection via set arithmetic on platform regulation/page metrics. React/three.js workbench links each requirement to its highlighted PDF source.
 
-**Pipeline (Python, PyMuPDF, Claude Opus 5.5; gpt-6.1-sol as alternative provider).**
-1. *Read the input:* the spec is parsed into parts and functions; without a spec, a vision step reads the drawing.
-2. *Select regulations:* for each of the 56 regulations in the index we build a brief from its own PDF (title,
-   introduction, scope, which older regulations it consolidates). One LLM call selects regulations by role (component,
-   installation, cross-cutting), rejects assumptions not stated in the spec and vehicle-only regulations, and explains
-   every decision.
-3. *Parse the PDFs:* numbered paragraphs with page, outline path and annex/appendix context (GTR rationale parts and
-   appendices are recognised so citations stay correct).
-4. *Filter by structure:* administrative, conformity-of-production and vehicle-only sections and non-matching device
-   types are dropped before any LLM call.
-5. *Extract per paragraph:* batches of paragraphs go to the LLM with their section path; it returns one obligation per
-   requirement as a standalone "shall" sentence, keeping the regulation's scope and conditions. Five measured rules
-   steer granularity (lists, tables, exemptions, test parameters, operating modes).
-6. *Output + UI:* schema-valid JSON for the platform and a workbench where an engineer reviews each requirement next to
-   the highlighted PDF page.
+## Kurz (533 Zeichen)
 
-**How we measured.** Every change was measured on its own against the current best and logged (~100 ledger entries).
-We built a local LLM judge for the requirement level and calibrated it against platform uploads (within ±1–4 matches
-of 190), and used a second reference list (UN R175) plus ten synthetic parts with pre-registered answers to check that
-improvements are not over-fitted to the single worked example.
+certreq: Python + Claude Opus 5.5, JSON-schema structured outputs, hashed response cache. Vision for drawings; LLM regulation retrieval over auto-built briefs of 56 UN regulations; PyMuPDF paragraph tree; structural filters; batched per-paragraph extraction of atomic shall-obligations with page/paragraph citations. Sub-goal: 1:1 sentence-alignment PDF diff + LLM refine. Calibrated LLM judge, F2-optimal pruning, 100+ ledgered ablations; held-out subset selection from platform feedback. React/three.js workbench with PDF evidence.
 
-**Results.** Worked example (rear lamp): requirement F2 0.762 on the platform (from 0.06 for the naive baseline).
-Regulation-change held-out: flag recall 0.906, change accuracy 0.870. Front-bumper held-out: F2 0.704 at the time of
-writing (pipeline default 0.568). For the front bumper we used the platform's aggregate feedback (regulation- and
-page-level precision/recall per upload) to choose between subsets of our own pipeline output: adding GTR 9, dropping
-three regulations that are not in the gold set, then sections and pages without gold content. Every submitted
-requirement is still generated by the pipeline; nothing was written by hand. The pipeline itself picked 6 of the 7
-gold regulations on its own; the remaining gap is a selection-and-granularity problem we document openly.
+## Optional anhängen, falls Platz (84 Zeichen)
 
-**Known weaknesses.** Precision is the bottleneck (we over-report test-procedure and installation details); LLM runs
-vary by about ±0.02 F2; drawing-only input is weaker than a written spec; the selection still over-includes
-vehicle-level regulations for body parts.
+Results: worked example F2 0.06 → 0.76; regulation-change held-out flag recall 0.91.
