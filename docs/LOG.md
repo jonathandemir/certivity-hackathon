@@ -848,3 +848,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 13:30:26 +0100 | [run] Endstand nach 13:00: Haupt Platz 2 (0.799), Sub-Goal Platz 2 (0.938 / 0.911) | Jonathan @ MacBook-Pro-von-Jonathan | main@008e1c6 +lokale Änderungen
 - Haupt: zy-DRG-P 0.799 (R 0.861, P 0.622) hinter Four TLs 0.804; Abstand 0.005 liegt unter der gemessenen Streuung des Richters bei identischer Datei (±3 Treffer ≈ ±0.013). Sub-Goal: HSG8 (12:42:04) Recall 0.938, Accuracy 0.911 hinter sudo 0.953, dessen zählender Upload um 13:02:18 nach der angekündigten 13:00-Frist liegt (Entscheidung beim Veranstalter). Formular von Amiad 12:58 eingereicht, Repo öffentlich, README mit Endzahlen.
 - Screenshots der Boards (Jonathan)
+
+### 2026-10-25 13:32:22 +0100 | [change] Pitch-Plan fürs Finale (3 min + 2 min Q&A) | Jonathan @ MacBook-Pro-von-Jonathan | main@6ac125e +lokale Änderungen
+- docs/pitch/PITCH-PLAN.md: Ablauf mit Sprechtext je Jury-Kriterium (Lösung = eine Entscheidung: erst Anwendbarkeit aus dem Geltungsbereich, dann jeden Absatz lesen statt RAG; Demo auf dem Held-out-Stoßfänger aus experiments/runs ohne API; Beweis mit Held-out-Zahlen 7/7, 0.57 → 0.80 offen benannt, Sub-Goal 60/64, Richter ±4/190), Folienänderungen, Demo-Klickpfad, Q&A-Antworten.
+- Zahlen aus platform.json (H001, DRG-P, HSG8) und README.
