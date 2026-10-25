@@ -803,3 +803,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:04:27 +0100 | [change] Held-out-Test 2 vorbereitet (12:45): -t2 = +26 Pflichtsätze wörtlich von Gold-Seiten | Jonathan @ MacBook-Pro-von-Jonathan | main@e99174a +lokale Änderungen
 - R42 Annex 3 (Pendel-/Aufpralltest: 1, 2.1, 2.3.1/2.3.2/2.3.4, 2.5.1, 2.6.1–2.6.3, 3.6), R127 Annex 5 1.3/1.13/1.14/2.1–2.3 + Annex 3 2.1, R26 5.1/5.6. Begründung: Nachbarabsätze derselben Abschnitte treffen zu 62–85 % (R42 16/22, R127 23/37, R26 28/33). Weggelassen: Genehmigungszeichen, R127 Kopfaufprall/Annex 4 (Prüfkörpermaße), R26-Teile ohne Bezug (Räder, Dach, Fenster). Varianten auf DRG-P (314) und DRG-P-add (321).
 - validate.py: 314 und 321 gültig
+
+### 2026-10-25 12:09:06 +0100 | [run] Held-out add = 0.803 (Bestwert); Test 2 auf -t2b korrigiert | Jonathan @ MacBook-Pro-von-Jonathan | main@6e9aafe
+- DRG-P-add: 181 Treffer (+2 aus 7 Zusätzen), Seiten 53/50 → R42 S.6 kein Gold. -t2b = add ohne R42 S.6 + 23 Pflichtsätze von Gold-Seiten (R42 S.7/8, R127 S.26/33/36, R26 S.4), 317. Lohnt ab ≈4 Treffern; bei 33 % Trefferquote wie in add ≈ +7 → ≈0.818. Plan: 12:45:03 t2b, 12:47:30 Bestwert (add, falls t2b schlechter).
+- Screenshot Jonathan; P·N = R·G = 181; validate.py 317 gültig

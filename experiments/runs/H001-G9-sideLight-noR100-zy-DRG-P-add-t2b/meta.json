@@ -1,0 +1,24 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-DRG-P-add-t2b",
+ "derived_from": "H001-G9-sideLight-noR100-zy-DRG-P-add",
+ "dropped_regulations": [
+  "R42 S.6 weg (keine Gold-Seite laut Seitenmetrik)",
+  "(Zusatz) +23 Pflichtsätze von Gold-Seiten (wie -t2, ohne R42 S.6)"
+ ],
+ "requirements": 317,
+ "per_regulation": {
+  "UN R127": 50,
+  "UN R42": 34,
+  "UN R26": 37,
+  "UN R10": 41,
+  "UN R148": 75,
+  "UN R48": 47,
+  "UN GTR 9": 33
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@6e9aafe",
+ "submission_sha256": "4843fa8e0a5b4a4abaa3e6e5478d4f6fa7d2e4c0150ce653123612e746dad0e7",
+ "recorded_at": "2026-10-25T12:08:48+01:00"
+}
