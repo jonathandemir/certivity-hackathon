@@ -844,3 +844,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:59:30 +0100 | [run] Held-out Endstand: zy-DRG-P 0.799 (letzter Upload 12:57:33); Richter-Streuung gemessen | Jonathan @ MacBook-Pro-von-Jonathan | main@d63e1e2 +lokale Änderungen
 - t2c 0.787 (182 Treffer, Zusätze ≈ wirkungslos). add dreimal: 181/176/175 Treffer (0.803/0.781/0.776), DRG-P zweimal 179 (0.799). Letzter Upload DRG-P = 0.799. Repo jonathandemir/barelylegal-certivity öffentlich (12:56, Jonathans OK). LEARNINGS: Seiten-/Regelungsmetrik exakt, Anforderungsebene streut ±3 Treffer; Nachschieben von Pflichtsätzen verworfen.
 - Screenshots Jonathan; platform.json / platform-repeats.json je Lauf
+
+### 2026-10-25 13:30:26 +0100 | [run] Endstand nach 13:00: Haupt Platz 2 (0.799), Sub-Goal Platz 2 (0.938 / 0.911) | Jonathan @ MacBook-Pro-von-Jonathan | main@008e1c6 +lokale Änderungen
+- Haupt: zy-DRG-P 0.799 (R 0.861, P 0.622) hinter Four TLs 0.804; Abstand 0.005 liegt unter der gemessenen Streuung des Richters bei identischer Datei (±3 Treffer ≈ ±0.013). Sub-Goal: HSG8 (12:42:04) Recall 0.938, Accuracy 0.911 hinter sudo 0.953, dessen zählender Upload um 13:02:18 nach der angekündigten 13:00-Frist liegt (Entscheidung beim Veranstalter). Formular von Amiad 12:58 eingereicht, Repo öffentlich, README mit Endzahlen.
+- Screenshots der Boards (Jonathan)
