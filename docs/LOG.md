@@ -796,3 +796,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:59:53 +0100 | [run] Sub-Goal: HSG4 erneut hochgeladen = 55/64 statt 61/64 (gleiche Datei) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@039fddd
 - Upload 11:50:35 der unveränderten HSG4-Datei (149, Hash identisch): Flag-Recall 0.859, Precision 0.369, Change accuracy 0.902 → Rang 6. Um 11:32 ergab dieselbe Datei 0.953 (61/64). Also kein Fehler in der Datei, sondern Streuung des Plattform-Richters (±3). Alle 7 Sub-Goal-Uploads 55–61, Mittel ≈58; Platz 1–6 liegen darin.
 - Zuordnung per Rechnung: nur 149 Einträge ergeben 0.859/0.369 mit ganzer Trefferzahl (55); Hash der Upload-Datei = HSG4/meta.json. Screenshot Jonathan
+### 2026-10-25 12:02:45 +0100 | [change] Held-out-Test 1 (12:05): zy-DRG-P-add = DRG-P + 7 Pflichten aus H002/H003 | Jonathan @ MacBook-Pro-von-Jonathan | main@3d83472 +lokale Änderungen
+- Neue Absätze in Regelungen mit hoher Trefferquote (R26 85 %, R42 73 %, R127 62 %): R26 6.8.1 (2), R42 6.1, Annex 3 2.2.1–2.2.3, R127 Annex 5 1.11. R42 S.6 ist eine bisher nie zitierte Seite (evtl. eine der 2 fehlenden Gold-Seiten). Lohnt ab 2 Treffern; Dev-Befund (5 % Treffer bei Zusätzen) gilt nur für R10/R48/R148. Plan: 12:45:03 Test 2, 12:47:30 endgültig bester Stand (A lädt hoch).
+- validate.py: 295 gültig; IDs eindeutig (Präfix Lauf)

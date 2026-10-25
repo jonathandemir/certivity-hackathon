@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-DRG-P-add",
+ "derived_from": "H001-G9-sideLight-noR100-zy-DRG-P",
+ "dropped_regulations": [
+  "(Zusatz statt Weglassen) +7 Pflichten aus H002/H003 mit neuem Absatz: R26 6.8.1, R42 6.1/Annex 3 2.2.1-2.2.3, R127 Annex 5 1.11"
+ ],
+ "requirements": 295,
+ "per_regulation": {
+  "UN R127": 38,
+  "UN R42": 26,
+  "UN R26": 35,
+  "UN R10": 41,
+  "UN R148": 75,
+  "UN R48": 47,
+  "UN GTR 9": 33
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@3d83472",
+ "submission_sha256": "f86800b3f848b536e13f27ec77aa2785df9c24741b1c8658009352d8ae259954",
+ "recorded_at": "2026-10-25T12:02:29+01:00"
+}
