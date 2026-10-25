@@ -737,3 +737,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:03:53 +0100 | [finding] Held-out: Seiten-Rechnung zeigt 26 Seiten ohne Gold, Varianten für Schritt 3 | Homsianer @ vm | main@48aa906 +lokale Änderungen
 - Seiten-Score ist Mengenrechnung (Gold ≈53 Seiten). Bestwert noR100: 77 Seiten, 51 Gold. Je Regelung aus den Upload-Paaren: R26 6/6, R42 3/3, R127 5/6, GTR 9 5/8, R100 0/4, R48 9/19 (Paar H001/noR48), R10+R148 23/35. Hypothese aus dem Dev-Gold (gleiche allgemeine Abschnitte für R10/R48/R148): Nicht-Gold = R10 S.91,93,96,97,99,100,101; R48 S.23,24,26,80,40–45; R148 S.15,20,21,36,37 (Summe genau 26). Neues Werkzeug certreq.sectionvariants --drop-pages; Varianten -zy-noDI (369), -zy-noDI-rest (348), -zy-noR48gen (376, Alternative falls Blinker im Gold), -noDI (404)
 - pytest grün; certreq.upload validiert alle vier; Vorhersagen in STATUS (Seiten-P/R, F2 bei 184 Treffern, Schwelle)
+
+### 2026-10-25 11:04:58 +0100 | [change] Technische Erklärung: aktuelle Held-out-Zahlen + Offenlegung der Variantenauswahl | Homsianer @ vm | main@b7fc574 +lokale Änderungen
+- Sub-Goal 0.906/0.870 (HSG2), Bumper 0.704 (Standard 0.568); beschreibt offen, dass Upload-Rückmeldung (Regelungs-/Seitenebene) zur Auswahl von Teilmengen der Pipeline-Ausgabe genutzt wurde, keine handgeschriebenen Anforderungen
+- Zahlen gegen experiments/LEDGER.md (HSG2-P, H001-P, noR100-P) geprüft
