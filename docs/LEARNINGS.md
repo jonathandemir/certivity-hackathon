@@ -5,6 +5,13 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
 
 ## Funktioniert / gilt
 
+- **2026-10-25 · Der Sub-Goal-Richter der Plattform streut auf derselben Datei um bis zu 6 Treffer.** Beleg: HSG4
+  (149 Einträge, sha256 c5fbadd…) um 11:32 61/64, dieselbe Datei um 11:50 55/64 (experiments/runs/HSG4/, HSG4-R2/);
+  HSG5/HSG6 (gleiche 166 Einträge, andere Reihenfolge) 59 vs 57. Alle 7 Held-out-Uploads liegen bei 55–61 (Mittel ≈ 58).
+  Konsequenz: Sub-Goal-Unterschiede unter ~6 Treffern (≈ 0.09 Recall) sind kein Beleg; jeder erneute Upload ist ein neuer
+  Wurf, der letzte zählt. Gilt vermutlich auch für die Anforderungsebene des Hauptziels (dort ebenfalls Sprachmodell-Abgleich,
+  Wiederholung auf identischer Datei noch nicht gemessen); Regelungs- und Seitenebene sind Mengenrechnung und exakt.
+
 - **2026-10-25 · Auch der Seiten-Score der Plattform ist eine Mengenrechnung: ein Upload-Paar zeigt exakt, wie viele der
   weggelassenen Seiten Gold-Seiten sind.** Seiten-Treffer = Seiten-R × Gold-Seiten (Held-out ≈ 53), eingereichte Seiten =
   Treffer / Seiten-P. Beleg (experiments/runs/*/platform.json): noR127 −5 Gold-Seiten von 6, noR26 −6/6, noR42 −3/3,

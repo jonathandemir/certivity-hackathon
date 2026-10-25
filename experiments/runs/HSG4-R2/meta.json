@@ -1,0 +1,9 @@
+{
+ "run_id": "HSG4-R2",
+ "case_id": "subgoal-heldout",
+ "changes": 149,
+ "same_file_as": "HSG4",
+ "sha256": "c5fbadd7cccc04aeac9c45351b6c56d96733f458b577ccc3ea53249361c39676",
+ "note": "Erneuter Upload der unveränderten HSG4-Datei (Hash identisch mit experiments/runs/HSG4/meta.json). Zuordnung: nur 149 Einträge ergeben Recall 0.859 und Precision 0.369 mit ganzer Trefferzahl (55/64, 55/149).",
+ "recorded_at": "2026-10-25T12:00:00+01:00"
+}

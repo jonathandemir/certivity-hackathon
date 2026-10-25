@@ -792,3 +792,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:58:36 +0100 | [run] Held-out zy-DR-P 0.790: GTR-9-Annex-1 ohne Treffer; Endstand DRG-P (0.799) | Jonathan @ MacBook-Pro-von-Jonathan | main@3f06698
 - DR-P = DRG-P + 13 Ausgaben GTR 9 S.116–118: 179 Treffer wie DRG-P, Seiten 51/53 → die Gold-Seite unter 116–118 wird getroffen, unsere Anforderungen dort nicht. Endstand Haupt: zy-DRG-P um 12:05 erneut als letzter Upload. Weitere Filter geprüft (Leave-one-out auf 6 dev-Läufen): Absätze mit Quote < 16 % oder Null ab 2–3 Ausgaben streichen auf dem Held-out 0–6 weitere Ausgaben (≈ +0.003, unter dem Richterrauschen ±0.009) → keine weiteren Tests.
 - Screenshot Jonathan; P·N = R·G = 179; Variantenvergleich: DR-P minus GTR 9 S.116–118 = DRG-P (geprüft)
+
+### 2026-10-25 11:59:53 +0100 | [run] Sub-Goal: HSG4 erneut hochgeladen = 55/64 statt 61/64 (gleiche Datei) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@039fddd
+- Upload 11:50:35 der unveränderten HSG4-Datei (149, Hash identisch): Flag-Recall 0.859, Precision 0.369, Change accuracy 0.902 → Rang 6. Um 11:32 ergab dieselbe Datei 0.953 (61/64). Also kein Fehler in der Datei, sondern Streuung des Plattform-Richters (±3). Alle 7 Sub-Goal-Uploads 55–61, Mittel ≈58; Platz 1–6 liegen darin.
+- Zuordnung per Rechnung: nur 149 Einträge ergeben 0.859/0.369 mit ganzer Trefferzahl (55); Hash der Upload-Datei = HSG4/meta.json. Screenshot Jonathan

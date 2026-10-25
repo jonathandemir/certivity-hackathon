@@ -1,0 +1,13 @@
+{
+ "uploaded": "2026-10-25 11:50:35 CET",
+ "n_changes": 149,
+ "team_id": "team-12",
+ "case_id": "subgoal-heldout",
+ "flag_recall": 0.859,
+ "flag_precision": 0.369,
+ "change_accuracy": 0.902,
+ "flags_getroffen": 55,
+ "erwartet": 64,
+ "rang": 6,
+ "quelle": "hackathon.certivity.io, Leaderboard Held-out regulation change (Screenshot Jonathan, ca. 11:55)"
+}
