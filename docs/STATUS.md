@@ -73,6 +73,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Homsianer | vm | AP3-Rest + AP4 (Übernahme von Jonathan): Parser, Relevanzfilter, LLM-Extraktion, GTR Teil II, R10 | certreq/pdf.py, certreq/extract.py, certreq/relevance.py, certreq/llmextract.py, tests/test_extract.py, tests/test_llmextract.py, tests/test_outline.py | 2026-10-24 14:16 |
 | Homsianer | vm | Anthropic-Zugang hinter Schalter CERTREQ_PROVIDER=anthropic (Standard bleibt OpenAI; Homsianer hat nur Anthropic-Key) | certreq/llm_anthropic.py (neu), certreq/llm.py (nur Anbieter-Schalter in model_name/_call/_check), certreq/judge.py (nur config.model), requirements.txt (+anthropic), tests/test_llm.py | 2026-10-24 17:04 |
 | Homsianer | vm | Held-out: Abschnitts-Varianten (Leuchtentypen in R48/R148) für Upload-Paare, ohne LLM | certreq/sectionvariants.py (neu), tests/test_sectionvariants.py (neu), experiments/runs/H001-* | 2026-10-25 08:12 |
+| Amiad | claude | Werkbank: Tesla-Teil (Auswahl 0.00) ausblenden, Held-out im Dashboard | demo/server.py | 2026-10-25 10:59 |
 
 ## Nächste Schritte
 
