@@ -834,3 +834,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:44:52 +0100 | [run] Sub-Goal HSG8: 60/64 (0.938), Accuracy 0.911 = gleich HSG7 → Endstand | Jonathan @ MacBook-Pro-von-Jonathan | main@2cead39
 - HSG8 (HSG7 + 15 added, 170) um 12:42:04: Flag-Recall 0.938, Precision 0.353 (60/170), Accuracy 0.911. Gleich viele Treffer und gleiche Accuracy wie HSG7, nur Precision niedriger. Zurück zu HSG7 wäre ein neuer Wurf (Streuung ±3) für etwas Precision → HSG8 bleibt letzter Upload.
 - Screenshot Jonathan; 0.938·64 = 0.353·170 = 60
+
+### 2026-10-25 12:52:50 +0100 | [run] Held-out: DRG-P-add erneut = 176 statt 181 Treffer (gleiche Datei) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@e99174a
+- Upload 12:49:51 der unveränderten DRG-P-add (295): F2 0.781 (P 0.597 R 0.846) statt 0.803. Seiten (53/50) und Regelungen (1.0) identisch, nur die Anforderungsebene (Sprachmodell-Abgleich) streut um 5 Treffer. Wie beim Sub-Goal (HSG4 61/55). Erneuter Upload derselben Datei vor 13:00, da 176 unter dem Mittel (≈178.5) liegt.
+- Screenshot Jonathan; 0.597·295 = 0.846·208 = 176

@@ -1,0 +1,13 @@
+{
+ "uploaded": "2026-10-25 12:49:51 CET",
+ "scored": "2026-10-25 12:50:19 CET",
+ "n": 295,
+ "size_kb": 101.2,
+ "same_file_as": "H001-G9-sideLight-noR100-zy-DRG-P-add",
+ "team_id": "team-12",
+ "requirements": {"precision": 0.597, "recall": 0.846, "f1": 0.700, "f2": 0.781},
+ "pages": {"precision": 0.943, "recall": 0.943},
+ "regulations": {"precision": 1.0, "recall": 1.0},
+ "treffer_plattform": 176,
+ "quelle": "hackathon.certivity.io, Held-out (Screenshot Jonathan)"
+}
