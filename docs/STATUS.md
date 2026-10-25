@@ -68,8 +68,8 @@ Dateien: `certivity-a/out/upload/`, Belege `experiments/runs/H001*`. Varianten o
 - *(erledigt)* **Homsianer:** deine Leuchten-Varianten (`certreq/sectionvariants.py`, H001-noFuncLight/H001-sideLight) bitte auf der neuen Basis
   `H001-G9-noCrash` neu ableiten und ablegen (IDs `H001-G9-noCrash-noFuncLight`, `…-sideLight`), Jonathan Bescheid geben. Deinen
   Claim „Sicherungs-Upload H001“ bitte entfernen (H001 ist seit 08:45 oben).
-- **Amiad:** Pitch/Demo mit Held-out-Zahlen (H001 0.568 → Bestwert wird laufend hier eingetragen; Sub-Goal HSG1: Flag-Recall 0.891,
-  Change accuracy 0.887). Werkbank-Demo auf dem H001-Lauf vorrechnen (Cache), keine neuen Opus-Läufe nötig.
+- **Amiad:** Pitch/Demo mit Held-out-Zahlen (H001 0.568 → Bestwert wird laufend hier eingetragen; Sub-Goal **HSG7 (zählt, 12:30): Flag-Recall 0.938 (60/64),
+  Change accuracy 0.911**; ehrlich: Plattform-Richter streut ±3 Treffer, gleiche Datei HSG4 ergab 61 und 55, Mittel ≈ 0.91). Werkbank-Demo auf dem H001-Lauf vorrechnen (Cache), keine neuen Opus-Läufe nötig.
 - **Alle:** keinen Standard ändern, keine neuen Held-out-Läufe starten (Credits), keine Uploads.
 
 ## Stand

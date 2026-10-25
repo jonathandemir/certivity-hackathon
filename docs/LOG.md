@@ -826,3 +826,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:33:18 +0100 | [change] R4: Abgabe-Repo jonathandemir/barelylegal-certivity angelegt (noch PRIVAT) | Jonathan @ MacBook-Pro-von-Jonathan | main@6680f0e
 - Aus scripts/export-snapshot (main@6680f0e, 1 Commit, Schlüssel- und Lizenzprüfung bestanden). Zusätzlich entfernt: experiments/runs/HSG3/HSG5/HSG6/submission.json.gz (enthielten 17 wörtlich aus requirements_old.json kopierte Texte; Meta und Plattformwerte bleiben). Öffentlich schalten erst nach Jonathans OK: gh repo edit jonathandemir/barelylegal-certivity --visibility public --accept-visibility-change-consequences. Vor 13:00 mit dem Endstand (README-Zahlen) noch einmal aktualisieren.
 - gh repo view: PRIVATE, Branch main; Suche nach Paket-Anforderungstexten in der Kopie
+
+### 2026-10-25 12:34:04 +0100 | [run] Sub-Goal HSG7: Flag-Recall 0.938 (60/64), Change accuracy 0.911 → nicht mehr ersetzen | Jonathan @ MacBook-Pro-von-Jonathan | main@3c898f6
+- HSG7 (HSG4 + 6 modified aus LLM-Nachprüfung, 155) um 12:30:48 hochgeladen: 60/64, Precision 0.387 (60/155), Accuracy 0.911. Board 11:55: Spitze 58/64 → vermutlich Platz 1. Letzter Upload zählt: weitere Sub-Goal-Uploads ersetzen 60 durch einen neuen Wurf (Streuung ±3). HSG8 (170) nur um 12:50:35, falls bis dahin ein Team vorbeigezogen ist.
+- Screenshot Jonathan; 0.938·64 = 0.387·155 = 60
