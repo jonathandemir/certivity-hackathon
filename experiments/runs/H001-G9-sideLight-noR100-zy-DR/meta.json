@@ -1,0 +1,24 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-DR",
+ "derived_from": "H001-G9-sideLight-noR100-zy",
+ "dropped_regulations": [
+  "Seiten: Blinker/Warnblinker: R48 S.40-45 (6.5, 6.6), R148 5.6.x",
+  "Seiten: Seiten ohne dev-Gold: R48 S.23/26/80, R10 S.99, R148 S.15"
+ ],
+ "requirements": 348,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 44,
+  "UN R148": 98,
+  "UN R48": 68,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@4617b93",
+ "submission_sha256": "6462450fbcd8e264d3bd51b76105c52fad686a8db1b046aa32dbb1cbe5931ee9",
+ "recorded_at": "2026-10-25T11:06:52+01:00"
+}

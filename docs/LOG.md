@@ -745,3 +745,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:05:31 +0100 | [change] Held-out: Varianten d (GTR 9 Annex 1) und Teilvarianten für b | Homsianer @ vm | main@95e49ca +lokale Änderungen
 - -zy-noDI-rest-noG9A1 (335; GTR 9 S.116–118 weg, Hypothese: die 3 Nicht-Gold-Seiten von GTR 9 sind Annex 1 deployable), -zy-noDI48 (393), -zy-noDI148 (416) zum Auftrennen, falls b teilweise Gold-Seiten verliert
 - certreq.upload validiert alle drei; Vorhersagen in STATUS
+### 2026-10-25 11:07:22 +0100 | [run] Held-out zy = 0.731 (Bestwert); Seitenmetrik exakt, Varianten D/R/G | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@58b7f26
+- zy (440, Homsianer): F2 0.731, Seiten 68 (51 Gold), 0 Treffer verloren. Aus Seiten-P/R aller Uploads: 53 Gold-Seiten; Fehlseiten je Regelung: R26 0/6, R42 0/3, R127 1/6, GTR 9 3/8, R48 10/19 (aus H001-noR48: 9 Gold), R148+R10 12/35. Unsere R148/R10-Seiten mit dev-Gold = 23 = genau deren Gold-Zahl; R48: allgemeine dev-Gold-Seiten (6) + Seitenmarkierung S.58–60 (3) = 9. Hypothese: keine Blinker im Gold. Varianten zy-D/-R/-G und Kombinationen gebaut (certreq.variants.save_variant, Seitenfilter).
+- Screenshot Jonathan; Treffer aus P·N und R·G gleich (186); Varianten mit validate.py geprüft

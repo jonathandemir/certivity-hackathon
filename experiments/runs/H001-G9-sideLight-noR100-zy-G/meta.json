@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-G9-sideLight-noR100-zy-G",
+ "derived_from": "H001-G9-sideLight-noR100-zy",
+ "dropped_regulations": [
+  "Seiten: GTR 9 Annex 1 S.116-118"
+ ],
+ "requirements": 427,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 46,
+  "UN R148": 127,
+  "UN R48": 129,
+  "UN GTR 9": 33
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@4617b93",
+ "submission_sha256": "ff66fd51afea28106b9f7fa3abd87fd4c1034ce934f235c3076156fb6819ac13",
+ "recorded_at": "2026-10-25T11:06:52+01:00"
+}
