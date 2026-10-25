@@ -830,3 +830,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:34:04 +0100 | [run] Sub-Goal HSG7: Flag-Recall 0.938 (60/64), Change accuracy 0.911 → nicht mehr ersetzen | Jonathan @ MacBook-Pro-von-Jonathan | main@3c898f6
 - HSG7 (HSG4 + 6 modified aus LLM-Nachprüfung, 155) um 12:30:48 hochgeladen: 60/64, Precision 0.387 (60/155), Accuracy 0.911. Board 11:55: Spitze 58/64 → vermutlich Platz 1. Letzter Upload zählt: weitere Sub-Goal-Uploads ersetzen 60 durch einen neuen Wurf (Streuung ±3). HSG8 (170) nur um 12:50:35, falls bis dahin ein Team vorbeigezogen ist.
 - Screenshot Jonathan; 0.938·64 = 0.387·155 = 60
+
+### 2026-10-25 12:44:52 +0100 | [run] Sub-Goal HSG8: 60/64 (0.938), Accuracy 0.911 = gleich HSG7 → Endstand | Jonathan @ MacBook-Pro-von-Jonathan | main@2cead39
+- HSG8 (HSG7 + 15 added, 170) um 12:42:04: Flag-Recall 0.938, Precision 0.353 (60/170), Accuracy 0.911. Gleich viele Treffer und gleiche Accuracy wie HSG7, nur Precision niedriger. Zurück zu HSG7 wäre ein neuer Wurf (Streuung ±3) für etwas Precision → HSG8 bleibt letzter Upload.
+- Screenshot Jonathan; 0.938·64 = 0.353·170 = 60
