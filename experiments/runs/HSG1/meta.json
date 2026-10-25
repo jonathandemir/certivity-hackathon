@@ -1,0 +1,10 @@
+{
+ "run_id": "HSG1",
+ "case_id": "subgoal-heldout",
+ "changes": 142,
+ "git": {
+  "commit": "main@ac66773"
+ },
+ "command": "python -m certreq.subgoal run (Standard --refine llm), scripts/heldout-auto",
+ "recorded_at": "2026-10-25T08:04:57+01:00"
+}

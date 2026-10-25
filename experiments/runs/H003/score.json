@@ -1,0 +1,8 @@
+{
+ "case_id": "heldout-front-bumper",
+ "n_requirements": 784,
+ "valid": true,
+ "validate_output": "OK: H003.json is valid (784 requirements).",
+ "expected": null,
+ "levels": {}
+}

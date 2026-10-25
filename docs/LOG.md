@@ -650,3 +650,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-25 00:45:01 +0200 | [change] Werkbank produktzentriert + 3D-Heckleuchte | Amiad @ claude | main@95d359f
 - main@331f5e5: 41 Produkte je genau einmal, nur bestes Ergebnis (Plattform-F2 > lokaler F2 > Auswahl-F2 > jüngster Lauf); Läufe-Liste weg, Upload als Dialog; Überblick der Heckleuchte als 3D-Modell nach Explosionszeichnung (Skizze/Render).
+
+### 2026-10-25 08:04:58 +0100 | [run] Held-out heldout-front-bumper automatisch gerechnet (scripts/heldout-auto) | Jonathan @ MacBook-Pro-von-Jonathan | main@ac66773
+- Abgelegt: H001 H002 H003 H001-noR94 HSG1. Upload-Dateien in out/upload/, Zusammenfassung out/heldout-auto/SUMMARY.md. Noch nicht hochgeladen.
+- Stand main@ac66773; Läufe mit CERTREQ_PROVIDER=anthropic

@@ -1,0 +1,180 @@
+{
+ "case_id": "heldout-front-bumper",
+ "command": "python -m certreq run /Users/jonathandemir/projects/certivity-a/vendor/industrial-ai-hackathon/cases/heldout-front-bumper --extract modal,llm,lists,tables,exempt,tests --out out/H003.json",
+ "git": {
+  "commit": "main@ac66773",
+  "full_hash": "ac66773bff716bd683a928fe78efb1f7900a3215",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R127",
+  "UN GTR 9",
+  "UN R42",
+  "UN R26",
+  "UN R94",
+  "UN R137",
+  "UN R10",
+  "UN R148",
+  "UN R48",
+  "UN R100"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R127",
+   "role": "component",
+   "reason": "The front bumper's fascia, absorber and lower stiffener directly decide the lower/upper legform impact results required for M1 pedestrian protection."
+  },
+  {
+   "regulation": "UN GTR 9",
+   "role": "component",
+   "reason": "This global technical regulation sets the harmonised pedestrian legform test procedures for M1 bumpers, which the bumper energy-management design must meet."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "component",
+   "reason": "The bumper is the front protective device of an M1 vehicle, and its behaviour in low-speed collisions is regulated."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "component",
+   "reason": "The fascia, grille, plate holder, sensor housings and towing cover form external projections of an M1 car and must meet the radius and projection limits."
+  },
+  {
+   "regulation": "UN R94",
+   "role": "component",
+   "reason": "The bumper beam and lower stiffener are part of the front crash structure, so they affect the outcome of the M1 frontal offset impact test."
+  },
+  {
+   "regulation": "UN R137",
+   "role": "component",
+   "reason": "The bumper energy-management structure contributes to the crash pulse in the full-width frontal impact test of M1 vehicles."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The bumper integrates electronic sub-assemblies (radar, LIDAR with heating, camera, PDC, thermal sensor, keyless aerial, lighting), and these must meet EMC emission and immunity requirements."
+  },
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The integrated side signalling lamps (e.g. direction indicators, position, side-marker or daytime running lamps) are light-signalling devices requiring component approval."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "The signalling and functional lamps integrated in the bumper must be installed in the positions, visibility angles and orientations required for M1 vehicles, and decorative lighting must meet R48's restrictions."
+  },
+  {
+   "regulation": "UN R100",
+   "role": "cross-cutting",
+   "reason": "The EV charge port housed in the bumper must meet the electric power train safety requirements, such as protection against direct contact at the charging inlet."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): Functional lighting in a front bumper typically means front fog or cornering lamps, which require road-illumination device approval."
+  },
+  {
+   "regulation": "UN R152",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): The front radar and camera carried by the bumper are the forward-detection sensors of an M1 AEBS, if the vehicle uses them for emergency braking."
+  },
+  {
+   "regulation": "UN R171",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): The bumper sensors may feed driver control assistance systems on M1 vehicles."
+  },
+  {
+   "regulation": "UN R175",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): The forward detection means (radar, PDC) in the bumper may be used for acceleration control for pedal error on automatic M1 cars."
+  },
+  {
+   "regulation": "UN R155",
+   "role": "rejected",
+   "reason": "verworfen (nur Fahrzeugebene): The ECU-based sensors and keyless-entry aerial in the bumper fall within the vehicle's cyber-security scope."
+  },
+  {
+   "regulation": "UN R156",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): The software-bearing sensor ECUs in the bumper may receive software updates, which must be managed under the vehicle's software update management system."
+  },
+  {
+   "regulation": "UN R6",
+   "role": "rejected",
+   "reason": "Direction indicator provisions are consolidated into UN R148, which is selected instead."
+  },
+  {
+   "regulation": "UN R7",
+   "role": "rejected",
+   "reason": "Position and stop lamp provisions are consolidated into UN R148."
+  },
+  {
+   "regulation": "UN R32",
+   "role": "rejected",
+   "reason": "This regulation concerns rear-end collision behaviour, whereas the specification covers a front bumper."
+  },
+  {
+   "regulation": "UN R131",
+   "role": "rejected",
+   "reason": "The AEBS regulation covers M2, M3, N2 and N3 only; for M1, UN R152 applies."
+  },
+  {
+   "regulation": "UN R116",
+   "role": "rejected",
+   "reason": "This regulation has been superseded by UN R161, R162 and R163, and a keyless-entry aerial is not itself an anti-theft or alarm device."
+  }
+ ],
+ "vision_mode": "auto",
+ "infer_category": true,
+ "drawing": null,
+ "drawing_regions": null,
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 158,
+  "paragraphs": 1827,
+  "kept": 445,
+  "dropped": 1382,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests"
+  ],
+  "usage": {
+   "calls": 159,
+   "cached": 0,
+   "prompt_tokens": 747081,
+   "completion_tokens": 162334,
+   "fallbacks": 0
+  }
+ },
+ "n_requirements": 784,
+ "seconds": 222.3,
+ "created_at": "2026-10-25T08:04:20+01:00",
+ "run_id": "H003",
+ "note": "Held-out heldout-front-bumper, automatisch (scripts/heldout-auto)",
+ "submission_sha256": "fc3dab14210c0b1dddd2c6e0dde0a9750c6bdf62550ec788cdfd30355f253c4b",
+ "recorded_at": "2026-10-25T08:04:22+01:00"
+}

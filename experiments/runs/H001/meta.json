@@ -1,0 +1,430 @@
+{
+ "case_id": "heldout-front-bumper",
+ "command": "python -m certreq run /Users/jonathandemir/projects/certivity-a/vendor/industrial-ai-hackathon/cases/heldout-front-bumper --regions --out out/H001.json",
+ "git": {
+  "commit": "main@ac66773",
+  "full_hash": "ac66773bff716bd683a928fe78efb1f7900a3215",
+  "clean": true,
+  "pushed": true,
+  "dirty_files": []
+ },
+ "team_id": "team-12",
+ "selected": [
+  "UN R127",
+  "UN R42",
+  "UN R26",
+  "UN R94",
+  "UN R137",
+  "UN R10",
+  "UN R148",
+  "UN R48",
+  "UN R100"
+ ],
+ "forced": false,
+ "select_mode": "llm2",
+ "selection": [
+  {
+   "regulation": "UN R127",
+   "role": "component",
+   "reason": "The front bumper fascia, EPP absorber and lower stiffener make up the bumper test zone, so they directly determine the lower/upper legform impact results required for M1 vehicles."
+  },
+  {
+   "regulation": "UN R42",
+   "role": "component",
+   "reason": "The front bumper is the front protective device of an M1 vehicle, and its behaviour in the low-speed collision test governs whether safety-relevant parts such as lighting are protected."
+  },
+  {
+   "regulation": "UN R26",
+   "role": "component",
+   "reason": "The fascia, grill, licence plate holder, towing cover and sensor housings are external projections of an M1 car and must meet the radius and projection limits."
+  },
+  {
+   "regulation": "UN R94",
+   "role": "component",
+   "reason": "The bumper beam and lower stiffener are part of the front crash structure, so they influence occupant protection in the offset frontal impact test."
+  },
+  {
+   "regulation": "UN R137",
+   "role": "component",
+   "reason": "The bumper's energy-management structure affects the crash pulse in the full-width frontal impact test for M1 vehicles."
+  },
+  {
+   "regulation": "UN R10",
+   "role": "cross-cutting",
+   "reason": "The bumper integrates electrical/electronic sub-assemblies (radar, LIDAR, camera, PDC, sensor heating, keyless aerial, lighting) that must meet EMC emission and immunity requirements."
+  },
+  {
+   "regulation": "UN R148",
+   "role": "component",
+   "reason": "The integrated signalling lamps (e.g. side marker, direction indicator, position or daytime running lamps) need component approval as light-signalling devices."
+  },
+  {
+   "regulation": "UN R48",
+   "role": "installation",
+   "reason": "Installation of the bumper-integrated signalling and functional lamps on the M1 vehicle must follow R48 position, visibility and switching rules, and decorative lighting must not conflict with them."
+  },
+  {
+   "regulation": "UN R100",
+   "role": "cross-cutting",
+   "reason": "The EV charge port housed in the bumper forms part of the vehicle inlet, which is subject to R100 electric-shock protection and post-crash electrical safety requirements."
+  },
+  {
+   "regulation": "UN R149",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the functional lighting integrated in the bumper includes front fog lamps or cornering lamps, these need approval as road illumination devices."
+  },
+  {
+   "regulation": "UN R152",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the front radar/camera carried by the bumper is used for advanced emergency braking, its mounting and the radome affect AEBS detection performance."
+  },
+  {
+   "regulation": "UN R171",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the bumper radar/LIDAR supports driver control assistance functions such as adaptive cruise, the DCAS requirements apply to the system they feed."
+  },
+  {
+   "regulation": "UN R175",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the bumper PDC/radar sensors serve as the forward detection means of an acceleration control for pedal error system on an automatic M1 vehicle, R175 applies."
+  },
+  {
+   "regulation": "UN R155",
+   "role": "rejected",
+   "reason": "verworfen (nur Fahrzeugebene): The connected ECUs of the radar, camera and keyless aerial fall within the vehicle's cyber security management."
+  },
+  {
+   "regulation": "UN R156",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the bumper's sensor ECUs (radar, camera) are software-updatable, they are covered by the vehicle's software update management system."
+  },
+  {
+   "regulation": "UN R162",
+   "role": "rejected",
+   "reason": "verworfen (Annahme, nicht in der Spec): If the keyless-entry aerial is also used for key authentication by the immobilizer, it forms part of the immobilizer system approved under R162."
+  },
+  {
+   "regulation": "UN GTR 9",
+   "role": "rejected",
+   "reason": "This is a global technical regulation transposed into UN R127 for type approval, so R127 is selected instead."
+  },
+  {
+   "regulation": "UN R32",
+   "role": "rejected",
+   "reason": "It covers rear-end collision behaviour, but the component is a front bumper."
+  },
+  {
+   "regulation": "UN R43",
+   "role": "rejected",
+   "reason": "The PC/PMMA radomes and lighting lenses are not windscreens or panes, and glazing for lighting devices is excluded from scope."
+  },
+  {
+   "regulation": "UN R116",
+   "role": "rejected",
+   "reason": "Its anti-theft and alarm provisions have been split into R161, R162 and R163, which supersede it."
+  },
+  {
+   "regulation": "UN R131",
+   "role": "rejected",
+   "reason": "It applies only to M2, M3, N2 and N3, whereas the vehicle is M1 (covered by R152)."
+  }
+ ],
+ "vision_mode": "auto",
+ "infer_category": true,
+ "drawing": null,
+ "drawing_regions": {
+  "image": "exploded_view.png",
+  "width": 1104,
+  "height": 506,
+  "unit": "px, Ursprung oben links",
+  "model": "claude-opus-5-5",
+  "spec_parts": [
+   "Cover part (fascia)",
+   "(Radiator) Grill",
+   "Absorber",
+   "Lower stiffener (underrun protection)",
+   "License plate area / holder",
+   "Towing device cover",
+   "Camera",
+   "Radar sensor",
+   "Radar / LIDAR sensor (incl. heating)",
+   "PDC sensor",
+   "Pedestrian impact sensors",
+   "Temperature / thermal sensor",
+   "Lighting — decorative",
+   "(Side) Lighting — signalling",
+   "Aerial (keyless entry)",
+   "\"Fuel filler cap\" (for EVs)"
+  ],
+  "parts": [
+   {
+    "label": "(Radiator) Grill",
+    "bbox": [
+     173,
+     137,
+     300,
+     195
+    ],
+    "spec_parts": [
+     "(Radiator) Grill"
+    ]
+   },
+   {
+    "label": "Radar/LIDAR sensor incl. heating",
+    "bbox": [
+     132,
+     143,
+     166,
+     157
+    ],
+    "spec_parts": [
+     "Radar / LIDAR sensor (incl. heating)"
+    ]
+   },
+   {
+    "label": "Camera",
+    "bbox": [
+     245,
+     116,
+     282,
+     133
+    ],
+    "spec_parts": [
+     "Camera"
+    ]
+   },
+   {
+    "label": "Lighting",
+    "bbox": [
+     51,
+     141,
+     155,
+     190
+    ],
+    "spec_parts": [
+     "Lighting — decorative"
+    ]
+   },
+   {
+    "label": "License plate area/holder",
+    "bbox": [
+     197,
+     162,
+     245,
+     175
+    ],
+    "spec_parts": [
+     "License plate area / holder"
+    ]
+   },
+   {
+    "label": "Towing device cover",
+    "bbox": [
+     440,
+     125,
+     461,
+     140
+    ],
+    "spec_parts": [
+     "Towing device cover"
+    ]
+   },
+   {
+    "label": "PDC sensor",
+    "bbox": [
+     517,
+     100,
+     543,
+     110
+    ],
+    "spec_parts": [
+     "PDC sensor"
+    ]
+   },
+   {
+    "label": "„Fuel filler cap“",
+    "bbox": [
+     582,
+     126,
+     622,
+     148
+    ],
+    "spec_parts": [
+     "(Radiator) Grill",
+     "Cover part (fascia)"
+    ]
+   },
+   {
+    "label": "Aerial",
+    "bbox": [
+     650,
+     114,
+     687,
+     122
+    ],
+    "spec_parts": [
+     "Aerial (keyless entry)"
+    ]
+   },
+   {
+    "label": "Radar sensor",
+    "bbox": [
+     742,
+     108,
+     774,
+     123
+    ],
+    "spec_parts": [
+     "Radar sensor"
+    ]
+   },
+   {
+    "label": "(Side) Lighting",
+    "bbox": [
+     686,
+     130,
+     736,
+     139
+    ],
+    "spec_parts": [
+     "(Side) Lighting — signalling"
+    ]
+   },
+   {
+    "label": "Cover part",
+    "bbox": [
+     468,
+     112,
+     762,
+     182
+    ],
+    "spec_parts": [
+     "Cover part (fascia)"
+    ]
+   },
+   {
+    "label": "Pedestrian impact sensors",
+    "bbox": [
+     952,
+     36,
+     1104,
+     57
+    ],
+    "spec_parts": [
+     "Pedestrian impact sensors"
+    ]
+   },
+   {
+    "label": "Absorber",
+    "bbox": [
+     952,
+     47,
+     1104,
+     68
+    ],
+    "spec_parts": [
+     "Absorber"
+    ]
+   },
+   {
+    "label": "Lower stiffener",
+    "bbox": [
+     473,
+     187,
+     629,
+     208
+    ],
+    "spec_parts": [
+     "Lower stiffener (underrun protection)"
+    ]
+   },
+   {
+    "label": "Temperature/thermal sensor",
+    "bbox": [
+     367,
+     167,
+     386,
+     175
+    ],
+    "spec_parts": [
+     "Temperature / thermal sensor"
+    ]
+   },
+   {
+    "label": "Upper cover",
+    "bbox": [
+     210,
+     95,
+     359,
+     120
+    ],
+    "spec_parts": []
+   },
+   {
+    "label": "Bumper beam",
+    "bbox": [
+     972,
+     68,
+     1104,
+     104
+    ],
+    "spec_parts": []
+   },
+   {
+    "label": "Wiring harness",
+    "bbox": [
+     977,
+     201,
+     1104,
+     240
+    ],
+    "spec_parts": []
+   }
+  ]
+ },
+ "filters": [
+  "admin",
+  "cop",
+  "parts",
+  "esa",
+  "rationale"
+ ],
+ "extract": [
+  "modal",
+  "llm",
+  "lists",
+  "tables",
+  "exempt",
+  "tests",
+  "modes"
+ ],
+ "llm": {
+  "model": "claude-opus-5-5",
+  "batches": 143,
+  "paragraphs": 1651,
+  "kept": 368,
+  "dropped": 1283,
+  "missing": 0,
+  "rules": [
+   "lists",
+   "tables",
+   "exempt",
+   "tests",
+   "modes"
+  ],
+  "usage": {
+   "calls": 145,
+   "cached": 0,
+   "prompt_tokens": 688959,
+   "completion_tokens": 145998,
+   "fallbacks": 0
+  }
+ },
+ "n_requirements": 648,
+ "seconds": 215.1,
+ "created_at": "2026-10-25T08:04:13+01:00",
+ "run_id": "H001",
+ "note": "Held-out heldout-front-bumper, automatisch (scripts/heldout-auto)",
+ "submission_sha256": "609a1cf0d3aab8d7d85648bd7393895da40cb927567cf68054913d3f0026086b",
+ "recorded_at": "2026-10-25T08:04:21+01:00"
+}
