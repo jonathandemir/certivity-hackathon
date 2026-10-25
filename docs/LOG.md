@@ -675,3 +675,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 08:49:04 +0100 | [run] Held-out Sub-Goal HSG1: Flag-Recall 0.891, Change accuracy 0.887 | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
 - UN R171, 142 Änderungen, Flag-Precision 0.401 (≈57 von ≈64 erwarteten Änderungen getroffen).
 - Kein weiterer Sub-Goal-Upload geplant; nur ersetzen, wenn eine Variante beim Recall sicher besser ist (letzter Upload zählt).
+
+### 2026-10-25 08:57:07 +0100 | [decision] Held-out: Upload-Plan zur Regelungs-Diagnose (Vorschlag B an A) | Homsianer @ vm | main@9e90aa8 +lokale Änderungen
+- Aus H001-P (Regelungen P 0.667 R 0.857 = 6 von 9 richtig, Gold 7): Gruppentests statt Einzeltests. 1. H001-plusGTR9 (fehlende?), 2. H001-noVeh3 (ohne R94/R137/R100, neu, validiert): Gold darunter = 6 − richtig; danach Einzeltests R48/R148/R26 nur falls nötig; 3. Kombination; 4. Kandidaten-Lauf falls GTR 9 nicht fehlt
+- Seitenebene schließt nur Hypothesen aus, in denen R48 und R148 beide falsch sind (8 von 84). Requirement-F2-Effekt: drei falsche raus +0.02 (R94/R137/R100) bis +0.19 (mit R48). Uploads nur Jonathan; Homsianers Upload-Claim entfernt
