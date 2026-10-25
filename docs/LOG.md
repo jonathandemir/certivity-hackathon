@@ -764,3 +764,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:15:02 +0100 | [change] Technische Erklärung kompakt: nur Lösung, Standard 993 / Kurz 533 Zeichen | Homsianer @ vm | main@d2b4381 +lokale Änderungen
 - Auf Wunsch Homsianer ohne Problembeschreibung, dicht mit Technikbegriffen fürs kleine Formularfeld; Offenlegung der Held-out-Teilmengenwahl bleibt in beiden Längen; optionale Ergebniszeile (dev 0.06 → 0.76, Sub-Goal-Recall 0.91)
 - Zeichen per Python gezählt; Aussagen gegen Code geprüft (llm.py Cache, subgoal.py Satzabgleich, llmextract.py Batches, demo/app package.json)
+### 2026-10-25 11:29:22 +0100 | [change] Sub-Goal-Held-out: Proben HSG3 (Umnummerierung), HSG4 (verworfene neue Sätze), HSG5 (beide) | Jonathan @ MacBook-Pro-von-Jonathan | main@7b5d186 +lokale Änderungen
+- HSG2 findet 58 von 64 erwarteten Änderungen (Recall 0.906 = 58/64, Precision 58/142). HSG3 = HSG2 + 17 modified für Absätze, die nur umnummeriert wurden (Text gleich, Begründung sagt das). HSG4 = HSG2 + 7 added aus neuen Sätzen, die der Filter verwarf (Doppelpunkt-Einleitungen mit eigener Pflicht 5.5.4.2.6.5, 5.5.4.2.7.2, 6.4.2; Annex 3 2.1.1.10, 4.5; Annex 4 4.2.5.2.17.1.2). Ohne LLM, auf HSG2 aufgebaut, damit jeder Effekt einzeln messbar ist.
+- validate.py --requirements-old: HSG3 159, HSG4 149, HSG5 166 gültig

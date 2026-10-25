@@ -1,0 +1,9 @@
+{
+ "run_id": "HSG5",
+ "case_id": "subgoal-heldout",
+ "changes": 166,
+ "derived_from": "HSG3 + HSG4",
+ "note": "HSG2 + Umnummerierungs-Flags (HSG3) + verworfene neue Sätze (HSG4), ohne LLM",
+ "sha256": "a24e9c6ae91b74c9f5f0993c9e696e5145c82cd31de195e5fd967b758b4fe657",
+ "recorded_at": "2026-10-25T11:29:22+01:00"
+}

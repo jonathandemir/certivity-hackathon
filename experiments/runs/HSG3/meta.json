@@ -1,0 +1,28 @@
+{
+ "run_id": "HSG3",
+ "case_id": "subgoal-heldout",
+ "changes": 159,
+ "derived_from": "HSG2",
+ "note": "HSG2 + 17 modified-Flags für umnummerierte Absätze (Text gleich), ohne LLM. Frage: zählt Certivity Umnummerierung als Änderung?",
+ "added_ids": [
+  "R-029",
+  "R-030",
+  "R-031",
+  "R-032",
+  "R-033",
+  "R-034",
+  "R-035",
+  "R-037",
+  "R-039",
+  "R-040",
+  "R-042",
+  "R-068",
+  "R-113",
+  "R-114",
+  "R-115",
+  "R-116",
+  "R-117"
+ ],
+ "sha256": "80186182cdf990a3e723408e993242063054e6264a2b9a5f5a9f1a3b8ec60a4a",
+ "recorded_at": "2026-10-25T11:26:03+01:00"
+}
