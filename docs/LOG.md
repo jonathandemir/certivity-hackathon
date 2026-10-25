@@ -778,3 +778,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:40:19 +0100 | [run] Sub-Goal HSG6 0.891: Richter schwankt ±2, HSG4 bleibt Endstand | Jonathan @ MacBook-Pro-von-Jonathan | main@0ac141e
 - HSG6 = exakt die 166 Einträge von HSG5, nur andere Reihenfolge: 57 statt 59 Treffer. Also keine Abschneidung, sondern Rauschen/Reihenfolge-Effekt des Plattform-Richters. Folgerung: Umnummerierungs-Flags (HSG3) weglassen, HSG4 (149, Recall 0.953, Precision 0.409) erneut hochladen (letzter Sub-Goal-Slot bis 12:30:33). Board 11:38: sudo 0.922, Coffee 0.906, OOS 0.891, wir (HSG6) 0.891.
 - Screenshot Jonathan; 57/64 = 0.891, 57/166 = 0.343
+
+### 2026-10-25 11:51:14 +0100 | [run] Held-out: zy-D 0.766, zy-DR 0.771 (Seitenhypothese bestätigt) | Jonathan @ MacBook-Pro-von-Jonathan | main@b54eb87 (ungepusht)
+- zy-D (369, ohne Blinker/Warnblinker): 184 Treffer, 60 Seiten/51 Gold → keine Blinker-Seite im Gold. zy-DR (348): 182 Treffer, 55 Seiten/51 Gold. Nächster Upload: Homsianers Absatz-Nullfilter -P (DRG-P 288 bzw. DR-P 301), erwartet ≈0.81–0.83.
+- Screenshots Jonathan; P·N = R·G (184, 182)
