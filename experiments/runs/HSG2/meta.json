@@ -1,0 +1,12 @@
+{
+ "run_id": "HSG2",
+ "case_id": "subgoal-heldout",
+ "changes": 142,
+ "git": {
+  "commit": "main@dcc62ae"
+ },
+ "command": "CERTREQ_PROVIDER=anthropic python -m certreq.subgoal run vendor/.../subgoal/heldout --refine llm-all",
+ "note": "wie HSG1 (gleiche Flags), aber auch modified-Texte per LLM (16 von 21 umformuliert)",
+ "sha256": "c77ec98d8d24e07e5cc493c5e89117efd8b63d4b9c6185736cb35a898e185236",
+ "recorded_at": "2026-10-25T10:18:14+01:00"
+}

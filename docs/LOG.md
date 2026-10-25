@@ -699,3 +699,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:06:14 +0100 | [run] Held-out sideLight: F2 0.700 (Platz 2) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
 - H001-G9-noCrash-sideLight (497): P 0.374 R 0.894, ≈186 Treffer; Regelungen 7/8 richtig, Recall 1.0. Die 162 weggelassenen R48/R148-Anforderungen hatten keinen Treffer.
 - Nächste Tests auf dieser Basis: -noR127/-noR100/-noR26/-noR42 (Regelungs-P 100 % zeigt die falsche); Pitch: 0.568 automatisch, danach Prüfung auf Regelungs-/Abschnittsebene.
+
+### 2026-10-25 10:18:15 +0100 | [run] Sub-Goal-Held-out HSG2: --refine llm-all (Texte der modified per LLM) | Jonathan @ MacBook-Pro-von-Jonathan | main@dcc62ae
+- Gleiche Flags wie HSG1 (21 modified, 4 removed, 117 added); 16 modified-Texte/Begründungen umformuliert. Ziel: Change accuracy über 0.887 (Coffee and more 0.981 bei gleichem Recall). Dev war llm-all 0.875 vs llm 0.917 (1 Lauf).
+- Upload-Paar HSG2 gegen HSG1 (0.891/0.887); schlechter → HSG1 sofort erneut hochladen (letzter zählt).
