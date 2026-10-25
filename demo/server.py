@@ -186,7 +186,7 @@ PRODUCT_SOURCES = (  # (Ordner mit Produkt-Unterordnern, Gruppe); frühere gewin
 )
 # In der Demo ausgeblendet (Team-Entscheidung So 25.10.): bleibt im Prüfstand und in allen Kennzahlen (Holdout-F2 0.91 enthält es)
 HIDDEN_PRODUCTS = {"tesla-model3-alarm-immobiliser"}
-GROUPS = {"certivity": "Certivity-Aufgabe", "recherche": "Echte Teile (recherchiert)", "testfall": "Eigene Testfälle", "upload": "Eigene Uploads"}
+GROUPS = {"certivity": "Certivity case", "recherche": "Real parts (researched)", "testfall": "Own test cases", "upload": "Your uploads"}
 
 
 def _spec_file(d: Path) -> Path | None:
@@ -266,11 +266,11 @@ def _run_score(r: dict) -> tuple[int, float, str, str | None]:
     plat = read_json(ed / "platform.json", {}) if r.get("kind") == "messung" else {}
     f2 = ((plat or {}).get("requirements") or {}).get("f2")
     if f2 is not None:
-        return 3, f2, f"{f2:.3f}", "Plattform-F2"
+        return 3, f2, f"{f2:.3f}", "platform F2"
     sc = read_json(ed / "score.json", {}) if r.get("kind") == "messung" else {}
     f2 = (((sc or {}).get("levels") or {}).get("requirement_level") or {}).get("f2")
     if f2 is not None:
-        return 2, f2, f"{f2:.3f}", "lokaler F2"
+        return 2, f2, f"{f2:.3f}", "local F2"
     return 1, 0.0, "", None
 
 
@@ -301,7 +301,7 @@ def list_products(runs: list[dict] | None = None) -> list[dict]:
         elif pid in sels:
             s = sels[pid]
             item["best"] = {"kind": "auswahl", "runId": s["run"], "regs": len(s["selected"]), "score": f"{s['f2']:.2f}" if s.get("f2") is not None else None,
-                            "scoreLabel": "Auswahl-F2" if s.get("f2") is not None else None, "selected": s["selected"]}
+                            "scoreLabel": "selection F2" if s.get("f2") is not None else None, "selected": s["selected"]}
         out.append(item)
     order = {"certivity": 0, "upload": 1, "recherche": 2, "testfall": 3}
     out.sort(key=lambda p: (order[p["group"]], p["best"] is None, p["title"].lower()))

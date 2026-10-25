@@ -54,29 +54,29 @@ export default function Selection({ run, color, goReqs }) {
             <>
               <b style={{ color: color(hover) }}>{hover}</b>
               <span>{run.regs.find((r) => r.id === hover)?.title}</span>
-              <em>{why[hover] ? (ROLE[why[hover].role] || why[hover].role) : chosen.some((r) => r.id === hover) ? 'gewählt' : 'nicht betrachtet'}</em>
+              <em>{why[hover] ? (ROLE[why[hover].role] || why[hover].role) : chosen.some((r) => r.id === hover) ? 'selected' : 'not considered'}</em>
             </>
           ) : (
             <>
               <b>{chosen.length}<small> / {run.regs.length}</small></b>
-              <span>Regelungen gewählt für</span>
+              <span>regulations selected for</span>
               <em>{run.case.title}</em>
             </>
           )}
         </div>
         <div className="sel-legend">
-          <span><i className="lg-dot" />gewählt, Größe = Anforderungen</span>
-          <span><i className="lg-dash" />Anbau</span>
-          <span><i className="lg-ring" />Querschnitt</span>
-          <span><i className="lg-rej" />verworfen mit Grund</span>
+          <span><i className="lg-dot" />selected, size = requirements</span>
+          <span><i className="lg-dash" />installation</span>
+          <span><i className="lg-ring" />cross-cutting</span>
+          <span><i className="lg-rej" />rejected with reason</span>
         </div>
       </div>
 
       <div className="sel-right" data-scroll>
         {!run.run.selection.length && (
-          <div className="note-box">Dieser Lauf hat keine Begründungen gespeichert (Auswahl {run.run.select || 'B0'}). Läufe im Modus „Bestmarke“ erklären jede Regelung.</div>
+          <div className="note-box">This run stored no reasons (selection {run.run.select || 'B0'}). Runs in “Best” mode explain every regulation.</div>
         )}
-        <div className="h-label">Gewählt · {chosen.length}</div>
+        <div className="h-label">Selected · {chosen.length}</div>
         {chosen.map((r) => (
           <div key={r.id} className={`why ${hover === r.id ? 'hi' : ''}`} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)}>
             <span className="why-dot" style={{ background: color(r.id) }} />

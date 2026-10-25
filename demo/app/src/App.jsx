@@ -10,7 +10,7 @@ import { LAMP_SEGS } from './RearLamp.jsx'
 
 const Scene = memo(SceneRaw)
 const RUN_MS = 7000
-const ACT_NAMES = ['Lauf', 'Zeichnung', 'Beleg']
+const ACT_NAMES = ['Run', 'Drawing', 'Evidence']
 const ease = (x) => 1 - Math.pow(1 - x, 3)
 const fmtTime = (s) => (s == null ? '—' : `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.round(s % 60)).padStart(2, '0')}`)
 
@@ -120,7 +120,7 @@ export default function App() {
 }
 
 function Empty() {
-  return <div className="empty">Keine Anforderungen im Ergebnis.</div>
+  return <div className="empty">No requirements in this result.</div>
 }
 
 function Header({ act, setAct, onRun, t }) {
@@ -139,9 +139,9 @@ function Header({ act, setAct, onRun, t }) {
       </nav>
       <div className="hdr-r">
         {!EMBED && <span className="case-chip">{CASE.id}{CASE.category ? <><i>·</i>{CASE.category.split(/[ —–-]/)[0]}</> : null}</span>}
-        <button className={`run ${running ? 'live' : ''}`} onClick={onRun} title="Spielt den aufgezeichneten Lauf noch einmal ab">
+        <button className={`run ${running ? 'live' : ''}`} onClick={onRun} title="Replays the recorded run">
           <span className="run-dot" />
-          {running ? `Ablauf ${Math.round(t * 100)} %` : 'Ablauf zeigen'}
+          {running ? `Replay ${Math.round(t * 100)} %` : 'Replay run'}
         </button>
       </div>
     </header>
@@ -151,7 +151,7 @@ function Header({ act, setAct, onRun, t }) {
 function Footer({ act, setAct }) {
   return (
     <footer className="ftr">
-      <span className="hint"><kbd>←</kbd><kbd>→</kbd> wechseln · <kbd>R</kbd> neu prüfen</span>
+      <span className="hint"><kbd>←</kbd><kbd>→</kbd> switch · <kbd>R</kbd> replay</span>
       <div className="dots">
         {[0, 1, 2].map((i) => <button key={i} className={act === i ? 'on' : ''} onClick={() => setAct(i)} aria-label={ACT_NAMES[i]} />)}
       </div>
@@ -168,7 +168,7 @@ function ToWerkbank({ id }) {
     window.parent.postMessage({ type: 'certreq:req', id }, location.origin)
   }
   const href = `/#v=anforderungen&run=${encodeURIComponent(RUN_ID)}&req=${encodeURIComponent(id)}`
-  return <a className="to-wb" href={href} onClick={go}>In der Werkbank prüfen <span>→</span></a>
+  return <a className="to-wb" href={href} onClick={go}>Review in dashboard <span>→</span></a>
 }
 
 /* ---------------- Akt 1: Lauf ---------------- */
@@ -180,22 +180,22 @@ function ActRun({ t }) {
   return (
     <div className="run-wrap">
       <div className="run-copy">
-        <div className="eyebrow">Fall {CASE.id}{CASE.title && CASE.title !== CASE.id ? ` · ${CASE.title}` : ''}</div>
+        <div className="eyebrow">Case {CASE.id}{CASE.title && CASE.title !== CASE.id ? ` · ${CASE.title}` : ''}</div>
         <h1 className="display">
-          Ein Bauteil.<br />
-          {REGS.length} Regelwerke.<br />
-          <span className="num-red">{shown}</span> Pflichten.
+          One part.<br />
+          {REGS.length} regulations.<br />
+          <span className="num-red">{shown}</span> obligations.
         </h1>
         <p className="lede">
-          Der Agent liest {CASE.hasSpec ? 'die Spezifikation' : 'die Zeichnung'}, wählt die einschlägigen UN-Regelungen und zieht
-          jede Anforderung heraus, mit Seite und Absatz als Beleg.
+          The agent reads {CASE.hasSpec ? 'the spec' : 'the drawing'}, picks the applicable UN regulations and extracts
+          every requirement, with page and paragraph as evidence.
         </p>
       </div>
       <div className="stats">
-        <Stat k={`${regsOn}/${REGS.length}`} l="Regelungen gewählt" />
-        <Stat k={shown} l="Anforderungen" />
-        <Stat k={Math.round(PAGES_TOTAL * k)} l="Seiten belegt" />
-        <Stat k={RUN.seconds != null ? fmtTime(RUN.seconds * Math.min(1, t)) : '—'} l="Laufzeit" />
+        <Stat k={`${regsOn}/${REGS.length}`} l="regulations selected" />
+        <Stat k={shown} l="requirements" />
+        <Stat k={Math.round(PAGES_TOTAL * k)} l="pages cited" />
+        <Stat k={RUN.seconds != null ? fmtTime(RUN.seconds * Math.min(1, t)) : '—'} l="run time" />
       </div>
       <div className={`ticker ${t >= 1 ? 'done' : ''}`}>
         <span className="tk-dot" />
@@ -295,10 +295,10 @@ function ActDrawing({ sketch, setSketch, part, setPart, segs, hovered, setHovere
   return (
     <div className="draw-wrap">
       <div className="draw-left">
-        <div className="eyebrow">{IS_LAMP ? '3D-Modell, Maß für Maß nach der Explosionszeichnung' : CASE.drawing ? 'Explosionszeichnung, automatisch in Teile zerlegt' : 'Bauteile aus der Spezifikation'}</div>
+        <div className="eyebrow">{IS_LAMP ? '3D model, built to the exploded drawing' : CASE.drawing ? 'Exploded drawing, split into parts automatically' : 'Parts from the spec'}</div>
         {IS_LAMP && (
           <div className="mini-seg">
-            <button className={sketch ? 'on' : ''} onClick={() => setSketch(true)}>Technische Skizze</button>
+            <button className={sketch ? 'on' : ''} onClick={() => setSketch(true)}>Technical sketch</button>
             <button className={!sketch ? 'on' : ''} onClick={() => setSketch(false)}>3D-Render</button>
           </div>
         )}
@@ -316,7 +316,7 @@ function ActDrawing({ sketch, setSketch, part, setPart, segs, hovered, setHovere
           <motion.div key={p.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.28 }}>
             <div className="part-head">
               <div>
-                <div className="eyebrow">{p.id === 'device' ? p.note : `Bauteil ${p.n} · Zuordnung per Wortabgleich`}</div>
+                <div className="eyebrow">{p.id === 'device' ? p.note : `Part ${p.n} · matched by keywords`}</div>
                 <h2 className="part-name">{p.name}</h2>
               </div>
               <Donut by={pc.by} total={pc.total} />
@@ -394,16 +394,16 @@ function ActEvidence({ req, active, anchorOut }) {
   return (
     <div className="ev-wrap" ref={wrap}>
       <div className="ev-left">
-        <div className="ev-top"><div className="eyebrow">Beleg · {req.id}</div><ToWerkbank id={req.id} /></div>
+        <div className="ev-top"><div className="eyebrow">Evidence · {req.id}</div><ToWerkbank id={req.id} /></div>
         <blockquote className={`quote ${req.text.length > 260 ? 'long' : ''}`}>
           <span className="q-mark">“</span>{req.text}
         </blockquote>
         <div className="chain">
           {[
-            [part.name, part.id === 'device' ? 'Gesamtgerät' : `Bauteil ${part.n}`, '#ff2a1f'],
+            [part.name, part.id === 'device' ? 'Whole device' : `Part ${part.n}`, '#ff2a1f'],
             [req.reg, `Version ${req.version}`, regColor(req.reg)],
-            [`§ ${req.para}`, 'Absatz'],
-            [`Seite ${req.page}`, page?.of ? `von ${page.of} im PDF` : 'im Original-PDF'],
+            [`§ ${req.para}`, 'paragraph'],
+            [`Page ${req.page}`, page?.of ? `of ${page.of} in the PDF` : 'in the original PDF'],
           ].map(([k, s, c], i, arr) => (
             <div key={i} className="node" ref={i === 0 ? n0 : i === arr.length - 1 ? nLast : undefined}>
               <span className="node-c" style={{ '--c': c || 'var(--ink)' }} />
@@ -418,19 +418,19 @@ function ActEvidence({ req, active, anchorOut }) {
           <div className="sheet">
             {page ? (
               <>
-                <img src={page.src} alt={`${req.reg} Seite ${req.page}`} draggable={false} />
+                <img src={page.src} alt={`${req.reg} page ${req.page}`} draggable={false} />
                 {lines.map(([x, y, w, h], i) => (
                   <motion.span key={req.id + i} className="hl" ref={i === 0 ? hl : undefined}
                     style={{ left: `${x * 100}%`, top: `${y * 100}%`, width: `${w * 100}%`, height: `${h * 100}%` }}
                     initial={{ scaleX: 0 }} animate={{ scaleX: active ? 1 : 0 }} transition={{ delay: active ? 0.6 + i * 0.2 : 0, duration: 0.45, ease: [0.6, 0, 0.2, 1] }} />
                 ))}
-                {!lines.length && <span className="hl-miss" ref={hl}>Absatz {req.para} auf dieser Seite nicht exakt gefunden</span>}
+                {!lines.length && <span className="hl-miss" ref={hl}>Paragraph {req.para} not found exactly on this page</span>}
               </>
             ) : (
               <div className="sheet-fallback">
                 <div className="sf-head">{req.reg}, version {req.version} · page {req.page}</div>
                 <p><b>{req.para}</b> <span className="hl-inline" ref={hl}>{req.text}</span></p>
-                <div className="sf-note">Seite nicht eingebettet</div>
+                <div className="sf-note">Page not embedded</div>
               </div>
             )}
           </div>

@@ -2,7 +2,7 @@
 // Nichts hier ist auf einen bestimmten Fall zugeschnitten.
 
 const EMPTY = {
-  case: { id: 'kein-fall', title: 'Kein Fall geladen', parts: [], functions: [], hasSpec: false, drawing: null },
+  case: { id: 'kein-fall', title: 'No case loaded', parts: [], functions: [], hasSpec: false, drawing: null },
   run: {}, regs: [], reqs: [], pages: {}, hits: {}, pagesTotal: 0,
 }
 const D = (typeof window !== 'undefined' && window.CERTREQ) || EMPTY
@@ -28,7 +28,7 @@ export const regTitle = (id) => REGS.find((r) => r.id === id)?.title || ''
 // Bauteile aus der Spezifikation, plus Sammelposten für alles, was keinem Bauteil zugeordnet ist
 export const PARTS = [
   ...CASE.parts.map((p) => ({ id: p.id, n: p.n, name: p.name })),
-  { id: 'device', n: CASE.parts.length + 1, name: 'Gesamtgerät', note: 'keinem Bauteil zugeordnet' },
+  { id: 'device', n: CASE.parts.length + 1, name: 'Whole device', note: 'not assigned to a part' },
 ]
 export const partById = Object.fromEntries(PARTS.map((p) => [p.id, p]))
 export const partCounts = Object.fromEntries(
@@ -55,10 +55,10 @@ export const regAngle = (id) => (Math.max(0, REGS.findIndex((r) => r.id === id))
 export const activationT = (id) => SWEEP0 + (regAngle(id) / (Math.PI * 2)) * (SWEEP1 - SWEEP0)
 
 export const LOG = [
-  [0.0, CASE.hasSpec ? `Liest Spezifikation · ${CASE.title}` : CASE.drawing ? 'Liest Explosionszeichnung' : `Fall ${CASE.id}`],
-  [0.06, CASE.parts.length ? `Erkennt ${CASE.parts.length} Hauptbauteile` : 'Zerlegt die Zeichnung in Teile'],
-  [0.1, `Durchsucht ${REGS.length} UN-Regelungen`],
+  [0.0, CASE.hasSpec ? `Reading spec · ${CASE.title}` : CASE.drawing ? 'Reading exploded drawing' : `Case ${CASE.id}`],
+  [0.06, CASE.parts.length ? `Found ${CASE.parts.length} main parts` : 'Splitting the drawing into parts'],
+  [0.1, `Screening ${REGS.length} UN regulations`],
   ...ACTIVE.map((r) => [activationT(r.id), `${r.id} · ${r.title} · ${r.count}`]).sort((a, b) => a[0] - b[0]),
-  [0.92, 'Belegt jede Anforderung mit Seite und Absatz'],
-  [0.995, `Fertig · ${REQS.length} Anforderungen aus ${ACTIVE.length} Regelungen`],
+  [0.92, 'Citing page and paragraph for every requirement'],
+  [0.995, `Done · ${REQS.length} requirements from ${ACTIVE.length} regulations`],
 ]

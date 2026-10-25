@@ -19,9 +19,9 @@ export function makeColors(regs) {
 }
 
 export const STATUS = {
-  open: { label: 'Offen', key: 'U' },
-  accepted: { label: 'Bestätigt', key: 'A' },
-  rejected: { label: 'Verworfen', key: 'X' },
+  open: { label: 'Open', key: 'U' },
+  accepted: { label: 'Confirmed', key: 'A' },
+  rejected: { label: 'Rejected', key: 'X' },
 }
 
 export const fmtSec = (s) => {
@@ -72,4 +72,4 @@ export function writeHash(h) {
   if (location.hash !== s) history.replaceState(null, '', s)
 }
 
-export const ROLE = { component: 'Bauteil', installation: 'Anbau', 'cross-cutting': 'Querschnitt', rejected: 'verworfen' }
+export const ROLE = { component: 'component', installation: 'installation', 'cross-cutting': 'cross-cutting', rejected: 'rejected' }

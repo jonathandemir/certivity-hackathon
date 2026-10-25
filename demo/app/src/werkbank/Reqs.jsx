@@ -6,7 +6,7 @@ const ROW = 86
 const statusOf = (run, id) => run.review[id]?.status || 'open'
 
 export default function Reqs({ run, color, filters, setFilters, reqId, setReqId, setReview, say }) {
-  const parts = useMemo(() => [...run.case.parts, { id: 'device', n: run.case.parts.length + 1, name: 'Gesamtgerät' }], [run])
+  const parts = useMemo(() => [...run.case.parts, { id: 'device', n: run.case.parts.length + 1, name: 'Whole device' }], [run])
   const partName = useMemo(() => Object.fromEntries(parts.map((p) => [p.id, p.name])), [parts])
   const q = filters.q.trim().toLowerCase()
   const base = useMemo(() => run.reqs.filter((r) => (!filters.part || r.part === filters.part) && (!q || `${r.id} ${r.reg} ${r.para} ${r.text}`.toLowerCase().includes(q))), [run, filters.part, q])
@@ -75,10 +75,10 @@ export default function Reqs({ run, color, filters, setFilters, reqId, setReqId,
             ))}
           </div>
           <div className="progress"><i style={{ width: `${(reviewed / Math.max(1, run.reqs.length)) * 100}%` }} /></div>
-          <div className="progress-l">{reviewed} von {run.reqs.length} geprüft</div>
+          <div className="progress-l">{reviewed} of {run.reqs.length} reviewed</div>
         </div>
         <div className="c-block grow">
-          <div className="h-label">Bauteile <span className="hint-inline">Zuordnung per Wortabgleich</span></div>
+          <div className="h-label">Parts <span className="hint-inline">matched by keywords</span></div>
           <div className="parts" data-scroll>
             {parts.map((p) => {
               const n = run.reqs.filter((r) => r.part === p.id && (!filters.reg || r.reg === filters.reg)).length
@@ -101,7 +101,7 @@ export default function Reqs({ run, color, filters, setFilters, reqId, setReqId,
         <div className="list-head">
           <div className="search">
             <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-            <input ref={searchRef} value={filters.q} onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))} placeholder="Suchen in Text, Absatz, ID" />
+            <input ref={searchRef} value={filters.q} onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))} placeholder="Search text, paragraph, ID" />
             <kbd>/</kbd>
           </div>
           <ExportMenu run={run} />
@@ -110,28 +110,28 @@ export default function Reqs({ run, color, filters, setFilters, reqId, setReqId,
           {filters.reg && <Chip c={color(filters.reg)} onX={() => setFilters((f) => ({ ...f, reg: null }))}>{filters.reg}</Chip>}
           {filters.part && <Chip onX={() => setFilters((f) => ({ ...f, part: null }))}>{partName[filters.part]}</Chip>}
           {filters.status && <Chip onX={() => setFilters((f) => ({ ...f, status: null }))}>{STATUS[filters.status].label}</Chip>}
-          <span className="chips-n">{list.length} {list.length === 1 ? 'Anforderung' : 'Anforderungen'}</span>
+          <span className="chips-n">{list.length} {list.length === 1 ? 'requirement' : 'requirements'}</span>
           {list.length > 0 && list.length <= 400 && (filters.reg || filters.part || filters.status || q) && (
             <span className="bulk">
-              <button onClick={() => { setReview(list.map((r) => r.id), { status: 'accepted' }); say(`${list.length} bestätigt`) }}>alle bestätigen</button>
-              <button onClick={() => { setReview(list.map((r) => r.id), { status: 'rejected' }); say(`${list.length} verworfen`) }}>alle verwerfen</button>
+              <button onClick={() => { setReview(list.map((r) => r.id), { status: 'accepted' }); say(`${list.length} confirmed`) }}>confirm all</button>
+              <button onClick={() => { setReview(list.map((r) => r.id), { status: 'rejected' }); say(`${list.length} rejected`) }}>reject all</button>
             </span>
           )}
         </div>
         <VirtualList listRef={listRef} list={list} sel={sel} setReqId={setReqId} run={run} color={color} partName={partName} />
         <div className="keys">
-          <span><kbd>J</kbd><kbd>K</kbd> blättern</span>
-          <span><kbd>A</kbd> bestätigen</span>
-          <span><kbd>X</kbd> verwerfen</span>
-          <span><kbd>U</kbd> offen</span>
-          <span><kbd>N</kbd> Notiz</span>
-          <span><kbd>Esc</kbd> Filter weg</span>
+          <span><kbd>J</kbd><kbd>K</kbd> browse</span>
+          <span><kbd>A</kbd> confirm</span>
+          <span><kbd>X</kbd> reject</span>
+          <span><kbd>U</kbd> reopen</span>
+          <span><kbd>N</kbd> note</span>
+          <span><kbd>Esc</kbd> clear filter</span>
         </div>
       </section>
 
       <section className="evidence">
         <AnimatePresence mode="wait">
-          {sel ? <Evidence key={sel.id} run={run} req={sel} color={color} setReview={setReview} mark={mark} move={move} setReqId={setReqId} partName={partName} /> : <div className="ev-empty">Keine Anforderung im Filter.</div>}
+          {sel ? <Evidence key={sel.id} run={run} req={sel} color={color} setReview={setReview} mark={mark} move={move} setReqId={setReqId} partName={partName} /> : <div className="ev-empty">No requirement in this filter.</div>}
         </AnimatePresence>
       </section>
       <Thread selId={sel?.id} />
@@ -171,7 +171,7 @@ function VirtualList({ listRef, list, sel, setReqId, run, color, partName }) {
               <StatusDot s={st} />
               <span className="pg" style={{ '--c': color(r.reg) }}>{r.page}</span>
               <span className="row-b">
-                <span className="row-ref">{r.reg} · § {r.para}<em>{partName[r.part]}</em>{run.review[r.id]?.note && <em className="has-note">Notiz</em>}</span>
+                <span className="row-ref">{r.reg} · § {r.para}<em>{partName[r.part]}</em>{run.review[r.id]?.note && <em className="has-note">note</em>}</span>
                 <span className="row-t">{r.text}</span>
               </span>
             </button>
@@ -190,8 +190,8 @@ function ExportMenu({ run }) {
       <button className="ghost sm" onClick={() => setOpen((o) => !o)}>Export ▾</button>
       {open && (
         <div className="pop right" onMouseLeave={() => setOpen(false)}>
-          <a className="pop-row" href={`/api/export?run=${id}&fmt=json`}><b>Abgabe-JSON</b><span>Plattformformat, ohne Verworfene</span></a>
-          <a className="pop-row" href={`/api/export?run=${id}&fmt=csv`}><b>Tabelle (CSV)</b><span>mit Status und Notizen</span></a>
+          <a className="pop-row" href={`/api/export?run=${id}&fmt=json`}><b>Submission JSON</b><span>platform format, without rejected</span></a>
+          <a className="pop-row" href={`/api/export?run=${id}&fmt=csv`}><b>Table (CSV)</b><span>with status and notes</span></a>
         </div>
       )}
     </div>
@@ -226,27 +226,27 @@ function Evidence({ run, req, color, setReview, mark, move, setReqId, partName }
       <div className="ev-top">
         <div className="ev-id">
           <span className="ev-dot" style={{ background: color(req.reg) }} />
-          <b>{req.id}</b><span>{req.reg} · § {req.para} · Seite {req.page}{page?.of ? ` von ${page.of}` : ''}</span>
+          <b>{req.id}</b><span>{req.reg} · § {req.para} · page {req.page}{page?.of ? ` of ${page.of}` : ''}</span>
         </div>
         <div className="ev-actions">
-          <button className={`act ok ${st === 'accepted' ? 'on' : ''}`} onClick={() => mark(st === 'accepted' ? 'open' : 'accepted')}><StatusDot s="accepted" />Bestätigen<kbd>A</kbd></button>
-          <button className={`act no ${st === 'rejected' ? 'on' : ''}`} onClick={() => mark(st === 'rejected' ? 'open' : 'rejected')}><StatusDot s="rejected" />Verwerfen<kbd>X</kbd></button>
+          <button className={`act ok ${st === 'accepted' ? 'on' : ''}`} onClick={() => mark(st === 'accepted' ? 'open' : 'accepted')}><StatusDot s="accepted" />Confirm<kbd>A</kbd></button>
+          <button className={`act no ${st === 'rejected' ? 'on' : ''}`} onClick={() => mark(st === 'rejected' ? 'open' : 'rejected')}><StatusDot s="rejected" />Reject<kbd>X</kbd></button>
           <button className="act icon" onClick={() => move(-1)} title="vorherige (K)">↑</button>
-          <button className="act icon" onClick={() => move(1)} title="nächste (J)">↓</button>
+          <button className="act icon" onClick={() => move(1)} title="next (J)">↓</button>
         </div>
       </div>
       <p className="ev-text">{req.text}</p>
       <div className="ev-meta">
-        <div><span>Regelung</span><b>{req.reg} <i>v{req.version}</i></b><em>{regTitle}</em></div>
-        <div><span>Bauteil</span><b>{partName[req.part]}</b><em>Wortabgleich</em></div>
-        {sel && <div className="wide"><span>Warum diese Regelung · {ROLE[sel.role] || sel.role}</span><em className="reason">{sel.reason}</em></div>}
+        <div><span>Regulation</span><b>{req.reg} <i>v{req.version}</i></b><em>{regTitle}</em></div>
+        <div><span>Part</span><b>{partName[req.part]}</b><em>keyword match</em></div>
+        {sel && <div className="wide"><span>Why this regulation · {ROLE[sel.role] || sel.role}</span><em className="reason">{sel.reason}</em></div>}
       </div>
-      <textarea className="ev-note" rows={1} value={note} placeholder="Notiz (N) …" onChange={(e) => setNote(e.target.value)}
+      <textarea className="ev-note" rows={1} value={note} placeholder="Note (N) …" onChange={(e) => setNote(e.target.value)}
         onBlur={() => note !== (run.review[req.id]?.note || '') && setReview(req.id, { note })} />
       <div className="page-wrap">
         <div className="page-bar">
-          <span>Original-PDF · {req.reg} {req.version} · Seite {req.page}</span>
-          {page?.pdf && <a href={page.pdf} target="_blank" rel="noreferrer">öffnen ↗</a>}
+          <span>Original PDF · {req.reg} {req.version} · page {req.page}</span>
+          {page?.pdf && <a href={page.pdf} target="_blank" rel="noreferrer">open ↗</a>}
         </div>
         <div className="page-scroll" ref={scroller}>
           {err && <div className="page-err">{err}</div>}
@@ -258,10 +258,10 @@ function Evidence({ run, req, color, setReview, mark, move, setReqId, partName }
                   title={id === req.id ? '' : `${id} anzeigen`} onClick={() => id !== req.id && setReqId(id)}
                   style={{ left: `${x * 100}%`, top: `${y * 100}%`, width: `${w * 100}%`, height: `${h * 100}%`, '--c': color(req.reg) }} />
               )))}
-              {!lines.length && page && <span className="page-miss">Absatz {req.para} auf der Seite nicht exakt gefunden</span>}
+              {!lines.length && page && <span className="page-miss">Paragraph {req.para} not found exactly on the page</span>}
             </div>
           )}
-          {!page && !err && <div className="page-ph"><span className="spin" />Seite wird gerendert</div>}
+          {!page && !err && <div className="page-ph"><span className="spin" />Rendering page</div>}
         </div>
       </div>
     </motion.div>
@@ -350,8 +350,8 @@ function Wheel({ run, base, color, reg, setReg, shown }) {
         ) : (
           <>
             <b>{shown}</b>
-            <span className="wc-id">Anforderungen</span>
-            <span className="wc-t">{counts.length} Regelungen · {run.pagesTotal} Seiten</span>
+            <span className="wc-id">Requirements</span>
+            <span className="wc-t">{counts.length} regulations · {run.pagesTotal} pages</span>
           </>
         )}
       </div>

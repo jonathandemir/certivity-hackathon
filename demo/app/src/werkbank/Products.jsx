@@ -20,8 +20,8 @@ export function ProductList({ products, current, pick, onNew }) {
   return (
     <aside className="pl">
       <div className="pl-top">
-        <input className="pl-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={`${products?.length || 0} Produkte durchsuchen`} />
-        <button className="pl-new" onClick={onNew} title="Eigenes Produkt hochladen und prüfen">+</button>
+        <input className="pl-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search ${products?.length || 0} products`} />
+        <button className="pl-new" onClick={onNew} title="Upload and check your own product">+</button>
       </div>
       <div className="pl-scroll">
         {groups.map((g) => (
@@ -32,24 +32,24 @@ export function ProductList({ products, current, pick, onNew }) {
                 {p.id === current && <motion.span layoutId="plpill" className="pl-pill" transition={{ type: 'spring', stiffness: 420, damping: 36 }} />}
                 <span className="pl-name">{p.title}</span>
                 <span className="pl-meta">
-                  {p.running ? <span className="pl-live"><span className="spin" />läuft</span> : <Badge best={p.best} />}
+                  {p.running ? <span className="pl-live"><span className="spin" />running</span> : <Badge best={p.best} />}
                 </span>
               </button>
             ))}
           </section>
         ))}
-        {!groups.length && <div className="pl-empty">Kein Produkt gefunden.</div>}
+        {!groups.length && <div className="pl-empty">No product found.</div>}
       </div>
     </aside>
   )
 }
 
 function Badge({ best }) {
-  if (!best) return <span className="pl-kind none">ungeprüft</span>
+  if (!best) return <span className="pl-kind none">not checked</span>
   const tone = best.score == null ? '' : +best.score >= 0.9 ? 'good' : +best.score >= 0.7 ? 'mid' : 'low'
   return (
     <>
-      <span className="pl-kind">{best.kind === 'run' ? `${best.n} Anf.` : `${best.regs} Reg.`}</span>
+      <span className="pl-kind">{best.kind === 'run' ? `${best.n} req.` : `${best.regs} reg.`}</span>
       {best.score != null && <span className={`pl-score ${tone}`}>{best.score}</span>}
     </>
   )
@@ -67,35 +67,35 @@ export function ProductHead({ p, llm, start, present }) {
         <h1 className="ph-title">{p.title}</h1>
         <div className="ph-best">
           {p.running ? (
-            <span><span className="spin" /> Prüfung läuft · {fmtSec(p.running.elapsed)} von üblich ~{fmtSec(p.running.typical)}</span>
+            <span><span className="spin" /> Check running · {fmtSec(p.running.elapsed)} of usually ~{fmtSec(p.running.typical)}</span>
           ) : !b ? (
-            <span>Noch nicht geprüft</span>
+            <span>Not checked yet</span>
           ) : b.kind === 'run' ? (
             <span>
-              Bestes Ergebnis{b.of > 1 ? ` aus ${b.of} Läufen` : ''}: <b>{b.n} Anforderungen</b> aus <b>{b.regs} {b.regs === 1 ? 'Regelung' : 'Regelungen'}</b>
+              Best result{b.of > 1 ? ` of ${b.of} runs` : ''}: <b>{b.n} requirements</b> from <b>{b.regs} {b.regs === 1 ? 'regulation' : 'regulations'}</b>
               {b.score && <> · {b.scoreLabel} <b>{b.score}</b></>}
             </span>
           ) : (
             <span>
-              Bestes Ergebnis: Auswahl von <b>{b.regs} {b.regs === 1 ? 'Regelung' : 'Regelungen'}</b>{b.score && <> · {b.scoreLabel} <b>{b.score}</b> gegen belegte Genehmigung</>}
-              <span className="ph-hint"> · Anforderungen noch nicht gezogen</span>
+              Best result: selected <b>{b.regs} {b.regs === 1 ? 'regulation' : 'regulations'}</b>{b.score && <> · {b.scoreLabel} <b>{b.score}</b> against the documented approval</>}
+              <span className="ph-hint"> · requirements not extracted yet</span>
             </span>
           )}
         </div>
       </div>
       <div className="ph-r">
-        {b?.kind === 'run' && <button className="ghost sm" onClick={present} title="Überblick als Vollbild (P)">Vollbild ↗</button>}
+        {b?.kind === 'run' && <button className="ghost sm" onClick={present} title="Overview full screen (P)">Full screen ↗</button>}
         <div className="ph-run">
-          <button className="primary" disabled={!!p.running} onClick={() => setMenu((m) => !m)}>{b?.kind === 'run' ? 'Neu prüfen' : 'Anforderungen ziehen'} ▾</button>
+          <button className="primary" disabled={!!p.running} onClick={() => setMenu((m) => !m)}>{b?.kind === 'run' ? 'Check again' : 'Extract requirements'} ▾</button>
           {menu && (
             <motion.div className="pop right" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} onMouseLeave={() => setMenu(false)}>
               <button className="pop-row" disabled={!llm} onClick={() => { setMenu(false); start('best') }}>
-                <b>Bestmarke</b><span>{llm ? 'KI-Auswahl + Extraktion, ~4 min' : 'braucht LLM-Key (.env.local)'}</span>
+                <b>Best</b><span>{llm ? 'AI selection + extraction, ~4 min' : 'needs an LLM key (.env.local)'}</span>
               </button>
               <button className="pop-row" onClick={() => { setMenu(false); start('fast') }}>
-                <b>Schnell</b><span>ohne KI, ~20 s</span>
+                <b>Fast</b><span>no AI, ~20 s</span>
               </button>
-              <div className="pop-note">Das beste Ergebnis bleibt stehen, ein neuer Lauf ersetzt es nur, wenn er besser ist.</div>
+              <div className="pop-note">The best result stays; a new run only replaces it if it scores higher.</div>
             </motion.div>
           )}
         </div>
@@ -113,13 +113,13 @@ export function SelectionOnly({ pid, say }) {
     api(`/api/product?id=${encodeURIComponent(pid)}`).then((x) => !dead && setD(x)).catch((e) => say(e.message, 'err'))
     return () => { dead = true }
   }, [pid, say])
-  if (!d) return <div className="loading"><span className="spin" />Lade Produkt …</div>
-  const LABEL = { hit: 'Treffer', ok: 'vertretbar', wrong: 'zu viel', missing: 'fehlt' }
+  if (!d) return <div className="loading"><span className="spin" />Loading product …</div>
+  const LABEL = { hit: 'hit', ok: 'acceptable', wrong: 'extra', missing: 'missing' }
   return (
     <div className="so">
       <section className="so-card">
-        <div className="h-label">Gewählte Regelungen{d.selRun && <span className="hint-inline">aus Auswahl-Test {d.selRun}{d.selModel ? ` · ${d.selModel}` : ''}</span>}</div>
-        {!d.selection.length && <div className="so-empty">Für dieses Produkt gibt es noch kein Ergebnis. Oben „Anforderungen ziehen“ startet die volle Prüfung.</div>}
+        <div className="h-label">Selected regulations{d.selRun && <span className="hint-inline">from selection test {d.selRun}{d.selModel ? ` · ${d.selModel}` : ''}</span>}</div>
+        {!d.selection.length && <div className="so-empty">No result for this product yet. “Extract requirements” above starts the full check.</div>}
         <div className="so-list">
           {d.selection.map((s) => (
             <div key={s.reg} className={`so-row ${s.status}`}>
@@ -134,18 +134,18 @@ export function SelectionOnly({ pid, say }) {
         </div>
         {d.gold && (
           <div className="so-gold">
-            <div className="h-label">Belegte Genehmigung (Musterlösung)</div>
+            <div className="h-label">Documented approval (gold)</div>
             <div className="so-chips">
               {(d.gold.sure || []).map((r) => <span key={r} className="chip sure">{r}</span>)}
-              {(d.gold.unsure || []).map((r) => <span key={r} className="chip unsure" title="vertretbar, zählt nicht">{r} ?</span>)}
+              {(d.gold.unsure || []).map((r) => <span key={r} className="chip unsure" title="acceptable, not scored">{r} ?</span>)}
             </div>
             {d.gold.basis && <p className="so-basis">{d.gold.basis}</p>}
-            {d.gold.source && <a className="so-src" href={d.gold.source} target="_blank" rel="noreferrer">Quelle öffnen ↗</a>}
+            {d.gold.source && <a className="so-src" href={d.gold.source} target="_blank" rel="noreferrer">Open source ↗</a>}
           </div>
         )}
       </section>
       <section className="so-card">
-        <div className="h-label">Spezifikation</div>
+        <div className="h-label">Spec</div>
         <Md text={d.spec} />
       </section>
     </div>

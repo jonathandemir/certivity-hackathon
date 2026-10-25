@@ -8,10 +8,10 @@ import { ProductList, ProductHead, SelectionOnly, NewProduct } from './Products.
 
 // Ein Produkt, ein Ergebnis: links jedes Produkt genau einmal, rechts sein bestes Ergebnis in vier Ansichten
 const VIEWS = [
-  ['ueberblick', 'Überblick', true],
-  ['anforderungen', 'Anforderungen', true],
-  ['regelungen', 'Regelungen', false],
-  ['aenderungen', 'Änderungen', false],
+  ['ueberblick', 'Overview', true],
+  ['anforderungen', 'Requirements', true],
+  ['regelungen', 'Regulations', false],
+  ['aenderungen', 'Changes', false],
 ]
 
 export default function Werkbank() {
@@ -30,7 +30,7 @@ export default function Werkbank() {
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 2600); return () => clearTimeout(t) }, [toast])
 
   const refresh = useCallback(async () => {
-    try { const s = await api('/api/state'); setState(s); return s } catch (e) { say(`Server nicht erreichbar: ${e.message}`, 'err') }
+    try { const s = await api('/api/state'); setState(s); return s } catch (e) { say(`Server not reachable: ${e.message}`, 'err') }
   }, [say])
   useEffect(() => { refresh() }, [refresh])
 
@@ -68,7 +68,7 @@ export default function Werkbank() {
     prevLive.current = live
     for (const id of before) if (!live.split(',').includes(id)) {
       const p = products.find((x) => x.id === id)
-      say(p?.best?.kind === 'run' ? `${p.title}: Prüfung fertig` : `${p?.title || id}: Prüfung beendet, Log in out/runs`, p?.best?.kind === 'run' ? 'ok' : 'err')
+      say(p?.best?.kind === 'run' ? `${p.title}: check done` : `${p?.title || id}: check ended, log in out/runs`, p?.best?.kind === 'run' ? 'ok' : 'err')
     }
     if (!live) return
     const t = setInterval(refresh, 2000)
@@ -94,7 +94,7 @@ export default function Werkbank() {
   const pick = useCallback((id) => { setPid(id); setReqId('') }, [])
   const present = useCallback(() => { if (runId) window.open(`/present/${encodeURIComponent(runId)}/`, '_blank') }, [runId])
   const start = useCallback(async (mode) => {
-    try { await api('/api/runs', { method: 'POST', body: { case: pid, mode } }); say(`Prüfung von ${product?.title} gestartet`); refresh() } catch (e) { say(e.message, 'err') }
+    try { await api('/api/runs', { method: 'POST', body: { case: pid, mode } }); say(`Check of ${product?.title} started`); refresh() } catch (e) { say(e.message, 'err') }
   }, [pid, product, refresh, say])
 
   useEffect(() => {
@@ -127,14 +127,14 @@ export default function Werkbank() {
         <div className="brand"><span className="brand-dot" />BarelyLegal</div>
         <nav className="seg">
           {VIEWS.map(([k, label, needsRun], i) => (
-            <button key={k} className={`seg-b ${view === k ? 'on' : ''}`} disabled={needsRun && !full} title={needsRun && !full ? 'Erst nach einer vollen Prüfung' : ''} onClick={() => setView(k)}>
+            <button key={k} className={`seg-b ${view === k ? 'on' : ''}`} disabled={needsRun && !full} title={needsRun && !full ? 'Only after a full check' : ''} onClick={() => setView(k)}>
               {view === k && <motion.span layoutId="segpill" className="seg-pill" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />}
               <span className="seg-k">{i + 1}</span>{label}
             </button>
           ))}
         </nav>
         <div className="hdr-actions">
-          <button className="ghost" onClick={() => setPalette(true)} title="Produkt, Ansicht oder Anforderung suchen"><span>Suchen</span><kbd>⌘K</kbd></button>
+          <button className="ghost" onClick={() => setPalette(true)} title="Search product, view or requirement"><span>Search</span><kbd>⌘K</kbd></button>
         </div>
       </header>
 
@@ -143,7 +143,7 @@ export default function Werkbank() {
         <main className="wb-main">
           <ProductHead p={product} llm={state?.llm} start={start} present={present} />
           <div className="wb-view">
-            {!state ? <Loading /> : !product ? <div className="loading">Kein Produkt gewählt.</div> : (
+            {!state ? <Loading /> : !product ? <div className="loading">No product selected.</div> : (
               <>
                 {view === 'ueberblick' && full && <Overview runId={runId} />}
                 {view === 'anforderungen' && full && (run ? <Reqs run={run} color={color} filters={filters} setFilters={setFilters} reqId={reqId} setReqId={setReqId} setReview={setReview} say={say} /> : <Loading />)}
@@ -173,15 +173,15 @@ function Overview({ runId }) {
   const [ready, setReady] = useState(false)
   return (
     <div className="ov">
-      {!ready && <div className="loading ov-load"><span className="spin" />Baue Überblick …</div>}
-      <iframe key={runId} title="Überblick" className={`ov-frame ${ready ? 'on' : ''}`} onLoad={() => setReady(true)}
+      {!ready && <div className="loading ov-load"><span className="spin" />Building overview …</div>}
+      <iframe key={runId} title="Overview" className={`ov-frame ${ready ? 'on' : ''}`} onLoad={() => setReady(true)}
         src={`/present/${encodeURIComponent(runId)}/?embed=1`} />
     </div>
   )
 }
 
 function Loading() {
-  return <div className="loading"><span className="spin" />Lade Lauf …</div>
+  return <div className="loading"><span className="spin" />Loading run …</div>
 }
 
 function Palette({ products, run, close, setView, pick, setReqId, present }) {
@@ -193,20 +193,20 @@ function Palette({ products, run, close, setView, pick, setReqId, present }) {
     const s = q.trim().toLowerCase()
     const m = (t) => !s || t.toLowerCase().includes(s)
     const out = []
-    for (const [k, l] of VIEWS) if (m(l)) out.push({ g: 'Ansicht', label: l, run: () => setView(k) })
+    for (const [k, l] of VIEWS) if (m(l)) out.push({ g: 'View', label: l, run: () => setView(k) })
     if (run) {
       out.push(...[
-        { g: 'Aktion', label: 'Abgabe exportieren (JSON, ohne Verworfene)', run: () => window.open(`/api/export?run=${encodeURIComponent(run.runId)}&fmt=json`) },
-        { g: 'Aktion', label: 'Tabelle exportieren (CSV)', run: () => window.open(`/api/export?run=${encodeURIComponent(run.runId)}&fmt=csv`) },
-        { g: 'Aktion', label: '3D-Präsentation öffnen', run: present },
+        { g: 'Action', label: 'Export submission (JSON, without rejected)', run: () => window.open(`/api/export?run=${encodeURIComponent(run.runId)}&fmt=json`) },
+        { g: 'Action', label: 'Export table (CSV)', run: () => window.open(`/api/export?run=${encodeURIComponent(run.runId)}&fmt=csv`) },
+        { g: 'Action', label: 'Open 3D presentation', run: present },
       ].filter((x) => m(x.label)))
       if (s.length >= 2) {
         const hits = run.reqs.filter((r) => `${r.id} ${r.reg} ${r.para} ${r.text}`.toLowerCase().includes(s)).slice(0, 8)
-        out.push(...hits.map((r) => ({ g: 'Anforderung', label: `${r.id} · ${r.reg} § ${r.para}`, sub: r.text, run: () => setReqId(r.id) })))
+        out.push(...hits.map((r) => ({ g: 'Requirement', label: `${r.id} · ${r.reg} § ${r.para}`, sub: r.text, run: () => setReqId(r.id) })))
       }
     }
     for (const p of products.filter((p) => m(`${p.title} ${p.id}`)).slice(0, 8))
-      out.push({ g: 'Produkt', label: p.title, sub: p.groupLabel, run: () => pick(p.id) })
+      out.push({ g: 'Product', label: p.title, sub: p.groupLabel, run: () => pick(p.id) })
     return out
   }, [q, products, run, setView, pick, setReqId, present])
   useEffect(() => setI(0), [q])
@@ -214,7 +214,7 @@ function Palette({ products, run, close, setView, pick, setReqId, present }) {
   return (
     <motion.div className="pal-bg" onMouseDown={close} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div className="pal" onMouseDown={(e) => e.stopPropagation()} initial={{ y: -12, scale: 0.98 }} animate={{ y: 0, scale: 1 }} exit={{ y: -12, scale: 0.98 }}>
-        <input ref={inp} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Produkt, Ansicht, Anforderung (ID, Absatz, Text) …"
+        <input ref={inp} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Product, view, requirement (ID, paragraph, text) …"
           onKeyDown={(e) => {
             if (e.key === 'Escape') close()
             if (e.key === 'ArrowDown') { e.preventDefault(); setI((x) => Math.min(items.length - 1, x + 1)) }
@@ -228,7 +228,7 @@ function Palette({ products, run, close, setView, pick, setReqId, present }) {
               <span className="pal-l">{it.label}{it.sub && <span className="pal-s">{it.sub}</span>}</span>
             </button>
           ))}
-          {!items.length && <div className="pal-empty">Nichts gefunden.</div>}
+          {!items.length && <div className="pal-empty">Nothing found.</div>}
         </div>
       </motion.div>
     </motion.div>

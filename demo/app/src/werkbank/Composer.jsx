@@ -22,15 +22,15 @@ export function Composer({ state, refresh, say, done }) {
         const b64 = await new Promise((res) => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f) })
         setImg({ name: f.name, b64 })
         if (!name) setName(f.name.replace(/\.[^.]+$/, ''))
-      } else say(`${f.name}: nur .md/.txt oder Bilder`, 'err')
+      } else say(`${f.name}: only .md/.txt or images`, 'err')
     }
   }
   const go = async () => {
     setBusy(true)
     try {
-      const c = await api('/api/cases', { method: 'POST', body: { name: name || 'eigener Fall', spec: spec?.text || '', image: img } })
+      const c = await api('/api/cases', { method: 'POST', body: { name: name || 'my product', spec: spec?.text || '', image: img } })
       await api('/api/runs', { method: 'POST', body: { case: c.id, mode } })
-      say(`Fall ${c.id} angelegt, Prüfung läuft`)
+      say(`Product ${c.id} created, check running`)
       setSpec(null); setImg(null); setName('')
       await refresh()
       done?.(c.id)
@@ -39,7 +39,7 @@ export function Composer({ state, refresh, say, done }) {
   const ready = spec || img
   return (
     <div className="composer">
-      <div className="h-label">Eigenes Produkt prüfen</div>
+      <div className="h-label">Check your own product</div>
       <div
         className={`drop ${drag ? 'drag' : ''} ${ready ? 'has' : ''}`}
         onDragOver={(e) => { e.preventDefault(); setDrag(true) }}
@@ -52,30 +52,30 @@ export function Composer({ state, refresh, say, done }) {
         <div className="drop-text">
           {ready ? (
             <>
-              <b>{[spec && 'Spezifikation', img && 'Zeichnung'].filter(Boolean).join(' + ')}</b>
+              <b>{[spec && 'Spec', img && 'Drawing'].filter(Boolean).join(' + ')}</b>
               <span>{[spec?.name, img?.name].filter(Boolean).join(' · ')}</span>
             </>
           ) : (
             <>
-              <b>Spezifikation und/oder Zeichnung</b>
-              <span>hierher ziehen oder klicken · .md .txt .png .jpg</span>
+              <b>Spec and/or drawing</b>
+              <span>drop here or click · .md .txt .png .jpg</span>
             </>
           )}
         </div>
         <input ref={file} type="file" multiple accept=".md,.txt,image/*" hidden onChange={(e) => take([...e.target.files])} />
       </div>
       <div className="comp-row">
-        <input className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name des Falls, z. B. Frontstoßfänger" />
+        <input className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="Product name, e.g. front bumper" />
       </div>
       <div className="modes">
         <button className={mode === 'best' ? 'on' : ''} disabled={!state?.llm} onClick={() => setMode('best')}>
-          <b>Bestmarke</b><span>{state?.llm ? 'LLM-Auswahl + Extraktion, ~4 min' : 'braucht LLM-Key (.env.local)'}</span>
+          <b>Best</b><span>{state?.llm ? 'AI selection + extraction, ~4 min' : 'needs an LLM key (.env.local)'}</span>
         </button>
         <button className={mode === 'fast' ? 'on' : ''} onClick={() => setMode('fast')}>
-          <b>Schnell</b><span>ohne KI (Baseline B0), ~20 s</span>
+          <b>Fast</b><span>no AI (baseline B0), ~20 s</span>
         </button>
       </div>
-      <button className="primary wide" disabled={!ready || busy} onClick={go}>{busy ? 'Startet …' : 'Prüfung starten'}</button>
+      <button className="primary wide" disabled={!ready || busy} onClick={go}>{busy ? 'Starting …' : 'Start check'}</button>
     </div>
   )
 }

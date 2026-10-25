@@ -3,9 +3,9 @@ import { motion } from 'motion/react'
 import { api, wordDiff, fmtSec } from './lib.js'
 
 const TYPES = {
-  modified: { label: 'Geändert', sign: '~', cls: 'mod' },
-  removed: { label: 'Entfernt', sign: '−', cls: 'rem' },
-  added: { label: 'Neu', sign: '+', cls: 'add' },
+  modified: { label: 'Changed', sign: '~', cls: 'mod' },
+  removed: { label: 'Removed', sign: '−', cls: 'rem' },
+  added: { label: 'New', sign: '+', cls: 'add' },
 }
 
 // Änderungen (Sub-Goal, AP7): alte → neue Fassung einer Regelung, Wirkung auf die Anforderungen.
@@ -16,7 +16,7 @@ export default function Compare({ state, run, say, openReq }) {
   const updates = run?.updates || []
   const sources = useMemo(() => [
     ...updates.map((u) => ({ key: `run:${u.reg}`, kind: 'run', reg: u.reg, label: u.reg.replace('UN ', ''), sub: `${u.from} → ${u.to}`, n: u.n })),
-    ...folders.map((f) => ({ key: `pkg:${f.id}`, kind: 'pkg', id: f.id, label: `Paket ${f.id}`, done: f.done })),
+    ...folders.map((f) => ({ key: `pkg:${f.id}`, kind: 'pkg', id: f.id, label: `Package ${f.id}`, done: f.done })),
   ], [updates, folders])
   const [key, setKey] = useState('')
   const [picked, setPicked] = useState(false) // von Hand gewählt → nicht mehr automatisch umschalten
@@ -46,7 +46,7 @@ export default function Compare({ state, run, say, openReq }) {
     <div className="cmp">
       <div className="cmp-head">
         <div>
-          <div className="h-label">{src?.kind === 'run' ? `Neue Fassung · Wirkung auf Lauf ${run?.runId}` : 'Versionsvergleich · Sub-Goal'}</div>
+          <div className="h-label">{src?.kind === 'run' ? `New version · impact on run ${run?.runId}` : 'Version comparison · sub-goal'}</div>
           {res ? (
             <div className="cmp-title">
               <span className="ct-reg">{res.regulation}</span>
@@ -55,18 +55,18 @@ export default function Compare({ state, run, say, openReq }) {
               <span className="ct-v new">{res.new}</span>
             </div>
           ) : (
-            <div className="cmp-title muted">{busy ? 'Vergleiche Fassungen …' : sources.length ? 'Neue Fassung prüfen: was ändert sich für die Anforderungen?' : 'Für die zitierten Regelungen gibt es keine neuere Fassung im Paket.'}</div>
+            <div className="cmp-title muted">{busy ? 'Comparing versions …' : sources.length ? 'Check a new version: what changes for the requirements?' : 'No newer version of the cited regulations in the package.'}</div>
           )}
         </div>
         <div className="cmp-ctrl">
           <div className="mini-tabs">
             {sources.map((x) => (
-              <button key={x.key} className={key === x.key ? 'on' : ''} onClick={() => { setKey(x.key); setPicked(true); setRes(null); setType(null) }} title={x.kind === 'run' ? `${x.n} Anforderungen dieses Laufs` : 'Sub-Goal-Ordner des Pakets'}>
+              <button key={x.key} className={key === x.key ? 'on' : ''} onClick={() => { setKey(x.key); setPicked(true); setRes(null); setType(null) }} title={x.kind === 'run' ? `${x.n} requirements of this run` : 'Sub-goal folder of the package'}>
                 {x.label}{x.sub && <em className="mt-sub">{x.sub}</em>}
               </button>
             ))}
           </div>
-          <button className="primary" disabled={!src || busy} onClick={() => go(!!res)}>{busy ? 'Vergleicht …' : res ? 'Neu vergleichen' : 'Vergleichen'}</button>
+          <button className="primary" disabled={!src || busy} onClick={() => go(!!res)}>{busy ? 'Comparing …' : res ? 'Compare again' : 'Compare'}</button>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ export default function Compare({ state, run, say, openReq }) {
           {Object.entries(TYPES).map(([k, t]) => (
             <button key={k} className={`cstat ${t.cls} ${type === k ? 'on' : ''}`} onClick={() => setType(type === k ? null : k)}>
               <span className="cs-c">{t.sign}</span><b>{counts[k]}</b><span>{t.label}</span>
-              {res.eval && <em>Treffer {res.eval[k].tp}/{res.eval[k].expected}</em>}
+              {res.eval && <em>Hits {res.eval[k].tp}/{res.eval[k].expected}</em>}
             </button>
           ))}
           {res.eval && (
@@ -84,7 +84,7 @@ export default function Compare({ state, run, say, openReq }) {
               <span>F2 lokal<br /><em>R {res.eval.all.recall.toFixed(2)} · P {res.eval.all.precision.toFixed(2)}</em></span>
             </div>
           )}
-          <div className="cmp-meta">{res.requirements.length} {res.run ? `Anforderungen aus Lauf ${res.run}` : 'alte Anforderungen'} geprüft · {fmtSec(res.seconds)} · regelbasiert, ohne KI</div>
+          <div className="cmp-meta">{res.requirements.length} {res.run ? `requirements from run ${res.run}` : 'old requirements'} checked · {fmtSec(res.seconds)} · rule-based, no AI</div>
         </div>
       )}
 
@@ -98,10 +98,10 @@ export default function Compare({ state, run, say, openReq }) {
               <span className="ch-sign">{t.sign}</span>
               <div className="ch-b">
                 <div className="ch-h">
-                  <b>{c.requirement_id || 'neue Anforderung'}</b>
+                  <b>{c.requirement_id || 'new requirement'}</b>
                   {o && <span>alt § {o.source.paragraph} · S. {o.source.page}</span>}
                   {c.source && <span>neu § {c.source.paragraph} · S. {c.source.page}</span>}
-                  {res.run && c.requirement_id && <button className="link ch-open" onClick={() => openReq(c.requirement_id)}>Anforderung öffnen →</button>}
+                  {res.run && c.requirement_id && <button className="link ch-open" onClick={() => openReq(c.requirement_id)}>Open requirement →</button>}
                 </div>
                 {diff && <p className="ch-t">{diff.map((d, k) => d.op === '=' ? <span key={k}>{d.t}</span> : d.op === '-' ? <del key={k}>{d.t}</del> : <ins key={k}>{d.t}</ins>)}</p>}
                 {c.change === 'removed' && <p className="ch-t"><del>{o?.text}</del></p>}
@@ -111,9 +111,9 @@ export default function Compare({ state, run, say, openReq }) {
             </motion.div>
           )
         })}
-        {res && !shown.length && <div className="empty-row">Keine Änderungen dieses Typs.</div>}
-        {!res && !busy && <div className="cmp-empty">{sources.length ? 'Quelle wählen und vergleichen. Dauert wenige Sekunden.' : 'Nichts zu vergleichen.'}</div>}
-        {busy && !res && <div className="cmp-empty"><span className="spin" /> Liest beide Fassungen und gleicht Satz für Satz ab …</div>}
+        {res && !shown.length && <div className="empty-row">No changes of this type.</div>}
+        {!res && !busy && <div className="cmp-empty">{sources.length ? 'Pick a source and compare. Takes a few seconds.' : 'Nothing to compare.'}</div>}
+        {busy && !res && <div className="cmp-empty"><span className="spin" /> Reading both versions and aligning sentence by sentence …</div>}
       </div>
     </div>
   )
