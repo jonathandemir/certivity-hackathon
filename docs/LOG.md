@@ -710,3 +710,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-25 10:28:55 +0100 | [change] Held-out: Kombinationen H001-G9-sideLight-noX-zy für alle 6 Kandidaten | Homsianer @ vm | main@58b7f26 +lokale Änderungen
 - Je Kandidat X ∈ {R127, R100, R26, R42, R10, R148}: Bestwert sideLight ohne X plus Dev-Nullfilter, validiert. Nach Jonathans Schritt 2 sofort hochladbar
+
+### 2026-10-25 10:30:37 +0100 | [finding] Sub-Goal Held-out: kein kostenloser Recall-Hebel gefunden (Prüfung B) | Homsianer @ vm | main@7126f7c
+- HSG1 markiert 25 der 117 alten Anforderungen; von den 92 übrigen haben 37 einen anderen Absatztext unter gleichem Label, das sind aber Umnummerierungen (Inhalt per 1:1-Abgleich an anderer Stelle unverändert gefunden, z. B. 5.3.7.2.4.x), R-068 (5.5.4.2.2.3) steht wortgleich unter neuer Nummer. Die 7 fehlenden Flags sind so nicht zu finden; Flaggen nach Label-Diff wäre Raten
+- Kein neuer Sub-Goal-Upload von B vorgeschlagen; HSG2 (Jonathan) bleibt das laufende Paar
