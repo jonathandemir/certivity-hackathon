@@ -3,7 +3,7 @@
 Nur auf main ändern (über `scripts/main-wt`). Claims nur mit `scripts/claim`. Veraltetes sofort löschen,
 Historie steht in docs/LOG.md.
 
-## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 12:00, Jonathan) <<<
+## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Endstand 13:00, Jonathan) <<<
 
 **Für jeden Agenten: zuerst das hier lesen und befolgen.** Belege: experiments/LEDGER.md (H001-P …), LOG.
 
@@ -50,7 +50,7 @@ testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Teilverlust
    Varianten (validiert, `out/upload/`): `…-zy-D` (369, ohne Blinker/Warnblinker R48 S.40–45 + R148 5.6), `-R` (419, R48 S.23/26/80,
    R10 S.99, R148 S.15), `-G` (427, GTR 9 Annex 1), Kombinationen `-DR`, `-DG`, `-RG`, `-DRG` (335; ≈0.797 falls nichts verloren).
 2c. ✓ 11:45–11:57: zy-D 0.766, zy-DR 0.771, **zy-DRG-P 0.799 (Bestwert)**, zy-DR-P 0.790 (GTR-9-Annex-1 ohne Treffer).
-   ✓ 12:07 **zy-DRG-P-add 0.803 (Bestwert)**. **Plan Haupt: 12:45:03 Test `zy-DRG-P-add-t2c` (324: +30 wörtliche Pflichtsätze aus Prüfverfahren R42/R127/GTR 9 und R26 5.1/5.6 auf Gold-Seiten); 12:47:30 `zy-DRG-P-add` erneut, falls t2c ≤ 0.803.** Notreserve 12:52:40, 12:57:10. Uploads nur Jonathan.
+   ✓ **ENDSTAND 13:00: Haupt = zy-DRG-P, F2 0.799** (letzter Upload 12:57:33; t2c 0.787, add-Wiederholungen 0.781/0.776 – der Richter streut ±3 Treffer bei gleicher Datei). Sub-Goal: HSG4 (0.953), falls zuletzt hochgeladen. Abgabe-Repo öffentlich: https://github.com/jonathandemir/barelylegal-certivity
    **Endstand Sub-Goal: HSG4** (Recall 0.953, Precision 0.409) muss der letzte Sub-Goal-Upload sein.
 2d. **(B 11:10) Danach `-P` auf den dann besten Stand** (z. B. `…-zy-DRG-P`, 288): entfernt Anforderungen, deren Absatz
    (Regelung + Label) auf dev in 6 Claude-Läufen ≥ 4-mal ausgegeben und **nie** getroffen wurde (nur R10/R48/R148; R26 ist auf

@@ -14,7 +14,7 @@ compares two versions of a regulation and reports which requirements are modifie
 
 | Case (Certivity platform) | Result |
 |---|---|
-| Held-out front bumper, main goal | F2 0.80 (precision 0.61, recall 0.87); regulations 7 of 7, none extra |
+| Held-out front bumper, main goal | F2 0.80 (precision 0.62, recall 0.86); regulations 7 of 7, none extra |
 | Held-out regulation change (UN R171) | flag recall 0.95, change accuracy 0.84 |
 | Worked example rear lamp | F2 0.76 |
 

@@ -1,0 +1,26 @@
+[
+ {
+  "uploaded": "2026-10-25 12:49:51 CET",
+  "scored": "2026-10-25 12:50:19 CET",
+  "requirements": {
+   "precision": 0.597,
+   "recall": 0.846,
+   "f1": 0.7,
+   "f2": 0.781
+  },
+  "treffer_plattform": 176,
+  "hinweis": "gleiche Datei erneut hochgeladen (Streuung des Plattform-Richters)"
+ },
+ {
+  "uploaded": "2026-10-25 12:53:39 CET",
+  "scored": "2026-10-25 12:54:06 CET",
+  "requirements": {
+   "precision": 0.593,
+   "recall": 0.841,
+   "f1": 0.696,
+   "f2": 0.776
+  },
+  "treffer_plattform": 175,
+  "hinweis": "gleiche Datei erneut hochgeladen (Streuung des Plattform-Richters)"
+ }
+]

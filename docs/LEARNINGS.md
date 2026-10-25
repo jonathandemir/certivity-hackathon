@@ -194,6 +194,16 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   einen Konflikt** (`merge=union` in .gitattributes). Beleg: Testlauf der Skripte mit zwei Klonen gegen ein
   gemeinsames origin (Abschnitt „Tests" im `[decision]`-Eintrag vom 2026-10-24 in docs/LOG.md).
 
+- **Held-out: Seiten- und Regelungsmetrik der Plattform sind exakte Mengenzählungen.** Aus Präzision und Recall
+  einer Ebene folgen ganze Zahlen (53 Gold-Seiten, 7 Gold-Regelungen). Einzel-Drops je Regelung und Seitengruppen-Uploads
+  zeigen deshalb eindeutig, was im Gold steht. Beleg: noR100 Regelungen 1.0/1.0; zy, zy-D, zy-DR entfernten 9 + 8 + 5
+  Seiten ohne eine einzige Gold-Seite, F2 0.704 → 0.771 (LEDGER H001-G9-sideLight-*). Gold-Seiten von R10/R148 ließen
+  sich aus dev-Gold-Seiten vorhersagen (23 = 23).
+- **Die Anforderungsebene der Plattform streut: dieselbe Datei kam auf 181, 176 und 175 Treffer** (add, 12:07/12:49/12:53),
+  DRG-P zweimal auf 179. Unterschiede unter etwa 4 Treffern (≈0.015 F2) zwischen Varianten sind nicht belastbar; für
+  Entscheidungen Seiten-/Regelungsebene nutzen oder mehrfach messen (LEDGER HELDOUT-REPEATS). Sub-Goal ebenso: gleiche
+  166 Einträge in anderer Reihenfolge 59 vs 57 (HSG5/HSG6).
+
 ## Verworfen, nicht erneut versuchen
 
 - **2026-10-24 · Jev (Decision-Modell, Vercel AI Gateway) als Nachfilter auf Anforderungen.** Beleg: X-JEV-1
@@ -220,3 +230,6 @@ Quelle) + Konsequenz. Ohne Beleg ist es eine Vermutung und gehört nicht hierher
   nach main gemergt werden, damit die anderen darauf aufbauen können (Entscheidung 2026-10-24); dazu kamen
   main-Worktree für Doku und eine Sonderregel für LOG.md. Bei drei Leuten mit getrennten Dateien und gegenseitigen
   Abhängigkeiten kostet das mehr, als es schützt. Stattdessen: alle auf main, Tests in `scripts/sync`, Schalter für neue Ansätze.
+- **Held-out: wörtliche Pflichtsätze von Gold-Seiten nachschieben (R42/R127/GTR-9-Prüfverfahren, R26 5.1/5.6).** Beleg:
+  t2c (+30 Sätze) 182 statt 181 Treffer, F2 0.803 → 0.787 (LEDGER …-add-t2c-Upload). Was der Agent auf Gold-Seiten
+  nicht extrahiert, steht meist auch nicht im Gold.

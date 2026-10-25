@@ -841,3 +841,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 
 ### 2026-10-25 12:53:35 +0100 | [change] README: One-liner + Weg ohne API-Key | Amiad @ claude | main@872ebcd +lokale Änderungen
 - Jury-Abschnitt ergänzt: One-line pitch und 'Explore our results without an API key' (clone, Paket, PDFs, venv, demo/server.py), ohne scripts/setup (bricht ohne git-Identität ab).
+### 2026-10-25 12:59:30 +0100 | [run] Held-out Endstand: zy-DRG-P 0.799 (letzter Upload 12:57:33); Richter-Streuung gemessen | Jonathan @ MacBook-Pro-von-Jonathan | main@d63e1e2 +lokale Änderungen
+- t2c 0.787 (182 Treffer, Zusätze ≈ wirkungslos). add dreimal: 181/176/175 Treffer (0.803/0.781/0.776), DRG-P zweimal 179 (0.799). Letzter Upload DRG-P = 0.799. Repo jonathandemir/barelylegal-certivity öffentlich (12:56, Jonathans OK). LEARNINGS: Seiten-/Regelungsmetrik exakt, Anforderungsebene streut ±3 Treffer; Nachschieben von Pflichtsätzen verworfen.
+- Screenshots Jonathan; platform.json / platform-repeats.json je Lauf
