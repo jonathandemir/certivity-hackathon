@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-G9-noCrash-noR100",
+ "derived_from": "H001-G9-noCrash",
+ "dropped_regulations": [
+  "UN R100"
+ ],
+ "requirements": 637,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 161,
+  "UN R48": 271,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@0340d5a",
+ "submission_sha256": "2e857838a491d8ed5e387a8ba3a3ef81bf1f98f0e80a0fc55a26b7b9012b7925",
+ "recorded_at": "2026-10-25T09:26:28+01:00"
+}

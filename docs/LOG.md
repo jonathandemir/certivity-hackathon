@@ -683,3 +683,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 09:08:14 +0100 | [run] Leaderboard 09:05 + Kombinations-Varianten für den Held-out | Homsianer @ vm | main@a05dfce
 - Leaderboard (Screenshot): Stoßfänger Platz 8 (0.568, P 0.259 schlechteste), Platz 1 sudo 0.703; Sub-Goal Platz 3 (89.1 % / 88.7 %), Platz 1 Team 1 100 %/96.7 %, gerankt nach Flag-Recall dann Change accuracy (Precision nicht). Dev Platz 6 (0.762)
 - Neu, ohne LLM, validiert: H001-noVeh3-plusGTR9 (637), H001-noVeh3-plusGTR9-noFuncLight (562), H001-noVeh3-plusGTR9-sideLight (475). Rechnung: Platz 1 braucht bei ~168 Treffern n ≲ 350. Upload-Reihenfolge in STATUS (Uploads nur Jonathan)
+
+### 2026-10-25 09:26:43 +0100 | [run] Held-out Upload-Paare: GTR 9 im Gold, R94/R137 nicht, R48 im Gold, modes hilft | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@ac66773
+- plusGTR9 0.603 (Regelungs-Recall 1.0), noCrash 0.585 (Regelungs-P 6/7), noR48 0.562 (R48 richtig), H003-noGTR9 0.548. Gold = GTR 9 + R48 + 5 von {R127, R42, R26, R10, R148, R100}; genau eine davon ist falsch.
+- Neue Basis H001-G9-noCrash (659, erwartet ≈0.617); Tests je eine Regelung weg: -noR127/-noR100/-noR26/-noR42 (Regelungs-P 100 % zeigt die falsche). Uploads team-weit 5/h, nächster frei ~09:46.
