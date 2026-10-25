@@ -1,0 +1,9 @@
+{
+ "run_id": "HSG6",
+ "case_id": "subgoal-heldout",
+ "changes": 166,
+ "derived_from": "HSG2 + HSG4-Zusätze + HSG3-Zusätze",
+ "note": "wie HSG5, aber Reihenfolge: HSG4-Zusätze vor HSG3-Zusätzen (amended zuerst). Prüft, ob die Plattform bei vielen Änderungen hintere Einträge nicht wertet (HSG5 = exakt HSG3-Werte)",
+ "sha256": "721b6129f7273119f4dd87824fb70198665ce972390244f6b3ee67cb7682d4b1",
+ "recorded_at": "2026-10-25T11:35:46+01:00"
+}
