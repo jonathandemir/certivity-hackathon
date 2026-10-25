@@ -819,3 +819,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 12:31:43 +0100 | [change] Sub-Goal HSG8 = HSG7 + 15 added aus LLM-Lückensuche je geändertem Absatz | Jonathan @ MacBook-Pro-von-Jonathan | main@b4d2266 +lokale Änderungen
 - Claude vergleicht jeden geänderten Absatz (121) alt/neu mit den vorhandenen HSG7-Einträgen und nennt fehlende neue Pflichten: 18 Funde, 15 aufgenommen (u. a. 5.5.4.2.6.5 Highway-like, 5.5.4.2.8.2 (d), Annex-4-Prüfbedingungen, 8 Berichtspunkte), 3 verworfen (Definitionen, Einleitung). Obermenge von HSG7/HSG4 (170). Datei: certivity-a/out/upload/HSG8-subgoal-heldout.json
 - validate.py --requirements-old gültig (170); Funde von Hand gegen Absatztext gelesen; Obermenge per Skript geprüft
+### 2026-10-25 12:31:46 +0100 | [change] Abgabe: README-Abschnitt für die Jury (EN) und Formulartexte | Jonathan @ MacBook-Pro-von-Jonathan | main@2378e9d +lokale Änderungen
+- README: Was certreq tut, Plattform-Ergebnisse (Held-out F2 0.80, Sub-Goal-Recall 0.95, dev 0.76), Offenlegung wie der Held-out-Wert zustande kam (H001 0.568 ohne Handarbeit, danach Beschneiden nach Plattform-Rückmeldung), Start-Befehle. docs/pitch/submission-form.md: Name, Pitch, Technical Solution (aus Homsianers Text auf 800 Zeichen gekürzt), Tags, Links.
+- Zeichenzahlen per Skript geprüft (52/60, 135/140, 792/800)
