@@ -184,6 +184,8 @@ PRODUCT_SOURCES = (  # (Ordner mit Produkt-Unterordnern, Gruppe); frühere gewin
     (EXP / "selection-suite", "testfall"),
     (EXP / "guard-cases", "testfall"),
 )
+# In der Demo ausgeblendet (Team-Entscheidung So 25.10.): bleibt im Prüfstand und in allen Kennzahlen (Holdout-F2 0.91 enthält es)
+HIDDEN_PRODUCTS = {"tesla-model3-alarm-immobiliser"}
 GROUPS = {"certivity": "Certivity-Aufgabe", "recherche": "Echte Teile (recherchiert)", "testfall": "Eigene Testfälle", "upload": "Eigene Uploads"}
 
 
@@ -203,7 +205,7 @@ def product_dirs() -> dict[str, tuple[Path, str]]:
         if not base.is_dir():
             continue
         for d in sorted(base.iterdir()):
-            if d.is_dir() and d.name not in out and ID_RE.match(d.name) and (_spec_file(d) or _img_file(d)):
+            if d.is_dir() and d.name not in out and d.name not in HIDDEN_PRODUCTS and ID_RE.match(d.name) and (_spec_file(d) or _img_file(d)):
                 out[d.name] = (d, grp)
     return out
 

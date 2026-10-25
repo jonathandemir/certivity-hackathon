@@ -730,3 +730,6 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:54:31 +0100 | [run] Held-out Schritt 2: R100 ist die falsche Regelung, noR100 = 0.704 (Regelungen 100 %) | Jonathan @ MacBook-Pro-von-Jonathan | gemessen auf main@62216d6
 - Uploads 10:44–10:49 auf Basis sideLight (0.700, 186 Treffer, G≈208): noR127 0.631 (−23 Treffer), noR26 0.610 (−28), noR100 0.704 (Regelungen P/R 1.0/1.0, −2 Treffer bei −22 Ausgaben), noR42 0.650 (−16). Gold = GTR 9, R10, R26, R42, R48, R127, R148. Letzter Upload war noR42 → zählt mit 0.650 (Platz 4); noR100 muss erneut hoch (ab 10:58).
 - Screenshots Jonathan, platform.json je Lauf; Treffer aus P·N und R·G stimmen überein. Nächster Test: noR100-zy (440, Homsianer, validiert, Hash bde40e9a = Meta).
+
+### 2026-10-25 11:00:12 +0100 | [change] Werkbank: Tesla-Teil ausgeblendet | Amiad @ claude | main@28b723b +lokale Änderungen
+- demo/server.py HIDDEN_PRODUCTS: Tesla-Alarmanlage (Auswahl-F2 0.00) in der Demo nicht gelistet; bleibt im Prüfstand und in allen Kennzahlen. Held-out-Stoßfänger erscheint automatisch mit Bestwert H001-G9-sideLight-noR100 (Plattform 0.704).
