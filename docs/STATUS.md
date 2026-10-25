@@ -104,6 +104,7 @@ Alle arbeiten auf main. „Rechner" trägt jeder nach `scripts/setup` selbst ein
 | Homsianer | vm | Anthropic-Zugang hinter Schalter CERTREQ_PROVIDER=anthropic (Standard bleibt OpenAI; Homsianer hat nur Anthropic-Key) | certreq/llm_anthropic.py (neu), certreq/llm.py (nur Anbieter-Schalter in model_name/_call/_check), certreq/judge.py (nur config.model), requirements.txt (+anthropic), tests/test_llm.py | 2026-10-24 17:04 |
 | Homsianer | vm | Held-out: Abschnitts-Varianten (Leuchtentypen in R48/R148) für Upload-Paare, ohne LLM | certreq/sectionvariants.py (neu), tests/test_sectionvariants.py (neu), experiments/runs/H001-* | 2026-10-25 08:12 |
 | Jonathan | MacBook-Pro-von-Jonathan | Abgabe: README-Jury-Abschnitt (EN), Formulartexte, öffentliches Repo | README.md, docs/pitch/submission-form.md | 2026-10-25 12:30 |
+| Jonathan | MacBook-Pro-von-Jonathan | Held-out: DRG-P-add-Wiederholung eintragen | experiments/LEDGER.md (1 Zeile), experiments/runs/H001-G9-sideLight-noR100-zy-DRG-P-add-R2/ | 2026-10-25 12:52 |
 
 ## Nächste Schritte
 
