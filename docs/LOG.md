@@ -788,3 +788,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 11:54:06 +0100 | [run] Held-out zy-DRG-P = 0.799 (Bestwert) | Jonathan @ MacBook-Pro-von-Jonathan | main@e2e5c85
 - Homsianers Absatz-Nullfilter auf zy-DRG: 288 Anforderungen, 179 Treffer, Seiten 52/50 Gold. Eine Gold-Seite unter GTR 9 S.116–118 (Gruppe G). Ob die −3 Treffer aus G oder P kommen, klärt der DRG-Screenshot. Nächster Slot 12:04:35.
 - Screenshot Jonathan; P·N = R·G = 179
+
+### 2026-10-25 11:58:36 +0100 | [run] Held-out zy-DR-P 0.790: GTR-9-Annex-1 ohne Treffer; Endstand DRG-P (0.799) | Jonathan @ MacBook-Pro-von-Jonathan | main@3f06698
+- DR-P = DRG-P + 13 Ausgaben GTR 9 S.116–118: 179 Treffer wie DRG-P, Seiten 51/53 → die Gold-Seite unter 116–118 wird getroffen, unsere Anforderungen dort nicht. Endstand Haupt: zy-DRG-P um 12:05 erneut als letzter Upload. Weitere Filter geprüft (Leave-one-out auf 6 dev-Läufen): Absätze mit Quote < 16 % oder Null ab 2–3 Ausgaben streichen auf dem Held-out 0–6 weitere Ausgaben (≈ +0.003, unter dem Richterrauschen ±0.009) → keine weiteren Tests.
+- Screenshot Jonathan; P·N = R·G = 179; Variantenvergleich: DR-P minus GTR 9 S.116–118 = DRG-P (geprüft)

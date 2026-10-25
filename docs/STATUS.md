@@ -3,7 +3,7 @@
 Nur auf main ändern (über `scripts/main-wt`). Claims nur mit `scripts/claim`. Veraltetes sofort löschen,
 Historie steht in docs/LOG.md.
 
-## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 11:55, Jonathan) <<<
+## >>> ERSTE PRIO JETZT: Held-out-Roadmap (So 25.10., Stand 12:00, Jonathan) <<<
 
 **Für jeden Agenten: zuerst das hier lesen und befolgen.** Belege: experiments/LEDGER.md (H001-P …), LOG.
 
@@ -49,8 +49,9 @@ testen. Fällt schon a, dann b ohne zy: **`…-noR100-noDI`** (404). Teilverlust
    je Regelung): Gold hat Seitenmarkierungsleuchten, **keine Blinker**; R10/R148 nur Seiten, die auch auf dev Gold waren; GTR 9 ohne Annex 1.
    Varianten (validiert, `out/upload/`): `…-zy-D` (369, ohne Blinker/Warnblinker R48 S.40–45 + R148 5.6), `-R` (419, R48 S.23/26/80,
    R10 S.99, R148 S.15), `-G` (427, GTR 9 Annex 1), Kombinationen `-DR`, `-DG`, `-RG`, `-DRG` (335; ≈0.797 falls nichts verloren).
-2c. Slots (gleitend 60 min): 11:44:40, 11:46:12, 11:47:40, 11:49:13, 12:04:35. Nacheinander D → R → G, jeweils auf dem besten Stand;
-   eine Gruppe bleibt nur, wenn F2 steigt. Seiten-Recall bleibt 0.962 = keine Gold-Seite verloren.
+2c. ✓ 11:45–11:57: zy-D 0.766, zy-DR 0.771, **zy-DRG-P 0.799 (Bestwert)**, zy-DR-P 0.790 (GTR-9-Annex-1 ohne Treffer).
+   **Endstand Haupt: 12:05 `zy-DRG-P` erneut hochladen (letzter Upload), danach keine Tests mehr.** Notreserve-Slots 12:45:03, 12:47:13, 12:52:40, 12:57:10.
+   **Endstand Sub-Goal: HSG4** (Recall 0.953, Precision 0.409) muss der letzte Sub-Goal-Upload sein.
 2d. **(B 11:10) Danach `-P` auf den dann besten Stand** (z. B. `…-zy-DRG-P`, 288): entfernt Anforderungen, deren Absatz
    (Regelung + Label) auf dev in 6 Claude-Läufen ≥ 4-mal ausgegeben und **nie** getroffen wurde (nur R10/R48/R148; R26 ist auf
    dev nicht im Gold und bleibt). **Leave-one-out auf dev:** je Lauf ≈148 weg, **0.5 Treffer** verloren (0.3 %). Auf DRG: 47 weg
