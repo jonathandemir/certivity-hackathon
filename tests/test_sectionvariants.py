@@ -1,0 +1,30 @@
+"""certreq.sectionvariants ohne PDFs: Abschnitte weglassen, Rest byte-gleich, Tippfehler werden erkannt."""
+import pytest
+
+from certreq import sectionvariants as sv
+
+PATHS = {"6.1": ("Individual specifications", "Front fog lamp"), "6.1.2": ("Individual specifications", "Front fog lamp", "Position"),
+         "6.2": ("Individual specifications", "Side-marker lamps"), "5.1": ("General specifications",)}
+
+
+def _sub():
+    req = lambda i, reg, lab: {"id": i, "text": f"t{i}", "source": {"regulation": reg, "version": "1", "page": 1, "paragraph": lab}}
+    return {"team_id": "t", "case_id": "c", "requirements": [req("R1", "UN R48", "6.1"), req("R2", "UN R48", "6.1.2"),
+                                                             req("R3", "UN R48", "6.2"), req("R4", "UN R48", "5.1"),
+                                                             req("R5", "UN R10", "6.1")]}
+
+
+def test_drop_section_keeps_rest_identical():
+    sub = _sub()
+    new, removed = sv.drop_sections(sub, sv.parse_drop(["UN R48=front fog"]), paths_of=lambda reg: PATHS)
+    assert [r["id"] for r in new["requirements"]] == ["R3", "R4", "R5"]  # R10 6.1 bleibt: andere Regelung
+    assert new["requirements"][0] is sub["requirements"][2] and dict(removed) == {"UN R48=front fog": 2}
+
+
+def test_typos_and_bad_specs_fail():
+    with pytest.raises(SystemExit):
+        sv.drop_sections(_sub(), sv.parse_drop(["UN R48=Rear fog lamp"]), paths_of=lambda reg: PATHS)
+    with pytest.raises(SystemExit):
+        sv.drop_sections(_sub(), sv.parse_drop(["UN R99=Front fog lamp"]), paths_of=lambda reg: PATHS)
+    with pytest.raises(SystemExit):
+        sv.parse_drop(["UN R48 Front fog lamp"])
