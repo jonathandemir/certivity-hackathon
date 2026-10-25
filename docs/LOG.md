@@ -679,3 +679,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 08:57:07 +0100 | [decision] Held-out: Upload-Plan zur Regelungs-Diagnose (Vorschlag B an A) | Homsianer @ vm | main@9e90aa8 +lokale Änderungen
 - Aus H001-P (Regelungen P 0.667 R 0.857 = 6 von 9 richtig, Gold 7): Gruppentests statt Einzeltests. 1. H001-plusGTR9 (fehlende?), 2. H001-noVeh3 (ohne R94/R137/R100, neu, validiert): Gold darunter = 6 − richtig; danach Einzeltests R48/R148/R26 nur falls nötig; 3. Kombination; 4. Kandidaten-Lauf falls GTR 9 nicht fehlt
 - Seitenebene schließt nur Hypothesen aus, in denen R48 und R148 beide falsch sind (8 von 84). Requirement-F2-Effekt: drei falsche raus +0.02 (R94/R137/R100) bis +0.19 (mit R48). Uploads nur Jonathan; Homsianers Upload-Claim entfernt
+
+### 2026-10-25 09:08:14 +0100 | [run] Leaderboard 09:05 + Kombinations-Varianten für den Held-out | Homsianer @ vm | main@a05dfce
+- Leaderboard (Screenshot): Stoßfänger Platz 8 (0.568, P 0.259 schlechteste), Platz 1 sudo 0.703; Sub-Goal Platz 3 (89.1 % / 88.7 %), Platz 1 Team 1 100 %/96.7 %, gerankt nach Flag-Recall dann Change accuracy (Precision nicht). Dev Platz 6 (0.762)
+- Neu, ohne LLM, validiert: H001-noVeh3-plusGTR9 (637), H001-noVeh3-plusGTR9-noFuncLight (562), H001-noVeh3-plusGTR9-sideLight (475). Rechnung: Platz 1 braucht bei ~168 Treffern n ≲ 350. Upload-Reihenfolge in STATUS (Uploads nur Jonathan)

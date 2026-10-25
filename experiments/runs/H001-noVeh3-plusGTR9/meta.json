@@ -1,0 +1,23 @@
+{
+ "run_id": "H001-noVeh3-plusGTR9",
+ "derived_from": "H001-noVeh3",
+ "dropped_regulations": [
+  "+UN GTR 9 aus H003 (46)"
+ ],
+ "requirements": 637,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 161,
+  "UN R48": 271,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@a05dfce",
+ "submission_sha256": "73f5b3416f72434b536f78e4f3cc48072ba6eccc5abfd2f3f73764912e481ddb",
+ "recorded_at": "2026-10-25T08:07:48+00:00"
+}

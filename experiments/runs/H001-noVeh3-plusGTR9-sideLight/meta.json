@@ -1,0 +1,40 @@
+{
+ "run_id": "H001-noVeh3-plusGTR9-sideLight",
+ "derived_from": "H001-noVeh3-plusGTR9",
+ "dropped_regulations": [
+  "UN R148=front position lamps (3)",
+  "UN R148=parking lamps (77r) (4)",
+  "UN R148=daytime running lamps (rl) (6)",
+  "UN R148=heat resistance test for rear fog lamps (9)",
+  "UN R48=dipped-beam headlamp (1)",
+  "UN R48=front fog lamp (23)",
+  "UN R48=front position lamp (10)",
+  "UN R48=parking lamp (16)",
+  "UN R48=front retro-reflector (8)",
+  "UN R48=side retro-reflector (14)",
+  "UN R48=daytime running lamp (17)",
+  "UN R48=cornering lamp (10)",
+  "UN R48=conspicuity markings (1)",
+  "UN R48=emergency stop signal (7)",
+  "UN R48=exterior courtesy lamp (14)",
+  "UN R48=rear-end collision alert signal (1)",
+  "UN R48=manoeuvring lamps (8)",
+  "UN R48=answer-back signal (10)"
+ ],
+ "requirements": 475,
+ "per_regulation": {
+  "UN R127": 37,
+  "UN R42": 22,
+  "UN R26": 33,
+  "UN R10": 67,
+  "UN R148": 139,
+  "UN R48": 131,
+  "UN GTR 9": 46
+ },
+ "base_git": null,
+ "base_command": null,
+ "base_llm_model": null,
+ "derived_on": "main@a05dfce",
+ "submission_sha256": "48b1887c8efc71ececb676f87fe78d2ba0de93dc50ea95b5118e831e84851d49",
+ "recorded_at": "2026-10-25T08:07:50+00:00"
+}
