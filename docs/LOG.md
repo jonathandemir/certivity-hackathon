@@ -718,3 +718,7 @@ Kopfzeile: `### JJJJ-MM-TT HH:MM:SS +zone | [typ] titel | Autor @ Rechner | <bra
 ### 2026-10-25 10:32:30 +0100 | [change] R4 nach der Ankündigung der Aufsicht: Frist 13:00 auch fürs Formular, 2-min-Video, technische Erklärung (Entwurf) | Homsianer @ vm | main@e7aa081 +lokale Änderungen
 - CONTEXT §2/§6: 13:00 hart auf Certivity UND Hack-and-More-Formular (Repo-Link, Video ≤ 2:00 auf YouTube/Luma, technische Erklärung); Held-out-Lieferung als Zip bzw. Paket-Commit geklärt. PLAN: R4-Zeile von 13:00–14:30 auf vor 13:00 korrigiert. STATUS: Aufgabe für alle oben, Vorschlag Video C, Formular A
 - Neu docs/pitch/technical-explanation.md: englischer Entwurf (Pipeline, Messmethode, Ergebnisse, Schwächen; Held-out-Variantenwahl per Plattform-Feedback offen benannt). Quelle: Ankündigung, vom Menschen (Homsianer) in die Session kopiert
+
+### 2026-10-25 10:33:59 +0100 | [run] R4-Probelauf: scripts/export-snapshot auf main@ca63345 bestanden (Homsianer, nichts gepusht) | Homsianer @ vm | main@ca63345
+- Abgabe-Kopie ohne Historie (1 Commit, 14 MB) in Homsianers Scratchpad: Schlüssel- und Lizenzprüfung bestanden (126 Paket-Texte, 11 Paketdateien, 0 Funde; 3 Hinweise = eigene Sub-Goal-Ausgaben, erlaubt). Keine .env-Dateien; 'sk-ant-' nur als Suchmuster in secret-scan und als Fake-Key in selftest
+- Für A: R4-Kopie ist startklar, nur Name/Sichtbarkeit des Ziel-Repos und Link fürs Formular entscheiden (vor 13:00)
