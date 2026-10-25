@@ -81,7 +81,7 @@ export default function Compare({ state, run, say, openReq }) {
           {res.eval && (
             <div className="cstat score">
               <Gauge v={res.eval.all.f2} />
-              <span>F2 lokal<br /><em>R {res.eval.all.recall.toFixed(2)} · P {res.eval.all.precision.toFixed(2)}</em></span>
+              <span>local F2<br /><em>R {res.eval.all.recall.toFixed(2)} · P {res.eval.all.precision.toFixed(2)}</em></span>
             </div>
           )}
           <div className="cmp-meta">{res.requirements.length} {res.run ? `requirements from run ${res.run}` : 'old requirements'} checked · {fmtSec(res.seconds)} · rule-based, no AI</div>
